@@ -1,0 +1,46 @@
+* Proof of concept demo
+
+** What do we want to show?
+   1. Sending payments with BTC
+   2. Options to pay with LTC, ZCash and Bitcoin Cash
+   3. Payment and review are successfully sent to vendor
+   4. Review is received by
+      1. Vendor
+      2. Marketplace
+   5. Review is visible on IPFS to any marketplace
+      1. Talk about providing ownership by using crypto
+
+
+** Demo Work Flow
+
+   1. Making Payments
+      1. Go to Marketplace checkout page
+         1. Show only the Chlu widget that will be included
+         2. Pay for service S
+         3. Pay amount A
+         4. Review R
+         5. Pay to vendor V
+         6. Pay button
+      2. Clicking the pay button takes the customer to their wallet
+      3. There the payment request is handled and a new transaction created
+         1. DETAIL: The transaction includes OP_RETURN with reference to
+            IPFS content hash
+      4. Submit the transaction and wait for confirmations
+      5. While waiting for confirmations, show customer page with past
+         payments and reviews
+   2. Marketplace receives review
+      1. Go to Vendor profile on marketplace
+         1. Shows the reviews received, including the latest one
+      2. Go to vendor profile on a different marketplace
+         1. Shows the reviews received, including the latest one
+   3. Show IPFS list of reviews received by vendor accessible from
+      Vendor's wallet
+   4. Show search results from Chlu with the vendor who receieved the payment?
+
+** Components
+
+   1. Customer Wallet
+   2. Vendor profile on marketplace A
+   3. Vendor profile on marketplace B
+   4. Marketplace payment widget
+   5. Vendor Wallet
