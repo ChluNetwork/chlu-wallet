@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import { CustomerWallet } from './components'
+
+import reducers from './reducers'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+let store = createStore(
+    reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      return (
+          <Provider store={store}>
+              <MuiThemeProvider>
+                  <div>
+                      <AppBar
+                          title="Chlu"
+                          iconClassNameRight="muidocs-icon-navigation-expand-more"
+                      />
+                      <CustomerWallet />
+                  </div>
+              </MuiThemeProvider>
+          </Provider>
     );
   }
 }
