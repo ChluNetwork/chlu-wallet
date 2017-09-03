@@ -1,5 +1,5 @@
-var bip39 = require('bip39')
-var bitcoin = require('bitcoinjs-lib')
+import bip39 from 'bip39'
+import bitcoin from 'bitcoinjs-lib'
 
 class ImportPrivateKey {
   
