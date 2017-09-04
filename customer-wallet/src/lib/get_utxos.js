@@ -1,4 +1,4 @@
-import blocktrail from 'blocktrail-sdk'
+// import blocktrail from 'blocktrail-sdk'
 import getBlocktrailClient from './blocktrail_client'
 
 class GetUtxos {
