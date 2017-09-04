@@ -5,5 +5,6 @@ export default function getBlocktrailClient () {
     apiKey: process.env.BLOCKTRAIL_API_KEY,
     apiSecret: process.env.BLOCKTRAIL_API_SECRET,
     network: 'BTC',
-    testnet: true})  
+    testnet: true
+  })
 }
