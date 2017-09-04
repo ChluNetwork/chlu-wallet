@@ -1,11 +1,19 @@
 .customer-wallet-form {
-    padding: 0 10px 0 10px;
-}
-
-.select-crypto {
-
+  padding: 0 10px 0 10px;
 }
 
 .btn__crypto-selector {
-    margin: 12px;
+  margin: 12px;
+}
+
+.amount-btc__wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 200px;
+
+  >span {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0 15px;
+  }
 }
