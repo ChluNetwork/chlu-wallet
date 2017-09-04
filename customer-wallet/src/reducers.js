@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import comingSoon from './components/ComingSoonDucks.js'
+import comingSoon from './store/modules/ComingSoonDucks.js'
 
 const reducers = combineReducers({
   comingSoon

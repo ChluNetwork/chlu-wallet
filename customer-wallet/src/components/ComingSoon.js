@@ -1,51 +1,45 @@
-import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import { connect } from 'react-redux'
-import { createAction } from 'redux-actions'
-import { TOGGLE_COMING_SOON } from './ComingSoonDucks'
+import React from 'react'
+import PropTypes from 'prop-types'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
-class ComingSoonComponent extends React.Component {
-    render() {
-        const actions = [
-            <FlatButton
-                label="OK"
-                primary={true}
-                onClick={this.props.onClickOK}
-            />,
-        ];
-        
-        return (
-            <div>
-                <Dialog
-                    title="Work in progress"
-                    actions={actions}
-                    modal={false}
-                    open={this.props.open}
-                    onRequestClose={this.handleClose}
-                >
-                    Currently we only support Bitcoin, all the other currencies shown here are coming soon.
-                </Dialog>
-            </div>
-        );
-    }
-}
+class ComingSoon extends React.Component {
+  static propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired
+  }
 
-const mapStateToProps = state => {
-    return {
-        open: state.comingSoon.open
-    }
-}
+  handleClose () {
+    console.log('close modal')
+  }
 
-const mapDispatchToProps = dispatch => {
-  return {
-      onClickOK: id => {
-          dispatch(createAction(TOGGLE_COMING_SOON)())
-    }
+  renderModalActions () {
+    const { closeModal } = this.props
+    return [
+      <FlatButton
+        label='OK'
+        primary={true}
+        onClick={closeModal}
+      />
+    ]
+  }
+
+  render() {
+    const actions = this.renderModalActions()
+    return (
+      <div>
+        <Dialog
+          title='Work in progress'
+          actions={actions}
+          modal={false}
+          open={this.props.open}
+          onRequestClose={this.handleClose}
+        >
+          Currently we only support Bitcoin, all the other currencies shown here are coming soon.
+        </Dialog>
+      </div>
+    )
   }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ComingSoonComponent)
+export default ComingSoon

@@ -1,0 +1,84 @@
+// Margin helper classes
+
+$margins: (0, 5, 10, 15, 20, 25, 30, 40, 45, 50, -5, -10, -15, -20, -25, -30, -40, -50);
+
+@each $margin in $margins {
+  .m-t-#{$margin} {
+    margin-top: #{$margin}px !important;
+  }
+  .m-b-#{$margin} {
+    margin-bottom: #{$margin}px !important;
+  }
+  .m-l-#{$margin} {
+    margin-left: #{$margin}px !important;
+  }
+  .m-r-#{$margin} {
+    margin-right: #{$margin}px !important;
+  }
+}
+
+// Padding helper classes
+
+$paddings: (0, 5, 10, 15, 20, 25, 30, 40, 50, -5, -10, -15, -20, -25, -30, -40, -50);
+
+@each $padding in $paddings {
+  .p-t-#{$padding} {
+    padding-top: #{$padding}px !important;
+  }
+  .p-b-#{$padding} {
+    padding-bottom: #{$padding}px !important;
+  }
+  .p-l-#{$padding} {
+    padding-left: #{$padding}px !important;
+  }
+  .p-r-#{$padding} {
+    padding-right: #{$padding}px !important;
+  }
+}
+
+// Opacities
+
+$opacities: (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
+
+@each $opacity in $opacities {
+  .opacity-#{$opacity} {
+    opacity: $opacity/100 !important;
+  }
+}
+
+// Text transform
+$cases: ('uppercase', 'lowercase', 'capitalize');
+
+@each $case in $cases {
+  .text-transform-#{$case} {
+    text-transform: #{$case};
+  }
+}
+
+// Font sizes
+$font-size: (10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+
+@each $size in $font-size {
+  .font-size-#{$size} {
+    font-size: #{$size}px;
+  }
+}
+
+// Other
+
+.inline-col {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.arrow {
+  cursor: default !important;
+}
+
+.full-height {
+  height: 100%;
+}
