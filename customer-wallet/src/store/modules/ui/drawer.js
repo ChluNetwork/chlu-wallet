@@ -3,7 +3,7 @@ import { createAction, handleActions } from 'redux-actions'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const TOGGLE_COMING_SOON = 'comingSoonModal/TOGGLE_COMING_SOON'
+const TOGGLE_DRAWER = 'drawer/TOGGLE_DRAWER'
 
 const initialState = {
   open: false
@@ -12,13 +12,13 @@ const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const toggleComingSoonModal = createAction(TOGGLE_COMING_SOON)
+export const toggleDrawer = createAction(TOGGLE_DRAWER)
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [TOGGLE_COMING_SOON]: (state, action) => ({
+  [TOGGLE_DRAWER]: (state, action) => ({
     ...state,
     open: !state.open
   })
