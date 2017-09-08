@@ -1,0 +1,46 @@
+.checkout {
+
+   &-seller {
+
+     &__header {
+       display: flex;
+       align-items: center;
+
+       &-name {
+         margin-right: 60px;
+         color: rgb(0, 188, 212);
+         font-size: 20px;
+       }
+
+       &-info {
+         font-size: 12px;
+         color: #808080;
+       }
+     }
+     
+     &__product {
+       display: flex;
+       margin-top: 30px;
+
+       > img {
+         max-height: 150px;
+       }
+       
+       &-description {
+         margin-left: 30px;
+       }
+     }
+
+     &__pay-buttons {
+       max-width: 300px;
+     }
+
+     &__pay-button {
+       margin: 10px;
+
+       &:first-child, &:last-child {
+         margin-left: 0;
+       }
+     }
+   }
+}
