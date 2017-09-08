@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { toggleDrawer } from '../../store/modules/ui/drawer'
 // components
 import AppBar from 'material-ui/AppBar'
-import Drawer from '../../components/Drawer'
+import Drawer from '../../components/Drawer/index'
 
 const MainLayout = ({ children, toggleDrawer, modalOpen }) => (
   <div>
