@@ -10,7 +10,6 @@ class ComingSoon extends React.Component {
   }
 
   handleClose () {
-    console.log('close modal')
   }
 
   renderModalActions () {

@@ -21,6 +21,7 @@ class CustomerWalletComponent extends Component {
   }
 
   handleSubmit = (data) => {
+    console.log('sending payment with the following... ')
     console.log(data)
   }
 
