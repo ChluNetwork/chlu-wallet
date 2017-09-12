@@ -18,8 +18,8 @@ const DrawerComponent = ({ toggleDrawer, modalOpen }) => (
     onRequestChange={toggleDrawer}
     open={modalOpen}
     docked={false}>
-    {links.map(({ label, href }) => (
-      <MenuItem>
+    {links.map(({ label, href }, idx) => (
+      <MenuItem key={idx}>
         <Link to={href} className='drawer-link'>
           {label}
         </Link>

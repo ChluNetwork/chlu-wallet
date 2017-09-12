@@ -16,9 +16,9 @@ export default class ProfileHeader extends Component {
   render () {
     const { rating } = this.state
     return (
-      <div className='profile__header'>
+      <div className='profile-header'>
         <div>
-          <Link to='#' className='profile__header-name'>
+          <Link to='#' className='profile-header__name'>
             Awesome seller
           </Link>
         </div>
@@ -28,6 +28,8 @@ export default class ProfileHeader extends Component {
           value={rating}
           onStarClick={this.handleStarChange}
         />
+        <br />
+        <span className='profile-header__info'>(250 Reviews, Over $250,000 sales)</span>
       </div>
     )
   }
