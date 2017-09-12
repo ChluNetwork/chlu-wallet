@@ -8,6 +8,9 @@ import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import ComingSoon from '../../components/ComingSoon'
 import CustomerWalletForm from './CustomerWalletForm'
+import { fx } from 'money'
+// utils
+import { getExchangeRates } from '../../utils/exchangeReq'
 // styles
 import './CustomerWallet.css'
 // assets
@@ -18,6 +21,15 @@ class CustomerWalletComponent extends Component {
     toggleModal: PropTypes.func.isRequired,
     modalOpen: PropTypes.bool.isRequired,
     isReviewOpen: PropTypes.bool
+  }
+
+  componentWillMount () {
+    getExchangeRates().then((data) => {
+      if (data) {
+        fx.rates = data.rates
+        fx.base = data.base
+      }
+    })
   }
 
   handleSubmit = (data) => {
