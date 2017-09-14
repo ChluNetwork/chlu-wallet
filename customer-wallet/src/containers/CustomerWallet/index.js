@@ -31,17 +31,12 @@ class CustomerWalletComponent extends Component {
   }
 
   handleSubmit (data) {
-<<<<<<< HEAD
     const { submitPayment } = this.props
     submitPayment(data)
       .then((response) => {
         console.log(response)
         toastr.success('success', 'Payment success')
       })
-=======
-    console.log('sending payment with the following... ')
-    console.log(data)
->>>>>>> 70d9c14... Use coin select to find outputs to spend and calculate fees
   }
 
   render() {
@@ -77,10 +72,7 @@ class CustomerWalletComponent extends Component {
 
 CustomerWalletComponent.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-<<<<<<< HEAD
   submitPayment: PropTypes.func.isRequired,
-=======
->>>>>>> 70d9c14... Use coin select to find outputs to spend and calculate fees
   modalOpen: PropTypes.bool.isRequired,
   isReviewOpen: PropTypes.bool
 }
