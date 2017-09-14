@@ -19,7 +19,16 @@ import './CustomerWallet.css'
 // assets
 import { buttonsData } from './data'
 
+const initialRating = 0
+
 class CustomerWalletComponent extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      rating: initialRating
+    }
+  }
 
   componentWillMount () {
     getExchangeRates().then((data) => {
@@ -32,11 +41,17 @@ class CustomerWalletComponent extends Component {
 
   handleSubmit (data) {
     const { submitPayment } = this.props
-    submitPayment(data)
+    const { rating } = this.state
+
+    submitPayment({ ...data, rating })
       .then((response) => {
         console.log(response)
         toastr.success('success', 'Payment success')
       })
+  }
+
+  onStarClick(rating) {
+    this.setState({ rating })
   }
 
   render() {
@@ -58,6 +73,8 @@ class CustomerWalletComponent extends Component {
           ))}
           <CustomerWalletForm
             onSubmit={this.handleSubmit}
+            onStarClick={this.onStarClick}
+            ratingValue={this.state.rating}
             isReviewOpen={isReviewOpen}
           />
         </div>
@@ -76,7 +93,6 @@ CustomerWalletComponent.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   isReviewOpen: PropTypes.bool
 }
-
 
 const selector = formValueSelector('customer-wallet-form')
 
