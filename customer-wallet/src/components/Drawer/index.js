@@ -13,10 +13,10 @@ const links = [
   { label: 'Vendor Profile', href: '/profile' }
 ]
 
-const DrawerComponent = ({ toggleDrawer, modalOpen }) => (
+const DrawerComponent = ({ toggleDrawer, drawerOpen }) => (
   <Drawer
     onRequestChange={toggleDrawer}
-    open={modalOpen}
+    open={drawerOpen}
     docked={false}>
     {links.map(({ label, href }, idx) => (
       <MenuItem key={idx}>
@@ -30,7 +30,7 @@ const DrawerComponent = ({ toggleDrawer, modalOpen }) => (
 
 DrawerComponent.propTypes = {
   toggleDrawer: PropTypes.func.isRequired,
-  modalOpen: PropTypes.bool
+  drawerOpen: PropTypes.bool
 }
 
 export default DrawerComponent

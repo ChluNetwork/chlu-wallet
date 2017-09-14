@@ -9,9 +9,9 @@ import ReduxToastr from 'react-redux-toastr'
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'components/Drawer/index'
 
-const MainLayout = ({ children, toggleDrawer, modalOpen }) => (
+const MainLayout = ({ children, toggleDrawer, drawerOpen }) => (
   <div>
-    <Drawer toggleDrawer={toggleDrawer} modalOpen={modalOpen} />
+    <Drawer toggleDrawer={toggleDrawer} modalOpen={drawerOpen} />
     <AppBar
       title='Chlu'
       iconClassNameRight='muidocs-icon-navigation-expand-more'
@@ -32,11 +32,11 @@ const MainLayout = ({ children, toggleDrawer, modalOpen }) => (
 MainLayout.propTypes = {
   children: PropTypes.any,
   toggleDrawer: PropTypes.func.isRequired,
-  modalOpen: PropTypes.bool
+  drawerOpen: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
-  modalOpen: state.ui.drawer.open
+  drawerOpen: state.ui.drawer.open
 })
 
 const mapDispatchToProps = dispatch => ({

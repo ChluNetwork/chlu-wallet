@@ -10,7 +10,7 @@ import { fx } from 'money'
 import { toastr } from 'react-redux-toastr'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
-import ComingSoon from 'components/ComingSoon'
+import ComingSoonModal from 'components/ComingSoon'
 import CustomerWalletForm from './CustomerWalletForm'
 // utils
 import { getExchangeRates } from 'utils/exchangeReq'
@@ -67,7 +67,7 @@ class CustomerWalletComponent extends Component {
             isReviewOpen={isReviewOpen}
           />
         </div>
-        <ComingSoon
+        <ComingSoonModal
           open={modalOpen}
           closeModal={toggleModal}
         />
