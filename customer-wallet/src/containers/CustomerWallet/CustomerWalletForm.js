@@ -9,10 +9,19 @@ import { fx } from 'money'
 import RaisedButton from 'material-ui/RaisedButton'
 import Input from 'components/Form/Input'
 import Checkbox from 'components/Form/Checkbox'
+import StarRatingComponent from 'react-star-rating-component'
 
 const checkboxStyles = { width: '256px' }
+const starCount = 5
 
-const CustomerWalletForm = ({ handleSubmit, isReviewOpen, fieldBtcOnChange, fieldUsdOnChange }) => (
+const CustomerWalletForm = ({
+  handleSubmit,
+  onStarClick,
+  ratingValue,
+  isReviewOpen,
+  fieldBtcOnChange,
+  fieldUsdOnChange
+}) => (
   <form onSubmit={handleSubmit} className='m-l-15 m-t-20'>
     <Field name='vendorAddress' label='Vendor Address' type='text' component={Input} />
     <label>Amount (BTC)</label>
@@ -21,6 +30,7 @@ const CustomerWalletForm = ({ handleSubmit, isReviewOpen, fieldBtcOnChange, fiel
         name='amountBtc'
         type='tel'
         component={Input}
+        placeholder='BTC'
         onChange={fieldBtcOnChange}
         fullWidth
       />
@@ -29,6 +39,7 @@ const CustomerWalletForm = ({ handleSubmit, isReviewOpen, fieldBtcOnChange, fiel
         name='amountUsd'
         type='tel'
         component={Input}
+        placeholder='USD'
         onChange={fieldUsdOnChange}
         fullWidth
       />
@@ -41,12 +52,22 @@ const CustomerWalletForm = ({ handleSubmit, isReviewOpen, fieldBtcOnChange, fiel
       style={checkboxStyles}
     />
     {isReviewOpen &&
-      <Field
-        name='review'
-        type='text'
-        component={Input}
-        multiLine
-      />}
+      <div>
+        <StarRatingComponent
+          className='stars'
+          name='rating'
+          starCount={starCount}
+          value={ratingValue}
+          onStarClick={onStarClick}
+        />
+        <Field
+          name='review'
+          type='text'
+          component={Input}
+          multiLine
+        />
+      </div>
+    }
     <RaisedButton
       primary
       type='submit'
@@ -58,7 +79,11 @@ const CustomerWalletForm = ({ handleSubmit, isReviewOpen, fieldBtcOnChange, fiel
 
 CustomerWalletForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  isReviewOpen: PropTypes.bool
+  onStarClick: PropTypes.func.isRequired,
+  fieldBtcOnChange: PropTypes.func.isRequired,
+  fieldUsdOnChange: PropTypes.func.isRequired,
+  isReviewOpen: PropTypes.bool,
+  ratingValue: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => ({

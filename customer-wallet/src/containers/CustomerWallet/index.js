@@ -19,7 +19,18 @@ import './CustomerWallet.css'
 // assets
 import { buttonsData } from './data'
 
+const initialRating = 0
+
 class CustomerWalletComponent extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      rating: initialRating
+    }
+  }
+
+
   static propTypes = {
     toggleModal: PropTypes.func.isRequired,
     submitPayment: PropTypes.func.isRequired,
@@ -38,11 +49,17 @@ class CustomerWalletComponent extends Component {
 
   handleSubmit = (data) => {
     const { submitPayment } = this.props
-    submitPayment(data)
+    const { rating } = this.state
+
+    submitPayment({...data, rating})
       .then((response) => {
         console.log(response)
         toastr.success('success', 'Payment success')
       })
+  }
+
+  onStarClick = rating => {
+    this.setState({ rating })
   }
 
   render() {
@@ -64,6 +81,8 @@ class CustomerWalletComponent extends Component {
           ))}
           <CustomerWalletForm
             onSubmit={this.handleSubmit}
+            onStarClick={this.onStarClick}
+            ratingValue={this.state.rating}
             isReviewOpen={isReviewOpen}
           />
         </div>
