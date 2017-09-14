@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { toggleDrawer } from '../../store/modules/ui/drawer'
+import { toggleDrawer } from 'store/modules/ui/drawer'
+// libs
+import ReduxToastr from 'react-redux-toastr'
 // components
 import AppBar from 'material-ui/AppBar'
-import Drawer from '../../components/Drawer/index'
+import Drawer from 'components/Drawer/index'
 
 const MainLayout = ({ children, toggleDrawer, modalOpen }) => (
   <div>
@@ -16,6 +18,14 @@ const MainLayout = ({ children, toggleDrawer, modalOpen }) => (
       onLeftIconButtonTouchTap={toggleDrawer}
     />
     {children}
+    <ReduxToastr
+      timeOut={4000}
+      preventDuplicates
+      position='top-right'
+      transitionIn='fadeIn'
+      transitionOut='fadeOut'
+      newestOnTop
+    />
   </div>
 )
 

@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import { browserHistory, Router } from 'react-router';
+import React, { Component } from 'react'
+// libs
+import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getRoutes from '../routes';
-import createStore from '../store/createStore';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getRoutes from 'routes'
+import createStore from 'store/createStore'
 // styles
-import '../styles/main.css';
+import 'styles/main.css'
 
-const store = createStore();
+const store = createStore()
 
 class App extends Component {
   render() {
@@ -17,8 +18,8 @@ class App extends Component {
           <Router history={browserHistory} children={getRoutes(store)} />
         </MuiThemeProvider>
       </Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App
