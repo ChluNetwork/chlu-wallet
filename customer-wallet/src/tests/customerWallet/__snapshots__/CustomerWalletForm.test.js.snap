@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CustomerWalletForm /> should render correctly customer wallet form 1`] = `
+<Connect(Form(Connect(withHandlers(CustomerWalletForm))))
+  destroyOnUnmount={true}
+  enableReinitialize={false}
+  forceUnregisterOnUnmount={false}
+  form="customer-wallet-form"
+  getFormState={[Function]}
+  isReviewOpen={false}
+  keepDirtyOnReinitialize={false}
+  onSubmit={[Function]}
+  persistentSubmitErrors={false}
+  pure={true}
+  shouldAsyncValidate={[Function]}
+  shouldValidate={[Function]}
+  touchOnBlur={true}
+  touchOnChange={false}
+/>
+`;
