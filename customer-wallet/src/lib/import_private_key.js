@@ -25,7 +25,7 @@ class ImportPrivateKey {
   
   getPathComponents (path) {
     if (path[0] !== 'm') {
-      throw 'Key specification should start with \'m\''
+      throw new Error('Key specification should start with \'m\'')
     }
     const ar = path.split('/')
     return ar.slice(1, ar.length)
@@ -37,9 +37,9 @@ class ImportPrivateKey {
 
   getComponent (component) {
     if ( this.isHardened(component) ) {
-      return parseInt(component.slice(0, component.length - 1))
+      return parseInt(component.slice(0, component.length - 1), 10)
     }
-    return parseInt(component)
+    return parseInt(component, 10)
   }  
    
 }

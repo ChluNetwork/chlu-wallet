@@ -1,11 +1,7 @@
 import bitcoin from 'bitcoinjs-lib'
 // import blocktrailClient from './blocktrail_client'
 
-class CreateChluTransaction {
-
-  constructor() {
-    // this.blocktrailClient = getBlocktrailClient()
-  }
+export default class CreateChluTransaction {
   
   create(toAddress, fromKeyPair, changeAddress, amount, fee, change, inputTx, vin) {
     let txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet)
