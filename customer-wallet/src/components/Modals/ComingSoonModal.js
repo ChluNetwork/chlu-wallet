@@ -9,21 +9,19 @@ class ComingSoon extends React.Component {
     open: PropTypes.bool.isRequired
   }
 
-  handleClose () {
-  }
-
   renderModalActions () {
     const { closeModal } = this.props
     return [
       <FlatButton
         label='OK'
-        primary={true}
         onClick={closeModal}
+        primary
       />
     ]
   }
 
   render() {
+    const { open, closeModal } = this.props
     const actions = this.renderModalActions()
     return (
       <div>
@@ -31,8 +29,8 @@ class ComingSoon extends React.Component {
           title='Work in progress'
           actions={actions}
           modal={false}
-          open={this.props.open}
-          onRequestClose={this.handleClose}
+          open={open}
+          onRequestClose={closeModal}
         >
           Currently we only support Bitcoin, all the other currencies shown here are coming soon.
         </Dialog>

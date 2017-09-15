@@ -19,8 +19,9 @@ const CustomerWalletForm = ({
   onStarClick,
   ratingValue,
   isReviewOpen,
-  fieldBtcOnChange,
-  fieldUsdOnChange
+  currencyFieldOnChange,
+  convertFieldValue,
+  loading
 }) => (
   <form onSubmit={handleSubmit} className='m-l-15 m-t-20'>
     <Field name='vendorAddress' label='Vendor Address' type='text' component={Input} />
@@ -31,7 +32,7 @@ const CustomerWalletForm = ({
         type='tel'
         component={Input}
         placeholder='BTC'
-        onChange={fieldBtcOnChange}
+        onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
         fullWidth
       />
       <span>=</span>
@@ -40,7 +41,7 @@ const CustomerWalletForm = ({
         type='tel'
         component={Input}
         placeholder='USD'
-        onChange={fieldUsdOnChange}
+        onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
         fullWidth
       />
     </div>
@@ -68,21 +69,24 @@ const CustomerWalletForm = ({
         />
       </div>
     }
-    <RaisedButton
-      primary
-      type='submit'
-      className='m-t-20'
-      label='Send Payment'
-    />
+    <div className='button-container'>
+      <RaisedButton
+        primary
+        type='submit'
+        className='m-t-20'
+        label={loading ? 'Loading...' : 'Send Payment'}
+      />
+    </div>
   </form>
 )
 
 CustomerWalletForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onStarClick: PropTypes.func.isRequired,
-  fieldBtcOnChange: PropTypes.func.isRequired,
-  fieldUsdOnChange: PropTypes.func.isRequired,
+  currencyFieldOnChange: PropTypes.func.isRequired,
+  convertFieldValue: PropTypes.func.isRequired,
   isReviewOpen: PropTypes.bool,
+  loading: PropTypes.bool,
   ratingValue: PropTypes.number
 }
 
@@ -94,13 +98,18 @@ export default compose(
   reduxForm({ form: 'customer-wallet-form' }),
   connect(null, mapDispatchToProps),
   withHandlers({
-    fieldBtcOnChange: props => (e, value) => {
-      const convertedValue = fx.convert(value, { from: 'BTC', to: 'USD' })
-      props.changeField('customer-wallet-form', 'amountUsd', convertedValue.toFixed(2))
+    convertFieldValue: props => (value, { name, fromTo }) => {
+      const convertedValue = fx.convert(value, fromTo)
+      props.changeField('customer-wallet-form', name, convertedValue.toFixed(2))
     },
-    fieldUsdOnChange: props => (e, value) => {
-      const convertedValue = fx.convert(value, { from: 'USD', to: 'BTC' })
-      props.changeField('customer-wallet-form', 'amountBtc', convertedValue.toFixed(2))
+    currencyFieldOnChange: (props) => (e, value, fn) => {
+      const name = e.target.name
+      const convertOptions = {
+        amountBtc: { name: 'amountUsd', fromTo: { from: 'BTC', to: 'USD' } },
+        amountUsd: { name: 'amountBtc', fromTo: { from: 'USD', to: 'BTC' } }
+      }
+
+      fn(value, convertOptions[name])
     }
   })
 )(CustomerWalletForm)
