@@ -47,7 +47,7 @@ class CustomerWalletComponent extends Component {
     })
   }
 
-  handleSubmit (data) {
+  handleSubmit = (data) => {
     const { submitPayment } = this.props
     const { rating } = this.state
 
@@ -58,7 +58,7 @@ class CustomerWalletComponent extends Component {
       })
   }
 
-  onStarClick(rating) {
+  onStarClick = (rating) => {
     this.setState({ rating })
   }
 

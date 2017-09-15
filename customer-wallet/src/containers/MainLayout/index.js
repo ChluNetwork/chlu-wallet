@@ -7,11 +7,11 @@ import { toggleDrawer } from 'store/modules/ui/drawer'
 import ReduxToastr from 'react-redux-toastr'
 // components
 import AppBar from 'material-ui/AppBar'
-import Drawer from 'components/Drawer/index'
+import Drawer from 'components/Drawer'
 
 const MainLayout = ({ children, toggleDrawer, drawerOpen }) => (
   <div>
-    <Drawer toggleDrawer={toggleDrawer} modalOpen={drawerOpen} />
+    <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
     <AppBar
       title='Chlu'
       iconClassNameRight='muidocs-icon-navigation-expand-more'
