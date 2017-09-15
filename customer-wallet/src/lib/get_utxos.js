@@ -8,7 +8,7 @@ class GetUtxos {
   }
 
   getFromBlocktrail (address) {
-    return this.blocktrailClient.addressTransactions(address).then((txs) => {
+    return this.blocktrailClient.addressUnspentOutputs(address).then((txs) => {
       return txs
     })
   }

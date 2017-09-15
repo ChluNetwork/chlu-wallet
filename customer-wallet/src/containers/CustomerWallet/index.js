@@ -17,11 +17,6 @@ import './CustomerWallet.css'
 import { buttonsData } from './data'
 
 class CustomerWalletComponent extends Component {
-  static propTypes = {
-    toggleModal: PropTypes.func.isRequired,
-    modalOpen: PropTypes.bool.isRequired,
-    isReviewOpen: PropTypes.bool
-  }
 
   componentWillMount () {
     getExchangeRates().then((data) => {
@@ -32,7 +27,7 @@ class CustomerWalletComponent extends Component {
     })
   }
 
-  handleSubmit = (data) => {
+  handleSubmit (data) {
     console.log('sending payment with the following... ')
     console.log(data)
   }
@@ -67,6 +62,13 @@ class CustomerWalletComponent extends Component {
     )
   }
 }
+
+CustomerWalletComponent.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
+  isReviewOpen: PropTypes.bool
+}
+
 
 const selector = formValueSelector('customer-wallet-form')
 
