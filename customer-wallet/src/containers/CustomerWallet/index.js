@@ -22,6 +22,14 @@ import { buttonsData } from './data'
 const initialRating = 0
 
 class CustomerWalletComponent extends Component {
+
+  static propTypes = {
+    toggleModal: PropTypes.func.isRequired,
+    submitPayment: PropTypes.func.isRequired,
+    modalOpen: PropTypes.bool.isRequired,
+    isReviewOpen: PropTypes.bool
+  }
+
   constructor() {
     super()
 
@@ -85,13 +93,6 @@ class CustomerWalletComponent extends Component {
       </div>
     )
   }
-}
-
-CustomerWalletComponent.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-  submitPayment: PropTypes.func.isRequired,
-  modalOpen: PropTypes.bool.isRequired,
-  isReviewOpen: PropTypes.bool
 }
 
 const selector = formValueSelector('customer-wallet-form')
