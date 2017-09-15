@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 6.9.1
+build:
+  ci:
+    - cd customer-wallet
+    - yarn install
+    - yarn test
