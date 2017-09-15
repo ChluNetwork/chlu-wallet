@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// components
+// libs
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import { fx } from 'money'
+// components
 import RaisedButton from 'material-ui/RaisedButton'
-import Input from '../../components/Form/Input'
-import Checkbox from '../../components/Form/Checkbox'
+import Input from 'components/Form/Input'
+import Checkbox from 'components/Form/Checkbox'
 
 const checkboxStyles = { width: '256px' }
 

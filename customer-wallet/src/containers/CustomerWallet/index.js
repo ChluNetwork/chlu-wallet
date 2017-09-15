@@ -2,15 +2,18 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { toggleComingSoonModal } from '../../store/modules/ui/comingSoonModal'
+import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
+import { submitPayment } from 'store/modules/payment'
 import { formValueSelector } from 'redux-form'
+// libs
+import { fx } from 'money'
+import { toastr } from 'react-redux-toastr'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
-import ComingSoon from '../../components/ComingSoon'
+import ComingSoon from 'components/ComingSoon'
 import CustomerWalletForm from './CustomerWalletForm'
-import { fx } from 'money'
 // utils
-import { getExchangeRates } from '../../utils/exchangeReq'
+import { getExchangeRates } from 'utils/exchangeReq'
 // styles
 import './CustomerWallet.css'
 // assets
@@ -28,8 +31,17 @@ class CustomerWalletComponent extends Component {
   }
 
   handleSubmit (data) {
+<<<<<<< HEAD
+    const { submitPayment } = this.props
+    submitPayment(data)
+      .then((response) => {
+        console.log(response)
+        toastr.success('success', 'Payment success')
+      })
+=======
     console.log('sending payment with the following... ')
     console.log(data)
+>>>>>>> 70d9c14... Use coin select to find outputs to spend and calculate fees
   }
 
   render() {
@@ -65,6 +77,10 @@ class CustomerWalletComponent extends Component {
 
 CustomerWalletComponent.propTypes = {
   toggleModal: PropTypes.func.isRequired,
+<<<<<<< HEAD
+  submitPayment: PropTypes.func.isRequired,
+=======
+>>>>>>> 70d9c14... Use coin select to find outputs to spend and calculate fees
   modalOpen: PropTypes.bool.isRequired,
   isReviewOpen: PropTypes.bool
 }
@@ -78,7 +94,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: () => dispatch(toggleComingSoonModal())
+  toggleModal: () => dispatch(toggleComingSoonModal()),
+  submitPayment: data => dispatch(submitPayment(data))
 })
 
 export default connect(
