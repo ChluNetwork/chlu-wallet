@@ -6,7 +6,7 @@ import coinSelect from 'coinselect'
 import ImportPrivateKey from 'lib/import_private_key'
 import GetUtxos from 'lib/get_utxos'
 
-import { isEmpty, map, sumBy } from 'lodash'
+import { isEmpty, map } from 'lodash'
 
 export default class CreateChluTransaction {
 
