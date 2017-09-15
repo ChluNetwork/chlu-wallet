@@ -1,4 +1,5 @@
 import CreateChluTransaction from './create_chlu_transaction'
+jest.mock('./blocktrail_client')
 
 const zoomAddress = "ms4TpM57RWHnEq5PRFtfJ8bcdiXoUE3tfv"
 const boomAddress = 'mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb'
