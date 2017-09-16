@@ -1,39 +1,43 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 //components
 import StarRatingComponent from 'react-star-rating-component'
-//assets
-import noProduct from '../../assets/no-product.png'
 
-const initialRating = 0;
 const starCount = 3;
 
-const PaymentItem = () => (
+const PaymentItem = ({productTitle, date, price, rating, review, platform, productPhoto}) => (
   <div className='payment-item'>
-
     <div className='payment-item-head'>
       <div className='info'>
-        <img src={noProduct} alt="" className='avatar'/>
-        <span className='name'>Shinny New Item</span>
+        <img src={productPhoto} alt="" className='avatar'/>
+        <span className='name'>{review}</span>
       </div>
-      <div className='price'>1.111123 BTC</div>
+      <div className='price'>{price}</div>
     </div>
 
     <div className='payment-item-date'>
-      <div className="place">Amazon</div>
-      <div className="date">Sept 05,2017</div>
+      <div className="place">{platform}</div>
+      <div className="date">{date}</div>
     </div>
 
     <StarRatingComponent
       className='payment-item-rating'
       name='rating'
-      value={initialRating}
+      value={rating}
       starCount={starCount}
     />
-    <div className="payment-item-text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum non turpis et sollicitudin.
-      Aenean ac turpis ac mi molestie faucibus vitae nec diam. In bibendum sem lorem, et faucibus.
-    </div>
+    <div className="payment-item-text">{productTitle}</div>
   </div>
 )
+
+PaymentItem.propTypes = {
+  productTitle: PropTypes.string,
+  date: PropTypes.string,
+  price: PropTypes.string,
+  rating: PropTypes.number,
+  review: PropTypes.string,
+  platform: PropTypes.string,
+  productPhoto: PropTypes.string
+}
 
 export default PaymentItem
