@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 //components
 import StarRatingComponent from 'react-star-rating-component'
 
-const starCount = 3;
+const starCount = 3
 
 const PaymentItem = ({productTitle, date, price, rating, review, platform, productPhoto}) => (
   <div className='payment-item'>

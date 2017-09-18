@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VendorWallet /> should render correctly vendor wallet container 1`] = `
+<div
+  className="vendor-wallet"
+>
+  <h3>
+    Vendor Wallet
+  </h3>
+  <PaymentsList
+    date="September 2017"
+    reviews={
+      Array [
+        Object {
+          "date": "Sept 05, 2017",
+          "platform": "Amazon",
+          "price": "1.18732 BTC",
+          "productPhoto": "no-product.png",
+          "productTitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam. In bibendum sem lorem, et faucibus.",
+          "rating": 3,
+          "review": "Shinny New Item 1",
+        },
+        Object {
+          "date": "Sept 01, 2017",
+          "platform": "Exmo",
+          "price": "2.12353 BTC",
+          "productPhoto": "no-product.png",
+          "productTitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam.",
+          "rating": 2,
+          "review": "Shinny New Item 2",
+        },
+      ]
+    }
+  />
+  <PaymentsList
+    date="August 2017"
+    reviews={
+      Array [
+        Object {
+          "date": "Aug 15, 2017",
+          "platform": "Amazon",
+          "price": "1.231241 BTC",
+          "productPhoto": "no-product.png",
+          "productTitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam. In bibendum sem lorem, et faucibus. Cras bibendum non turpis et sollicitudin.",
+          "rating": 3,
+          "review": "Shinny New Item 3",
+        },
+        Object {
+          "date": "Aug 10, 2017",
+          "platform": "Exmo",
+          "price": "3.45341 BTC",
+          "productPhoto": "no-product.png",
+          "productTitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam.",
+          "rating": 1,
+          "review": "Shinny New Item 4",
+        },
+      ]
+    }
+  />
+</div>
+`;

@@ -95,5 +95,33 @@ exports[`<Drawer /> should render correctly drawer component 1`] = `
       Vendor Profile
     </Link>
   </MenuItem>
+  <MenuItem
+    anchorOrigin={
+      Object {
+        "horizontal": "right",
+        "vertical": "top",
+      }
+    }
+    checked={false}
+    desktop={false}
+    disabled={false}
+    focusState="none"
+    insetChildren={false}
+    targetOrigin={
+      Object {
+        "horizontal": "left",
+        "vertical": "top",
+      }
+    }
+  >
+    <Link
+      className="drawer-link"
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/vendorWallet"
+    >
+      Vendor Wallet
+    </Link>
+  </MenuItem>
 </Drawer>
 `;
