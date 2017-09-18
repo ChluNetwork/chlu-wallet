@@ -16,10 +16,7 @@ class ImportPrivateKey {
       }
     }
           
-    return {
-      keyPair: hdNode,
-      address: hdNode.getAddress()
-    }
+    return hdNode.keyPair
   }
   
   

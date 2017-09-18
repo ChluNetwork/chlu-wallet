@@ -1,4 +1,4 @@
-//import bitcoin from 'bitcoinjs-lib'
+import bitcoin from 'bitcoinjs-lib'
 import coinSelect from 'coinselect'
 
 // import blocktrailClient from './blocktrail_client'
@@ -6,7 +6,7 @@ import coinSelect from 'coinselect'
 import ImportPrivateKey from 'lib/import_private_key'
 import GetUtxos from 'lib/get_utxos'
 
-import { isEmpty, map } from 'lodash'
+import { isEmpty, map, forEach } from 'lodash'
 
 export default class CreateChluTransaction {
 
@@ -21,41 +21,38 @@ export default class CreateChluTransaction {
   getInputTxs(fromAddress, targets, feeRate) {
     const getter = new GetUtxos()
     return getter.getFromBlocktrail(fromAddress).then((utxos) => {
-      // let available = sumBy(utxos.data, (tx) => (tx.value))
-      // let toSpend = sumBy(targets, (tgt) => (tgt.value))
-      // console.log(available)
-      // targets.push({ address: fromAddress, value: available - toSpend })
-
       let unspents = map(utxos.data, (tx) => ({ txId: tx.hash, vout: tx.index, value: tx.value }) )
-//      console.log(unspents)
-//      console.log(targets)
-      let res = coinSelect(unspents, targets, feeRate)
-//      console.log(res)
-      return res
+      let { inputs, outputs, fee } = coinSelect(unspents, targets, feeRate)
+      return { inputs, outputs, fee }
     })
   }
   
-  create(toAddress, fromKeyPair, fromAddress, changeAddress, amount) {
-    if ( isEmpty(fromKeyPair) ) {
-      fromKeyPair = this.getImportedKey()
+  create(fromAddress, toAddress, amount, changeAddress) {
+    if ( isEmpty(this.importedKp) ) {
+      throw new Error('No key pair specified')
     }
+
+    changeAddress = isEmpty(changeAddress) ? fromAddress : changeAddress
 
     const targets = [
       { address: toAddress, value: amount }
     ]
     
-    this.getInputTxs(fromAddress, targets, this.feeRate).then(({ inputs, outputs, fees }) => {
-      console.log(inputs)
-      console.log(outputs)
-      console.log(fees)
-    })
-    
-    // let txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet)    
-    // txb.addOutput(toAddress, amount)
-    // txb.addOutput(changeAddress, amount - fee)
+    return this.getInputTxs(fromAddress, targets, this.feeRate).then(({ inputs, outputs, fees }) => {
+      let txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet)
 
-    // txb.addInput(inputTx, vin)    
-    // txb.sign(0, fromKeyPair)    
+      forEach(outputs, (o) => {
+        if ( !isEmpty(o.address) ) {
+          txb.addOutput(o.address, o.value)
+        } else {
+          txb.addOutput(changeAddress, o.value)
+        }
+      })
+
+      // only one input allowed for now
+      txb.addInput(inputs[0].txId, inputs[0].vout)
+      txb.sign(0, this.importedKp)
+      return txb
+    })
   }
-  
 }
