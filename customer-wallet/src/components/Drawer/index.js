@@ -10,7 +10,8 @@ import './styles.css'
 const links = [
   { label: 'Checkout', href: '/checkout' },
   { label: 'Customer Wallet', href: '/' },
-  { label: 'Vendor Profile', href: '/profile' }
+  { label: 'Vendor Profile', href: '/profile' },
+  { label: 'Vendor Wallet', href: '/vendorWallet' }
 ]
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen }) => (
