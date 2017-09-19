@@ -9,4 +9,5 @@ build:
   ci:
     - cd customer-wallet
     - yarn install
+    - yarn build-css
     - yarn test
