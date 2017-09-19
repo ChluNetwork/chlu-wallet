@@ -21,7 +21,7 @@ export default class SellerHeader extends Component {
           Awesome seller
         </Link>
         <StarRatingComponent
-          name="rate1"
+          name='rate1'
           starCount={starCount}
           value={rating}
           onStarClick={this.handleStarChange}
