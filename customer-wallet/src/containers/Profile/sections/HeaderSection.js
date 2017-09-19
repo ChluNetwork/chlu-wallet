@@ -14,7 +14,7 @@ const ProfileHeader = () => (
       </Link>
     </div>
     <StarRatingComponent
-      name="rate2"
+      name='rate2'
       starCount={starCount}
       value={starValue}
       editing={false}

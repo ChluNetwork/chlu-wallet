@@ -50,7 +50,7 @@ export default handleActions({
     loading: false,
     error: null
   }),
-  [SET_PAYMENT_ERROR]: (state, { payload: { error }}) => ({
+  [SET_PAYMENT_ERROR]: (state, { payload: { error } }) => ({
     ...state,
     loading: false,
     error

@@ -14,7 +14,7 @@ const Review = ({ date, rating, description, price }) => (
         <span>$ {price}</span>
       </div>
       <StarRatingComponent
-        name="rate3"
+        name='rate3'
         starCount={starCount}
         value={rating}
         editing={false}
