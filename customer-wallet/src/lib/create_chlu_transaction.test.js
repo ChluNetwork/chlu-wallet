@@ -34,7 +34,10 @@ test('create transaction by getting utxo and using coinselect', () => {
   let amount = 1e4
   let txBuilder = new CreateChluTransaction()  
   txBuilder.getImportedKey()
-  return txBuilder.create(boomAddress, zoomAddress, amount).then((tx) => {
+  return txBuilder.create(boomAddress, zoomAddress, amount, null, 'Hello World').then((tx) => {
     expect(tx).not.toBeNull()
+    expect(tx.outs[0].value).toEqual(amount)
+    expect(tx.outs[1].value).toEqual(181842066)
+    expect(tx.outs[2].value).toEqual(0)
   })
 })

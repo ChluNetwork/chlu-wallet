@@ -7,6 +7,7 @@ import ImportPrivateKey from 'lib/import_private_key'
 import GetUtxos from 'lib/get_utxos'
 
 import { isEmpty, map, forEach } from 'lodash'
+// import Blockchain from 'cb-http-client'
 
 export default class CreateChluTransaction {
 
@@ -26,8 +27,14 @@ export default class CreateChluTransaction {
       return { inputs, outputs, fee }
     })
   }
+
+  pushTransaction(tx) {
+    // let testnet = new Blockchain('https://api.blocktrail.com/cb/v0.2.1/tBTC',
+    //                              { api_key: process.env.BLOCKTRAIL_API_KEY })
+    // return testnet.transactions.propagate(tx.toHex())
+  }
   
-  create(fromAddress, toAddress, amount, changeAddress) {
+  create(fromAddress, toAddress, amount, changeAddress, contentHash) {
     if ( isEmpty(this.importedKp) ) {
       throw new Error('No key pair specified')
     }
@@ -49,10 +56,14 @@ export default class CreateChluTransaction {
         }
       })
 
+      let data = Buffer.from(contentHash, 'utf8')
+      let dataScript = bitcoin.script.nullData.output.encode(data)
+      txb.addOutput(dataScript, 0)
+
       // only one input allowed for now
       txb.addInput(inputs[0].txId, inputs[0].vout)
       txb.sign(0, this.importedKp)
-      return txb
+      return txb.build()
     })
   }
 }
