@@ -3,8 +3,8 @@ import locationReducer from './modules/location'
 import { reducer as formReducer } from 'redux-form'
 import { reducer as toastrReducer } from 'react-redux-toastr'
 import ui from './modules/ui'
-import payment from './modules/payment'
-import vendorWallet from './modules/vendorWallet'
+import data from './modules/data'
+import components from './modules/components'
 
 export const makeRootReducer = () => {
   return combineReducers({
@@ -12,8 +12,8 @@ export const makeRootReducer = () => {
     form: formReducer,
     toastr: toastrReducer,
     ui,
-    payment,
-    vendorWallet
+    data,
+    components
   })
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { submitPayment } from 'store/modules/payment'
+import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 // libs
 import { fx } from 'money'
@@ -12,18 +12,17 @@ import { getExchangeRates } from 'utils/exchangeReq'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
 
-const initialRating = 0
+import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
+
 
 class CustomerWalletFormWrapper extends Component {
 
   static propTypes = {
     submitPayment: PropTypes.func.isRequired,
     isReviewOpen: PropTypes.bool,
-    loading: PropTypes.bool
-  }
-
-  state = {
-    rating: initialRating
+    loading: PropTypes.bool,
+    rating: PropTypes.number.isRequired,
+    setRating: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -37,7 +36,7 @@ class CustomerWalletFormWrapper extends Component {
 
   handleSubmit = (data) => {
     const { submitPayment } = this.props
-    const { rating } = this.state
+    const { rating } = this.props
 
     submitPayment({ ...data, rating })
       .then((response) => {
@@ -46,17 +45,19 @@ class CustomerWalletFormWrapper extends Component {
       })
   }
 
-  onStarClick = (rating) => {
-    this.setState({ rating })
+  onStarClick = rating => {
+    const { setRating } = this.props
+
+    setRating(rating)
   }
 
   render () {
-    const { isReviewOpen, loading } = this.props
+    const { isReviewOpen, loading, rating } = this.props
     return (
       <CustomerWalletForm
         onSubmit={this.handleSubmit}
         onStarClick={this.onStarClick}
-        ratingValue={this.state.rating}
+        ratingValue={rating}
         isReviewOpen={isReviewOpen}
         loading={loading}
       />
@@ -68,11 +69,13 @@ const selector = formValueSelector('customer-wallet-form')
 
 const mapStateToProps = state => ({
   isReviewOpen: selector(state, 'reviewOpen'),
-  loading: state.payment.loading
+  loading: state.data.payment.loading,
+  rating: state.components.customerWallet.rating
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitPayment: data => dispatch(submitPayment(data))
+  submitPayment: data => dispatch(submitPayment(data)),
+  setRating: data => dispatch(setRatingForCustomerWallet(data))
 })
 
 export default connect(

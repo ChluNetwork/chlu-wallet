@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getVendorReviews } from '../../store/modules/vendorWallet'
+import { getVendorReviews } from 'store/modules/data/vendorWallet'
 // utils
 import { getExchangeRates } from 'utils/exchangeReq'
 // libs
@@ -67,7 +67,7 @@ class VendorWallet extends Component {
 
   render () {
     const { ratesLoading } = this.state
-    const { vendorWallet: { reviews, loading } } = this.props
+    const { vendorWalletData: { reviews, loading } } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
@@ -94,7 +94,7 @@ class VendorWallet extends Component {
 }
 
 VendorWallet.propTypes = {
-  vendorWallet: PropTypes.shape({
+  vendorWalletData: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any,
     reviews: PropTypes.array.isRequired
@@ -103,7 +103,7 @@ VendorWallet.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  vendorWallet: state.vendorWallet
+  vendorWalletData: state.data.vendorWallet
 })
 
 const mapDispatchToProps = {
