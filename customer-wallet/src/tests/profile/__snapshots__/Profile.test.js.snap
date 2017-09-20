@@ -1,29 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Profile /> should render correctly profile container 1`] = `
-<div
-  className="page-container profile"
->
-  <ProfileHeader />
-  <div>
-    <Review
-      date="August 12, 2016"
-      description="Delivery in time, excellent communication."
-      price={200}
-      rating={4}
-    />
-    <Review
-      date="November 12, 2016"
-      description="Delivery in time, excellent communication."
-      price={400}
-      rating={5}
-    />
-    <Review
-      date="January 12, 2016"
-      description="Delivery in time, excellent communication."
-      price={20}
-      rating={3}
-    />
-  </div>
-</div>
-`;
+exports[`<Profile /> should render correctly profile container 1`] = `<Connect(Profile) />`;
