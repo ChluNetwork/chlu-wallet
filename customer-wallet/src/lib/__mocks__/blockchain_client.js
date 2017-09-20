@@ -24,9 +24,17 @@ const mockGetAddr = jest.fn(address => {
   })
 })
 
+
+const mockPushTX = jest.fn(txHash => {
+  return new Promise ((resolve, reject) => {
+    resolve({ test: true })
+  })
+})
+
 const getBlockchainClient = jest.fn(() => {
   return {
-    getAddr: mockGetAddr
+    getAddr: mockGetAddr,
+    pushTX: mockPushTX
   }
 })
 

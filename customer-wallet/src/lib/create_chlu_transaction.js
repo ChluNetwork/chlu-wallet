@@ -3,6 +3,7 @@ import coinSelect from 'coinselect'
 
 import ImportPrivateKey from 'lib/import_private_key'
 import GetUtxos from 'lib/get_utxos'
+import PushTx from './push_tx'
 
 import { isEmpty, map, forEach } from 'lodash'
 
@@ -26,9 +27,10 @@ export default class CreateChluTransaction {
   }
 
   pushTransaction(tx) {
-    // let testnet = new Blockchain('https://api.blocktrail.com/cb/v0.2.1/tBTC',
-    //                              { api_key: process.env.BLOCKTRAIL_API_KEY })
-    // return testnet.transactions.propagate(tx.toHex())
+    const pusher = new PushTx()
+    return pusher.pushTx(tx.toHex()).then((tx) => {
+      console.log(tx)
+    })
   }
   
   create(fromAddress, toAddress, amount, changeAddress, contentHash) {
