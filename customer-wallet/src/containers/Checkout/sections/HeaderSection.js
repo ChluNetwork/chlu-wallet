@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// redux
-import { connect } from 'react-redux'
 // components
 import { Link } from 'react-router'
 import StarRatingComponent from 'react-star-rating-component'
 // constants
 const starCount = 5
 
-const SellerHeader = ({ checkout: { rating } }) => (
+const SellerHeader = ({ name, rating }) => (
   <div className='checkout-seller__header'>
-    <Link to='#' className='checkout-seller__header-name'>
-      Awesome seller
-    </Link>
+    <Link to='#' className='checkout-seller__header-name'>{name}</Link>
     <StarRatingComponent
       name='rate1'
       starCount={starCount}
@@ -23,13 +19,8 @@ const SellerHeader = ({ checkout: { rating } }) => (
 )
 
 SellerHeader.propTypes = {
-  checkout: PropTypes.shape({
-    rating: PropTypes.number.isRequired
-  }).isRequired
+  name: PropTypes.string,
+  rating: PropTypes.number
 }
 
-const mapStateToProps = state => ({
-  checkout: state.components.checkout
-})
-
-export default connect(mapStateToProps)(SellerHeader)
+export default SellerHeader
