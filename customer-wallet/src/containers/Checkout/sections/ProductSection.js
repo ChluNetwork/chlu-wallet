@@ -1,15 +1,20 @@
 import React from 'react'
-// assets
-import noProduct from '../assets/no-product.png'
+import PropTypes from 'prop-types'
 
-const Product = () => (
+const Product = ({ avatar, price, operation }) => (
   <div className='checkout-seller__product'>
-    <img src={noProduct} alt='product' />
+    <img src={avatar} alt='product' />
     <div className='checkout-seller__product-description'>
-      <h5>Shinny New Phone</h5>
-      <span>USD 40.00</span>
+      <h5>{operation}</h5>
+      <span>USD {price}</span>
     </div>
   </div>
 )
+
+Product.propTypes = {
+  avatar: PropTypes.string,
+  price: PropTypes.number,
+  operation: PropTypes.string
+}
 
 export default Product
