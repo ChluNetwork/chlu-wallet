@@ -25,6 +25,7 @@ const PaymentItem = ({ productTitle, date, price, rating, review, platform, prod
       name='rating'
       value={rating}
       starCount={starCount}
+      editing={false}
     />
     <div className='payment-item-text'>{productTitle}</div>
   </div>

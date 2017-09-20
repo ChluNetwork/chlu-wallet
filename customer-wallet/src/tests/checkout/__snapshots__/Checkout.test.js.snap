@@ -10,7 +10,7 @@ exports[`<Checkout /> should render correctly checkout container 1`] = `
   <div
     className="checkout-seller"
   >
-    <SellerHeader />
+    <Connect(SellerHeader) />
     <span
       className="checkout-seller__header-info"
     >
