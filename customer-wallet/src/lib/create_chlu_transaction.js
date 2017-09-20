@@ -1,13 +1,10 @@
 import bitcoin from 'bitcoinjs-lib'
 import coinSelect from 'coinselect'
 
-// import blocktrailClient from './blocktrail_client'
-
 import ImportPrivateKey from 'lib/import_private_key'
 import GetUtxos from 'lib/get_utxos'
 
 import { isEmpty, map, forEach } from 'lodash'
-// import Blockchain from 'cb-http-client'
 
 export default class CreateChluTransaction {
 
@@ -21,8 +18,8 @@ export default class CreateChluTransaction {
 
   getInputTxs(fromAddress, targets, feeRate) {
     const getter = new GetUtxos()
-    return getter.getFromBlocktrail(fromAddress).then((utxos) => {
-      let unspents = map(utxos.data, (tx) => ({ txId: tx.hash, vout: tx.index, value: tx.value }) )
+    return getter.getAddr(fromAddress).then((utxos) => {
+      let unspents = map(utxos.txrefs, (tx) => ({ txId: tx.tx_hash, vout: tx.tx_output_n, value: tx.value }) )
       let { inputs, outputs, fee } = coinSelect(unspents, targets, feeRate)
       return { inputs, outputs, fee }
     })

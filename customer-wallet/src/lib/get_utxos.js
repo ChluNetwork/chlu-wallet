@@ -1,18 +1,18 @@
-// import blocktrail from 'blocktrail-sdk'
-import getBlocktrailClient from './blocktrail_client'
+import getBlockchainClient from './blockchain_client'
+import promisify from 'es6-promisify'
 
 class GetUtxos {
 
   constructor () {
-    this.blocktrailClient = getBlocktrailClient()
+    this.blockchainClient = getBlockchainClient()
+    this.getAddr = promisify(this.blockchainClient.getAddr, this.blockchainClient)
   }
 
-  getFromBlocktrail (address) {
-    return this.blocktrailClient.addressUnspentOutputs(address).then((txs) => {
-      return txs
+  getFromBlockchain (address) {
+    return this.getAddr(address, { unspentOnly: true }).then((txs) => {
+       return txs
     })
   }
-  
 }
 
 export default GetUtxos

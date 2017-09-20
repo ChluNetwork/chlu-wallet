@@ -1,7 +1,7 @@
 import CreateChluTransaction from './create_chlu_transaction'
 import { sumBy } from 'lodash'
 
-jest.mock('./blocktrail_client')
+jest.mock('./blockchain_client')
 
 const zoomAddress = "ms4TpM57RWHnEq5PRFtfJ8bcdiXoUE3tfv"
 const boomAddress = 'mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb'
