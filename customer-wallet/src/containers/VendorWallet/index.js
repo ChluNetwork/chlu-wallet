@@ -3,26 +3,20 @@ import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { getVendorReviews } from 'store/modules/data/vendorWallet'
-// utils
-import { getExchangeRates } from 'utils/exchangeReq'
+import { getRates } from 'store/modules/data/fxRates'
 // libs
-import { fx } from 'money'
+import { fx, setFxRates } from 'utils/fxRates'
 // components
 import PaymentsList from './PaymentsList'
 // styles
 import './VendorWallet.css'
-// data
-import rates from 'fixtures/rates'
 
 class VendorWallet extends Component {
+  componentWillMount() {
+    const { fxRates: { rates } } = this.props
 
-  state = {
-    ratesLoading: true
-  }
-
-  componentWillMount () {
     const isTestEnv = process.env.NODE_ENV === 'test'
-    isTestEnv ? this.setFxRates(rates) : this.getFxRates()
+    isTestEnv ? setFxRates(rates) : this.getFxRates()
   }
 
   componentDidMount() {
@@ -32,18 +26,10 @@ class VendorWallet extends Component {
   }
 
   getFxRates () {
-    getExchangeRates().then((data) => {
-      if (data) {
-        this.setFxRates(data)
-      }
+    const { getRates } = this.props
 
-      this.setState({ ratesLoading: false })
-    })
-  }
-
-  setFxRates (data) {
-    fx.rates = data.rates
-    fx.base = data.base
+    getRates()
+      .then(data => setFxRates(data))
   }
 
   calculateBtcForMonth = data => {
@@ -66,8 +52,10 @@ class VendorWallet extends Component {
   getTotalUsd = (value) => fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
 
   render () {
-    const { ratesLoading } = this.state
-    const { vendorWalletData: { reviews, loading } } = this.props
+    const {
+      vendorWalletData: { reviews, loading: vendorloading },
+      fxRates: { loading: ratesLoading }
+    } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
@@ -76,7 +64,7 @@ class VendorWallet extends Component {
       <div className='vendor-wallet'>
         <h3>Vendor Wallet</h3>
         {
-          loading
+          vendorloading
             ? 'Loading...'
             : <div>
               <div className='crypto'>
@@ -103,11 +91,13 @@ VendorWallet.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  vendorWalletData: state.data.vendorWallet
+  vendorWalletData: state.data.vendorWallet,
+  fxRates: state.data.fxRates
 })
 
 const mapDispatchToProps = {
-  getVendorReviews
+  getVendorReviews,
+  getRates
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VendorWallet)

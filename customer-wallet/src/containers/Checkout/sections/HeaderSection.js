@@ -1,6 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+// redux
+import { connect } from 'react-redux'
 // components
 import { Link } from 'react-router'
 import StarRatingComponent from 'react-star-rating-component'
