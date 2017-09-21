@@ -10,6 +10,17 @@ import Review from './sections/Review'
 import './styles.css'
 
 class Profile extends Component {
+
+  static propTypes = {
+    profile: PropTypes.shape({
+      name: PropTypes.string,
+      rating: PropTypes.number,
+      title: PropTypes.string,
+      reviews: PropTypes.array
+    }).isRequired,
+    getProfile: PropTypes.func.isRequired
+  }
+
   componentDidMount() {
     const { getProfile } = this.props
 
