@@ -7,7 +7,7 @@ import { getRates } from 'store/modules/data/fxRates'
 // libs
 import { fx, setFxRates } from 'lib/fxRates'
 // components
-import PaymentsList from './PaymentsList'
+import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './VendorWallet.css'

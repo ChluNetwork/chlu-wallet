@@ -6,7 +6,7 @@ import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
-import CustomerWalletForm from './CustomerWalletForm'
+import CustomerWalletForm from './CustomerWalletForm/index'
 // styles
 import './CustomerWallet.css'
 // assets

@@ -8,11 +8,16 @@ import MenuItem from 'material-ui/MenuItem'
 import './styles.css'
 
 const links = [
-  { label: 'Checkout', href: '/checkout' },
-  { label: 'Customer Wallet', href: '/' },
-  { label: 'Vendor Profile', href: '/profile' },
-  { label: 'Vendor Wallet', href: '/vendorWallet' }
+  { label: 'Checkout', href: '/customer/checkout' },
+  { label: 'Customer Wallet', href: '/customer/wallet' },
+  { label: 'Vendor Profile', href: '/vendor/profile' },
+  { label: 'Vendor Wallet', href: '/vendor/wallet' }
 ]
+
+const style = {
+  color: 'inherit',
+  background: 'inherit'
+}
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen }) => (
   <Drawer
@@ -20,11 +25,17 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen }) => (
     open={drawerOpen}
     docked={false}>
     {links.map(({ label, href }, idx) => (
-      <MenuItem key={idx}>
-        <Link to={href} className='drawer-link'>
+      <Link
+        to={href}
+        className='drawer-link'
+        activeClassName='drawer-link-active'
+        key={idx}
+        onClick={toggleDrawer}
+      >
+        <MenuItem style={style} >
           {label}
-        </Link>
-      </MenuItem>
+        </MenuItem>
+      </Link>
     ))}
   </Drawer>
 )

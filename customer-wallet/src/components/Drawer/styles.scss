@@ -1,4 +1,10 @@
 .drawer-link {
   color: rgb(0, 188, 212);
   text-decoration: none;
+
+  &-active {
+    >div {
+      background: rgb(229,229,229);
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 //components
-import PaymentItem from './PaymentItem'
+import PaymentItem from './PaymentItem/index'
 
 const PaymentsList = ({ date, reviews }) => (
   <div className='payments-list'>
