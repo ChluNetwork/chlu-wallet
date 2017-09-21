@@ -6,6 +6,8 @@ import { getProfile } from 'store/modules/data/profile'
 // components
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
+import CircularProgress from 'material-ui/CircularProgress'
+
 // styles
 import './styles.css'
 
@@ -37,7 +39,7 @@ class Profile extends Component {
       <div className='page-container profile'>
         {
           loading
-            ? 'Loading...'
+            ? <CircularProgress />
             : <div>
               <ProfileHeader name={name} rating={rating} title={title} />
               <div>

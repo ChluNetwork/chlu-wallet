@@ -7,6 +7,8 @@ import { getCheckout } from 'store/modules/data/checkout'
 import HeaderSection from './sections/HeaderSection'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
+import CircularProgress from 'material-ui/CircularProgress'
+
 // styles
 import './styles.css'
 
@@ -28,10 +30,10 @@ class Checkout extends Component {
         <h3>Checkout at Etsy</h3>
         {
           loading
-            ? 'Loading...'
-            : <div className='checkout-seller'>
+            ? <CircularProgress />
+            : <div className='checkout-vendor'>
               <HeaderSection name={name} rating={rating} />
-              <span className='checkout-seller__header-info'>({title})</span>
+              <span className='checkout-vendor__header-info'>({title})</span>
               <ProductSection avatar={avatar} price={price} operation={operation} />
               <PaySection />
             </div>

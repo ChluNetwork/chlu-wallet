@@ -8,6 +8,7 @@ import { getRates } from 'store/modules/data/fxRates'
 import { fx, setFxRates } from 'lib/fxRates'
 // components
 import PaymentsList from './PaymentsList'
+import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './VendorWallet.css'
 
@@ -72,7 +73,7 @@ class VendorWallet extends Component {
         <h3>Vendor Wallet</h3>
         {
           vendorLoading
-            ? 'Loading...'
+            ? <CircularProgress />
             : <div>
               <div className='crypto'>
                 <h3>{totalBtc} BTC</h3>

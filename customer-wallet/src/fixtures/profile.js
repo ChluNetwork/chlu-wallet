@@ -1,5 +1,5 @@
 const profileData = {
-  name: 'Awesome seller',
+  name: 'Awesome vendor',
   rating: 4,
   title: '250 Reviews, Over $250,000 sales',
   reviews: [
