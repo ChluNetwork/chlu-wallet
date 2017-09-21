@@ -5,18 +5,25 @@ import { connect } from 'react-redux'
 import { getVendorReviews } from 'store/modules/data/vendorWallet'
 import { getRates } from 'store/modules/data/fxRates'
 // libs
-import { fx, setFxRates } from 'utils/fxRates'
+import { fx, setFxRates } from 'lib/fxRates'
 // components
 import PaymentsList from './PaymentsList'
 // styles
 import './VendorWallet.css'
 
 class VendorWallet extends Component {
-  componentWillMount() {
-    const { fxRates: { rates } } = this.props
 
-    const isTestEnv = process.env.NODE_ENV === 'test'
-    isTestEnv ? setFxRates(rates) : this.getFxRates()
+  static propTypes = {
+    vendorWalletData: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      error: PropTypes.any,
+      reviews: PropTypes.array.isRequired
+    }).isRequired,
+    getVendorReviews: PropTypes.func.isRequired
+  }
+
+  componentWillMount() {
+    this.getFxRates()
   }
 
   componentDidMount() {
@@ -53,7 +60,7 @@ class VendorWallet extends Component {
 
   render () {
     const {
-      vendorWalletData: { reviews, loading: vendorloading },
+      vendorWalletData: { reviews, loading: vendorLoading },
       fxRates: { loading: ratesLoading }
     } = this.props
 
@@ -61,10 +68,10 @@ class VendorWallet extends Component {
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
 
     return (
-      <div className='vendor-wallet'>
+      <div className='page-container vendor-wallet'>
         <h3>Vendor Wallet</h3>
         {
-          vendorloading
+          vendorLoading
             ? 'Loading...'
             : <div>
               <div className='crypto'>
@@ -79,15 +86,6 @@ class VendorWallet extends Component {
       </div>
     )
   }
-}
-
-VendorWallet.propTypes = {
-  vendorWalletData: PropTypes.shape({
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.any,
-    reviews: PropTypes.array.isRequired
-  }).isRequired,
-  getVendorReviews: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

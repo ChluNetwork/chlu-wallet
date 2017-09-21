@@ -13,7 +13,7 @@ import './CustomerWallet.css'
 import { buttonsData } from './assets/data'
 
 const CustomerWalletPage = ({ toggleModal, modalOpen }) => (
-  <div className='customer-wallet-form'>
+  <div className='page-container customer-wallet-form'>
     <h3>Payment for Shinny New Toy $400</h3>
     <div className='select-crypto'>
       <p>Select the currency you want pay in</p>

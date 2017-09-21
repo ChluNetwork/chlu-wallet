@@ -23,7 +23,7 @@ const CustomerWalletForm = ({
   convertFieldValue,
   loading
 }) => (
-  <form onSubmit={handleSubmit} className='m-l-15 m-t-20'>
+  <form onSubmit={handleSubmit} className='m-t-20'>
     <Field name='vendorAddress' label='Vendor Address' type='text' component={Input} />
     <label>Amount (BTC)</label>
     <div className='amount-btc__wrapper'>
