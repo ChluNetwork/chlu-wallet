@@ -1,4 +1,4 @@
-import CreateChluTransaction from './create_chlu_transaction'
+import CreateChluTransaction from 'lib/create_chlu_transaction'
 import { sumBy } from 'lodash'
 import nock from 'nock'
 

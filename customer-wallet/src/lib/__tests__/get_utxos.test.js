@@ -1,4 +1,4 @@
-import GetUtxos from './get_utxos'
+import GetUtxos from 'lib/get_utxos'
 import nock from 'nock'
 
 test('load utxos from blocktrail for a given address', () => {

@@ -1,4 +1,4 @@
-import PushTx from './push_tx'
+import PushTx from 'lib/push_tx'
 import nock from 'nock'
 
 test('push failing raw hex transaction using blockcypher', () => {
