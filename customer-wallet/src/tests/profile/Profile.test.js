@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import Profile from 'containers/Profile'
+import Profile from 'containers/Vendor/Profile'
 
 const mockStore = configureStore([])
 const store = mockStore({

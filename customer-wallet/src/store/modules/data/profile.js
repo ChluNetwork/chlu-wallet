@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-
+import { browserHistory } from 'react-router'
 // data
 import profileData from 'fixtures/profile.js'
 
@@ -9,11 +9,12 @@ import profileData from 'fixtures/profile.js'
 const FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS'
 const FETCH_PROFILE_DATA_ERROR = 'FETCH_PROFILE_DATA_ERROR'
 const FETCH_PROFILE_DATA_LOADING = 'FETCH_PROFILE_DATA_LOADING'
+const CHANGE_USER_TYPE = 'CHANGE_USER_TYPE'
 
 const initialState = {
   loading: false,
   error: null,
-  data: {}
+  data: null
 }
 
 // ------------------------------------
@@ -22,6 +23,7 @@ const initialState = {
 export const fetchProfileDataSuccess = createAction(FETCH_PROFILE_DATA_SUCCESS)
 export const fetchProfileDataError = createAction(FETCH_PROFILE_DATA_ERROR)
 export const fetchProfileDataLoading = createAction(FETCH_PROFILE_DATA_LOADING)
+export const changeUserTypeAction = createAction(CHANGE_USER_TYPE)
 
 // ------------------------------------
 // Thunks
@@ -45,6 +47,13 @@ export function getProfile () {
   }
 }
 
+export function changeUserType(nextUser) {
+  return dispatch => {
+    dispatch(changeUserTypeAction())
+    browserHistory.replace(`/${nextUser}`)
+  }
+}
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -57,11 +66,21 @@ export default handleActions({
   }),
   [FETCH_PROFILE_DATA_ERROR]: (state, { payload: { error } }) => ({
     ...state,
+    data: null,
     loading: false,
     error
   }),
   [FETCH_PROFILE_DATA_LOADING]: (state, { payload: loading }) => ({
     ...state,
     loading
+  }),
+  [CHANGE_USER_TYPE]: state => ({
+    ...state,
+    data: state.data
+      ? {
+          ...state.data,
+          userType: state.data.userType === 'customer' ? 'vendor' : 'customer'
+        }
+      : null
   })
 }, initialState)

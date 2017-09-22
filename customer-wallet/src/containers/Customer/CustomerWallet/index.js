@@ -36,6 +36,7 @@ const CustomerWalletPage = ({ toggleModal, modalOpen }) => (
   </div>
 )
 
+
 CustomerWalletForm.propTypes = {
   toggleModal: PropTypes.func,
   modalOpen: PropTypes.bool

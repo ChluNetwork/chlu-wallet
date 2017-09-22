@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getProfile } from 'store/modules/data/profile'
 // components
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
@@ -19,14 +18,7 @@ class Profile extends Component {
       rating: PropTypes.number,
       title: PropTypes.string,
       reviews: PropTypes.array
-    }).isRequired,
-    getProfile: PropTypes.func.isRequired
-  }
-
-  componentDidMount() {
-    const { getProfile } = this.props
-
-    getProfile()
+    }).isRequired
   }
 
   render() {
@@ -55,22 +47,8 @@ class Profile extends Component {
   }
 }
 
-Profile.propTypes = {
-  profile: PropTypes.shape({
-    name: PropTypes.string,
-    rating: PropTypes.number,
-    title: PropTypes.string,
-    reviews: PropTypes.array
-  }).isRequired,
-  getProfile: PropTypes.func.isRequired
-}
-
 const mapStateToProps = store => ({
   profile: store.data.profile
 })
 
-const mapDispatchToProps = {
-  getProfile
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps)(Profile)
