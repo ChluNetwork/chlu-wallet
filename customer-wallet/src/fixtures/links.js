@@ -8,4 +8,8 @@ const linksForVendor = [
   { label: 'Vendor Wallet', href: '/vendor/wallet' }
 ]
 
-export { linksForCustomer, linksForVendor }
+const linksForDemonstrator = [
+  { label: 'demo', href: '/demonstrator/demo' }
+]
+
+export { linksForCustomer, linksForVendor, linksForDemonstrator }

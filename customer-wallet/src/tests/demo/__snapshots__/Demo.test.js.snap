@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Demo /> should render correctly demo container 1`] = `
+<div
+  className="demo"
+>
+  <div
+    className="wallets-container"
+  >
+    <div
+      className="wallets-container__item"
+    >
+      <Connect(CustomerWalletPage) />
+    </div>
+    <div
+      className="wallets-container__item"
+    >
+      <Connect(VendorWallet) />
+    </div>
+  </div>
+  <div
+    className="demo-logging"
+  >
+    DEMO DEMO DEMO
+  </div>
+</div>
+`;

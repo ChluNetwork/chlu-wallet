@@ -9,16 +9,26 @@ import MenuItem from 'material-ui/MenuItem'
 // styles
 import './styles.css'
 // data
-import { linksForCustomer, linksForVendor } from 'fixtures/links'
+import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'fixtures/links'
 
 const style = {
   color: 'inherit',
   background: 'inherit'
 }
 
-const DrawerComponent = ({ toggleDrawer, drawerOpen, profile }) => {
-  const { data: { userType } } = profile
-  const links = userType === 'customer' ? linksForCustomer : linksForVendor
+const DrawerComponent = ({ toggleDrawer, drawerOpen, userType }) => {
+  let links = []
+
+  switch(userType){
+    case 'customer': links = linksForCustomer
+      break
+    case 'vendor': links = linksForVendor
+      break
+    case 'demonstrator': links = linksForDemonstrator
+      break
+    default: links = []
+      break
+  }
 
   return (
     <Drawer
@@ -44,11 +54,12 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, profile }) => {
 
 DrawerComponent.propTypes = {
   toggleDrawer: PropTypes.func.isRequired,
-  drawerOpen: PropTypes.bool
+  drawerOpen: PropTypes.bool,
+  userType: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
-  profile: state.data.profile
+  userType: state.data.profile.data ? state.data.profile.data.userType : ''
 })
 
 export default connect(mapStateToProps)(DrawerComponent)

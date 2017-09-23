@@ -4,45 +4,48 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
 import { changeUserType } from 'store/modules/data/profile'
+import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
 // libs
 import ReduxToastr from 'react-redux-toastr'
 // components
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'components/Drawer'
-import FlatButton from 'material-ui/FlatButton'
 import CircularProgress from 'material-ui/CircularProgress'
+import SwitchUserMenu from './SwitchUserMenu'
+// data
+import usersType from 'fixtures/usersType'
 
-
-const loaderStyle = {
+const style = {
   margin: '20px auto'
 }
 
-const buttonStyle = {
-  color: 'rgb(255, 255, 255)',
-  marginTop: '12.5px'
-}
-
-const MainLayout = ({ children, toggleDrawer, drawerOpen, changeUserType, profile }) => {
-  const { loading, data } = profile
-  const userType = data ? data.userType : null
-  const nextUserType = userType === 'customer' ? 'vendor' : 'customer'
+const MainLayout = ({
+  children,
+  toggleDrawer,
+  drawerOpen,
+  changeUserType,
+  profile,
+  isSwitchUserMenuOpen,
+  toggleSwitchUserMenuShow
+}) => {
+  const { loading } = profile
 
   return (
     <div>
       {loading
-        ? <CircularProgress style={loaderStyle} />
+        ? <CircularProgress style={style} />
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
             title='Chlu'
-            iconClassNameRight='muidocs-icon-navigation-expand-more'
             onLeftIconButtonTouchTap={toggleDrawer}
+            iconElementRight={<SwitchUserMenu
+              items={usersType}
+              isOpen={isSwitchUserMenuOpen}
+              onRequestChange={toggleSwitchUserMenuShow}
+              onItemClick={changeUserType}/>
+            }
           >
-            <FlatButton
-              style={buttonStyle}
-              label={`switch to ${nextUserType}`}
-              onClick={() => changeUserType(nextUserType)}
-            />
           </AppBar>
           {children}
           <ReduxToastr
@@ -64,17 +67,21 @@ MainLayout.propTypes = {
   toggleDrawer: PropTypes.func.isRequired,
   drawerOpen: PropTypes.bool,
   changeUserType: PropTypes.func,
-  userType: PropTypes.string
+  userType: PropTypes.string,
+  isSwitchUserMenuOpen: PropTypes.bool,
+  toggleSwitchUserMenuShow: PropTypes.func
 }
 
 const mapStateToProps = state => ({
   drawerOpen: state.ui.drawer.open,
-  profile: state.data.profile
+  profile: state.data.profile,
+  isSwitchUserMenuOpen: state.ui.switchUserMenu.isOpen
 })
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: data => dispatch(changeUserType(data))
+  changeUserType: data => dispatch(changeUserType(data)),
+  toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)

@@ -49,7 +49,7 @@ export function getProfile () {
 
 export function changeUserType(nextUser) {
   return dispatch => {
-    dispatch(changeUserTypeAction())
+    dispatch(changeUserTypeAction(nextUser))
     browserHistory.replace(`/${nextUser}`)
   }
 }
@@ -74,13 +74,11 @@ export default handleActions({
     ...state,
     loading
   }),
-  [CHANGE_USER_TYPE]: state => ({
+  [CHANGE_USER_TYPE]: (state, { payload: userType } ) => ({
     ...state,
-    data: state.data
-      ? {
-          ...state.data,
-          userType: state.data.userType === 'customer' ? 'vendor' : 'customer'
-        }
-      : null
+    data: {
+      ...state.data,
+      userType: userType
+    }
   })
 }, initialState)
