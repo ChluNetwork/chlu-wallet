@@ -80,7 +80,8 @@ class VendorWallet extends Component {
                 <span>{totalUsd} USD</span>
               </div>
               {
-                reviews.map(({ date, reviews }, index) => <PaymentsList date={date} reviews={reviews} key={index}/>)
+                reviews.map(({ date, reviews }, index) =>
+                  <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
               }
             </div>
         }
