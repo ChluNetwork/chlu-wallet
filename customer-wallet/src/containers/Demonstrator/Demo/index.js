@@ -3,7 +3,7 @@ import React from 'react'
 import CustomerWallet from 'containers/Customer/CustomerWallet'
 import VendorWallet from 'containers/Vendor/VendorWallet'
 // styles
-import './demo.css'
+import './styles.css'
 
 const Demo = () => (
   <div className='demo'>

@@ -11,12 +11,12 @@ const buttonStyle = {
 }
 
 const listStyle = {
-  textAlign: 'center'
+  textAlign: 'left'
 }
 
 const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick }) => (
   <IconMenu
-    iconButtonElement={<FlatButton style={buttonStyle} label='Switch user' onClick={this.toggleMenuOpen}/>}
+    iconButtonElement={<FlatButton style={buttonStyle} label='Switch user' />}
     open={isOpen}
     onRequestChange={onRequestChange}
     listStyle={listStyle}

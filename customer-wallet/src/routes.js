@@ -23,7 +23,6 @@ function getRoutes (store) {
         <IndexRedirect to='wallet' />
         <Route path='checkout' component={Checkout}/>
         <Route path='wallet' component={CustomerWallet} />
-        <Route path='profile' component={Profile} />
       </Route>
       <Route path='vendor' >
         <IndexRedirect to='wallet' />
@@ -34,7 +33,7 @@ function getRoutes (store) {
         <IndexRedirect to='demo' />
         <Route path='demo' component={Demo} />
       </Route>
-      <Route path='*' component={NotFound}/>
+      <Route path='*' component={NotFound} status={404} />
     </Route>
   )
 }

@@ -43,8 +43,8 @@ const MainLayout = ({
               items={usersType}
               isOpen={isSwitchUserMenuOpen}
               onRequestChange={toggleSwitchUserMenuShow}
-              onItemClick={changeUserType}/>
-            }
+              onItemClick={changeUserType}
+            />}
           >
           </AppBar>
           {children}

@@ -10,7 +10,7 @@ import { fx, setFxRates } from 'lib/fxRates'
 import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
 // styles
-import './VendorWallet.css'
+import './styles.css'
 
 class VendorWallet extends Component {
 
