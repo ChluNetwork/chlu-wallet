@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getCheckout } from 'store/modules/data/checkout'
+import { actions } from 'shared-libraries/lib'
 // components
 import HeaderSection from './sections/HeaderSection'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
 import CircularProgress from 'material-ui/CircularProgress'
-
 // styles
 import './styles.css'
+// constants
+const { dataActions: { checkout: { getCheckout } } } = actions
 
 class Checkout extends Component {
   componentDidMount() {

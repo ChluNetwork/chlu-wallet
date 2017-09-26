@@ -13,9 +13,13 @@ exports.getRates = getRates;
 
 var _reduxActions = require('redux-actions');
 
+var _exchangeReq = require('shared-libraries/lib/utils/exchangeReq');
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+// utils
+
 
 // ------------------------------------
 // Constants
@@ -27,7 +31,7 @@ var FETCH_RATES_LOADING = 'FETCH_RATES_LOADING';
 var initialState = {
   loading: false,
   error: null,
-  rates: {}
+  rates: null
 
   // ------------------------------------
   // Actions
@@ -38,15 +42,15 @@ var fetchRatesLoading = exports.fetchRatesLoading = (0, _reduxActions.createActi
 // ------------------------------------
 // Thunks
 // ------------------------------------
-var getFxRates = function getFxRates(getExchangeRates) {
-  return getExchangeRates().then(function (data) {
+var getFxRates = function getFxRates() {
+  return (0, _exchangeReq.getExchangeRates)().then(function (data) {
     return data;
   }).catch(function (error) {
     throw error;
   });
 };
 
-function getRates(getExchangeRates) {
+function getRates() {
   var _this = this;
 
   return function () {
@@ -59,7 +63,7 @@ function getRates(getExchangeRates) {
               dispatch(fetchRatesLoading(true));
               _context.prev = 1;
               _context.next = 4;
-              return getFxRates(getExchangeRates);
+              return getFxRates();
 
             case 4:
               response = _context.sent;

@@ -13,7 +13,7 @@ exports.getVendorReviews = getVendorReviews;
 
 var _reduxActions = require('redux-actions');
 
-var _vendorData = require('../../fixtures/vendorData');
+var _vendorData = require('shared-libraries/lib/fixtures/vendorData');
 
 var _vendorData2 = _interopRequireDefault(_vendorData);
 

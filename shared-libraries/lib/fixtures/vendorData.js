@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _noProduct = require("../../images/no-product.png");
+var _noProduct = require("images/no-product.png");
 
 var _noProduct2 = _interopRequireDefault(_noProduct);
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import { fx } from 'money'
+import { fx } from 'lib/fxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import Input from 'components/Form/Input'

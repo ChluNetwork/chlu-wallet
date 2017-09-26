@@ -3,17 +3,20 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchProfileDataLoading = exports.fetchProfileDataError = exports.fetchProfileDataSuccess = undefined;
+exports.changeUserTypeAction = exports.fetchProfileDataLoading = exports.fetchProfileDataError = exports.fetchProfileDataSuccess = undefined;
 
 var _handleActions;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.getProfile = getProfile;
+exports.changeUserType = changeUserType;
 
 var _reduxActions = require('redux-actions');
 
-var _profile = require('../../fixtures/profile.js');
+var _reactRouter = require('react-router');
+
+var _profile = require('shared-libraries/lib/fixtures/profile');
 
 var _profile2 = _interopRequireDefault(_profile);
 
@@ -22,7 +25,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 // data
 
 
@@ -32,11 +34,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS';
 var FETCH_PROFILE_DATA_ERROR = 'FETCH_PROFILE_DATA_ERROR';
 var FETCH_PROFILE_DATA_LOADING = 'FETCH_PROFILE_DATA_LOADING';
+var CHANGE_USER_TYPE = 'CHANGE_USER_TYPE';
 
 var initialState = {
   loading: false,
   error: null,
-  data: {}
+  data: null
 
   // ------------------------------------
   // Actions
@@ -44,6 +47,7 @@ var initialState = {
 };var fetchProfileDataSuccess = exports.fetchProfileDataSuccess = (0, _reduxActions.createAction)(FETCH_PROFILE_DATA_SUCCESS);
 var fetchProfileDataError = exports.fetchProfileDataError = (0, _reduxActions.createAction)(FETCH_PROFILE_DATA_ERROR);
 var fetchProfileDataLoading = exports.fetchProfileDataLoading = (0, _reduxActions.createAction)(FETCH_PROFILE_DATA_LOADING);
+var changeUserTypeAction = exports.changeUserTypeAction = (0, _reduxActions.createAction)(CHANGE_USER_TYPE);
 
 // ------------------------------------
 // Thunks
@@ -98,6 +102,13 @@ function getProfile() {
   }();
 }
 
+function changeUserType(nextUser) {
+  return function (dispatch) {
+    dispatch(changeUserTypeAction(nextUser));
+    _reactRouter.browserHistory.replace('/' + nextUser);
+  };
+}
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -111,6 +122,7 @@ exports.default = (0, _reduxActions.handleActions)((_handleActions = {}, _define
 }), _defineProperty(_handleActions, FETCH_PROFILE_DATA_ERROR, function (state, _ref3) {
   var error = _ref3.payload.error;
   return _extends({}, state, {
+    data: null,
     loading: false,
     error: error
   });
@@ -118,5 +130,12 @@ exports.default = (0, _reduxActions.handleActions)((_handleActions = {}, _define
   var loading = _ref4.payload;
   return _extends({}, state, {
     loading: loading
+  });
+}), _defineProperty(_handleActions, CHANGE_USER_TYPE, function (state, _ref5) {
+  var userType = _ref5.payload;
+  return _extends({}, state, {
+    data: _extends({}, state.data, {
+      userType: userType
+    })
   });
 }), _handleActions), initialState);
