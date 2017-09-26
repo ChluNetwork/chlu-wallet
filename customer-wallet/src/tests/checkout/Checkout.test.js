@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import Checkout from 'containers/Checkout'
+import Checkout from 'containers/Customer/Checkout'
 
 const mockStore = configureStore([])
 const store = mockStore({

@@ -1,0 +1,23 @@
+.demo {
+  .wallets-container{
+    display: flex;
+    justify-content: space-around;
+    min-height: 300px;
+    height: 50vh;
+
+    &__item {
+      width: 50%;
+      overflow: auto;
+      padding-bottom: 30px;
+
+      &:first-child {
+        border-right: 1px solid whitesmoke;
+      }
+    }
+  }
+
+  .demo-logging {
+    border-top: 1px solid whitesmoke;
+    padding: 30px;
+  }
+}

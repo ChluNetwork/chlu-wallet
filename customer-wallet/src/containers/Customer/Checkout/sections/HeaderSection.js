@@ -7,8 +7,8 @@ import StarRatingComponent from 'react-star-rating-component'
 const starCount = 5
 
 const SellerHeader = ({ name, rating }) => (
-  <div className='checkout-seller__header'>
-    <Link to='#' className='checkout-seller__header-name'>{name}</Link>
+  <div className='checkout-vendor__header'>
+    <Link to='#' className='checkout-vendor__header-name'>{name}</Link>
     <StarRatingComponent
       name='rate1'
       starCount={starCount}

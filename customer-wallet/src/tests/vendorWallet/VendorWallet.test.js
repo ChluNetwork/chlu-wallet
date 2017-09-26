@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import toJson from 'enzyme-to-json'
-import VendorWallet from 'containers/VendorWallet'
+import VendorWallet from 'containers/Vendor/VendorWallet'
 
 const mockStore = configureStore([])
 const store = mockStore({

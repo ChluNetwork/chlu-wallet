@@ -7,9 +7,10 @@ import { getRates } from 'store/modules/data/fxRates'
 // libs
 import { fx, setFxRates } from 'lib/fxRates'
 // components
-import PaymentsList from './PaymentsList'
+import PaymentsList from './PaymentsList/index'
+import CircularProgress from 'material-ui/CircularProgress'
 // styles
-import './VendorWallet.css'
+import './styles.css'
 
 class VendorWallet extends Component {
 
@@ -72,14 +73,15 @@ class VendorWallet extends Component {
         <h3>Vendor Wallet</h3>
         {
           vendorLoading
-            ? 'Loading...'
+            ? <CircularProgress />
             : <div>
               <div className='crypto'>
                 <h3>{totalBtc} BTC</h3>
                 <span>{totalUsd} USD</span>
               </div>
               {
-                reviews.map(({ date, reviews }, index) => <PaymentsList date={date} reviews={reviews} key={index}/>)
+                reviews.map(({ date, reviews }, index) =>
+                  <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
               }
             </div>
         }
