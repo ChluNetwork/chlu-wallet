@@ -1,14 +1,14 @@
 import { createAction, handleActions } from 'redux-actions'
 
 // data
-import checkoutData from 'fixtures/checkout'
+import profileData from '../../fixtures/profile.js'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_CHECKOUT_DATA_SUCCESS = 'FETCH_CHECKOUT_DATA_SUCCESS'
-const FETCH_CHECKOUT_DATA_ERROR = 'FETCH_CHECKOUT_DATA_ERROR'
-const FETCH_CHECKOUT_DATA_LOADING = 'FETCH_CHECKOUT_DATA_LOADING'
+const FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS'
+const FETCH_PROFILE_DATA_ERROR = 'FETCH_PROFILE_DATA_ERROR'
+const FETCH_PROFILE_DATA_LOADING = 'FETCH_PROFILE_DATA_LOADING'
 
 const initialState = {
   loading: false,
@@ -19,27 +19,27 @@ const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchCheckoutDataSuccess = createAction(FETCH_CHECKOUT_DATA_SUCCESS)
-export const fetchCheckoutDataError = createAction(FETCH_CHECKOUT_DATA_ERROR)
-export const fetchCheckoutDataLoading = createAction(FETCH_CHECKOUT_DATA_LOADING)
+export const fetchProfileDataSuccess = createAction(FETCH_PROFILE_DATA_SUCCESS)
+export const fetchProfileDataError = createAction(FETCH_PROFILE_DATA_ERROR)
+export const fetchProfileDataLoading = createAction(FETCH_PROFILE_DATA_LOADING)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 function testReq () {
   return new Promise(resolve => setTimeout(() =>
-    resolve(checkoutData), 1000))
+    resolve(profileData), 1000))
 }
 
-export function getCheckout () {
+export function getProfile () {
   return async (dispatch) => {
-    dispatch(fetchCheckoutDataLoading(true))
+    dispatch(fetchProfileDataLoading(true))
     try {
       const response = await testReq()
-      dispatch(fetchCheckoutDataSuccess(response))
+      dispatch(fetchProfileDataSuccess(response))
       return response
     } catch (error) {
-      dispatch(fetchCheckoutDataError(error))
+      dispatch(fetchProfileDataError(error))
       throw error
     }
   }
@@ -49,18 +49,18 @@ export function getCheckout () {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [FETCH_CHECKOUT_DATA_SUCCESS]: (state, { payload: data }) => ({
+  [FETCH_PROFILE_DATA_SUCCESS]: (state, { payload: data }) => ({
     ...state,
     data,
     loading: false,
     error: null
   }),
-  [FETCH_CHECKOUT_DATA_ERROR]: (state, { payload: { error } }) => ({
+  [FETCH_PROFILE_DATA_ERROR]: (state, { payload: { error } }) => ({
     ...state,
     loading: false,
     error
   }),
-  [FETCH_CHECKOUT_DATA_LOADING]: (state, { payload: loading }) => ({
+  [FETCH_PROFILE_DATA_LOADING]: (state, { payload: loading }) => ({
     ...state,
     loading
   })
