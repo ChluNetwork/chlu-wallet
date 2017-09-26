@@ -6,6 +6,8 @@ import { getVendorReviews } from 'store/modules/data/vendorWallet'
 import { getRates } from 'store/modules/data/fxRates'
 // libs
 import { fx, setFxRates } from 'lib/fxRates'
+// utils
+import { getExchangeRates } from 'utils/exchangeReq'
 // components
 import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -36,7 +38,7 @@ class VendorWallet extends Component {
   getFxRates () {
     const { getRates } = this.props
 
-    getRates()
+    getRates(getExchangeRates)
       .then(data => setFxRates(data))
   }
 

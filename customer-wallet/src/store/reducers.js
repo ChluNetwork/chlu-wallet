@@ -2,8 +2,8 @@ import { combineReducers } from 'redux'
 import locationReducer from './modules/location'
 import { reducer as formReducer } from 'redux-form'
 import { reducer as toastrReducer } from 'react-redux-toastr'
+import sharedReducers from 'shared-libraries/lib/reducers'
 import ui from './modules/ui'
-import data from './modules/data'
 import components from './modules/components'
 
 export const makeRootReducer = () => {
@@ -11,8 +11,8 @@ export const makeRootReducer = () => {
     location: locationReducer,
     form: formReducer,
     toastr: toastrReducer,
+    ...sharedReducers,
     ui,
-    data,
     components
   })
 }
