@@ -1,19 +1,24 @@
 import getBlockchainClient from './blockchain_client'
-import promisify from 'es6-promisify'
+import { isEmpty } from 'lodash'
 
 class PushTx {
 
   constructor () {
     this.blockchainClient = getBlockchainClient()
-    console.log(this.blockchainClient.pushTX)
-    this.pushTX = promisify(this.blockchainClient.pushTX, this.blockchainClient)
   }
 
   push (txHash) {
-    return this.pushTX(txHash).then((tx) => {
-       return tx
+    return new Promise((resolve, reject) => {
+      this.blockchainClient.pushTX(txHash, (err, tx) => {
+        if ( err  ) {
+          reject(err )
+        } else {
+          resolve(tx)
+        }
+      })
     })
   }
+
 }
 
 export default PushTx

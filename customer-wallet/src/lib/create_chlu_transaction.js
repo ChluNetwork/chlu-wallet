@@ -19,7 +19,7 @@ export default class CreateChluTransaction {
 
   getInputTxs(fromAddress, targets, feeRate) {
     const getter = new GetUtxos()
-    return getter.getAddr(fromAddress).then((utxos) => {
+    return getter.getFromBlockchain(fromAddress).then((utxos) => {
       let unspents = map(utxos.txrefs, (tx) => ({ txId: tx.tx_hash, vout: tx.tx_output_n, value: tx.value }) )
       let { inputs, outputs, fee } = coinSelect(unspents, targets, feeRate)
       return { inputs, outputs, fee }
@@ -28,7 +28,7 @@ export default class CreateChluTransaction {
 
   pushTransaction(tx) {
     const pusher = new PushTx()
-    return pusher.pushTx(tx.toHex()).then((tx) => {
+    return pusher.push(tx.toHex()).then((tx) => {
       console.log(tx)
     })
   }
