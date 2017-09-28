@@ -1,31 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Link } from 'react-router'
 import StarRatingComponent from 'react-star-rating-component'
 // constants
+import { ratingColor } from 'styles/constants'
+
 const starCount = 5
 
-const ProfileHeader = ({ name, rating, title }) => (
-  <div className='profile-header'>
-    <div>
-      <Link to='#' className='profile-header__name'>{name}</Link>
+const ProfileHeader = ({ name, rating, titleSold, titleReviews }) => (
+  <div className='profile-header section-head'>
+    <div className='profile-header__info'>
+      <div className='avatar'>{name[0].toUpperCase()}</div>
+      <div className='profile-info'>
+        <div className='profile-info__name'>{name}</div>
+        <StarRatingComponent
+          className='profile-info__rating'
+          name='rate2'
+          starCount={starCount}
+          value={rating}
+          editing={false}
+          starColor={ratingColor}
+        />
+        <div className='profile-info__title color-light'>
+          <div className='title-reviews'>{titleReviews}</div>
+          <div className='title-sold'>{titleSold}</div>
+        </div>
+      </div>
     </div>
-    <StarRatingComponent
-      name='rate2'
-      starCount={starCount}
-      value={rating}
-      editing={false}
-    />
-    <br />
-    <span className='profile-header__info'>({title})</span>
+    <div className='profile-header__search'>S</div>
   </div>
 )
 
 ProfileHeader.propTypes = {
   name: PropTypes.string,
   rating: PropTypes.number,
-  title: PropTypes.string
+  titleReviews: PropTypes.string,
+  titleSold: PropTypes.string
 }
 
 export default ProfileHeader

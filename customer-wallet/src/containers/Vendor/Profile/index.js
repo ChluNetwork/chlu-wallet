@@ -16,7 +16,8 @@ class Profile extends Component {
     profile: PropTypes.shape({
       name: PropTypes.string,
       rating: PropTypes.number,
-      title: PropTypes.string,
+      titleReviews: PropTypes.string,
+      titleSold: PropTypes.string,
       reviews: PropTypes.array
     }).isRequired
   }
@@ -24,17 +25,17 @@ class Profile extends Component {
   render() {
     const { profile: {
       loading,
-      data: { name, rating, title, reviews }
+      data: { name, rating, titleReviews, titleSold, reviews }
     } } = this.props
 
     return (
-      <div className='page-container profile'>
+      <div className='page-container profile color-main'>
         {
           loading
             ? <CircularProgress />
             : <div>
-              <ProfileHeader name={name} rating={rating} title={title} />
-              <div>
+              <ProfileHeader name={name} rating={rating} titleReviews={titleReviews} titleSold={titleSold} />
+              <div className='section-content'>
                 {Array.isArray(reviews) && reviews.map((review, idx) => (
                   <Review {...review} key={idx} />
                 ))}
