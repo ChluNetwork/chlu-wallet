@@ -74,20 +74,24 @@ class VendorWallet extends Component {
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
 
     return (
-      <div className='page-container vendor-wallet'>
-        <h3>Vendor Wallet</h3>
+      <div className='page-container vendor-wallet color-main'>
         {
           vendorLoading
             ? <CircularProgress />
             : <div>
-              <div className='crypto'>
-                <h3>{totalBtc} BTC</h3>
-                <span>{totalUsd} USD</span>
+              <div className='section-head'>
+                <div className='section-name color-light'>Vendor Wallet</div>
+                <div className='total-crypto'>
+                  <div className='total-crypto__item big'>{totalBtc} BTC</div>
+                  <div className='total-crypto__item'>${totalUsd} USD</div>
+                </div>
               </div>
-              {
-                reviews.map(({ date, reviews }, index) =>
-                  <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
-              }
+              <div className='section-content'>
+                {
+                  reviews.map(({ date, reviews }, index) =>
+                   <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                }
+              </div>
             </div>
         }
       </div>

@@ -14,12 +14,24 @@ import CircularProgress from 'material-ui/CircularProgress'
 import SwitchUserMenu from './SwitchUserMenu'
 // data
 import usersType from 'shared-libraries/lib/fixtures/usersType'
+// styles
+import { mainColor } from 'styles/constants'
 // constants
 const { dataActions: { profile: { changeUserType } } } = actions
 
-const style = {
+const CircularProgressStyle = {
   margin: '20px auto'
 }
+
+const AppBarStyle = {
+  background: mainColor
+}
+
+const AppBarTitleStyle = {
+  textAlign: 'center',
+  textTransform: 'uppercase'
+}
+
 
 const MainLayout = ({
   children,
@@ -35,11 +47,13 @@ const MainLayout = ({
   return (
     <div>
       {loading
-        ? <CircularProgress style={style} />
+        ? <CircularProgress style={CircularProgressStyle} />
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
             title='Chlu'
+            style={AppBarStyle}
+            titleStyle={AppBarTitleStyle}
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}

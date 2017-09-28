@@ -1,54 +1,90 @@
+@import 'styles/constants.scss';
+
 .vendor-wallet {
-  padding: 0 10px;
 
-  .crypto {
-    margin: 30px 0 40px;
+  .section-head {
 
-    >h3{
-      margin: 5px 0;
+    .total-crypto {
+      margin-top: 20px;
+
+      .big {
+        font-weight: bold;
+        font-size: 20pt;
+      }
     }
   }
 
-  .payments-list {
-    max-width: 450px;
+  .section-content {
 
-    .period {
-      margin: 50px 0 20px;
-    }
-  }
+    .payments-list {
 
-  .payment-item {
-    margin-bottom: 30px;
+      &__date {
+        margin: 5px 0 20px;
+      }
 
-    &-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .info {
+      .payment-item {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
         display: flex;
-        align-items: center;
+        border-bottom: 1px solid $borderColor;
 
-        .avatar {
-          max-width: 50px;
-          max-height: 50px;
-          margin-right: 10px;
+        &__avatar {
+          >img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+          }
         }
+
+        &__info {
+          flex-grow: 1;
+
+          .info-head-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .info-head {
+              flex-grow: 1;
+              margin-right: 15px;
+
+              &__name {
+                font-weight: bold;
+                margin-bottom: 10px;
+              }
+
+              &__date {
+                display: flex;
+                margin-bottom: 10px;
+
+                .date {
+                  padding-right: 10px;
+                  border-right: 1px solid $borderColor;
+                }
+
+                .platform {
+                  padding-left: 10px;
+                }
+              }
+            }
+
+            .info-head__price {
+              text-align: right;
+              margin-bottom: 10px;
+              flex-grow: 1;
+            }
+          }
+
+          .info-rating {
+            font-size: 25px;
+          }
+
+        }
+
       }
 
-      .price {
-        text-align: right;
-      }
     }
 
-    &-date {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-    }
-
-    &-rating {
-      font-size: 25px;
-    }
   }
 }

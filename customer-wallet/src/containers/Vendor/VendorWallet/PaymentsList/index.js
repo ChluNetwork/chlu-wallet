@@ -5,7 +5,7 @@ import PaymentItem from './PaymentItem/index'
 
 const PaymentsList = ({ date, reviews, getTotalUsd }) => (
   <div className='payments-list'>
-    <div className='period'>{date}</div>
+    <div className='payments-list__date color-light'>{date}</div>
     {
       reviews.map((review, index) => <PaymentItem {...review} getTotalUsd={getTotalUsd} key={index}/>)
     }
