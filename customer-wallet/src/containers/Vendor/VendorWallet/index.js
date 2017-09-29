@@ -79,7 +79,7 @@ class VendorWallet extends Component {
           vendorLoading
             ? <CircularProgress />
             : <div>
-              <div className='section-head'>
+              <div className='container section-head'>
                 <div className='section-name color-light'>Vendor Wallet</div>
                 <div className='total-crypto'>
                   <div className='total-crypto__item big'>{totalBtc} BTC</div>
@@ -87,10 +87,12 @@ class VendorWallet extends Component {
                 </div>
               </div>
               <div className='section-content'>
-                {
-                  reviews.map(({ date, reviews }, index) =>
-                   <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
-                }
+                <div className='container'>
+                  {
+                    reviews.map(({ date, reviews }, index) =>
+                     <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                  }
+                </div>
               </div>
             </div>
         }

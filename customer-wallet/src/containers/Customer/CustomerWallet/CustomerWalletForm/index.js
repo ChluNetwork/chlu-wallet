@@ -5,15 +5,15 @@ import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { actions } from 'shared-libraries/lib'
 import { formValueSelector } from 'redux-form'
-import { setFxRates } from 'lib/fxRates'
 // libs
 import { toastr } from 'react-redux-toastr'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
+// assets
+import { buttonsData } from '../assets/data'
 // constants
 const { dataActions: {
-  payment: { submitPayment },
-  fxRates: { getRates }
+  payment: { submitPayment }
 } } = actions
 
 class CustomerWalletFormWrapper extends Component {
@@ -23,21 +23,7 @@ class CustomerWalletFormWrapper extends Component {
     isReviewOpen: PropTypes.bool,
     loading: PropTypes.bool,
     rating: PropTypes.number.isRequired,
-    setRating: PropTypes.func.isRequired,
-    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-    getRates: PropTypes.func.isRequired
-  }
-
-  componentDidMount() {
-    const { rates } = this.props
-
-    if(!rates) {
-      const {getRates} = this.props
-
-      getRates()
-        .then(response => setFxRates(response))
-        .catch(error => console.log(error))
-    }
+    setRating: PropTypes.func.isRequired
   }
 
   handleSubmit = (data) => {
@@ -58,7 +44,7 @@ class CustomerWalletFormWrapper extends Component {
   }
 
   render () {
-    const { isReviewOpen, loading, rating } = this.props
+    const { isReviewOpen, loading, rating, toggleModal, priceBtc } = this.props
     return (
       <CustomerWalletForm
         onSubmit={this.handleSubmit}
@@ -66,6 +52,9 @@ class CustomerWalletFormWrapper extends Component {
         ratingValue={rating}
         isReviewOpen={isReviewOpen}
         loading={loading}
+        buttonsData={buttonsData}
+        toggleModal={toggleModal}
+        priceBtc={priceBtc}
       />
     )
   }
@@ -76,14 +65,12 @@ const selector = formValueSelector('customer-wallet-form')
 const mapStateToProps = state => ({
   isReviewOpen: selector(state, 'reviewOpen'),
   loading: state.data.payment.loading,
-  rating: state.components.customerWallet.rating,
-  rates: state.data.fxRates.rates
+  rating: state.components.customerWallet.rating
 })
 
 const mapDispatchToProps = dispatch => ({
   submitPayment: data => dispatch(submitPayment(data)),
-  setRating: data => dispatch(setRatingForCustomerWallet(data)),
-  getRates: () => dispatch(getRates())
+  setRating: data => dispatch(setRatingForCustomerWallet(data))
 })
 
 export default connect(

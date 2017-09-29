@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
 // constants
-import { ratingColor } from 'styles/constants'
+import { ratingColor } from 'context/palette'
 
 const starCount = 5
 

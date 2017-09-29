@@ -1,4 +1,4 @@
-@import 'styles/constants.scss';
+@import 'styles/variables.scss';
 
 .profile {
 
@@ -49,6 +49,25 @@
         }
       }
 
+      @media screen and (max-width: 400px) {
+        .avatar {
+          width: 65px;
+          height: 65px;
+          font-size: 35pt;
+        }
+
+        .profile-info {
+          &__name{
+            font-size: 13pt;
+          }
+          &__rating {
+            font-size: 20px;
+          }
+          &__title {
+            font-size: smaller;
+          }
+        }
+      }
     }
 
     .profile-header__search {

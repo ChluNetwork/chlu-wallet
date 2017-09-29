@@ -1,27 +1,97 @@
+@import 'styles/variables.scss';
+
 .customer-wallet-form {
-  padding: 0 10px 0 10px;
 
-  .stars {
-    font-size: 21px;
+  .section-head {
+    &__name {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    &__price-usd {
+      font-weight: 100;
+      font-size: 25pt;
+    }
   }
 
-  .button-container {
-    position: relative;
-  }
-}
+  .section-content {
+    border: none;
 
-.btn__crypto-selector {
-  margin: 12px;
-}
 
-.amount-btc__wrapper {
-  display: flex;
-  align-items: center;
-  max-width: 200px;
+    .form {
 
-  >span {
-    display: inline-block;
-    font-size: 18px;
-    margin: 0 15px;
+      .payment-currency {
+
+        &__buttons {
+          display: flex;
+          flex-wrap: wrap;
+          margin: 5px -5px;
+
+          .button-active, .button:hover {
+            color: $blue;
+            background: $lightBlue;
+          }
+
+          .button {
+            cursor: pointer;
+            width: 75px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px;
+            padding: 15px 20px;
+            border-radius: 3px;
+
+            &-icon {
+              width: 25px;
+              height: 25px;
+            }
+
+            &-label {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      .review {
+        &-name {
+          margin-bottom: 10px;
+        }
+
+        &-fields {
+
+        }
+
+        &-rating {
+          font-size: 25px;
+        }
+      }
+
+      .button-container {
+        background: $backgroundColor;
+
+        .container {
+          border-top: 1px solid $borderColor;
+          display: flex;
+          justify-content: center;
+        }
+
+        .submit-button {
+          width: 90%;
+        }
+      }
+
+      // buttons
+      .amount-btc__wrapper {
+        max-width: 400px;
+        display: flex;
+        align-items: center;
+
+        .equally {
+          margin: 0 10px
+        }
+      }
+    }
   }
 }

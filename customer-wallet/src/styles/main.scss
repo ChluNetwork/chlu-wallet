@@ -1,5 +1,5 @@
 @import 'base.scss';
-@import 'constants.scss';
+@import 'variables.scss';
 // libs
 @import 'react-redux-toastr/src/styles/index';
 
@@ -27,6 +27,11 @@ body {
   max-width: 130px;
 }
 
+.page-container {
+  min-height: calc(100vh - 64px);
+  background: $backgroundColor;
+}
+
 .container {
   max-width: 1170px;
   margin: 0 auto;
@@ -36,11 +41,6 @@ body {
     padding-left: 10px;
     padding-right: 10px;
   }
-}
-
-.page-container {
-  min-height: 100vh;
-  background: $backgroundColor;
 }
 
 .section-content {
@@ -54,4 +54,8 @@ body {
 
 .color-light {
   color: $lightTextColor;
+}
+
+.font-smaller {
+  font-size: smaller;
 }

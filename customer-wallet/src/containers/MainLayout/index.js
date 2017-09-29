@@ -15,7 +15,7 @@ import SwitchUserMenu from './SwitchUserMenu'
 // data
 import usersType from 'shared-libraries/lib/fixtures/usersType'
 // styles
-import { mainColor } from 'styles/constants'
+import { mainColor } from 'context/palette'
 // assets
 import chluLogo from 'images/svg/chlu-2.svg'
 // constants
@@ -30,8 +30,9 @@ const AppBarStyle = {
 }
 
 const AppBarTitleStyle = {
-  textAlign: 'center',
-  textTransform: 'uppercase'
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
 }
 
 
