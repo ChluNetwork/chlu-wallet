@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
 import CircularProgress from 'material-ui/CircularProgress'
-
 // styles
 import './styles.css'
 
@@ -36,9 +35,11 @@ class Profile extends Component {
             : <div>
               <ProfileHeader name={name} rating={rating} titleReviews={titleReviews} titleSold={titleSold} />
               <div className='section-content'>
-                {Array.isArray(reviews) && reviews.map((review, idx) => (
-                  <Review {...review} key={idx} />
-                ))}
+                <div className='container'>
+                  {Array.isArray(reviews) && reviews.map((review, idx) => (
+                    <Review {...review} key={idx} />
+                  ))}
+                </div>
               </div>
             </div>
 

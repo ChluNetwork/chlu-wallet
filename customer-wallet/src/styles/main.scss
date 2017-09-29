@@ -23,18 +23,24 @@ body {
   box-sizing: inherit;
 }
 
-.page-container {
-  min-height: 100vh;
-  background: $backgroundColor;
+.navbar-logo {
+  max-width: 130px;
 }
 
-.section-head, .section-content {
-  padding: 15px 15px 15px 5%;
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 15px;
 
   @media screen and (max-width: 320px) {
     padding-left: 10px;
     padding-right: 10px;
   }
+}
+
+.page-container {
+  min-height: 100vh;
+  background: $backgroundColor;
 }
 
 .section-content {

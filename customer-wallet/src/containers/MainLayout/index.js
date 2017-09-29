@@ -16,6 +16,8 @@ import SwitchUserMenu from './SwitchUserMenu'
 import usersType from 'shared-libraries/lib/fixtures/usersType'
 // styles
 import { mainColor } from 'styles/constants'
+// assets
+import chluLogo from 'images/svg/chlu-2.svg'
 // constants
 const { dataActions: { profile: { changeUserType } } } = actions
 
@@ -51,7 +53,7 @@ const MainLayout = ({
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
-            title='Chlu'
+            title={<img src={chluLogo} className='navbar-logo' alt='logo' />}
             style={AppBarStyle}
             titleStyle={AppBarTitleStyle}
             onLeftIconButtonTouchTap={toggleDrawer}
