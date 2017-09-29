@@ -5,8 +5,8 @@ const checkoutData = {
   rating: 4,
   title: '250 Reviews, Over $250,000 sales',
   avatar: noProduct,
-  price: 40.00,
-  operation: 'Shinny New Phone'
+  price: 29.99,
+  product: 'Shinny New Phone'
 }
 
 export default checkoutData

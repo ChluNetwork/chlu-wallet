@@ -1,25 +1,37 @@
 import React from 'react'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 // assets
 import { buttonsData } from '../assets/data'
+// constants
+import { borderColor } from 'context/palette'
 
-const Product = () => (
-  <div className='checkout-vendor__pay'>
-    <h3>Pay Using</h3>
-    <div className='checkout-vendor__pay-buttons'>
-      {buttonsData.map(({ label, disabled }, idx) => (
-        <RaisedButton
-          key={idx}
-          label={label}
-          primary
-          disabled={disabled}
-          className='checkout-vendor__pay-button'
-          onClick={() => ''}
-        />
-      ))}
+const radioStyles = {
+  padding: '20px',
+  borderBottom: `1px solid ${borderColor}`
+}
+
+const Product = () => {
+  const selectedRadio = buttonsData[0].value ? buttonsData[0].value : null
+
+  return (
+    <div className='payment section-content'>
+      <RadioButtonGroup
+        name='payment-method'
+        defaultSelected={selectedRadio}
+        onChange={() => null }
+      >
+        {buttonsData.map(({ icon, label, disabled, value }, idx) => (
+          <RadioButton
+            key={idx}
+            value={value}
+            label={label}
+            style={radioStyles}
+          />
+        ))}
+      </RadioButtonGroup>
     </div>
-  </div>
-)
+  )
+}
 
 export default Product

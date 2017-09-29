@@ -6,6 +6,8 @@ const lightTextColor = '#6F717F'
 const mainTextColor = '#353747'
 const lightBlue = '#EFF0F5'
 const blue = '#3051E2'
+const lightOrange = '#FCDC9A'
+const orange = '#FDC44A'
 
 export {
   mainColor,
@@ -15,5 +17,7 @@ export {
   lightTextColor,
   mainTextColor,
   lightBlue,
-  blue
+  blue,
+  orange,
+  lightOrange
 }

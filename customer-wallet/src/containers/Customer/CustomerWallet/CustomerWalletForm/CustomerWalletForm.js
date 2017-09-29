@@ -32,11 +32,11 @@ const CustomerWalletForm = ({
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container'>
-      <label className='vendor-address__label font-smaller'>Vendor Address</label>
+      <label className='vendor-address__label font-smaller color-light'>Vendor Address</label>
       <Field name='vendorAddress' type='text' component={Input} />
 
       <div className='payment-currency'>
-        <div className='payment-currency__title font-smaller'>Payment currency</div>
+        <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
         <div className='payment-currency__buttons'>
           {buttonsData.map(({ label, active, icon }, idx) => (
             <div className={`button ${active ? 'button-active' : null }`} key={idx} onClick={toggleModal}>
@@ -49,7 +49,7 @@ const CustomerWalletForm = ({
         </div>
       </div>
 
-      <label className='amount-label font-smaller'>Amount (BTC)</label>
+      <label className='amount-label font-smaller color-light'>Amount (BTC)</label>
       <div className='amount-btc__wrapper'>
         <Field
           name='amountBtc'
@@ -70,7 +70,6 @@ const CustomerWalletForm = ({
         />
       </div>
       <div className='review'>
-        <div className='review-name font-smaller'>Review</div>
         <div className='review-fields'>
           <Field
             label='Write a review now'
@@ -88,7 +87,7 @@ const CustomerWalletForm = ({
                 onStarClick={onStarClick}
                 starColor={ratingColor}
               />
-              <div className='comment-label font-smaller'>Comment</div>
+              <div className='comment-label font-smaller color-light'>Comment</div>
               <Field
                 name='review'
                 type='text'
