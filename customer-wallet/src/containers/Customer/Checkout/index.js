@@ -15,9 +15,15 @@ import { orange } from 'context/palette'
 
 const { dataActions: { checkout: { getCheckout } } } = actions
 
-const buttonStyles = { border: '1px solid rgb(0, 0, 0)' }
+const buttonStyles = {
+  style: { border: '1px solid rgb(0, 0, 0)' },
+  backgroundColor: orange,
+  labelStyle: {
+    textTransform: 'none',
+    fontWeight: 'bold'
+  }
+}
 
-const labelStyle = { textTransform: 'none' }
 
 class Checkout extends Component {
   componentDidMount() {
@@ -46,9 +52,7 @@ class Checkout extends Component {
                     <RaisedButton
                       label='Continue'
                       fullWidth={true}
-                      style={buttonStyles}
-                      backgroundColor={orange}
-                      labelStyle={labelStyle}
+                      {...buttonStyles}
                       onClick={() => null}
                     />
                   </div>

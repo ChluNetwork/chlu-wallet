@@ -17,7 +17,6 @@
   .section-content {
     border: none;
 
-
     .form {
 
       .payment-currency {
@@ -62,6 +61,10 @@
 
         &-rating {
           font-size: 25px;
+        }
+
+        .comment-label {
+          margin-top: 10px;
         }
       }
 

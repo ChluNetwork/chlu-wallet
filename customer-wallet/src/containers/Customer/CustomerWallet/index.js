@@ -12,7 +12,6 @@ import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
 
-
 const { dataActions: {
   fxRates: { getRates }
 } } = actions

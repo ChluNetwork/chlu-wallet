@@ -7,8 +7,13 @@ import { buttonsData } from '../assets/data'
 import { borderColor } from 'context/palette'
 
 const radioStyles = {
-  padding: '20px',
-  borderBottom: `1px solid ${borderColor}`
+  style: {
+    padding: '20px',
+    borderBottom: `1px solid ${borderColor}`
+  },
+  iconStyle: {
+    fill: borderColor
+  }
 }
 
 const Product = () => {
@@ -26,7 +31,7 @@ const Product = () => {
             key={idx}
             value={value}
             label={label}
-            style={radioStyles}
+            {...radioStyles}
           />
         ))}
       </RadioButtonGroup>

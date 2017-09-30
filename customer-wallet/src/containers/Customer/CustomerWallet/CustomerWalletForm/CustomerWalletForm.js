@@ -11,10 +11,24 @@ import Input from 'components/Form/Input'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
 // constants
-import { ratingColor } from 'context/palette'
+import { ratingColor, blue } from 'context/palette'
 
-const checkboxStyles = { width: '256px' }
-const btnLabelColor = 'rgb(255, 255, 255)'
+const submitBtnStyles = {
+  backgroundColor: ratingColor,
+  labelColor: 'rgb(255, 255, 255)'
+}
+
+const checkboxStyles = {
+  iconStyle: { fill: blue }
+}
+
+const textFildsStyle = {
+  style: { height: '40px' }
+}
+
+const ratingStyles = {
+  starColor: ratingColor
+}
 
 const starCount = 5
 
@@ -33,7 +47,7 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container'>
       <label className='vendor-address__label font-smaller color-light'>Vendor Address</label>
-      <Field name='vendorAddress' type='text' component={Input} />
+      <Field name='vendorAddress' type='text'component={Input} {...textFildsStyle} />
 
       <div className='payment-currency'>
         <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
@@ -55,6 +69,7 @@ const CustomerWalletForm = ({
           name='amountBtc'
           type='tel'
           component={Input}
+          {...textFildsStyle}
           placeholder='BTC'
           onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
           fullWidth
@@ -64,6 +79,7 @@ const CustomerWalletForm = ({
           name='amountUsd'
           type='tel'
           component={Input}
+          {...textFildsStyle}
           placeholder='USD'
           onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
           fullWidth
@@ -75,7 +91,7 @@ const CustomerWalletForm = ({
             label='Write a review now'
             name='reviewOpen'
             component={Checkbox}
-            style={checkboxStyles}
+            {...checkboxStyles}
           />
           {isReviewOpen &&
             <div>
@@ -86,6 +102,7 @@ const CustomerWalletForm = ({
                 value={ratingValue}
                 onStarClick={onStarClick}
                 starColor={ratingColor}
+                {...ratingStyles}
               />
               <div className='comment-label font-smaller color-light'>Comment</div>
               <Field
@@ -104,8 +121,7 @@ const CustomerWalletForm = ({
         <RaisedButton
           type='submit'
           label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
-          backgroundColor={ratingColor}
-          labelColor={btnLabelColor}
+          {...submitBtnStyles}
           className='submit-button'
         />
       </div>
