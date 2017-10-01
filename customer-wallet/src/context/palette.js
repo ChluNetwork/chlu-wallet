@@ -1,6 +1,8 @@
 const mainColor = '#2F3240'
 const backgroundColor = '#f6f8fb'
+const backgroundColorDark = '#D6D7DD'
 const borderColor = '#D6D7DD'
+const borderColorDark = '#C9C9D1'
 const ratingColor = '#FF0044'
 const lightTextColor = '#6F717F'
 const mainTextColor = '#353747'
@@ -12,7 +14,9 @@ const orange = '#FDC44A'
 export {
   mainColor,
   backgroundColor,
+  backgroundColorDark,
   borderColor,
+  borderColorDark,
   ratingColor,
   lightTextColor,
   mainTextColor,

@@ -45,7 +45,6 @@ body {
 
 .section-content {
   background: rgb(255, 255, 255);
-  border-top: 1px solid $borderColor;
 }
 
 .color-main {
@@ -58,4 +57,12 @@ body {
 
 .font-smaller {
   font-size: smaller;
+}
+
+.container-border-bottom {
+  border-bottom: 1px solid $borderColor;
+}
+
+.container-border-top {
+  border-top: 1px solid $borderColor;
 }
