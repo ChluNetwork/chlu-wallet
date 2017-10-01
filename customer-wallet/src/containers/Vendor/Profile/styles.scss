@@ -1,7 +1,6 @@
 @import 'styles/variables.scss';
 
 .profile {
-
   .section-head {
     display: flex;
     flex-wrap: wrap;
@@ -12,20 +11,8 @@
       display: flex;
       flex-grow: 1;
 
-      .avatar {
-        margin-right: 10px;
-        background: rgb(255, 255, 255);
-        border: 1px solid $borderColor;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40pt;
-      }
-
       .profile-info {
+
         &__name {
           font-weight: bold;
           font-size: 15pt;
@@ -50,11 +37,6 @@
       }
 
       @media screen and (max-width: 400px) {
-        .avatar {
-          width: 65px;
-          height: 65px;
-          font-size: 35pt;
-        }
 
         .profile-info {
           &__name{
@@ -70,16 +52,18 @@
       }
     }
 
-    .profile-header__search {
-
-    }
+    .profile-header__search {}
   }
 
   .section-content {
     .profile-review {
       margin-bottom: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px solid $borderColor;
+
+      &:last-child {
+        border: none;
+        margin-bottom: 0;
+      }
 
       &__head {
         display: flex;

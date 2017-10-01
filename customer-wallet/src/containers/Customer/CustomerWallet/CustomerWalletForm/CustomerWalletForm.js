@@ -172,8 +172,7 @@ CustomerWalletForm.propTypes = {
   convertFieldValue: PropTypes.func.isRequired,
   isReviewOpen: PropTypes.bool,
   loading: PropTypes.bool,
-  ratingValue: PropTypes.number,
-  profile: PropTypes.shape({ data: PropTypes.object.isRequired }).isRequired
+  ratingValue: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => ({

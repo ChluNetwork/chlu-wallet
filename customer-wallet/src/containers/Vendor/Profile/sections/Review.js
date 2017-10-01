@@ -8,7 +8,7 @@ import { ratingColor } from 'context/palette'
 const starCount = 5
 
 const Review = ({ date, rating, description, price }) => (
-  <div className='profile-review'>
+  <div className='profile-review container-border-bottom'>
     <div className='profile-review__head'>
       <div className='profile-review__info color-light'>
         <div className='info-date'>{date}</div>

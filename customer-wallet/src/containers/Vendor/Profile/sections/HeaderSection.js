@@ -2,16 +2,39 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
+import Search from 'material-ui/svg-icons/action/search'
+import Avatar from 'material-ui/Avatar'
 // constants
-import { ratingColor } from 'context/palette'
+import { ratingColor, borderColorDark, blue, borderColor } from 'context/palette'
 
 const starCount = 5
+
+const style = {
+  color: borderColorDark,
+  cursor: 'pointer'
+}
+
+const avatarStyles = {
+  backgroundColor: 'rgb(255, 255, 255)',
+  color: blue,
+  size: 80,
+  style: {
+    fontSize: '40pt',
+    marginRight: '10px',
+    border: `1px solid ${borderColor}`
+  }
+}
 
 const ProfileHeader = ({ name, rating, titleSold, titleReviews }) => (
   <div className='profile-header container'>
     <div className='section-head'>
       <div className='profile-header__info'>
-        <div className='avatar'>{name[0].toUpperCase()}</div>
+        <Avatar
+          className='avatar'
+          {...avatarStyles}
+        >
+          {name[0].toUpperCase()}
+        </Avatar>
         <div className='profile-info'>
           <div className='profile-info__name'>{name}</div>
           <StarRatingComponent
@@ -28,7 +51,9 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews }) => (
           </div>
         </div>
       </div>
-      <div className='profile-header__search'>S</div>
+      <div className='profile-header__search'>
+        <Search style={style} />
+      </div>
     </div>
   </div>
 )

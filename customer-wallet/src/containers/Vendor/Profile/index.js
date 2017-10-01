@@ -37,7 +37,7 @@ class Profile extends Component {
               <div className='section-content'>
                 <div className='container'>
                   {Array.isArray(reviews) && reviews.map((review, idx) => (
-                    <Review {...review} key={idx} />
+                    <Review {...review} key={idx}/>
                   ))}
                 </div>
               </div>
