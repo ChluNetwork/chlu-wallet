@@ -11,9 +11,7 @@ const radioStyles = {
     padding: '20px',
     borderBottom: `1px solid ${borderColor}`
   },
-  iconStyle: {
-    fill: borderColor
-  }
+  iconStyle: { fill: borderColor }
 }
 
 const Product = () => {

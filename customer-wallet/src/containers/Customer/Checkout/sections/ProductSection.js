@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
 // constants
+import { darkOrange } from 'context/palette'
+
 const starCount = 5
+
+const ratingStyles = { starColor: darkOrange }
 
 const Product = ({ rating, avatar, price, product }) => (
   <div className='product section-content'>
@@ -14,6 +18,7 @@ const Product = ({ rating, avatar, price, product }) => (
         className='product-info__rating'
         name='rate1'
         starCount={starCount}
+        {...ratingStyles}
         value={rating}
         editing={false}
       />

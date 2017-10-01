@@ -11,16 +11,17 @@ import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './styles.css'
 // constants
-import { orange } from 'context/palette'
+import { orange, lightBorderOrange, lightOrange, mainTextColor } from 'context/palette'
 
 const { dataActions: { checkout: { getCheckout } } } = actions
 
 const buttonStyles = {
-  style: { border: '1px solid rgb(0, 0, 0)' },
-  backgroundColor: orange,
+  style: { border: `1px solid ${lightBorderOrange}` },
+  buttonStyle: { background: `linear-gradient(to bottom, ${lightOrange}, ${orange})` },
   labelStyle: {
     textTransform: 'none',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: mainTextColor,
   }
 }
 

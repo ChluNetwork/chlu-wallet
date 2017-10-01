@@ -10,6 +10,9 @@ const lightBlue = '#EFF0F5'
 const blue = '#3051E2'
 const lightOrange = '#FCDC9A'
 const orange = '#FDC44A'
+const darkOrange = '#FF9300'
+const lightBorderOrange = '#A08855'
+const darkBorderOrange = '#DA7800'
 
 export {
   mainColor,
@@ -23,5 +26,8 @@ export {
   lightBlue,
   blue,
   orange,
-  lightOrange
+  lightOrange,
+  darkOrange,
+  lightBorderOrange,
+  darkBorderOrange
 }
