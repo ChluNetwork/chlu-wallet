@@ -3,6 +3,19 @@
 .vendor-wallet {
 
   .section-head {
+    .section-name {
+      position: relative;
+
+      .name {
+        font-weight: bold;
+      }
+
+      .avatar {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
 
     .total-crypto {
       margin-top: 20px;
@@ -17,6 +30,15 @@
   .section-content {
 
     .payments-list {
+
+      &:last-child {
+        .payment-item {
+          &:last-child {
+            border: none;
+            margin-bottom: 0;
+          }
+        }
+      }
 
       &__date {
         margin: 5px 0 20px;
@@ -70,9 +92,7 @@
             }
 
             .info-head__price {
-              text-align: right;
               margin-bottom: 10px;
-              flex-grow: 1;
             }
           }
 

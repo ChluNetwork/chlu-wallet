@@ -35,6 +35,8 @@ const textFieldsStyle = {
   floatingLabelStyle: { color: blue }
 }
 
+const VendorAddressInputStyle = { paddingRight: '45px' }
+
 const ratingStyles = {
   starColor: ratingColor
 }
@@ -60,7 +62,13 @@ const CustomerWalletForm = ({
 
           <div className='vendor-address'>
             <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
-            <Field name='vendorAddress' type='text' component={Input} {...textFieldsStyle} />
+            <Field
+              name='vendorAddress'
+              type='text'
+              component={Input}
+              {...textFieldsStyle}
+              inputStyle={VendorAddressInputStyle}
+            />
             <div className='vendor-address__avatar'>
               <Avatar
                 {...avatarStyles}

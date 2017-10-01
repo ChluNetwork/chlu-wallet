@@ -8,13 +8,22 @@ import { fx, setFxRates } from 'lib/fxRates'
 // components
 import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
+import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
 // constants
+import { blue, borderColor } from 'context/palette'
+
 const { dataActions: {
   vendorWallet: { getVendorReviews },
   fxRates: { getRates }
 } } = actions
+
+const avatarStyles = {
+  color: blue,
+  backgroundColor: 'rgb(255, 255, 255)',
+  style: { border: `1px solid ${borderColor}`}
+}
 
 class VendorWallet extends Component {
 
@@ -79,11 +88,23 @@ class VendorWallet extends Component {
           vendorLoading
             ? <CircularProgress />
             : <div>
-              <div className='container section-head'>
-                <div className='section-name color-light'>Vendor Wallet</div>
-                <div className='total-crypto'>
-                  <div className='total-crypto__item big'>{totalBtc} BTC</div>
-                  <div className='total-crypto__item'>${totalUsd} USD</div>
+              <div className='section-head '>
+                <div className='container'>
+                 <div className='section-name color-light'>
+                   <div className='name'>Vendor Wallet</div>
+                   <div className='avatar'>
+                     <Avatar
+                       {...avatarStyles}
+                       size={40}
+                     >
+                       A
+                     </Avatar>
+                   </div>
+                 </div>
+                 <div className='total-crypto'>
+                   <div className='total-crypto__item big'>{totalBtc} BTC</div>
+                   <div className='total-crypto__item'>${totalUsd} USD</div>
+                  </div>
                 </div>
               </div>
               <div className='section-content'>

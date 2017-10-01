@@ -1,29 +1,24 @@
-import noProduct from 'images/no-product.png'
-
 const vendorData = [
   {
     date: "September 2017",
     reviews: [
       {
-        productTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-        " Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam." +
-        " In bibendum sem lorem, et faucibus.",
+        productTitle: "Widgets arrived safe and ready to deploy. Quick shipping. Highly recommend.",
         date: "Sept 05, 2017",
         price: 1.18732,
         rating: 3,
-        review: "Shinny New Item 1",
+        review: "Shiny New Widget",
         platform: "Amazon",
-        productPhoto: noProduct
+        productPhoto: 'https://cdn1.player.fm/images/2052045/series/7NlYFNjIzvgDCZ1b/128.jpg'
       },
       {
-        productTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-        " Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam.",
-        date: "Sept 01, 2017",
+        productTitle: "Best widgets ever. Now all my friends are using these too.",
+        date: "Sept 21, 2017",
         price: 2.12353,
         rating: 2,
-        review: "Shinny New Item 2",
+        review: "Latest and Greatest Widget",
         platform: "Exmo",
-        productPhoto: noProduct
+        productPhoto: 'http://internetua.com/upload/content/43/20/ib_488938_macbook-pro.jpg'
       }
     ]
   },
@@ -31,25 +26,13 @@ const vendorData = [
     date: "August 2017",
     reviews: [
       {
-        productTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-        " Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam. " +
-        "In bibendum sem lorem, et faucibus. Aenean ac turpis ac mi molestie faucibus vitae nec diam.",
-        date: "Aug 15, 2017",
+        productTitle: "Excellent communication. I wanted to change the size and vendor did it without",
+        date: "Aug 14, 2017",
         price: 1.231241,
         rating: 3,
-        review: "Shinny New Item 3",
+        review: "Best Widget #2",
         platform: "Amazon",
-        productPhoto: noProduct
-      },
-      {
-        productTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-        "Cras bibendum non turpis et sollicitudin. Aenean ac turpis ac mi molestie faucibus vitae nec diam.",
-        date: "Aug 10, 2017",
-        price: 3.45341,
-        rating: 1,
-        review: "Shinny New Item 4",
-        platform: "Exmo",
-        productPhoto: noProduct
+        productPhoto: 'https://a.d-cd.net/19ec166s-120.jpg'
       }
     ]
   }
