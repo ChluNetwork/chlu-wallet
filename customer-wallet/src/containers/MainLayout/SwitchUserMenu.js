@@ -3,12 +3,13 @@ import PropType from 'prop-types'
 // components
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import Cached from 'material-ui/svg-icons/action/cached'
 import IconButton from 'material-ui/IconButton'
+import SwitchUser from 'images/svg/switch-user.svg'
 
 const iconStyle = {
   color: 'white',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  width: 25
 }
 
 const listStyle = {
@@ -17,7 +18,9 @@ const listStyle = {
 
 const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick }) => (
   <IconMenu
-    iconButtonElement={<IconButton iconStyle={iconStyle}><Cached /></IconButton>}
+    iconButtonElement={<IconButton iconStyle={iconStyle}>
+      <img src={SwitchUser} alt='switch-user' />
+    </IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
     listStyle={listStyle}
