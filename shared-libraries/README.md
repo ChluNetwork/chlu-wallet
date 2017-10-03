@@ -7,7 +7,7 @@
 
 * run `yarn install` in ./src
 * run `yarn install` in root directory
-* change or add paths to your apps node_modules in `wathcer.js / packagePaths`
+* change or add paths to your apps node_modules in `watcher.js / packagePaths`
 
 ## Scripts
 
