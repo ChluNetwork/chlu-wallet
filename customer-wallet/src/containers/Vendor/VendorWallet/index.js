@@ -76,11 +76,13 @@ class VendorWallet extends Component {
   render () {
     const {
       vendorWalletData: { reviews, loading: vendorLoading },
-      fxRates: { loading: ratesLoading }
+      fxRates: { loading: ratesLoading },
+      profile: { data }
     } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
+    const userName = data ? data.name : 'c'
 
     return (
       <div className='page-container vendor-wallet color-main'>
@@ -97,7 +99,7 @@ class VendorWallet extends Component {
                        {...avatarStyles}
                        size={40}
                      >
-                       A
+                       {userName[0].toUpperCase()}
                      </Avatar>
                    </div>
                  </div>
@@ -123,6 +125,7 @@ class VendorWallet extends Component {
 }
 
 const mapStateToProps = state => ({
+  profile: state.data.profile,
   vendorWalletData: state.data.vendorWallet,
   fxRates: state.data.fxRates
 })

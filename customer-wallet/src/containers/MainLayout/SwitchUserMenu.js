@@ -11,20 +11,26 @@ const iconStyle = {
   cursor: 'pointer'
 }
 
-const listStyle = {
-  textAlign: 'left'
-}
+const menuItemStyle = isActive => ({
+  backgroundColor: isActive ? 'rgb(229,229,229)': 'inherit'
+})
 
-const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId }) => (
+const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, userType }) => (
   <IconMenu
     iconButtonElement={<IconButton iconStyle={iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
-    listStyle={listStyle}
   >
     {
       items.map((user, index) =>
-        <MenuItem value={user} primaryText={user} onClick={() => onItemClick(user, userId)} key={index} />)
+        <MenuItem
+          value={user}
+          primaryText={user}
+          onClick={() => onItemClick(user, userId)}
+          key={index}
+          style={menuItemStyle(user === userType)}
+        />
+      )
     }
   </IconMenu>
 )
@@ -35,7 +41,8 @@ SwitchUserMenu.propType = {
   isOpen: PropType.bool.isRequired,
   onRequestChange: PropType.func.isRequired,
   onItemClick: PropType.func.isRequired,
-  userId: PropType.oneOfType([PropType.number, PropType.string]).isRequired
+  userId: PropType.oneOfType([PropType.number, PropType.string]).isRequired,
+  userType: PropType.string.isRequired
 }
 
 export default SwitchUserMenu

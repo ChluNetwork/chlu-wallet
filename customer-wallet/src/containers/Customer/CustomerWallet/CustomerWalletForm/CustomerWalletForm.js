@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar'
 import Input from 'components/Form/Input'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
+import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 // constants
 import { ratingColor, blue, mainColor, backgroundColorDark, borderColorDark } from 'context/palette'
 
@@ -25,9 +26,9 @@ const avatarStyles = {
   style: { border: `1px solid ${borderColorDark}`}
 }
 
-const checkboxStyles = {
-  iconStyle: { fill: blue }
-}
+const checkboxStyles = (isActive) => ({
+  iconStyle: { fill: isActive ? blue : mainColor }
+})
 
 const textFieldsStyle = {
   fullWidth: true,
@@ -133,7 +134,8 @@ const CustomerWalletForm = ({
                 label='Write a review now'
                 name='reviewOpen'
                 component={Checkbox}
-                {...checkboxStyles}
+                {...checkboxStyles(isReviewOpen)}
+                uncheckedIcon={<CheckIcon />}
               />
               {isReviewOpen &&
               <div>
