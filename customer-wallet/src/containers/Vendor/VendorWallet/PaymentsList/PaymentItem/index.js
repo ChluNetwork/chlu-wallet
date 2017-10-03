@@ -23,8 +23,8 @@ const PaymentItem = ({ productTitle, date, price, rating, review, platform, prod
           <div className='info-head'>
             <div className='info-head__name'>{review}</div>
             <div className='info-head__date color-light'>
-              <div className="date">{date}</div>
-              <div className="platform">{platform}</div>
+              <div className='date'>{date}</div>
+              <div className='platform'>{platform}</div>
             </div>
           </div>
           <div className='info-head__price'>

@@ -23,7 +23,7 @@ const submitBtnStyles = {
 const avatarStyles = {
   color: blue,
   backgroundColor: backgroundColorDark,
-  style: { border: `1px solid ${borderColorDark}`}
+  style: { border: `1px solid ${borderColorDark}` }
 }
 
 const checkboxStyles = (isActive) => ({

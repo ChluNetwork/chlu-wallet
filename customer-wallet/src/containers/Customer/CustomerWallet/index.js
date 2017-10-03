@@ -28,7 +28,7 @@ class CustomerWalletPage extends Component {
     const { rates } = this.props
 
     if(!rates) {
-      const {getRates} = this.props
+      const { getRates } = this.props
 
       getRates()
         .then(response => setFxRates(response))

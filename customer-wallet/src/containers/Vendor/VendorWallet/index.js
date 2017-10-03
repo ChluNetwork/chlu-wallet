@@ -22,7 +22,7 @@ const { dataActions: {
 const avatarStyles = {
   color: blue,
   backgroundColor: 'rgb(255, 255, 255)',
-  style: { border: `1px solid ${borderColor}`}
+  style: { border: `1px solid ${borderColor}` }
 }
 
 class VendorWallet extends Component {

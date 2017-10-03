@@ -1,6 +1,6 @@
 import React from 'react'
 // components
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 // assets
 import { buttonsData } from '../assets/data'
 // constants
