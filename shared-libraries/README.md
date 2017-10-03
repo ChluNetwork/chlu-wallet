@@ -26,6 +26,6 @@ To use them, you need to import them like
 
 ## Notes
 
-Web app initially has a relative path in `package.json` to this package. It means that you must to have this package located near your apps folder.
+Web app initially has a relative path in `package.json` to this package. It means that you must have this package located near your apps folder.
 
 Your app `package.json` must contain a link to this folder if your application uses the data of this package.
