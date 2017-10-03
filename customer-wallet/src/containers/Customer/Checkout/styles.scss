@@ -12,7 +12,6 @@
 
       &-info {
         padding: 10px;
-        border-bottom: 1px solid $borderColor;
 
         &__name {
           font-weight: bold;
@@ -49,7 +48,11 @@
     }
 
     .payment {
-      &-item {}
+      &-item {
+        &:last-child {
+          border: none;
+        }
+      }
     }
 
     &__button {

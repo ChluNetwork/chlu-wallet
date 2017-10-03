@@ -11,7 +11,7 @@ const ratingStyles = { starColor: darkOrange }
 
 const Product = ({ rating, avatar, price, product }) => (
   <div className='product section-content'>
-    <div className='product-info'>
+    <div className='product-info container-border-bottom'>
       <div className='product-info__name'>{product}</div>
       <div className='product-info__price'>${price}</div>
       <StarRatingComponent

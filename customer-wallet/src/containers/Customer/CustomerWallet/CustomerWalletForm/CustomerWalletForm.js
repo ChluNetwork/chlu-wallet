@@ -37,9 +37,7 @@ const textFieldsStyle = {
 
 const VendorAddressInputStyle = { paddingRight: '45px' }
 
-const ratingStyles = {
-  starColor: ratingColor
-}
+const ratingStyles = { starColor: ratingColor }
 
 const starCount = 5
 
@@ -81,11 +79,15 @@ const CustomerWalletForm = ({
 
           <div className='payment-currency'>
             <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
-            <div className='payment-currency__buttons'>
-              {buttonsData.map(({ label, active, icon }, idx) => (
-                <div className={`button ${active ? 'button-active' : null }`} key={idx} onClick={toggleModal}>
+            <div className='payment-currency__buttons color-light'>
+              {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
+                <div
+                  className={`button ${active ? 'button-active' : null }`}
+                  key={idx}
+                  onClick={toggleModal}
+                >
                   <div className='button-icon'>
-                    <img src={icon} alt={label}/>
+                    <img src={active ? iconBlue : icon} alt={label} className='icon' />
                   </div>
                   <div className='button-label'>{label}</div>
                 </div>

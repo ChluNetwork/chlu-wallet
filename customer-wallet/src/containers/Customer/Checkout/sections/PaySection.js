@@ -8,8 +8,7 @@ import { borderColor } from 'context/palette'
 
 const radioStyles = {
   style: {
-    padding: '20px',
-    borderBottom: `1px solid ${borderColor}`
+    padding: '20px'
   },
   iconStyle: { fill: borderColor }
 }
@@ -30,6 +29,7 @@ const Product = () => {
             value={value}
             label={label}
             {...radioStyles}
+            className='payment-item container-border-bottom'
           />
         ))}
       </RadioButtonGroup>

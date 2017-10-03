@@ -12,7 +12,7 @@ const PaymentItem = ({ productTitle, date, price, rating, review, platform, prod
   const priceInUsd = getTotalUsd(price)
 
   return (
-    <div className='payment-item'>
+    <div className='payment-item container-border-bottom'>
       <div className='payment-item__avatar'>
         <img src={productPhoto} alt='' className='avatar'/>
       </div>
