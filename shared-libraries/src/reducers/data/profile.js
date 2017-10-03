@@ -47,10 +47,10 @@ export function getProfile () {
   }
 }
 
-export function changeUserType (nextUser) {
+export function changeUserType (nextUser, id) {
   return dispatch => {
     dispatch(changeUserTypeAction(nextUser))
-    browserHistory.replace(`/${nextUser}`)
+    browserHistory.replace(`/${nextUser}/${id}`)
   }
 }
 

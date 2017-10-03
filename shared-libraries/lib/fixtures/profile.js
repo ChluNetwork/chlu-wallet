@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var profileData = {
+  id: 173,
   userType: 'customer',
   name: 'Awesome vendor',
   rating: 4,

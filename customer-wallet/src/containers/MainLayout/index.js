@@ -45,7 +45,8 @@ const MainLayout = ({
   isSwitchUserMenuOpen,
   toggleSwitchUserMenuShow
 }) => {
-  const { loading } = profile
+  const { loading, data } = profile
+  const id = data ? data.id : 0
 
   return (
     <div>
@@ -60,6 +61,7 @@ const MainLayout = ({
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}
+              userId={id}
               isOpen={isSwitchUserMenuOpen}
               onRequestChange={toggleSwitchUserMenuShow}
               onItemClick={changeUserType}
@@ -99,7 +101,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: data => dispatch(changeUserType(data)),
+  changeUserType: (userType, userId) => dispatch(changeUserType(userType, userId)),
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 

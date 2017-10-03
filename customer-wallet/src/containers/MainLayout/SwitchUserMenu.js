@@ -15,7 +15,7 @@ const listStyle = {
   textAlign: 'left'
 }
 
-const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick }) => (
+const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId }) => (
   <IconMenu
     iconButtonElement={<IconButton iconStyle={iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
@@ -24,7 +24,7 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick }) => (
   >
     {
       items.map((user, index) =>
-        <MenuItem value={user} primaryText={user} onClick={() => onItemClick(user)} key={index} />)
+        <MenuItem value={user} primaryText={user} onClick={() => onItemClick(user, userId)} key={index} />)
     }
   </IconMenu>
 )
@@ -34,7 +34,8 @@ SwitchUserMenu.propType = {
   items: PropType.array.isRequired,
   isOpen: PropType.bool.isRequired,
   onRequestChange: PropType.func.isRequired,
-  onItemClick: PropType.func.isRequired
+  onItemClick: PropType.func.isRequired,
+  userId: PropType.oneOfType([PropType.number, PropType.string]).isRequired
 }
 
 export default SwitchUserMenu

@@ -102,10 +102,10 @@ function getProfile() {
   }();
 }
 
-function changeUserType(nextUser) {
+function changeUserType(nextUser, id) {
   return function (dispatch) {
     dispatch(changeUserTypeAction(nextUser));
-    _reactRouter.browserHistory.replace('/' + nextUser);
+    _reactRouter.browserHistory.replace('/' + nextUser + '/' + id);
   };
 }
 
