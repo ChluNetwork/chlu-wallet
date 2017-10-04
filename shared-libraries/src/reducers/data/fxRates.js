@@ -5,9 +5,9 @@ import { getExchangeRates } from 'shared-libraries/lib/utils/exchangeReq'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_RATES_SUCCESS = 'FETCH_RATES_SUCCESS'
-const FETCH_RATES_ERROR = 'FETCH_RATES_ERROR'
-const FETCH_RATES_LOADING = 'FETCH_RATES_LOADING'
+const FETCH_RATES_SUCCESS = 'rates/FETCH_RATES_SUCCESS'
+const FETCH_RATES_ERROR = 'rates/FETCH_RATES_ERROR'
+const FETCH_RATES_LOADING = 'rates/FETCH_RATES_LOADING'
 
 const initialState = {
   loading: false,

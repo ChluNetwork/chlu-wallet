@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { actions } from 'shared-libraries/lib'
 import { formValueSelector } from 'redux-form'
-import { setFxRates } from 'lib/fxRates'
 // libs
 import { toastr } from 'react-redux-toastr'
 // components
@@ -25,8 +24,7 @@ class CustomerWalletFormWrapper extends Component {
     loading: PropTypes.bool,
     rating: PropTypes.number.isRequired,
     setRating: PropTypes.func.isRequired,
-    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-    getRates: PropTypes.func.isRequired
+    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
   }
 
   handleSubmit = (data) => {
@@ -74,8 +72,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   submitPayment: data => dispatch(submitPayment(data)),
-  setRating: data => dispatch(setRatingForCustomerWallet(data)),
-  getRates: () => dispatch(getRates())
+  setRating: data => dispatch(setRatingForCustomerWallet(data))
 })
 
 export default connect(

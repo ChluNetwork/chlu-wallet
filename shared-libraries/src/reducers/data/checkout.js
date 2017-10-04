@@ -5,9 +5,9 @@ import checkoutData from 'shared-libraries/lib/fixtures/checkout'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_CHECKOUT_DATA_SUCCESS = 'FETCH_CHECKOUT_DATA_SUCCESS'
-const FETCH_CHECKOUT_DATA_ERROR = 'FETCH_CHECKOUT_DATA_ERROR'
-const FETCH_CHECKOUT_DATA_LOADING = 'FETCH_CHECKOUT_DATA_LOADING'
+const FETCH_CHECKOUT_DATA_SUCCESS = 'checkout/FETCH_CHECKOUT_DATA_SUCCESS'
+const FETCH_CHECKOUT_DATA_ERROR = 'checkout/FETCH_CHECKOUT_DATA_ERROR'
+const FETCH_CHECKOUT_DATA_LOADING = 'checkout/FETCH_CHECKOUT_DATA_LOADING'
 
 const initialState = {
   loading: false,

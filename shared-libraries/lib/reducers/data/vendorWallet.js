@@ -29,9 +29,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // ------------------------------------
 // Constants
 // ------------------------------------
-var FETCH_VENDOR_DATA_SUCCESS = 'FETCH_VENDOR_DATA_SUCCESS';
-var FETCH_VENDOR_DATA_ERROR = 'FETCH_VENDOR_DATA_ERROR';
-var FETCH_VENDOR_DATA_LOADING = 'FETCH_VENDOR_DATA_LOADING';
+var FETCH_VENDOR_DATA_SUCCESS = 'vendorWallet/FETCH_VENDOR_DATA_SUCCESS';
+var FETCH_VENDOR_DATA_ERROR = 'vendorWallet/FETCH_VENDOR_DATA_ERROR';
+var FETCH_VENDOR_DATA_LOADING = 'vendorWallet/FETCH_VENDOR_DATA_LOADING';
 
 var initialState = {
   loading: false,

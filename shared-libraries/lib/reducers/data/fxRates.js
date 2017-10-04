@@ -24,9 +24,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // ------------------------------------
 // Constants
 // ------------------------------------
-var FETCH_RATES_SUCCESS = 'FETCH_RATES_SUCCESS';
-var FETCH_RATES_ERROR = 'FETCH_RATES_ERROR';
-var FETCH_RATES_LOADING = 'FETCH_RATES_LOADING';
+var FETCH_RATES_SUCCESS = 'rates/FETCH_RATES_SUCCESS';
+var FETCH_RATES_ERROR = 'rates/FETCH_RATES_ERROR';
+var FETCH_RATES_LOADING = 'rates/FETCH_RATES_LOADING';
 
 var initialState = {
   loading: false,

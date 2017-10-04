@@ -1,15 +1,15 @@
 import { createAction, handleActions } from 'redux-actions'
 import { browserHistory } from 'react-router'
 // data
-import profileData from 'shared-libraries/lib/fixtures/profile'
+import profileData from '../../fixtures/profile'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS'
-const FETCH_PROFILE_DATA_ERROR = 'FETCH_PROFILE_DATA_ERROR'
-const FETCH_PROFILE_DATA_LOADING = 'FETCH_PROFILE_DATA_LOADING'
-const CHANGE_USER_TYPE = 'CHANGE_USER_TYPE'
+const FETCH_PROFILE_DATA_SUCCESS = 'profile/FETCH_PROFILE_DATA_SUCCESS'
+const FETCH_PROFILE_DATA_ERROR = 'profile/FETCH_PROFILE_DATA_ERROR'
+const FETCH_PROFILE_DATA_LOADING = 'profile/FETCH_PROFILE_DATA_LOADING'
+const CHANGE_USER_TYPE = 'profile/CHANGE_USER_TYPE'
 
 const initialState = {
   loading: false,
@@ -64,7 +64,7 @@ export default handleActions({
     loading: false,
     error: null
   }),
-  [FETCH_PROFILE_DATA_ERROR]: (state, { payload: { error } }) => ({
+  [FETCH_PROFILE_DATA_ERROR]: (state, { payload: error }) => ({
     ...state,
     data: null,
     loading: false,
