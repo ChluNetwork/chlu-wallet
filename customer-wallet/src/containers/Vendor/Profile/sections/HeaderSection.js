@@ -3,17 +3,39 @@ import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
 import Search from 'material-ui/svg-icons/action/search'
+import Close from 'material-ui/svg-icons/navigation/close'
+import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton';
 // constants
-import { ratingColor, borderColorDark } from 'context/palette'
+import { ratingColor, borderColorDark, mainColor } from 'context/palette'
 
 const starCount = 5
 
-const style = {
-  color: borderColorDark,
-  cursor: 'pointer'
+const searchIconStyle = {
+  iconStyle: {
+    fill: borderColorDark,
+    cursor: 'pointer',
+    width: '100%',
+    height: '100%'
+  },
+  style: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 0,
+    width: '25px',
+    height: '25px'
+  }
 }
 
-const ProfileHeader = ({ name, rating, titleSold, titleReviews }) => (
+const searchInputStyle = {
+  style: { height: '35px' },
+  inputStyle: { padding: '0 25px 10px 0' },
+  underlineFocusStyle: { borderColor: mainColor },
+  autoFocus: true
+}
+
+const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSearchShow, isSearchFieldOpen }) => (
   <div className='profile-header container'>
     <div className='section-head'>
       <div className='profile-header__info'>
@@ -37,7 +59,10 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews }) => (
         </div>
       </div>
       <div className='profile-header__search'>
-        <Search style={style} />
+        {isSearchFieldOpen && <TextField {...searchInputStyle} fullWidth={true} name='search'/>}
+        <IconButton  {...searchIconStyle} onClick={handleToggleSearchShow} >
+          {isSearchFieldOpen ? <Close /> : <Search /> }
+        </IconButton>
       </div>
     </div>
   </div>
@@ -47,7 +72,9 @@ ProfileHeader.propTypes = {
   name: PropTypes.string,
   rating: PropTypes.number,
   titleReviews: PropTypes.string,
-  titleSold: PropTypes.string
+  titleSold: PropTypes.string,
+  handleToggleSearchShow: PropTypes.func.isRequired,
+  isSearchFieldOpen: PropTypes.bool
 }
 
 export default ProfileHeader
