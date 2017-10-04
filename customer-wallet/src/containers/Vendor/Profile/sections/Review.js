@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
+// styles
+import style from 'styles/inlineStyles/containers/Vendor/profile'
 // constants
-import { ratingColor } from 'context/palette'
+const { ratingStyle } = style
 
 const starCount = 5
 
@@ -19,7 +21,7 @@ const Review = ({ date, rating, description, price }) => (
         starCount={starCount}
         value={rating}
         editing={false}
-        starColor={ratingColor}
+        {...ratingStyle}
       />
     </div>
     <div className='profile-review__description'>

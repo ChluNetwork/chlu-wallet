@@ -11,19 +11,14 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
+import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
 // constants
-import { blue, borderColor } from 'context/palette'
-
 const { dataActions: {
   vendorWallet: { getVendorReviews },
   fxRates: { getRates }
 } } = actions
 
-const avatarStyles = {
-  color: blue,
-  backgroundColor: 'rgb(255, 255, 255)',
-  style: { border: `1px solid ${borderColor}` }
-}
+const { avatarStyle } = style
 
 class VendorWallet extends Component {
 
@@ -96,7 +91,7 @@ class VendorWallet extends Component {
                    <div className='name'>Vendor Wallet</div>
                    <div className='avatar'>
                      <Avatar
-                       {...avatarStyles}
+                       {...avatarStyle}
                        size={40}
                      >
                        {userName[0].toUpperCase()}

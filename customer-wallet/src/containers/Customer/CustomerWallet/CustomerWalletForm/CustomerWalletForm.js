@@ -12,33 +12,10 @@ import Input from 'components/Form/Input'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
 import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+// styles
+import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
-import { ratingColor, blue, mainColor, backgroundColorDark, borderColorDark } from 'context/palette'
-
-const submitBtnStyles = {
-  backgroundColor: ratingColor,
-  labelColor: 'rgb(255, 255, 255)'
-}
-
-const avatarStyles = {
-  color: blue,
-  backgroundColor: backgroundColorDark,
-  style: { border: `1px solid ${borderColorDark}` }
-}
-
-const checkboxStyles = (isActive) => ({
-  iconStyle: { fill: isActive ? blue : mainColor }
-})
-
-const textFieldsStyle = {
-  fullWidth: true,
-  underlineFocusStyle: { borderColor: mainColor },
-  floatingLabelStyle: { color: blue }
-}
-
-const VendorAddressInputStyle = { paddingRight: '45px' }
-
-const ratingStyles = { starColor: ratingColor }
+const { submitBtnStyle, avatarStyle, getCheckboxStyle, textFieldsStyle, VendorAddressInputStyle, ratingStyle } = styles
 
 const starCount = 5
 
@@ -70,7 +47,7 @@ const CustomerWalletForm = ({
             />
             <div className='vendor-address__avatar'>
               <Avatar
-                {...avatarStyles}
+                {...avatarStyle}
                 size={40}
               >
                 A
@@ -134,7 +111,7 @@ const CustomerWalletForm = ({
                 label='Write a review now'
                 name='reviewOpen'
                 component={Checkbox}
-                {...checkboxStyles(isReviewOpen)}
+                {...getCheckboxStyle(isReviewOpen)}
                 uncheckedIcon={<CheckIcon />}
               />
               {isReviewOpen &&
@@ -145,8 +122,7 @@ const CustomerWalletForm = ({
                   starCount={starCount}
                   value={ratingValue}
                   onStarClick={onStarClick}
-                  starColor={ratingColor}
-                  {...ratingStyles}
+                  {...ratingStyle}
                 />
                 <div className='comment-label label font-smaller color-light'>Comment</div>
                 <Field
@@ -169,7 +145,7 @@ const CustomerWalletForm = ({
         <RaisedButton
           type='submit'
           label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
-          {...submitBtnStyles}
+          {...submitBtnStyle}
           className='submit-button'
         />
       </div>

@@ -15,26 +15,13 @@ import SwitchUserMenu from './SwitchUserMenu'
 // data
 import usersType from 'shared-libraries/lib/fixtures/usersType'
 // styles
-import { mainColor } from 'context/palette'
+import style from 'styles/inlineStyles/containers/MainLayout'
 // assets
 import chluLogo from 'images/svg/chlu-2.svg'
 // constants
 const { dataActions: { profile: { changeUserType } } } = actions
 
-const CircularProgressStyle = {
-  margin: '20px auto'
-}
-
-const AppBarStyle = {
-  background: mainColor
-}
-
-const AppBarTitleStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-}
-
+const { circularProgressStyle, AppBarStyle } = style
 
 const MainLayout = ({
   children,
@@ -52,13 +39,12 @@ const MainLayout = ({
   return (
     <div>
       {loading
-        ? <CircularProgress style={CircularProgressStyle} />
+        ? <CircularProgress {...circularProgressStyle} />
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
             title={<img src={chluLogo} className='navbar-logo' alt='logo' />}
-            style={AppBarStyle}
-            titleStyle={AppBarTitleStyle}
+            {...AppBarStyle}
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}

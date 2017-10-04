@@ -8,13 +8,9 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 // styles
 import './styles.css'
+import { menuItemStyles } from 'styles/inlineStyles/components/drawer'
 // data
 import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'shared-libraries/lib/fixtures/links'
-
-const style = {
-  color: 'inherit',
-  background: 'inherit'
-}
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
   const userType = data ? data.userType : ''
@@ -45,7 +41,7 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
           key={idx}
           onClick={toggleDrawer}
         >
-          <MenuItem style={style} >
+          <MenuItem {...menuItemStyles} >
             {label}
           </MenuItem>
         </Link>

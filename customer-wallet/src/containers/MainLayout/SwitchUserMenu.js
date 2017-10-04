@@ -5,19 +5,14 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import SwapHoriz from 'material-ui/svg-icons/action/swap-horiz'
 import IconButton from 'material-ui/IconButton'
-
-const iconStyle = {
-  color: 'white',
-  cursor: 'pointer'
-}
-
-const menuItemStyle = isActive => ({
-  backgroundColor: isActive ? 'rgb(229,229,229)': 'inherit'
-})
+// styles
+import style from 'styles/inlineStyles/containers/MainLayout'
+// constants
+const { switchUser: { iconStyle, getStyle } } = style
 
 const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, userType }) => (
   <IconMenu
-    iconButtonElement={<IconButton iconStyle={iconStyle}><SwapHoriz /></IconButton>}
+    iconButtonElement={<IconButton {...iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
   >
@@ -28,13 +23,12 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, u
           primaryText={user}
           onClick={() => onItemClick(user, userId)}
           key={index}
-          style={menuItemStyle(user === userType)}
+          style={getStyle(user === userType)}
         />
       )
     }
   </IconMenu>
 )
-
 
 SwitchUserMenu.propType = {
   items: PropType.array.isRequired,

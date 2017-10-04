@@ -3,15 +3,10 @@ import React from 'react'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 // assets
 import { buttonsData } from '../assets/data'
+// styles
+import styles from 'styles/inlineStyles/containers/Customer/checkout'
 // constants
-import { borderColor } from 'context/palette'
-
-const radioStyles = {
-  style: {
-    padding: '20px'
-  },
-  iconStyle: { fill: borderColor }
-}
+const { radioButtonStyle } = styles
 
 const Product = () => {
   const selectedRadio = buttonsData[0].value ? buttonsData[0].value : null
@@ -28,7 +23,7 @@ const Product = () => {
             key={idx}
             value={value}
             label={label}
-            {...radioStyles}
+            {...radioButtonStyle}
             className='payment-item container-border-bottom'
           />
         ))}

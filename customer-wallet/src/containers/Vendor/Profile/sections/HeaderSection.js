@@ -5,35 +5,13 @@ import StarRatingComponent from 'react-star-rating-component'
 import Search from 'material-ui/svg-icons/action/search'
 import Close from 'material-ui/svg-icons/navigation/close'
 import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton';
+import IconButton from 'material-ui/IconButton'
+// styles
+import style from 'styles/inlineStyles/containers/Vendor/profile'
 // constants
-import { ratingColor, borderColorDark, mainColor } from 'context/palette'
+const { ratingStyle, searchIconStyle, searchInputStyle } = style
 
 const starCount = 5
-
-const searchIconStyle = {
-  iconStyle: {
-    fill: borderColorDark,
-    cursor: 'pointer',
-    width: '100%',
-    height: '100%'
-  },
-  style: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 0,
-    width: '25px',
-    height: '25px'
-  }
-}
-
-const searchInputStyle = {
-  style: { height: '35px' },
-  inputStyle: { padding: '0 25px 10px 0' },
-  underlineFocusStyle: { borderColor: mainColor },
-  autoFocus: true
-}
 
 const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSearchShow, isSearchFieldOpen }) => (
   <div className='profile-header container'>
@@ -50,7 +28,7 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSear
             starCount={starCount}
             value={rating}
             editing={false}
-            starColor={ratingColor}
+            {...ratingStyle}
           />
           <div className='profile-info__title color-light'>
             <div className='title-reviews'>{titleReviews}</div>

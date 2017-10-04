@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 //components
 import StarRatingComponent from 'react-star-rating-component'
+// styles
+import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
 // constants
-import { ratingColor } from 'context/palette'
+const { ratingStyle } = style
 
 const starCount = 5
-
 
 const PaymentItem = ({ productTitle, date, price, rating, review, platform, productPhoto, getTotalUsd }) => {
   const priceInUsd = getTotalUsd(price)
@@ -39,7 +40,7 @@ const PaymentItem = ({ productTitle, date, price, rating, review, platform, prod
           value={rating}
           starCount={starCount}
           editing={false}
-          starColor={ratingColor}
+          {...ratingStyle}
         />
 
         <div className='info-title'>{productTitle}</div>

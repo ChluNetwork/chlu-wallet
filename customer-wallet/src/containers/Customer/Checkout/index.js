@@ -10,20 +10,11 @@ import ProductSection from './sections/ProductSection'
 import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './styles.css'
+import styles from 'styles/inlineStyles/containers/Customer/checkout'
 // constants
-import { orange, lightBorderOrange, lightOrange, mainTextColor } from 'context/palette'
-
 const { dataActions: { checkout: { getCheckout } } } = actions
 
-const buttonStyles = {
-  style: { border: `1px solid ${lightBorderOrange}` },
-  buttonStyle: { background: `linear-gradient(to bottom, ${lightOrange}, ${orange})` },
-  labelStyle: {
-    textTransform: 'none',
-    fontWeight: 'bold',
-    color: mainTextColor,
-  }
-}
+const { buttonStyle } = styles
 
 
 class Checkout extends Component {
@@ -53,7 +44,7 @@ class Checkout extends Component {
                     <RaisedButton
                       label='Continue'
                       fullWidth={true}
-                      {...buttonStyles}
+                      {...buttonStyle}
                       onClick={() => null}
                     />
                   </div>
