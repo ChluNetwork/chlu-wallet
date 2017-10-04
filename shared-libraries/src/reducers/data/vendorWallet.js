@@ -6,9 +6,9 @@ import vendorData from 'shared-libraries/lib/fixtures/vendorData'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_VENDOR_DATA_SUCCESS = 'FETCH_VENDOR_DATA_SUCCESS'
-const FETCH_VENDOR_DATA_ERROR = 'FETCH_VENDOR_DATA_ERROR'
-const FETCH_VENDOR_DATA_LOADING = 'FETCH_VENDOR_DATA_LOADING'
+const FETCH_VENDOR_DATA_SUCCESS = 'vendorWallet/FETCH_VENDOR_DATA_SUCCESS'
+const FETCH_VENDOR_DATA_ERROR = 'vendorWallet/FETCH_VENDOR_DATA_ERROR'
+const FETCH_VENDOR_DATA_LOADING = 'vendorWallet/FETCH_VENDOR_DATA_LOADING'
 
 const initialState = {
   loading: false,

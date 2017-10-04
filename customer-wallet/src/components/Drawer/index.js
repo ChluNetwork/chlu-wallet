@@ -8,23 +8,21 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 // styles
 import './styles.css'
+import { menuItemStyles } from 'styles/inlineStyles/components/drawer'
 // data
 import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'shared-libraries/lib/fixtures/links'
 
-const style = {
-  color: 'inherit',
-  background: 'inherit'
-}
-
-const DrawerComponent = ({ toggleDrawer, drawerOpen, userType }) => {
+const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
+  const userType = data ? data.userType : ''
+  const userId = data ? data.id : 0
   let links = []
 
   switch(userType){
-    case 'customer': links = linksForCustomer
+    case 'customer': links = linksForCustomer(userId)
       break
-    case 'vendor': links = linksForVendor
+    case 'vendor': links = linksForVendor(userId)
       break
-    case 'demonstrator': links = linksForDemonstrator
+    case 'demonstrator': links = linksForDemonstrator(userId)
       break
     default: links = []
       break
@@ -43,7 +41,7 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, userType }) => {
           key={idx}
           onClick={toggleDrawer}
         >
-          <MenuItem style={style} >
+          <MenuItem {...menuItemStyles} >
             {label}
           </MenuItem>
         </Link>
@@ -55,11 +53,13 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, userType }) => {
 DrawerComponent.propTypes = {
   toggleDrawer: PropTypes.func.isRequired,
   drawerOpen: PropTypes.bool,
-  userType: PropTypes.string.isRequired
+  profile: PropTypes.shape({
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired
+  }).isRequired
 }
 
-const mapStateToProps = state => ({
-  userType: state.data.profile.data ? state.data.profile.data.userType : ''
+const mapStateToProps = store => ({
+  profile: store.data.profile
 })
 
 export default connect(mapStateToProps)(DrawerComponent)

@@ -3,11 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var linksForCustomer = [{ label: 'Checkout', href: '/customer/checkout' }, { label: 'Customer Wallet', href: '/customer/wallet' }];
+var linksForCustomer = function linksForCustomer(userId) {
+  return [{ label: 'Checkout', href: '/customer/' + userId + '/checkout' }, { label: 'Customer Wallet', href: '/customer/' + userId + '/wallet' }];
+};
 
-var linksForVendor = [{ label: 'Vendor Profile', href: '/vendor/profile' }, { label: 'Vendor Wallet', href: '/vendor/wallet' }];
+var linksForVendor = function linksForVendor(userId) {
+  return [{ label: 'Vendor Profile', href: '/vendor/' + userId + '/profile' }, { label: 'Vendor Wallet', href: '/vendor/' + userId + '/wallet' }];
+};
 
-var linksForDemonstrator = [{ label: 'demo', href: '/demonstrator/demo' }];
+var linksForDemonstrator = function linksForDemonstrator(userId) {
+  return [{ label: 'demo', href: '/demonstrator/' + userId + '/demo' }];
+};
 
 exports.linksForCustomer = linksForCustomer;
 exports.linksForVendor = linksForVendor;

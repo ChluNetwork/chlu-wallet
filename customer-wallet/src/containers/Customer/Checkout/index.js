@@ -4,14 +4,18 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions } from 'shared-libraries/lib'
 // components
-import HeaderSection from './sections/HeaderSection'
+import RaisedButton from 'material-ui/RaisedButton'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
 import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './styles.css'
+import styles from 'styles/inlineStyles/containers/Customer/checkout'
 // constants
 const { dataActions: { checkout: { getCheckout } } } = actions
+
+const { buttonStyle } = styles
+
 
 class Checkout extends Component {
   componentDidMount() {
@@ -23,22 +27,30 @@ class Checkout extends Component {
   render() {
     const { checkout: {
       loading,
-      data: { name, rating, title, avatar, price, operation }
+      data: { rating, avatar, price, product }
     } } = this.props
 
     return (
-      <div className='page-container checkout'>
-        <h3>Checkout at Etsy</h3>
-        {
-          loading
-            ? <CircularProgress />
-            : <div className='checkout-vendor'>
-              <HeaderSection name={name} rating={rating} />
-              <span className='checkout-vendor__header-info'>({title})</span>
-              <ProductSection avatar={avatar} price={price} operation={operation} />
-              <PaySection />
-            </div>
-        }
+      <div className='page-container checkout color-main'>
+        <div className='container'>
+          {
+            loading
+              ? <CircularProgress />
+              : <div className='checkout-vendor'>
+                  <ProductSection product={product} price={price} avatar={avatar} rating={rating} />
+                  <div className='payment-label'>Payment Method</div>
+                  <PaySection />
+                  <div className='checkout-vendor__button'>
+                    <RaisedButton
+                      label='Continue'
+                      fullWidth={true}
+                      {...buttonStyle}
+                      onClick={() => null}
+                    />
+                  </div>
+              </div>
+          }
+        </div>
       </div>
     )
   }

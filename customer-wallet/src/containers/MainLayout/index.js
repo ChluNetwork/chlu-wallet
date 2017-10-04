@@ -14,12 +14,14 @@ import CircularProgress from 'material-ui/CircularProgress'
 import SwitchUserMenu from './SwitchUserMenu'
 // data
 import usersType from 'shared-libraries/lib/fixtures/usersType'
+// styles
+import style from 'styles/inlineStyles/containers/MainLayout'
+// assets
+import chluLogo from 'images/svg/chlu-2.svg'
 // constants
 const { dataActions: { profile: { changeUserType } } } = actions
 
-const style = {
-  margin: '20px auto'
-}
+const { circularProgressStyle, AppBarStyle } = style
 
 const MainLayout = ({
   children,
@@ -30,19 +32,24 @@ const MainLayout = ({
   isSwitchUserMenuOpen,
   toggleSwitchUserMenuShow
 }) => {
-  const { loading } = profile
+  const { loading, data } = profile
+  const id = data ? data.id : 0
+  const userType = data ? data.userType : ''
 
   return (
     <div>
       {loading
-        ? <CircularProgress style={style} />
+        ? <CircularProgress {...circularProgressStyle} />
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
-            title='Chlu'
+            title={<img src={chluLogo} className='navbar-logo' alt='logo' />}
+            {...AppBarStyle}
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}
+              userId={id}
+              userType={userType}
               isOpen={isSwitchUserMenuOpen}
               onRequestChange={toggleSwitchUserMenuShow}
               onItemClick={changeUserType}
@@ -82,7 +89,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: data => dispatch(changeUserType(data)),
+  changeUserType: (userType, userId) => dispatch(changeUserType(userType, userId)),
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 

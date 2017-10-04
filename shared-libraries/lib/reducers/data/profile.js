@@ -16,7 +16,7 @@ var _reduxActions = require('redux-actions');
 
 var _reactRouter = require('react-router');
 
-var _profile = require('shared-libraries/lib/fixtures/profile');
+var _profile = require('../../fixtures/profile');
 
 var _profile2 = _interopRequireDefault(_profile);
 
@@ -31,10 +31,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // ------------------------------------
 // Constants
 // ------------------------------------
-var FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS';
-var FETCH_PROFILE_DATA_ERROR = 'FETCH_PROFILE_DATA_ERROR';
-var FETCH_PROFILE_DATA_LOADING = 'FETCH_PROFILE_DATA_LOADING';
-var CHANGE_USER_TYPE = 'CHANGE_USER_TYPE';
+var FETCH_PROFILE_DATA_SUCCESS = 'profile/FETCH_PROFILE_DATA_SUCCESS';
+var FETCH_PROFILE_DATA_ERROR = 'profile/FETCH_PROFILE_DATA_ERROR';
+var FETCH_PROFILE_DATA_LOADING = 'profile/FETCH_PROFILE_DATA_LOADING';
+var CHANGE_USER_TYPE = 'profile/CHANGE_USER_TYPE';
 
 var initialState = {
   loading: false,
@@ -102,10 +102,10 @@ function getProfile() {
   }();
 }
 
-function changeUserType(nextUser) {
+function changeUserType(nextUser, id) {
   return function (dispatch) {
     dispatch(changeUserTypeAction(nextUser));
-    _reactRouter.browserHistory.replace('/' + nextUser);
+    _reactRouter.browserHistory.replace('/' + nextUser + '/' + id);
   };
 }
 
@@ -120,7 +120,7 @@ exports.default = (0, _reduxActions.handleActions)((_handleActions = {}, _define
     error: null
   });
 }), _defineProperty(_handleActions, FETCH_PROFILE_DATA_ERROR, function (state, _ref3) {
-  var error = _ref3.payload.error;
+  var error = _ref3.payload;
   return _extends({}, state, {
     data: null,
     loading: false,

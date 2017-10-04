@@ -8,13 +8,17 @@ import { fx, setFxRates } from 'lib/fxRates'
 // components
 import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
+import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
+import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
 // constants
 const { dataActions: {
   vendorWallet: { getVendorReviews },
   fxRates: { getRates }
 } } = actions
+
+const { avatarStyle } = style
 
 class VendorWallet extends Component {
 
@@ -67,27 +71,47 @@ class VendorWallet extends Component {
   render () {
     const {
       vendorWalletData: { reviews, loading: vendorLoading },
-      fxRates: { loading: ratesLoading }
+      fxRates: { loading: ratesLoading },
+      profile: { data }
     } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
     const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
+    const userName = data ? data.name : 'c'
 
     return (
-      <div className='page-container vendor-wallet'>
-        <h3>Vendor Wallet</h3>
+      <div className='page-container vendor-wallet color-main'>
         {
           vendorLoading
             ? <CircularProgress />
             : <div>
-              <div className='crypto'>
-                <h3>{totalBtc} BTC</h3>
-                <span>{totalUsd} USD</span>
+              <div className='section-head '>
+                <div className='container'>
+                 <div className='section-name color-light'>
+                   <div className='name'>Vendor Wallet</div>
+                   <div className='avatar'>
+                     <Avatar
+                       {...avatarStyle}
+                       size={40}
+                     >
+                       {userName[0].toUpperCase()}
+                     </Avatar>
+                   </div>
+                 </div>
+                 <div className='total-crypto'>
+                   <div className='total-crypto__item big'>{totalBtc} BTC</div>
+                   <div className='total-crypto__item'>${totalUsd} USD</div>
+                  </div>
+                </div>
               </div>
-              {
-                reviews.map(({ date, reviews }, index) =>
-                  <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
-              }
+              <div className='section-content'>
+                <div className='container'>
+                  {
+                    reviews.map(({ date, reviews }, index) =>
+                     <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                  }
+                </div>
+              </div>
             </div>
         }
       </div>
@@ -96,6 +120,7 @@ class VendorWallet extends Component {
 }
 
 const mapStateToProps = state => ({
+  profile: state.data.profile,
   vendorWalletData: state.data.vendorWallet,
   fxRates: state.data.fxRates
 })

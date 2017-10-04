@@ -1,54 +1,109 @@
+@import 'styles/variables.scss';
+
 .vendor-wallet {
-  padding: 0 10px;
 
-  .crypto {
-    margin: 30px 0 40px;
+  .section-head {
+    .section-name {
+      position: relative;
 
-    >h3{
-      margin: 5px 0;
+      .name {
+        font-weight: bold;
+      }
+
+      .avatar {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+
+    .total-crypto {
+      margin-top: 20px;
+
+      .big {
+        font-weight: bold;
+        font-size: 20pt;
+      }
     }
   }
 
-  .payments-list {
-    max-width: 450px;
+  .section-content {
 
-    .period {
-      margin: 50px 0 20px;
-    }
-  }
+    .payments-list {
 
-  .payment-item {
-    margin-bottom: 30px;
-
-    &-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .info {
-        display: flex;
-        align-items: center;
-
-        .avatar {
-          max-width: 50px;
-          max-height: 50px;
-          margin-right: 10px;
+      &:last-child {
+        .payment-item {
+          &:last-child {
+            border: none;
+            margin-bottom: 0;
+          }
         }
       }
 
-      .price {
-        text-align: right;
+      &__date {
+        margin: 5px 0 20px;
       }
+
+      .payment-item {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        display: flex;
+
+        &__avatar {
+          >img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 10px;
+          }
+        }
+
+        &__info {
+          flex-grow: 1;
+
+          .info-head-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .info-head {
+              flex-grow: 1;
+              margin-right: 15px;
+
+              &__name {
+                font-weight: bold;
+                margin-bottom: 10px;
+              }
+
+              &__date {
+                display: flex;
+                margin-bottom: 10px;
+
+                .date {
+                  padding-right: 10px;
+                  border-right: 1px solid $borderColor;
+                }
+
+                .platform {
+                  padding-left: 10px;
+                }
+              }
+            }
+
+            .info-head__price {
+              margin-bottom: 10px;
+            }
+          }
+
+          .info-rating {
+            font-size: 25px;
+          }
+
+        }
+
+      }
+
     }
 
-    &-date {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-    }
-
-    &-rating {
-      font-size: 25px;
-    }
   }
 }

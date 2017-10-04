@@ -3,37 +3,40 @@ import PropType from 'prop-types'
 // components
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import FlatButton from 'material-ui/FlatButton'
+import SwapHoriz from 'material-ui/svg-icons/action/swap-horiz'
+import IconButton from 'material-ui/IconButton'
+// styles
+import style from 'styles/inlineStyles/containers/MainLayout'
+// constants
+const { switchUser: { iconStyle, getStyle } } = style
 
-const buttonStyle = {
-  color: 'white',
-  margin: '5px 0'
-}
-
-const listStyle = {
-  textAlign: 'left'
-}
-
-const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick }) => (
+const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, userType }) => (
   <IconMenu
-    iconButtonElement={<FlatButton style={buttonStyle} label='Switch user' />}
+    iconButtonElement={<IconButton {...iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
-    listStyle={listStyle}
   >
     {
       items.map((user, index) =>
-        <MenuItem value={user} primaryText={user} onClick={() => onItemClick(user)} key={index} />)
+        <MenuItem
+          value={user}
+          primaryText={user}
+          onClick={() => onItemClick(user, userId)}
+          key={index}
+          style={getStyle(user === userType)}
+        />
+      )
     }
   </IconMenu>
 )
-
 
 SwitchUserMenu.propType = {
   items: PropType.array.isRequired,
   isOpen: PropType.bool.isRequired,
   onRequestChange: PropType.func.isRequired,
-  onItemClick: PropType.func.isRequired
+  onItemClick: PropType.func.isRequired,
+  userId: PropType.oneOfType([PropType.number, PropType.string]).isRequired,
+  userType: PropType.string.isRequired
 }
 
 export default SwitchUserMenu

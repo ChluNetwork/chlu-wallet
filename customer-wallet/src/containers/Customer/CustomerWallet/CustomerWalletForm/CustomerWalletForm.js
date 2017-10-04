@@ -7,11 +7,16 @@ import { connect } from 'react-redux'
 import { fx } from 'lib/fxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
+import Avatar from 'material-ui/Avatar'
 import Input from 'components/Form/Input'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
+import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+// styles
+import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
+// constants
+const { submitBtnStyle, avatarStyle, getCheckboxStyle, textFieldsStyle, VendorAddressInputStyle, ratingStyle } = styles
 
-const checkboxStyles = { width: '256px' }
 const starCount = 5
 
 const CustomerWalletForm = ({
@@ -21,61 +26,129 @@ const CustomerWalletForm = ({
   isReviewOpen,
   currencyFieldOnChange,
   convertFieldValue,
-  loading
+  loading,
+  priceBtc,
+  buttonsData,
+  toggleModal
 }) => (
-  <form onSubmit={handleSubmit} className='m-t-20'>
-    <Field name='vendorAddress' label='Vendor Address' type='text' component={Input} />
-    <label>Amount (BTC)</label>
-    <div className='amount-btc__wrapper'>
-      <Field
-        name='amountBtc'
-        type='tel'
-        component={Input}
-        placeholder='BTC'
-        onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-        fullWidth
-      />
-      <span>=</span>
-      <Field
-        name='amountUsd'
-        type='tel'
-        component={Input}
-        placeholder='USD'
-        onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-        fullWidth
-      />
+  <form onSubmit={handleSubmit} className='form color-main'>
+    <div className='container-border-bottom'>
+      <div className='container'>
+        <div className='fields-wrapper'>
+
+          <div className='vendor-address'>
+            <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
+            <Field
+              name='vendorAddress'
+              type='text'
+              component={Input}
+              {...textFieldsStyle}
+              inputStyle={VendorAddressInputStyle}
+            />
+            <div className='vendor-address__avatar'>
+              <Avatar
+                {...avatarStyle}
+                size={40}
+              >
+                A
+              </Avatar>
+            </div>
+          </div>
+
+          <div className='payment-currency'>
+            <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
+            <div className='payment-currency__buttons color-light'>
+              {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
+                <div
+                  className={`button ${active ? 'button-active' : null }`}
+                  key={idx}
+                  onClick={toggleModal}
+                >
+                  <div className='button-icon'>
+                    <img src={active ? iconBlue : icon} alt={label} className='icon' />
+                  </div>
+                  <div className='button-label'>{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className='amount-btc'>
+            <div className='amount-btc__label label font-smaller color-light'>Amount (BTC)</div>
+            <div className='amount-btc__fields'>
+              <Field
+                name='amountBtc'
+                type='tel'
+                component={Input}
+                {...textFieldsStyle}
+                placeholder='BTC'
+                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
+                fullWidth
+              />
+              <div className='equally'>=</div>
+              <Field
+                name='amountUsd'
+                type='tel'
+                component={Input}
+                {...textFieldsStyle}
+                placeholder='USD'
+                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
+                fullWidth
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p className='m-b-20'>Review</p>
-    <Field
-      label='Write a review now'
-      name='reviewOpen'
-      component={Checkbox}
-      style={checkboxStyles}
-    />
-    {isReviewOpen &&
-      <div>
-        <StarRatingComponent
-          className='stars'
-          name='rating'
-          starCount={starCount}
-          value={ratingValue}
-          onStarClick={onStarClick}
-        />
-        <Field
-          name='review'
-          type='text'
-          component={Input}
-          multiLine
+
+    <div className='container-border-bottom'>
+      <div className='container'>
+        <div className='fields-wrapper'>
+
+          <div className='review'>
+            <div className='review-fields'>
+              <Field
+                label='Write a review now'
+                name='reviewOpen'
+                component={Checkbox}
+                {...getCheckboxStyle(isReviewOpen)}
+                uncheckedIcon={<CheckIcon />}
+              />
+              {isReviewOpen &&
+              <div>
+                <StarRatingComponent
+                  className='review-rating'
+                  name='rating'
+                  starCount={starCount}
+                  value={ratingValue}
+                  onStarClick={onStarClick}
+                  {...ratingStyle}
+                />
+                <div className='comment-label label font-smaller color-light'>Comment</div>
+                <Field
+                  name='review'
+                  type='text'
+                  component={Input}
+                  {...textFieldsStyle}
+                  multiLine
+                />
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className='button-container'>
+      <div className='container'>
+        <RaisedButton
+          type='submit'
+          label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
+          {...submitBtnStyle}
+          className='submit-button'
         />
       </div>
-    }
-    <div className='button-container'>
-      <RaisedButton
-        primary
-        type='submit'
-        className='m-t-20'
-        label={loading ? 'Loading...' : 'Send Payment'}
-      />
     </div>
   </form>
 )

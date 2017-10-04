@@ -1,31 +1,58 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Link } from 'react-router'
 import StarRatingComponent from 'react-star-rating-component'
+import Search from 'material-ui/svg-icons/action/search'
+import Close from 'material-ui/svg-icons/navigation/close'
+import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+// styles
+import style from 'styles/inlineStyles/containers/Vendor/profile'
 // constants
+const { ratingStyle, searchIconStyle, searchInputStyle } = style
+
 const starCount = 5
 
-const ProfileHeader = ({ name, rating, title }) => (
-  <div className='profile-header'>
-    <div>
-      <Link to='#' className='profile-header__name'>{name}</Link>
+const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSearchShow, isSearchFieldOpen }) => (
+  <div className='profile-header container'>
+    <div className='section-head'>
+      <div className='profile-header__info'>
+        <div className='avatar'>
+          {name[0].toUpperCase()}
+        </div>
+        <div className='profile-info'>
+          <div className='profile-info__name'>{name}</div>
+          <StarRatingComponent
+            className='profile-info__rating'
+            name='rate2'
+            starCount={starCount}
+            value={rating}
+            editing={false}
+            {...ratingStyle}
+          />
+          <div className='profile-info__title color-light'>
+            <div className='title-reviews'>{titleReviews}</div>
+            <div className='title-sold'>{titleSold}</div>
+          </div>
+        </div>
+      </div>
+      <div className='profile-header__search'>
+        {isSearchFieldOpen && <TextField {...searchInputStyle} fullWidth={true} name='search'/>}
+        <IconButton  {...searchIconStyle} onClick={handleToggleSearchShow} >
+          {isSearchFieldOpen ? <Close /> : <Search /> }
+        </IconButton>
+      </div>
     </div>
-    <StarRatingComponent
-      name='rate2'
-      starCount={starCount}
-      value={rating}
-      editing={false}
-    />
-    <br />
-    <span className='profile-header__info'>({title})</span>
   </div>
 )
 
 ProfileHeader.propTypes = {
   name: PropTypes.string,
   rating: PropTypes.number,
-  title: PropTypes.string
+  titleReviews: PropTypes.string,
+  titleSold: PropTypes.string,
+  handleToggleSearchShow: PropTypes.func.isRequired,
+  isSearchFieldOpen: PropTypes.bool
 }
 
 export default ProfileHeader

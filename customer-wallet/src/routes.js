@@ -22,17 +22,17 @@ function getRoutes (store) {
       onEnter={(nextState, replace, proceed) => preloadUser(proceed, store)}
     >
       <IndexRedirect to='customer' />
-      <Route path='customer' >
+      <Route path='customer/:id' >
         <IndexRedirect to='wallet' />
         <Route path='checkout' component={Checkout}/>
         <Route path='wallet' component={CustomerWallet} />
       </Route>
-      <Route path='vendor' >
+      <Route path='vendor/:id' >
         <IndexRedirect to='wallet' />
         <Route path='profile' component={Profile} />
         <Route path='wallet' component={VendorWallet} />
       </Route>
-      <Route path='demonstrator' >
+      <Route path='demonstrator/:id' >
         <IndexRedirect to='demo' />
         <Route path='demo' component={Demo} />
       </Route>
@@ -47,15 +47,15 @@ function preloadUser(proceed, { getState, dispatch }) {
   if(!data){
 
     dispatch(getProfile())
-      .then(({ userType }) => {
-        browserHistory.replace(`/${userType}`)
+      .then(({ userType, id }) => {
+        browserHistory.replace(`/${userType}/${id}`)
       })
       .catch(response => proceed())
   }
   else {
-    const { userType } = data
+    const { userType, id } = data
 
-    browserHistory.replace(`/${userType}`)
+    browserHistory.replace(`/${userType}/${id}`)
   }
 
   proceed()

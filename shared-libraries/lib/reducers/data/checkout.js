@@ -28,9 +28,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // ------------------------------------
 // Constants
 // ------------------------------------
-var FETCH_CHECKOUT_DATA_SUCCESS = 'FETCH_CHECKOUT_DATA_SUCCESS';
-var FETCH_CHECKOUT_DATA_ERROR = 'FETCH_CHECKOUT_DATA_ERROR';
-var FETCH_CHECKOUT_DATA_LOADING = 'FETCH_CHECKOUT_DATA_LOADING';
+var FETCH_CHECKOUT_DATA_SUCCESS = 'checkout/FETCH_CHECKOUT_DATA_SUCCESS';
+var FETCH_CHECKOUT_DATA_ERROR = 'checkout/FETCH_CHECKOUT_DATA_ERROR';
+var FETCH_CHECKOUT_DATA_LOADING = 'checkout/FETCH_CHECKOUT_DATA_LOADING';
 
 var initialState = {
   loading: false,

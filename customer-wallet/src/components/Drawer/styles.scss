@@ -1,5 +1,7 @@
+@import 'styles/variables.scss';
+
 .drawer-link {
-  color: rgb(0, 188, 212);
+  color: $mainColor;
   text-decoration: none;
 
   &-active {

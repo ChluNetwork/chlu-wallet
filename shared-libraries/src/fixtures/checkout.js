@@ -1,12 +1,8 @@
-import noProduct from 'images/no-product.png'
-
 const checkoutData = {
-  name: 'Awesome vendor',
+  avatar: 'https://www.apple-iphone.ru/wp-content/uploads/2014/01/iphone6-2.png',
+  product: 'Apple iPhone 6',
   rating: 4,
-  title: '250 Reviews, Over $250,000 sales',
-  avatar: noProduct,
-  price: 40.00,
-  operation: 'Shinny New Phone'
+  price: 414.62
 }
 
 export default checkoutData

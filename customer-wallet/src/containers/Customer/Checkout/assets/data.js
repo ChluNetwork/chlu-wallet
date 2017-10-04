@@ -1,7 +1,9 @@
+import icon from 'images/svg/chlu-1.svg'
+
 const buttonsData = [
-  { label: 'Chlu' },
-  { label: 'Credit Card Options' },
-  { label: 'PayPal' }
+  { label: 'Chlu', value: 'CHLU', icon },
+  { label: 'Credit Card Options', value: 'CARD', icon },
+  { label: 'PayPal', value: 'PAYPAL', icon }
 ]
 
 export {
