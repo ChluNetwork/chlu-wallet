@@ -1,4 +1,4 @@
-import noProduct from '../../images/no-product.png'
+import noProduct from 'images/no-product.png'
 
 const vendorData = [
   {

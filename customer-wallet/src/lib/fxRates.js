@@ -1,5 +1,5 @@
 import { fx } from 'money'
-import rates from 'fixtures/rates'
+import rates from 'shared-libraries/lib/fixtures/rates'
 
 fx.rates = rates.rates
 fx.base = rates.base

@@ -2,17 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getVendorReviews } from 'store/modules/data/vendorWallet'
-import { getRates } from 'store/modules/data/fxRates'
+import { actions } from 'shared-libraries/lib'
 // libs
 import { fx, setFxRates } from 'lib/fxRates'
-// utils
-import { getExchangeRates } from 'utils/exchangeReq'
 // components
 import PaymentsList from './PaymentsList/index'
 import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './styles.css'
+// constants
+const { dataActions: {
+  vendorWallet: { getVendorReviews },
+  fxRates: { getRates }
+} } = actions
 
 class VendorWallet extends Component {
 
@@ -38,8 +40,9 @@ class VendorWallet extends Component {
   getFxRates () {
     const { getRates } = this.props
 
-    getRates(getExchangeRates)
+    getRates()
       .then(data => setFxRates(data))
+      .catch(error => console.log(error))
   }
 
   calculateBtcForMonth = data => {

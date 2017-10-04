@@ -1,7 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
-
 // data
-import checkoutData from '../../fixtures/checkout'
+import checkoutData from 'shared-libraries/lib/fixtures/checkout'
 
 // ------------------------------------
 // Constants

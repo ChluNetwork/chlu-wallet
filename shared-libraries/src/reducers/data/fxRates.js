@@ -1,4 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
+// utils
+import { getExchangeRates } from 'shared-libraries/lib/utils/exchangeReq'
 
 // ------------------------------------
 // Constants
@@ -10,7 +12,7 @@ const FETCH_RATES_LOADING = 'FETCH_RATES_LOADING'
 const initialState = {
   loading: false,
   error: null,
-  rates: {}
+  rates: null
 }
 
 // ------------------------------------
@@ -22,17 +24,17 @@ export const fetchRatesLoading = createAction(FETCH_RATES_LOADING)
 // ------------------------------------
 // Thunks
 // ------------------------------------
-const getFxRates = (getExchangeRates) => {
+const getFxRates = () => {
   return getExchangeRates()
     .then(data => data)
     .catch(error => { throw error })
 }
 
-export function getRates (getExchangeRates) {
+export function getRates () {
   return async (dispatch) => {
     dispatch(fetchRatesLoading(true))
     try {
-      const response = await getFxRates(getExchangeRates)
+      const response = await getFxRates()
       dispatch(fetchRatesSuccess(response))
       return response
     } catch (error) {

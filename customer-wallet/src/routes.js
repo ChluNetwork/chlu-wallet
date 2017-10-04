@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, IndexRedirect, browserHistory } from 'react-router'
+import 'babel-polyfill'
 // redux
-import { getProfile } from 'store/modules/data/profile'
+import dataActions from 'shared-libraries/lib/reducers/actions'
 // containers
 import MainLayout from './containers/MainLayout'
 import CustomerWallet from './containers/Customer/CustomerWallet'
@@ -10,6 +11,8 @@ import Checkout from './containers/Customer/Checkout'
 import Profile from './containers/Vendor/Profile'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
+// constants
+const { dataActions: { profile: { getProfile } } } = dataActions
 
 function getRoutes (store) {
   return (
@@ -42,6 +45,7 @@ function preloadUser(proceed, { getState, dispatch }) {
   const { data } = getState().data.profile
 
   if(!data){
+
     dispatch(getProfile())
       .then(({ userType }) => {
         browserHistory.replace(`/${userType}`)

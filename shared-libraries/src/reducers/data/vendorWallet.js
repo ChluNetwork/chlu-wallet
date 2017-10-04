@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 
 // data
-import vendorData from '../../fixtures/vendorData'
+import vendorData from 'shared-libraries/lib/fixtures/vendorData'
 
 // ------------------------------------
 // Constants

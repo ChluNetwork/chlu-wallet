@@ -2,6 +2,7 @@
   "name": "shared-libraries",
   "version": "1.0.0",
   "author": "Venumteam",
+  "main": "lib/index.js",
   "scripts": {
     "watch": "node watcher.js",
     "lib": "babel ./src --out-dir ./lib --ignore node_modules,.babelrc,package.json,yarn.lock"

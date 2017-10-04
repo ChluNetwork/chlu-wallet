@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 // components
+import CircularProgress from 'material-ui/CircularProgress'
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
-import CircularProgress from 'material-ui/CircularProgress'
-
 // styles
 import './styles.css'
 

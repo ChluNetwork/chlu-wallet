@@ -9,7 +9,7 @@ import MenuItem from 'material-ui/MenuItem'
 // styles
 import './styles.css'
 // data
-import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'fixtures/links'
+import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'shared-libraries/lib/fixtures/links'
 
 const style = {
   color: 'inherit',

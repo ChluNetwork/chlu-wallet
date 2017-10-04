@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { submitPayment } from 'store/modules/data/payment'
+import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
+import { actions } from 'shared-libraries/lib'
 import { formValueSelector } from 'redux-form'
+import { setFxRates } from 'lib/fxRates'
 // libs
-import { fx } from 'money'
 import { toastr } from 'react-redux-toastr'
-// utils
-import { getExchangeRates } from 'utils/exchangeReq'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
-
-import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
-
+// constants
+const { dataActions: {
+  payment: { submitPayment },
+  fxRates: { getRates }
+} } = actions
 
 class CustomerWalletFormWrapper extends Component {
 
@@ -22,16 +23,21 @@ class CustomerWalletFormWrapper extends Component {
     isReviewOpen: PropTypes.bool,
     loading: PropTypes.bool,
     rating: PropTypes.number.isRequired,
-    setRating: PropTypes.func.isRequired
+    setRating: PropTypes.func.isRequired,
+    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+    getRates: PropTypes.func.isRequired
   }
 
-  componentWillMount () {
-    getExchangeRates().then((data) => {
-      if (data) {
-        fx.rates = data.rates
-        fx.base = data.base
-      }
-    })
+  componentDidMount() {
+    const { rates } = this.props
+
+    if(!rates) {
+      const {getRates} = this.props
+
+      getRates()
+        .then(response => setFxRates(response))
+        .catch(error => console.log(error))
+    }
   }
 
   handleSubmit = (data) => {
@@ -70,12 +76,14 @@ const selector = formValueSelector('customer-wallet-form')
 const mapStateToProps = state => ({
   isReviewOpen: selector(state, 'reviewOpen'),
   loading: state.data.payment.loading,
-  rating: state.components.customerWallet.rating
+  rating: state.components.customerWallet.rating,
+  rates: state.data.fxRates.rates
 })
 
 const mapDispatchToProps = dispatch => ({
   submitPayment: data => dispatch(submitPayment(data)),
-  setRating: data => dispatch(setRatingForCustomerWallet(data))
+  setRating: data => dispatch(setRatingForCustomerWallet(data)),
+  getRates: () => dispatch(getRates())
 })
 
 export default connect(

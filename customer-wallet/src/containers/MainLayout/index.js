@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
-import { changeUserType } from 'store/modules/data/profile'
+import { actions } from 'shared-libraries/lib'
 import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
 // libs
 import ReduxToastr from 'react-redux-toastr'
@@ -13,7 +13,9 @@ import Drawer from 'components/Drawer'
 import CircularProgress from 'material-ui/CircularProgress'
 import SwitchUserMenu from './SwitchUserMenu'
 // data
-import usersType from 'fixtures/usersType'
+import usersType from 'shared-libraries/lib/fixtures/usersType'
+// constants
+const { dataActions: { profile: { changeUserType } } } = actions
 
 const style = {
   margin: '20px auto'
