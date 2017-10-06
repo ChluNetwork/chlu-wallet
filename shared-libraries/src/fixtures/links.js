@@ -1,6 +1,7 @@
 const linksForCustomer = userId => ([
   { label: 'Checkout', href: `/customer/${userId}/checkout` },
-  { label: 'Customer Wallet', href: `/customer/${userId}/wallet` }
+  { label: 'Customer Wallet', href: `/customer/${userId}/wallet` },
+  { label: 'Transactions', href: `/customer/${userId}/transactions` }
 ])
 
 const linksForVendor = userId => ([

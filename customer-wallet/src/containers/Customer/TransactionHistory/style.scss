@@ -1,0 +1,68 @@
+@import 'styles/variables.scss';
+
+.transaction {
+  .section-head {
+
+    .transaction-name {
+      font-size: 20pt;
+    }
+
+    .transaction-spent {
+      display: flex;
+      margin-top: 15px;
+
+      &__title {
+        margin-right: 15px;
+      }
+
+      &__price {
+        text-align: right;
+      }
+    }
+  }
+
+  .section-content {
+
+    .transaction-list {
+      &__item {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+
+        &:last-child {
+          margin-bottom: 0;
+          border: none;
+        }
+
+        .item-head {
+          &__name {
+            margin-bottom: 10px;
+          }
+
+          &__address {}
+        }
+
+        .item-price {
+          display: flex;
+          margin-top: 10px;
+
+          &__title {
+            margin-right: 10px;
+          }
+
+          &__spent {
+            display: flex;
+            flex-wrap: wrap;
+
+            .price-item {
+              margin-right: 10px;
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
