@@ -9,7 +9,8 @@ import CustomerWallet from './containers/Customer/CustomerWallet'
 import VendorWallet from './containers/Vendor/VendorWallet'
 import Checkout from './containers/Customer/Checkout'
 import Profile from './containers/Vendor/Profile'
-import TransactionHistory from './containers/Customer/TransactionHistory'
+import TransactionHistory from './containers/Customer/Transactions/TransactionHistory'
+import RecentTransactions from './containers/Customer/Transactions/RecentTransactions'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
 // constants
@@ -24,10 +25,11 @@ function getRoutes (store) {
     >
       <IndexRedirect to='customer' />
       <Route path='customer/:id' >
-        <IndexRedirect to='transactions' />
+        <IndexRedirect to='wallet' />
         <Route path='checkout' component={Checkout}/>
         <Route path='wallet' component={CustomerWallet} />
         <Route path='transactions' component={TransactionHistory} />
+        <Route path='transactions/:userAddress' component={RecentTransactions} />
       </Route>
       <Route path='vendor/:id' >
         <IndexRedirect to='wallet' />

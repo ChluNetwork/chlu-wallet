@@ -9,4 +9,7 @@ const setFxRates = ({ rates, base }) => {
   fx.base = base
 }
 
-export { fx, setFxRates }
+const convertFromBtcToUsd = (value) => fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
+const convertFromUsdToBtc = (value) => fx.convert(value, { from: 'USD', to: 'BTC' }).toFixed(4)
+
+export { fx, setFxRates, convertFromBtcToUsd, convertFromUsdToBtc }

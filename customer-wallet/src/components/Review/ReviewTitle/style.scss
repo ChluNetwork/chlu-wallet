@@ -1,0 +1,22 @@
+.review-comment {
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+
+    .comment-rating {
+      font-size: 25px;
+    }
+
+    .comment-date {}
+  }
+
+  &__comment {
+    margin-top: 5px;
+  }
+}

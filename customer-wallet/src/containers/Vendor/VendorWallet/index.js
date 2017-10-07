@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions } from 'shared-libraries/lib'
 // libs
-import { fx, setFxRates } from 'lib/fxRates'
+import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
-import PaymentsList from './PaymentsList/index'
+import ReviewsList from './ReviewsList'
 import CircularProgress from 'material-ui/CircularProgress'
 import Avatar from 'material-ui/Avatar'
 // styles
@@ -66,8 +66,6 @@ class VendorWallet extends Component {
     return 0
   }
 
-  getTotalUsd = (value) => fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
-
   render () {
     const {
       vendorWalletData: { reviews, loading: vendorLoading },
@@ -76,7 +74,7 @@ class VendorWallet extends Component {
     } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
-    const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
+    const totalUsd = !ratesLoading ? convertFromBtcToUsd(totalBtc) : null
     const userName = data ? data.name : 'c'
 
     return (
@@ -108,7 +106,7 @@ class VendorWallet extends Component {
                 <div className='container'>
                   {
                     reviews.map(({ date, reviews }, index) =>
-                     <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                     <ReviewsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
                   }
                 </div>
               </div>

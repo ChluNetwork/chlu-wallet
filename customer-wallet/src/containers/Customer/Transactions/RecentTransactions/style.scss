@@ -1,0 +1,70 @@
+@import 'styles/variables.scss';
+
+.recent-transaction {
+  .section-head {
+    .title {
+      margin-bottom: 10px;
+    }
+
+    .address {
+      font-size: 15pt;
+    }
+
+    .price {
+      &-title {
+        margin-top: 10px;
+      }
+
+      &-spent {
+        display: flex;
+        align-items: flex-end;
+
+        &__item {
+          margin-right: 20px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .section-content {
+
+    .transaction-info__wrapper {
+      display: flex;
+      justify-content: flex-start;
+
+      .transaction__info {
+        margin-bottom: 15px;
+
+        .field {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 5px;
+
+          &__title {
+            margin-right: 15px;
+          }
+        }
+
+        .field-address {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    .review {
+      padding-top: 10px;
+
+      &-item {
+        &:last-child {
+          border: none;
+          margin-bottom: 0;
+          padding-bottom: 5px;
+        }
+      }
+    }
+  }
+}

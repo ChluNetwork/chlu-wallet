@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { actions } from 'shared-libraries/lib'
 // libs
-import { fx, setFxRates } from 'lib/fxRates'
+import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
-import TransactionItem from './TransactionItem'
+import TransactionItem from './TransactionItem/index'
 // assets
-import transactions from './assets/data'
+import transactions from '../assets/data'
 // styles
 import './style.css'
 // constants
@@ -16,6 +17,13 @@ const { dataActions: {
 } } = actions
 
 class TransactionHistory extends Component {
+
+  static propTypes = {
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired
+  }
+
   componentDidMount () {
     this.getFxRates()
   }
@@ -36,11 +44,10 @@ class TransactionHistory extends Component {
     return 0
   }
 
-  convertBtcToUsd = (value) => fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
-
   render() {
+    const { location: { pathname } } = this.props
     const totalBTC = this.getTotalBtc(transactions)
-    const totalUSD = this.convertBtcToUsd(totalBTC)
+    const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
       <div className='page-container transaction color-main container-border-top'>
@@ -61,7 +68,11 @@ class TransactionHistory extends Component {
             <div className='transaction-list'>
               {
                 transactions.map((transaction, index) =>
-                  <TransactionItem {...transaction} key={index} convertBtcToUsd={this.convertBtcToUsd}/>
+                  <TransactionItem
+                    key={index}
+                    {...transaction}
+                    pathname={pathname}
+                  />
                 )
               }
             </div>
@@ -76,4 +87,8 @@ const mapDispatchToProps = {
   getRates
 }
 
-export default connect(null, mapDispatchToProps)(TransactionHistory)
+const mapStateToProps = state => ({
+  location: state.location
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionHistory)

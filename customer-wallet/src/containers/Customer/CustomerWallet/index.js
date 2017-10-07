@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
 // libs
 import { actions } from 'shared-libraries/lib'
-import { fx, setFxRates } from 'lib/fxRates'
+import { setFxRates, convertFromUsdToBtc } from 'lib/fxRates'
 // components
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
@@ -36,11 +36,9 @@ class CustomerWalletPage extends Component {
     }
   }
 
-  getTotalBtc = value => fx.convert(value, { from: 'USD', to: 'BTC' }).toFixed(4)
-
   render() {
     const { toggleModal, modalOpen, price = 400 } = this.props
-    const priceBtc = this.getTotalBtc(price)
+    const priceBtc = convertFromUsdToBtc(price)
 
     return (
       <div className='page-container customer-wallet-form'>
