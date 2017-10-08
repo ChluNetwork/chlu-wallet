@@ -3,23 +3,23 @@ import { createAction, handleActions } from 'redux-actions'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const SET_RATING = 'customerWallet/SET_RATING'
+const TOGGLE_SHOW_EDIT_FORM = 'recentTransaction/TOGGLE_EDIT_FORM_SHOW'
 
 const initialState = {
-  rating: 0
+  isEditFormOpen: false
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setRatingForCustomerWallet = createAction(SET_RATING)
+export const IsShowEditForm = createAction(TOGGLE_SHOW_EDIT_FORM)
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [SET_RATING]: (state, { payload: rating }) => ({
+  [TOGGLE_SHOW_EDIT_FORM]: (state, { payload: isEditFormOpen }) => ({
     ...state,
-    rating
+    isEditFormOpen
   })
 }, initialState)

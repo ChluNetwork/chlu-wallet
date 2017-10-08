@@ -62,7 +62,34 @@
         &:last-child {
           border: none;
           margin-bottom: 0;
-          padding-bottom: 5px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+
+    .edit-review {
+      padding-top: 10px;
+
+      .edit-form {
+        &__title {
+          margin-bottom: 10px;
+        }
+
+        &__rating {
+          font-size: 25px;
+        }
+
+        &__buttons {
+          display: flex;
+          flex-wrap: wrap;
+
+          .button-item {
+            margin-right: 10px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
         }
       }
     }

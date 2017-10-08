@@ -7,13 +7,13 @@ import { actions } from 'shared-libraries/lib'
 import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
 import TransactionItem from './TransactionItem/index'
-// assets
-import transactions from '../assets/data'
+import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './style.css'
 // constants
 const { dataActions: {
-  fxRates: { getRates }
+  fxRates: { getRates },
+  transaction: { getTransactions }
 } } = actions
 
 class TransactionHistory extends Component {
@@ -25,6 +25,9 @@ class TransactionHistory extends Component {
   }
 
   componentDidMount () {
+    const { getTransactions } = this.props
+
+    getTransactions()
     this.getFxRates()
   }
 
@@ -45,50 +48,58 @@ class TransactionHistory extends Component {
   }
 
   render() {
-    const { location: { pathname } } = this.props
+    const {
+      location: { pathname },
+      transaction: { loading, transactions }
+    } = this.props
+
     const totalBTC = this.getTotalBtc(transactions)
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
-      <div className='page-container transaction color-main container-border-top'>
-        <div className='section-head container'>
-          <div className='transaction-name font-weight-bold'>
-            Customer transition history
+      loading
+        ? <CircularProgress />
+        : <div className='page-container transaction color-main container-border-top'>
+          <div className='section-head container'>
+            <div className='transaction-name font-weight-bold'>
+              Customer transition history
+            </div>
+            <div className='transaction-spent'>
+              <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
+              <div className='transaction-spent__price'>
+                <div className='price-item font-weight-bold'>{totalBTC} BTC</div>
+                <div className='price-item font-smaller'>{totalUSD} USD</div>
+              </div>
+            </div>
           </div>
-          <div className='transaction-spent'>
-            <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
-            <div className='transaction-spent__price'>
-              <div className='price-item font-weight-bold'>{totalBTC} BTC</div>
-              <div className='price-item font-smaller'>{totalUSD} USD</div>
+          <div className='section-content'>
+            <div className='container'>
+              <div className='transaction-list'>
+                {
+                  transactions.map((transaction, index) =>
+                    <TransactionItem
+                      key={index}
+                      {...transaction}
+                      pathname={pathname}
+                    />
+                  )
+                }
+              </div>
             </div>
           </div>
         </div>
-        <div className='section-content'>
-          <div className='container'>
-            <div className='transaction-list'>
-              {
-                transactions.map((transaction, index) =>
-                  <TransactionItem
-                    key={index}
-                    {...transaction}
-                    pathname={pathname}
-                  />
-                )
-              }
-            </div>
-          </div>
-        </div>
-      </div>
     )
   }
 }
 
 const mapDispatchToProps = {
-  getRates
+  getRates,
+  getTransactions
 }
 
 const mapStateToProps = state => ({
-  location: state.location
+  location: state.location,
+  transaction: state.data.transaction
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionHistory)
