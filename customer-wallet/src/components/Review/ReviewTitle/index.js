@@ -14,20 +14,15 @@ const ReviewTitle = ({ comment, date, rating }) => (
   <div className='review-comment'>
     <div className='review-comment__head'>
       <StarRatingComponent
+        {...ratingStyle}
         className='comment-rating'
         name='rating'
         value={rating}
         starCount={starCount}
         editing={false}
-        {...ratingStyle}
       />
-      {
-        date
-          ? <div className='comment-date'>{date}</div>
-          : null
-      }
+      {date && <div className='comment-date'>{date}</div>}
     </div>
-
     <div className='review-comment__comment'>{comment}</div>
   </div>
 )

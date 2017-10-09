@@ -21,9 +21,9 @@ const Product = () => {
         {buttonsData.map(({ icon, label, disabled, value }, idx) => (
           <RadioButton
             key={idx}
+            {...radioButtonStyle}
             value={value}
             label={label}
-            {...radioButtonStyle}
             className='payment-item container-border-bottom'
           />
         ))}

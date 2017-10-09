@@ -17,8 +17,8 @@ const Product = ({ rating, avatar, price, product }) => (
       <StarRatingComponent
         className='product-info__rating'
         name='rate1'
-        starCount={starCount}
         {...ratingStyle}
+        starCount={starCount}
         value={rating}
         editing={false}
       />

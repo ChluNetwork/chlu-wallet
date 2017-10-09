@@ -102,8 +102,8 @@ export default handleActions({
     ...state,
     loading: false,
     error: null,
-    transactions: state.transactions.map(transaction => {
-      if(transaction.address === userAddress) {
+    transactions: state.transactions.map((transaction) => {
+      if (transaction.address === userAddress) {
         return {
           ...transaction,
           review: {

@@ -10,9 +10,7 @@ import Review from './sections/Review'
 // styles
 import './styles.css'
 
-
 class Profile extends Component {
-
   static propTypes = {
     profile: PropTypes.shape({
       name: PropTypes.string,
@@ -57,7 +55,6 @@ class Profile extends Component {
                 </div>
               </div>
             </div>
-
         }
       </div>
     )

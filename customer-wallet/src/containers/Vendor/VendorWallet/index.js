@@ -13,15 +13,16 @@ import Avatar from 'material-ui/Avatar'
 import './styles.css'
 import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
 // constants
-const { dataActions: {
-  vendorWallet: { getVendorReviews },
-  fxRates: { getRates }
-} } = actions
+const {
+  dataActions: {
+    vendorWallet: { getVendorReviews },
+    fxRates: { getRates }
+  }
+} = actions
 
 const { avatarStyle } = style
 
 class VendorWallet extends Component {
-
   static propTypes = {
     vendorWalletData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -36,20 +37,16 @@ class VendorWallet extends Component {
   }
 
   componentDidMount() {
-    const { getVendorReviews } = this.props
-
-    getVendorReviews()
+    this.props.getVendorReviews()
   }
 
   getFxRates () {
-    const { getRates } = this.props
-
-    getRates()
+    this.props.getRates()
       .then(data => setFxRates(data))
       .catch(error => console.log(error))
   }
 
-  calculateBtcForMonth = data => {
+  calculateBtcForMonth = (data) => {
     if(data && data.length){
       return data.reduce((previousValue, { price }) => previousValue + price, 0)
     }
@@ -58,7 +55,7 @@ class VendorWallet extends Component {
   }
 
 
-  calculateTotalBtc = data => {
+  calculateTotalBtc = (data) => {
     if (data && data.length) {
       return data.reduce((previousValue, { reviews }) => previousValue + this.calculateBtcForMonth(reviews), 0)
     }
@@ -69,12 +66,11 @@ class VendorWallet extends Component {
   render () {
     const {
       vendorWalletData: { reviews, loading: vendorLoading },
-      fxRates: { loading: ratesLoading },
       profile: { data }
     } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
-    const totalUsd = !ratesLoading ? convertFromBtcToUsd(totalBtc) : null
+    const totalUsd = convertFromBtcToUsd(totalBtc)
     const userName = data ? data.name : 'c'
 
     return (
@@ -117,7 +113,7 @@ class VendorWallet extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.data.profile,
   vendorWalletData: state.data.vendorWallet,
   fxRates: state.data.fxRates

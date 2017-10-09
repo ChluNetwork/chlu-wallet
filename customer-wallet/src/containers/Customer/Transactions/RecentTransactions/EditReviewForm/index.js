@@ -16,32 +16,32 @@ const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoa
   <form onSubmit={handleSubmit} className='edit-form color-main'>
     <div className='edit-form__title'>Edit Review</div>
     <StarRatingComponent
+      {...ratingStyle}
       className='edit-form__rating'
       name='rating'
       starCount={starCount}
       value={rating}
       onStarClick={onStarClick}
-      {...ratingStyle}
     />
     <Field
+      {...textFieldsStyle}
       name='comment'
       placeholder='Comment'
       type='text'
       component={Input}
-      {...textFieldsStyle}
       multiLine
     />
     <div className='edit-form__buttons'>
       <RaisedButton
+        {...submitBtnStyle}
         type='submit'
         label={isLoading ? 'Loading...' : 'Save'}
         className='button-item'
-        {...submitBtnStyle}
       />
       <RaisedButton
+        {...submitBtnStyle}
         label='Cancel'
         className='button-item'
-        {...submitBtnStyle}
         onClick={handleCancel}
       />
     </div>

@@ -11,10 +11,8 @@ import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
-
-const { dataActions: {
-  fxRates: { getRates }
-} } = actions
+// constants
+const { dataActions: { fxRates: { getRates } } } = actions
 
 class CustomerWalletPage extends Component {
   static propTypes = {
@@ -28,9 +26,7 @@ class CustomerWalletPage extends Component {
     const { rates } = this.props
 
     if(!rates) {
-      const { getRates } = this.props
-
-      getRates()
+      this.props.getRates()
         .then(response => setFxRates(response))
         .catch(error => console.log(error))
     }
@@ -47,11 +43,9 @@ class CustomerWalletPage extends Component {
           <div className='section-head__price-usd'>$ {price}</div>
           <div className='section-head__price-btc'>{priceBtc} BTC</div>
         </div>
-
         <div className='section-content'>
           <CustomerWalletFormWrapper toggleModal={toggleModal} priceBtc={priceBtc}/>
         </div>
-
         <ComingSoonModal
           open={modalOpen}
           closeModal={toggleModal}
@@ -71,7 +65,4 @@ const mapDispatchToProps = dispatch => ({
   getRates: () => dispatch(getRates())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomerWalletPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletPage)

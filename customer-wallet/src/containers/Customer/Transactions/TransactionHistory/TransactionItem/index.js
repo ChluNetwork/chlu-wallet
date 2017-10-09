@@ -6,12 +6,13 @@ import { convertFromBtcToUsd } from 'lib/fxRates'
 
 const TransactionItem = ({ address, price, pathname }) => {
   const priceUsd = convertFromBtcToUsd(price)
+  const linkPath = `${pathname}/${address}`
 
   return (
     <div className='transaction-list__item container-border-bottom'>
       <div className='item-head'>
         <div className='item-head__name font-weight-bold'>Address</div>
-        <Link to={`${pathname}/${address}`} className='item-head__address'>{address}</Link>
+        <Link to={linkPath} className='item-head__address'>{address}</Link>
       </div>
       <div className='item-price'>
         <div className='item-price__title'>Spent</div>

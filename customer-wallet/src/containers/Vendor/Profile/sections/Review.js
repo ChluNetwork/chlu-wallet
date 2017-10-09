@@ -17,11 +17,11 @@ const Review = ({ date, rating, description, price }) => (
         <div className='info-price'>$ {price}</div>
       </div>
       <StarRatingComponent
+        {...ratingStyle}
         name='rate3'
         starCount={starCount}
         value={rating}
         editing={false}
-        {...ratingStyle}
       />
     </div>
     <div className='profile-review__description'>

@@ -11,13 +11,14 @@ import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './style.css'
 // constants
-const { dataActions: {
-  fxRates: { getRates },
-  transaction: { getTransactions }
-} } = actions
+const {
+  dataActions: {
+    fxRates: { getRates },
+    transaction: { getTransactions }
+  }
+} = actions
 
 class TransactionHistory extends Component {
-
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
@@ -25,16 +26,12 @@ class TransactionHistory extends Component {
   }
 
   componentDidMount () {
-    const { getTransactions } = this.props
-
-    getTransactions()
+    this.props.getTransactions()
     this.getFxRates()
   }
 
   getFxRates () {
-    const { getRates } = this.props
-
-    getRates()
+    this.props.getRates()
       .then(data => setFxRates(data))
       .catch(error => console.log(error))
   }

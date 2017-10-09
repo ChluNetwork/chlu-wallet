@@ -9,7 +9,7 @@ import './style.css'
 
 const ReviewItem = ({
   isMultipleReview,
-  commentsList = [],
+  commentsList,
   comment,
   date,
   price,
@@ -19,35 +19,26 @@ const ReviewItem = ({
   productPhoto
 }) => (
   <div className='review-item container-border-bottom'>
-
     <div className='review-item__avatar'>
-      <img src={productPhoto || noProduct} alt='' className='avatar'/>
+      <img src={productPhoto || noProduct} alt='avatar' className='avatar'/>
     </div>
-
     <div className='review-item__info'>
       <div className='info-head-wrapper'>
         <div className='info-head'>
           <div className='info-head__name'>{review}</div>
           <div className='info-head__date color-light'>
-            {
-              isMultipleReview
-                ? null
-                : <div className='date'>{date}</div>
-
-            }
+            {isMultipleReview || <div className='date'>{date}</div>}
             <div className='platform'>{platform}</div>
           </div>
         </div>
         {
-          isMultipleReview
-            ? null
-            : <div className='info-head__price'>
-                <div className='price-item'>{price} BTC</div>
-                <div className='price-item'>{price} USD</div>
-              </div>
+          isMultipleReview ||
+            <div className='info-head__price'>
+              <div className='price-item'>{price} BTC</div>
+              <div className='price-item'>{price} USD</div>
+            </div>
         }
       </div>
-
       <div className='review-comments__list'>
         {
           isMultipleReview
@@ -71,6 +62,8 @@ ReviewItem.propTypes = {
   productPhoto: PropTypes.string
 }
 
-export default ReviewItem
+ReviewItem.defaultProps = {
+  commentsList: []
+}
 
-/*productTitle, date, price, rating, review, platform, productPhoto, getTotalUsd*/
+export default ReviewItem

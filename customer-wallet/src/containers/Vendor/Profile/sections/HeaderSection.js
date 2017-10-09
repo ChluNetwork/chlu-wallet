@@ -23,12 +23,12 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSear
         <div className='profile-info'>
           <div className='profile-info__name'>{name}</div>
           <StarRatingComponent
+            {...ratingStyle}
             className='profile-info__rating'
             name='rate2'
             starCount={starCount}
             value={rating}
             editing={false}
-            {...ratingStyle}
           />
           <div className='profile-info__title color-light'>
             <div className='title-reviews'>{titleReviews}</div>
