@@ -145,7 +145,7 @@ class RecentTransaction extends Component {
           </div>
 
         : <div className='page-container container color-main'>
-            Transactions to address <span className='font-weight-bold'>{userAddress}</span> was not
+            There are no transactions with this address <span className='font-weight-bold'>({userAddress})</span>
           </div>
     )
   }
