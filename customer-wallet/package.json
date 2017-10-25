@@ -2,7 +2,6 @@
   "name": "customer-wallet",
   "version": "0.1.0",
   "dependencies": {
-    "chlu-wallet-support-js": "file:../../chlu-wallet-support-js",
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
     "money": "^0.2.0",

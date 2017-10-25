@@ -144,7 +144,7 @@ class RecentTransaction extends Component {
                           commentsList={reviews}
                           review={'New Product'}
                         />
-                        : <div>asdasdaadssd</div>
+                        : <div>no comments yet</div>
                   }
                 </div>
                 <div className='edit-review'>
