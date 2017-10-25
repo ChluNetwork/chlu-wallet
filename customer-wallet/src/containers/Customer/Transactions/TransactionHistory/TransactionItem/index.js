@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 // libs
-import { convertFromBtcToUsd } from 'lib/fxRates'
+import { convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRates'
 
 const TransactionItem = ({ address, price, pathname }) => {
-  const priceUsd = convertFromBtcToUsd(price)
+  const priceBTC = convertSatoshiToBTC(price)
+  const priceUSD = convertFromBtcToUsd(priceBTC)
   const linkPath = `${pathname}/${address}`
 
   return (
@@ -17,8 +18,8 @@ const TransactionItem = ({ address, price, pathname }) => {
       <div className='item-price'>
         <div className='item-price__title'>Spent</div>
         <div className='item-price__spent'>
-          <div className='price-item'>{price} BTC</div>
-          <div className='price-item'>{priceUsd} USD</div>
+          <div className='price-item'>{priceBTC} BTC</div>
+          <div className='price-item'>{priceUSD} USD</div>
         </div>
       </div>
     </div>

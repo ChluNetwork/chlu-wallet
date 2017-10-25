@@ -24,9 +24,13 @@ var _vendorWallet = require('./data/vendorWallet');
 
 var vendorWallet = _interopRequireWildcard(_vendorWallet);
 
-var _transaction = require('./data/transaction');
+var _transactionHistory = require('./data/transactionHistory');
 
-var transaction = _interopRequireWildcard(_transaction);
+var transactionHistory = _interopRequireWildcard(_transactionHistory);
+
+var _reviews = require('./data/reviews');
+
+var reviews = _interopRequireWildcard(_reviews);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -36,7 +40,8 @@ var dataActions = {
   payment: payment,
   profile: profile,
   vendorWallet: vendorWallet,
-  transaction: transaction
+  transactionHistory: transactionHistory,
+  reviews: reviews
 };
 
 exports.default = {

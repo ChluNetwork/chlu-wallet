@@ -1,14 +1,12 @@
 import { createAction, handleActions } from 'redux-actions'
-
 // data
-import transactionsData from 'shared-libraries/lib/fixtures/transactionsData'
-
+import reviews from '../../fixtures/reviews'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_TRANSACTION_DATA_SUCCESS = 'customer/FETCH_TRANSACTION_DATA_SUCCESS'
-const FETCH_TRANSACTION_DATA_ERROR = 'customer/FETCH_TRANSACTION_DATA_ERROR'
-const FETCH_TRANSACTION_DATA_LOADING = 'customer/FETCH_TRANSACTION_DATA_LOADING'
+const FETCH_REVIEWS_SUCCESS = 'customer/FETCH_REVIEWS_SUCCESS'
+const FETCH_REVIEWS_ERROR = 'customer/FETCH_REVIEWS_ERROR'
+const FETCH_REVIEWS_LOADING = 'customer/FETCH_REVIEWS_LOADING'
 const EDIT_REVIEW_LOADING = 'customer/EDIT_REVIEW_LOADING'
 const EDIT_REVIEW_ERROR = 'customer/EDIT_REVIEW_ERROR'
 const EDIT_REVIEW_SUCCESS = 'customer/EDIT_REVIEW_SUCCESS'
@@ -16,15 +14,15 @@ const EDIT_REVIEW_SUCCESS = 'customer/EDIT_REVIEW_SUCCESS'
 const initialState = {
   loading: false,
   error: null,
-  transactions: []
+  data: {}
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchTransactionDataSuccess = createAction(FETCH_TRANSACTION_DATA_SUCCESS)
-export const fetchTransactionDataError = createAction(FETCH_TRANSACTION_DATA_ERROR)
-export const fetchTransactionDataLoading = createAction(FETCH_TRANSACTION_DATA_LOADING)
+export const fetchReviewsSuccess = createAction(FETCH_REVIEWS_SUCCESS)
+export const fetchReviewsError = createAction(FETCH_REVIEWS_ERROR)
+export const fetchReviewsLoading = createAction(FETCH_REVIEWS_LOADING)
 export const editReviewLoading = createAction(EDIT_REVIEW_LOADING)
 export const editReviewError = createAction(EDIT_REVIEW_ERROR)
 export const editReviewSuccess = createAction(EDIT_REVIEW_SUCCESS)
@@ -32,20 +30,22 @@ export const editReviewSuccess = createAction(EDIT_REVIEW_SUCCESS)
 // ------------------------------------
 // Thunks
 // ------------------------------------
-function testReq () {
-  return new Promise(resolve => setTimeout(() =>
-    resolve(transactionsData), 1000))
+function testReq (address) {
+  return new Promise(resolve => setTimeout(() => {
+    const filterReviews = reviews.find(({ address: adr }) => adr === address )
+    filterReviews ? resolve(filterReviews) : resolve({})
+  }, 1000))
 }
 
-export function getTransactions (data) {
+export function fetchReviews (address) {
   return async (dispatch) => {
-    dispatch(fetchTransactionDataLoading(true))
+    dispatch(fetchReviewsLoading(true))
     try {
-      const response = await testReq(data)
-      dispatch(fetchTransactionDataSuccess(response))
+      const response = await testReq(address)
+      dispatch(fetchReviewsSuccess(response))
       return response
     } catch (error) {
-      dispatch(fetchTransactionDataError(error))
+      dispatch(fetchReviewsError(error))
       throw error
     }
   }
@@ -74,18 +74,18 @@ export function submitEditReview (data) {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [FETCH_TRANSACTION_DATA_SUCCESS]: (state, { payload: transactions }) => ({
+  [FETCH_REVIEWS_SUCCESS]: (state, { payload: data }) => ({
     ...state,
-    transactions,
+    data,
     loading: false,
     error: null
   }),
-  [FETCH_TRANSACTION_DATA_ERROR]: (state, { payload: error }) => ({
+  [FETCH_REVIEWS_ERROR]: (state, { payload: error }) => ({
     ...state,
     loading: false,
     error
   }),
-  [FETCH_TRANSACTION_DATA_LOADING]: (state, { payload: loading }) => ({
+  [FETCH_REVIEWS_LOADING]: (state, { payload: loading }) => ({
     ...state,
     loading
   }),
@@ -98,25 +98,23 @@ export default handleActions({
     loading: false,
     error
   }),
-  [EDIT_REVIEW_SUCCESS] : (state, { payload: { userAddress, comment } }) => ({
-    ...state,
-    loading: false,
-    error: null,
-    transactions: state.transactions.map((transaction) => {
-      if (transaction.address === userAddress) {
-        return {
-          ...transaction,
-          review: {
-            ...transaction.review,
-            commentsList: [
-              ...transaction.review.commentsList,
-              { ...comment, date: 'Aug 16, 2017' }
-            ]
-          }
-        }
-      }
+  [EDIT_REVIEW_SUCCESS] : (state, { payload: { address, comment } }) => {
+    const data = state.data
 
-      return transaction
-    })
-  })
+    return {
+      ...state,
+      loading: false,
+      error: null,
+      data: {
+        ...data,
+        address: data.address ? data.address : address,
+        reviews: data.reviews
+          ? [
+            ...data.reviews,
+            comment
+          ]
+          : [comment]
+      }
+    }
+  }
 }, initialState)

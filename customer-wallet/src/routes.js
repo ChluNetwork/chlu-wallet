@@ -29,7 +29,7 @@ function getRoutes (store) {
         <Route path='checkout' component={Checkout}/>
         <Route path='wallet' component={CustomerWallet} />
         <Route path='transactions' component={TransactionHistory} />
-        <Route path='transactions/:userAddress' component={RecentTransactions} />
+        <Route path='transactions/:address' component={RecentTransactions} />
       </Route>
       <Route path='vendor/:id' >
         <IndexRedirect to='wallet' />

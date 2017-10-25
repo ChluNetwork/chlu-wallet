@@ -3,7 +3,8 @@ import * as fxRates from './data/fxRates'
 import * as payment from './data/payment'
 import * as profile from './data/profile'
 import * as vendorWallet from './data/vendorWallet'
-import * as transaction from './data/transaction'
+import * as transactionHistory from './data/transactionHistory'
+import * as reviews from './data/reviews'
 
 const dataActions = {
   checkout,
@@ -11,7 +12,8 @@ const dataActions = {
   payment,
   profile,
   vendorWallet,
-  transaction
+  transactionHistory,
+  reviews
 }
 
 export default {

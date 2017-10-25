@@ -1,32 +1,39 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { actions } from 'shared-libraries/lib'
+// hoc
+import withTransactionHistory from '../withTransactionHistory'
 // libs
-import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
+import { setFxRates, convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRates'
 // components
 import TransactionItem from './TransactionItem/index'
-import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './style.css'
 // constants
 const {
   dataActions: {
-    fxRates: { getRates },
-    transaction: { getTransactions }
+    fxRates: { getRates }
   }
 } = actions
 
 class TransactionHistory extends Component {
   static propTypes = {
+    transactionHistory: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      data: PropTypes.object.isRequired
+    }).isRequired,
+    groupTransactionByAddress: PropTypes.func.isRequired,
+    calculateTotalSpent: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    getRates: PropTypes.func.isRequired
   }
 
   componentDidMount () {
-    this.props.getTransactions()
     this.getFxRates()
   }
 
@@ -36,67 +43,62 @@ class TransactionHistory extends Component {
       .catch(error => console.log(error))
   }
 
-  getTotalBtc = array => {
-    if(Array.isArray(array) && array.length) {
-      return array.reduce((previousValue, { price }) => previousValue + price, 0)
-    }
-
-    return 0
-  }
-
   render() {
     const {
       location: { pathname },
-      transaction: { loading, transactions }
+      transactionHistory: { data: { txs } },
+      groupTransactionByAddress,
+      calculateTotalSpent
     } = this.props
 
-    const totalBTC = this.getTotalBtc(transactions)
+    const groupedTransaction = groupTransactionByAddress(txs)
+    const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
-      loading
-        ? <CircularProgress />
-        : <div className='page-container transaction color-main container-border-top'>
-          <div className='section-head container'>
-            <div className='transaction-name font-weight-bold'>
-              Customer transition history
-            </div>
-            <div className='transaction-spent'>
-              <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
-              <div className='transaction-spent__price'>
-                <div className='price-item font-weight-bold'>{totalBTC} BTC</div>
-                <div className='price-item font-smaller'>{totalUSD} USD</div>
-              </div>
-            </div>
+      <div className='page-container transaction color-main container-border-top'>
+        <div className='section-head container'>
+          <div className='transaction-name font-weight-bold'>
+            Customer transition history
           </div>
-          <div className='section-content'>
-            <div className='container'>
-              <div className='transaction-list'>
-                {
-                  transactions.map((transaction, index) =>
-                    <TransactionItem
-                      key={index}
-                      {...transaction}
-                      pathname={pathname}
-                    />
-                  )
-                }
-              </div>
+          <div className='transaction-spent'>
+            <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
+            <div className='transaction-spent__price'>
+              <div className='price-item font-weight-bold'>{totalBTC} BTC</div>
+              <div className='price-item font-smaller'>{totalUSD} USD</div>
             </div>
           </div>
         </div>
+        <div className='section-content'>
+          <div className='container'>
+            <div className='transaction-list'>
+              {
+                groupedTransaction.map(({ address, totalSpent }, index) => (
+                  <TransactionItem
+                    key={index}
+                    address={address}
+                    pathname={pathname}
+                    price={totalSpent}
+                  />
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
 
 const mapDispatchToProps = {
-  getRates,
-  getTransactions
+  getRates
 }
 
 const mapStateToProps = state => ({
-  location: state.location,
-  transaction: state.data.transaction
+  location: state.location
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionHistory)
+export default compose(
+  withTransactionHistory,
+  connect(mapStateToProps, mapDispatchToProps)
+)(TransactionHistory)

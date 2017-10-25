@@ -5,7 +5,8 @@ import payment from './payment'
 import fxRates from './fxRates'
 import profile from './profile'
 import checkout from './checkout'
-import transaction from './transaction'
+import transactionHistory from './transactionHistory'
+import reviews from './reviews'
 
 export default combineReducers({
   vendorWallet,
@@ -13,5 +14,6 @@ export default combineReducers({
   fxRates,
   profile,
   checkout,
-  transaction
+  transactionHistory,
+  reviews
 })

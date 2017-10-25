@@ -34,25 +34,8 @@
 
     .transaction-info__wrapper {
       display: flex;
-      justify-content: flex-start;
-
-      .transaction__info {
-        margin-bottom: 15px;
-
-        .field {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 5px;
-
-          &__title {
-            margin-right: 15px;
-          }
-        }
-
-        .field-address {
-          margin-bottom: 15px;
-        }
-      }
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .review {

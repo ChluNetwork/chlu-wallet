@@ -1,0 +1,21 @@
+.transaction__info {
+  margin-bottom: 35px;
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+
+  .field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+
+    &__title {
+      margin-right: 15px;
+    }
+  }
+
+  .field-address {
+    margin-bottom: 15px;
+  }
+}
