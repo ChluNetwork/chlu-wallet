@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 // api
-import fetchTransactionHistory from 'chlu-wallet-support-js/src/fetch_transaction_history'
+import fetchTransactionHistory from 'chlu-wallet-support-js/lib/src/fetch_transaction_history'
 
 // ------------------------------------
 // Constants

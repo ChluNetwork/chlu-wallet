@@ -13,7 +13,7 @@ exports.getTransactionHistory = getTransactionHistory;
 
 var _reduxActions = require('redux-actions');
 
-var _fetch_transaction_history = require('chlu-wallet-support-js/src/fetch_transaction_history');
+var _fetch_transaction_history = require('chlu-wallet-support-js/lib/src/fetch_transaction_history');
 
 var _fetch_transaction_history2 = _interopRequireDefault(_fetch_transaction_history);
 
