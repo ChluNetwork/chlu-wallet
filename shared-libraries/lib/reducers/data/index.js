@@ -26,6 +26,14 @@ var _checkout = require('./checkout');
 
 var _checkout2 = _interopRequireDefault(_checkout);
 
+var _transactionHistory = require('./transactionHistory');
+
+var _transactionHistory2 = _interopRequireDefault(_transactionHistory);
+
+var _reviews = require('./reviews');
+
+var _reviews2 = _interopRequireDefault(_reviews);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
@@ -33,6 +41,8 @@ exports.default = (0, _redux.combineReducers)({
   payment: _payment2.default,
   fxRates: _fxRates2.default,
   profile: _profile2.default,
-  checkout: _checkout2.default
+  checkout: _checkout2.default,
+  transactionHistory: _transactionHistory2.default,
+  reviews: _reviews2.default
 });
 // reducers

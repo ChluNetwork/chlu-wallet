@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 //components
-import PaymentItem from './PaymentItem/index'
+import Review from 'components/Review'
 
 const PaymentsList = ({ date, reviews, getTotalUsd }) => (
-  <div className='payments-list'>
-    <div className='payments-list__date color-light'>{date}</div>
+  <div className='reviews-list'>
+    <div className='reviews-list__date color-light'>{date}</div>
     {
-      reviews.map((review, index) => <PaymentItem {...review} getTotalUsd={getTotalUsd} key={index}/>)
+      reviews.map((review, index) => <Review {...review} getTotalUsd={getTotalUsd} key={index}/>)
     }
   </div>
 )

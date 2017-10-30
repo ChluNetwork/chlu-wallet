@@ -1,6 +1,6 @@
 const profileData = {
   id: 173,
-  userType: 'vendor',
+  userType: 'customer',
   name: 'Awesome vendor',
   rating: 4,
   titleReviews: '250 Reviews',

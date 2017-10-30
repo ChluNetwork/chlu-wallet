@@ -12,12 +12,9 @@ import CustomerWalletForm from './CustomerWalletForm'
 // assets
 import { buttonsData } from '../assets/data'
 // constants
-const { dataActions: {
-  payment: { submitPayment }
-} } = actions
+const { dataActions: { payment: { submitPayment } } } = actions
 
 class CustomerWalletFormWrapper extends Component {
-
   static propTypes = {
     submitPayment: PropTypes.func.isRequired,
     isReviewOpen: PropTypes.bool,
@@ -38,14 +35,11 @@ class CustomerWalletFormWrapper extends Component {
       })
   }
 
-  onStarClick = rating => {
-    const { setRating } = this.props
-
-    setRating(rating)
-  }
+  onStarClick = rating => this.props.setRating(rating)
 
   render () {
     const { isReviewOpen, loading, rating, toggleModal, priceBtc } = this.props
+
     return (
       <CustomerWalletForm
         onSubmit={this.handleSubmit}
@@ -75,7 +69,4 @@ const mapDispatchToProps = dispatch => ({
   setRating: data => dispatch(setRatingForCustomerWallet(data))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomerWalletFormWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletFormWrapper)

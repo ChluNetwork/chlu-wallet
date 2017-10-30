@@ -13,7 +13,9 @@ exports[`<CustomerWalletForm /> should render correctly customer wallet form 1`]
   persistentSubmitErrors={false}
   pure={true}
   shouldAsyncValidate={[Function]}
+  shouldError={[Function]}
   shouldValidate={[Function]}
+  shouldWarn={[Function]}
   touchOnBlur={true}
   touchOnChange={false}
 />

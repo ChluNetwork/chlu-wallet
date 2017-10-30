@@ -19,16 +19,16 @@ const { buttonStyle } = styles
 
 class Checkout extends Component {
   componentDidMount() {
-    const { getCheckout } = this.props
-
-    getCheckout()
+    this.props.getCheckout()
   }
 
   render() {
-    const { checkout: {
-      loading,
-      data: { rating, avatar, price, product }
-    } } = this.props
+    const {
+      checkout: {
+        loading,
+        data: { rating, avatar, price, product }
+      }
+    } = this.props
 
     return (
       <div className='page-container checkout color-main'>
@@ -42,9 +42,9 @@ class Checkout extends Component {
                   <PaySection />
                   <div className='checkout-vendor__button'>
                     <RaisedButton
+                      {...buttonStyle}
                       label='Continue'
                       fullWidth={true}
-                      {...buttonStyle}
                       onClick={() => null}
                     />
                   </div>

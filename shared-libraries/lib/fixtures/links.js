@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var linksForCustomer = function linksForCustomer(userId) {
-  return [{ label: 'Checkout', href: '/customer/' + userId + '/checkout' }, { label: 'Customer Wallet', href: '/customer/' + userId + '/wallet' }];
+  return [{ label: 'Checkout', href: '/customer/' + userId + '/checkout' }, { label: 'Customer Wallet', href: '/customer/' + userId + '/wallet' }, { label: 'Transactions', href: '/customer/' + userId + '/transactions' }];
 };
 
 var linksForVendor = function linksForVendor(userId) {

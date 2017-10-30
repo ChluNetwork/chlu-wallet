@@ -3,7 +3,7 @@ import { createAction, handleActions } from 'redux-actions'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const SET_RATING = 'SET_RATING'
+const SET_RATING = 'customerWallet/SET_RATING'
 
 const initialState = {
   rating: 0

@@ -35,14 +35,13 @@ const CustomerWalletForm = ({
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
-
           <div className='vendor-address'>
             <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
             <Field
+              {...textFieldsStyle}
               name='vendorAddress'
               type='text'
               component={Input}
-              {...textFieldsStyle}
               inputStyle={VendorAddressInputStyle}
             />
             <div className='vendor-address__avatar'>
@@ -54,7 +53,6 @@ const CustomerWalletForm = ({
               </Avatar>
             </div>
           </div>
-
           <div className='payment-currency'>
             <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
             <div className='payment-currency__buttons color-light'>
@@ -72,25 +70,24 @@ const CustomerWalletForm = ({
               ))}
             </div>
           </div>
-
           <div className='amount-btc'>
             <div className='amount-btc__label label font-smaller color-light'>Amount (BTC)</div>
             <div className='amount-btc__fields'>
               <Field
+                {...textFieldsStyle}
                 name='amountBtc'
                 type='tel'
                 component={Input}
-                {...textFieldsStyle}
                 placeholder='BTC'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
               />
               <div className='equally'>=</div>
               <Field
+                {...textFieldsStyle}
                 name='amountUsd'
                 type='tel'
                 component={Input}
-                {...textFieldsStyle}
                 placeholder='USD'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
@@ -100,52 +97,49 @@ const CustomerWalletForm = ({
         </div>
       </div>
     </div>
-
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
-
           <div className='review'>
             <div className='review-fields'>
               <Field
+                {...getCheckboxStyle(isReviewOpen)}
                 label='Write a review now'
                 name='reviewOpen'
                 component={Checkbox}
-                {...getCheckboxStyle(isReviewOpen)}
                 uncheckedIcon={<CheckIcon />}
               />
               {isReviewOpen &&
-              <div>
-                <StarRatingComponent
-                  className='review-rating'
-                  name='rating'
-                  starCount={starCount}
-                  value={ratingValue}
-                  onStarClick={onStarClick}
-                  {...ratingStyle}
-                />
-                <div className='comment-label label font-smaller color-light'>Comment</div>
-                <Field
-                  name='review'
-                  type='text'
-                  component={Input}
-                  {...textFieldsStyle}
-                  multiLine
-                />
-              </div>
+                <div>
+                  <StarRatingComponent
+                    {...ratingStyle}
+                    className='review-rating'
+                    name='rating'
+                    starCount={starCount}
+                    value={ratingValue}
+                    onStarClick={onStarClick}
+                  />
+                  <div className='comment-label label font-smaller color-light'>Comment</div>
+                  <Field
+                    {...textFieldsStyle}
+                    name='review'
+                    type='text'
+                    component={Input}
+                    multiLine
+                  />
+                </div>
               }
             </div>
           </div>
         </div>
       </div>
     </div>
-
     <div className='button-container'>
       <div className='container'>
         <RaisedButton
+          {...submitBtnStyle}
           type='submit'
           label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
-          {...submitBtnStyle}
           className='submit-button'
         />
       </div>

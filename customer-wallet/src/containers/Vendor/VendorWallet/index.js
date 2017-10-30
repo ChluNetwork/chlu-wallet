@@ -4,24 +4,25 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions } from 'shared-libraries/lib'
 // libs
-import { fx, setFxRates } from 'lib/fxRates'
+import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
-import PaymentsList from './PaymentsList/index'
+import ReviewsList from './ReviewsList'
 import CircularProgress from 'material-ui/CircularProgress'
 import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
 import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
 // constants
-const { dataActions: {
-  vendorWallet: { getVendorReviews },
-  fxRates: { getRates }
-} } = actions
+const {
+  dataActions: {
+    vendorWallet: { getVendorReviews },
+    fxRates: { getRates }
+  }
+} = actions
 
 const { avatarStyle } = style
 
 class VendorWallet extends Component {
-
   static propTypes = {
     vendorWalletData: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -36,20 +37,16 @@ class VendorWallet extends Component {
   }
 
   componentDidMount() {
-    const { getVendorReviews } = this.props
-
-    getVendorReviews()
+    this.props.getVendorReviews()
   }
 
   getFxRates () {
-    const { getRates } = this.props
-
-    getRates()
+    this.props.getRates()
       .then(data => setFxRates(data))
       .catch(error => console.log(error))
   }
 
-  calculateBtcForMonth = data => {
+  calculateBtcForMonth = (data) => {
     if(data && data.length){
       return data.reduce((previousValue, { price }) => previousValue + price, 0)
     }
@@ -58,7 +55,7 @@ class VendorWallet extends Component {
   }
 
 
-  calculateTotalBtc = data => {
+  calculateTotalBtc = (data) => {
     if (data && data.length) {
       return data.reduce((previousValue, { reviews }) => previousValue + this.calculateBtcForMonth(reviews), 0)
     }
@@ -66,17 +63,14 @@ class VendorWallet extends Component {
     return 0
   }
 
-  getTotalUsd = (value) => fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
-
   render () {
     const {
       vendorWalletData: { reviews, loading: vendorLoading },
-      fxRates: { loading: ratesLoading },
       profile: { data }
     } = this.props
 
     const totalBtc = this.calculateTotalBtc(reviews)
-    const totalUsd = !ratesLoading ? this.getTotalUsd(totalBtc) : null
+    const totalUsd = convertFromBtcToUsd(totalBtc)
     const userName = data ? data.name : 'c'
 
     return (
@@ -108,7 +102,7 @@ class VendorWallet extends Component {
                 <div className='container'>
                   {
                     reviews.map(({ date, reviews }, index) =>
-                     <PaymentsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                     <ReviewsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
                   }
                 </div>
               </div>
@@ -119,7 +113,7 @@ class VendorWallet extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.data.profile,
   vendorWalletData: state.data.vendorWallet,
   fxRates: state.data.fxRates

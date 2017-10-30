@@ -5,16 +5,14 @@ import { connect } from 'react-redux'
 import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
 // libs
 import { actions } from 'shared-libraries/lib'
-import { fx, setFxRates } from 'lib/fxRates'
+import { setFxRates, convertFromUsdToBtc } from 'lib/fxRates'
 // components
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
-
-const { dataActions: {
-  fxRates: { getRates }
-} } = actions
+// constants
+const { dataActions: { fxRates: { getRates } } } = actions
 
 class CustomerWalletPage extends Component {
   static propTypes = {
@@ -28,19 +26,15 @@ class CustomerWalletPage extends Component {
     const { rates } = this.props
 
     if(!rates) {
-      const { getRates } = this.props
-
-      getRates()
+      this.props.getRates()
         .then(response => setFxRates(response))
         .catch(error => console.log(error))
     }
   }
 
-  getTotalBtc = value => fx.convert(value, { from: 'USD', to: 'BTC' }).toFixed(4)
-
   render() {
     const { toggleModal, modalOpen, price = 400 } = this.props
-    const priceBtc = this.getTotalBtc(price)
+    const priceBtc = convertFromUsdToBtc(price)
 
     return (
       <div className='page-container customer-wallet-form'>
@@ -49,11 +43,9 @@ class CustomerWalletPage extends Component {
           <div className='section-head__price-usd'>$ {price}</div>
           <div className='section-head__price-btc'>{priceBtc} BTC</div>
         </div>
-
         <div className='section-content'>
           <CustomerWalletFormWrapper toggleModal={toggleModal} priceBtc={priceBtc}/>
         </div>
-
         <ComingSoonModal
           open={modalOpen}
           closeModal={toggleModal}
@@ -73,7 +65,4 @@ const mapDispatchToProps = dispatch => ({
   getRates: () => dispatch(getRates())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CustomerWalletPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletPage)
