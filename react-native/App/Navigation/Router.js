@@ -1,8 +1,10 @@
 // RN - components
 import { StackNavigator, DrawerNavigator } from 'react-navigation'
+import React from 'react'
+import { Image } from 'react-native'
 
 // styles
-import { Colors } from '../Themes'
+import { Colors, Images } from '../Themes'
 // containers
 import CustomerScreen from '../Containers/CustomerWallet'
 import CheckoutScreen from '../Containers/Checkout'
@@ -30,7 +32,7 @@ const Router = StackNavigator({
     screen: DrawerNavigator(DrawerRoutes, DrawerOptions),
     navigationOptions: {
       headerStyle: { backgroundColor: Colors.brand },
-      headerTitle: 'Chlu',
+      headerTitle: <Image style={{ height: 20 }} source={Images.logo_chlu} resizeMode={'contain'}/>,
       headerTitleStyle: { color: Colors.snow }
     }
   }
