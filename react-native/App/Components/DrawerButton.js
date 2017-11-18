@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native'
 // icon
 import Icon from 'react-native-vector-icons/FontAwesome'
 // styles
-import Styles from './Styles/DrawerButton'
+import Styles from './Styles/DrawerButtonStyles'
 import Colors from '../Themes/Colors'
 
 const DrawerButton = ({ action }) => (

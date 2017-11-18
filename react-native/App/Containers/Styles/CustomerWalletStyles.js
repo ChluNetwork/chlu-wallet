@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native'
-import { Colors } from '../../Themes'
+import { Colors, ApplicationStyles } from '../../Themes'
 
 export default StyleSheet.create({
+  ...ApplicationStyles.screen,
   headerTitle: {
     color: Colors.mediumGray,
     fontWeight: 'bold'

@@ -1,12 +1,22 @@
+import Colors from './Colors'
+
 const ApplicationStyles = {
   screen: {
-    containerWithNav: {
-      paddingTop: 10,
-      flex: 1
+    mainContainer: {
+      backgroundColor: Colors.lightGray,
+      flex: 1,
+      paddingVertical: 10
     },
     container: {
+      backgroundColor: Colors.lightGray,
       flex: 1,
-      paddingTop: 30
+      padding: 15
+    },
+    whiteBorderedContainer: {
+      backgroundColor: Colors.snow,
+      borderColor: Colors.borderColor,
+      borderWidth: 1,
+      borderRadius: 3
     }
   }
 }

@@ -32,7 +32,7 @@ const Router = StackNavigator({
     screen: DrawerNavigator(DrawerRoutes, DrawerOptions),
     navigationOptions: {
       headerStyle: { backgroundColor: Colors.brand },
-      headerTitle: <Image style={{ height: 20 }} source={Images.logo_chlu} resizeMode={'contain'}/>,
+      headerTitle: <Image style={{ height: 20 }} source={Images.logo_chlu} resizeMode={'contain'} />,
       headerTitleStyle: { color: Colors.snow }
     }
   }
