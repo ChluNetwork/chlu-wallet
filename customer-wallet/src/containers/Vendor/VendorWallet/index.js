@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { actions } from 'shared-libraries/lib'
+import { getVendorReviews } from 'store/modules/data/vendorWallet'
+import { getRates } from 'store/modules/data/fxRates'
 // libs
 import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
@@ -12,13 +13,6 @@ import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
 import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
-// constants
-const {
-  dataActions: {
-    vendorWallet: { getVendorReviews },
-    fxRates: { getRates }
-  }
-} = actions
 
 const { avatarStyle } = style
 

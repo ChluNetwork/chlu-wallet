@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 // data
-import reviews from '../../fixtures/reviews'
+import reviews from 'fixtures/reviews'
 // ------------------------------------
 // Constants
 // ------------------------------------

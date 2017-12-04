@@ -1,4 +1,4 @@
-import rates from 'shared-libraries/lib/fixtures/rates'
+import rates from 'fixtures/rates'
 
 function getExchangeRates () {
   const isTestEnv = process.env.NODE_ENV === 'test'

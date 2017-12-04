@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { actions } from 'shared-libraries/lib'
+import { getCheckout } from 'store/modules/data/checkout'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import PaySection from './sections/PaySection'
@@ -11,8 +11,6 @@ import CircularProgress from 'material-ui/CircularProgress'
 // styles
 import './styles.css'
 import styles from 'styles/inlineStyles/containers/Customer/checkout'
-// constants
-const { dataActions: { checkout: { getCheckout } } } = actions
 
 const { buttonStyle } = styles
 

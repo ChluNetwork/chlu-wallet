@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { browserHistory } from 'react-router'
 // data
-import profileData from '../../fixtures/profile'
+import profileData from 'fixtures/profile'
 
 // ------------------------------------
 // Constants

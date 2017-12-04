@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
-import { actions } from 'shared-libraries/lib'
+import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 // libs
 import { toastr } from 'react-redux-toastr'
@@ -11,8 +11,6 @@ import { toastr } from 'react-redux-toastr'
 import CustomerWalletForm from './CustomerWalletForm'
 // assets
 import { buttonsData } from '../assets/data'
-// constants
-const { dataActions: { payment: { submitPayment } } } = actions
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {

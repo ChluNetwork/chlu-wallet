@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 // utils
-import { getExchangeRates } from 'shared-libraries/lib/utils/exchangeReq'
+import { getExchangeRates } from 'helpers/exchangeReq'
 
 // ------------------------------------
 // Constants
