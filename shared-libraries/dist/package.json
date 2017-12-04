@@ -1,0 +1,25 @@
+{
+  "name": "chlu-shared-libraries",
+  "version": "1.0.0",
+  "description": "shared libraries between apps",
+  "main": "index.js",
+  "author": "Venumteam",
+  "scripts": {
+    "lib": "babel . --out-dir ../dist/lib --ignore node_modules,.babelrc,yarn.lock"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "core-js": "^2.5.1",
+    "create-react-class": "^15.6.2",
+    "fbjs": "^0.8.16",
+    "react": "^15.6.1",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1"
+  }
+}

@@ -3,7 +3,8 @@ var fs = require('fs-extra')
 var chokidar = require('chokidar')
 
 var packagePaths = [
-  '../customer-wallet/node_modules/shared-libraries/lib'
+  '../customer-wallet/node_modules/shared-libraries/lib',
+  '../RNApp/node_modules/shared-libraries/lib'
 ]
 
 var watcher = chokidar.watch('./src', {
