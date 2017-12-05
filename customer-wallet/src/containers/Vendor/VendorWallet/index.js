@@ -110,7 +110,7 @@ class VendorWallet extends Component {
 const mapStateToProps = (state) => ({
   profile: state.data.profile,
   vendorWalletData: state.data.vendorWallet,
-  fxRates: state.data.fxRates
+  fxRates: state.data.fxRates,
 })
 
 const mapDispatchToProps = {

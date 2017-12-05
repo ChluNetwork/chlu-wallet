@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+// helpers
+import get from 'lodash/get'
 // redux
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getRates } from 'store/modules/data/fxRates'
+import { getTransactionHistory } from 'store/modules/data/transactionHistory'
 // hoc
 import withTransactionHistory from '../withTransactionHistory'
 // libs
@@ -24,11 +27,47 @@ class TransactionHistory extends Component {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
-    getRates: PropTypes.func.isRequired
+    getRates: PropTypes.func.isRequired,
+    address: PropTypes.string,
+    getTransactionHistory: PropTypes.func.isRequired
   }
 
+  unconfirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
+  confirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
+
   componentDidMount () {
+    const { address } = this.props
+
     this.getFxRates()
+
+    // confirmed
+    this.confirmed.onmessage = (event) => {
+      const data = JSON.parse(get(event, 'data', '{}'))
+      getTransactionHistory(address)
+      console.log('updated', data)
+    }
+
+    this.confirmed.onopen = () => {
+      this.confirmed.send(JSON.stringify({
+        event: 'confirmed-tx',
+        address
+      }))
+    }
+
+    // unconfirmed
+    this.unconfirmed.onmessage = this.confirmed.onmessage
+
+    this.unconfirmed.onopen = () => {
+      this.unconfirmed.send(JSON.stringify({
+        event: 'unconfirmed-tx',
+        address
+      }))
+    }
+  }
+
+  componentWillUnmount () {
+    this.unconfirmed.close()
+    this.confirmed.close()
   }
 
   getFxRates () {
@@ -85,7 +124,8 @@ class TransactionHistory extends Component {
 }
 
 const mapDispatchToProps = {
-  getRates
+  getRates,
+  getTransactionHistory
 }
 
 const mapStateToProps = state => ({

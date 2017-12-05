@@ -59,6 +59,7 @@ const withTransactionHistory = (WrappedComponent) => {
         : <WrappedComponent
           groupTransactionByAddress={this.groupTransactionByAddress}
           calculateTotalSpent={this.calculateTotalSpent}
+          address={address}
           {...this.props}
         />
       )

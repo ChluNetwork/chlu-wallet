@@ -7,12 +7,12 @@ import { convertSatoshiToBTC } from 'lib/fxRates'
 // styles
 import './style.css'
 
-const TransactionInfo = ({ address, date, price, isChluTransaction }) => {
+const TransactionInfo = ({ address, date, price, isChluTransaction, confirmations, ...rest }) => {
   const parseDate = new Date(date)
   const priceBTC = convertSatoshiToBTC(price)
 
   return (
-    <div className='transaction__info'>
+    <div className='transaction__info' {...rest}>
       <div className='field field-address'>
         <div className='field__title'>To</div>
         <div className='field__data'>{address}</div>
@@ -26,6 +26,12 @@ const TransactionInfo = ({ address, date, price, isChluTransaction }) => {
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
         <div className='field__data'>{priceBTC} BTC</div>
+      </div>
+      <div className='field field-confirm'>
+        <div className='field__title'>Number of confirmations</div>
+        <div className={`field__data font-weight-bold ${confirmations < 6 ? 'yellow' : 'green'}`}>
+          {confirmations}
+        </div>
       </div>
       {isChluTransaction || <div className='field-not-chlu'>Not Chlu transaction</div>}
     </div>

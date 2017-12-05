@@ -117,12 +117,13 @@ class RecentTransaction extends Component {
               <div className='container'>
                 <div className='transaction-info__wrapper'>
                   {
-                    transaction.map(({ received, total, isChluTransaction }, index) => (
+                    transaction.map(({ received, total, isChluTransaction, confirmations }, index) => (
                       <TransactionInfo
                         key={index}
                         address={address}
                         date={received}
                         price={total}
+                        confirmations={confirmations}
                         isChluTransaction={isChluTransaction}
                       />
                     ))

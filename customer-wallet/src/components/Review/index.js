@@ -18,11 +18,13 @@ const ReviewItem = ({
   rating,
   review,
   platform,
-  productPhoto
+  productPhoto,
+  confirmations,
+  ...rest
 }) => {
 
   return (
-    <div className='review-item container-border-bottom'>
+    <div className='review-item container-border-bottom' {...rest}>
       <div className='review-item__avatar'>
         <img src={productPhoto || noProduct} alt='avatar' className='avatar'/>
       </div>
@@ -31,18 +33,27 @@ const ReviewItem = ({
           <div className='info-head'>
             <div className='info-head__name'>{review}</div>
             <div className='info-head__date color-light'>
-              {isMultipleReview || <div className='date'>{date}</div>}
+              {!isMultipleReview && <div className='date'>{date}</div>}
               <div className='platform'>{platform}</div>
             </div>
           </div>
           {
-            isMultipleReview ||
+            !isMultipleReview &&
             <div className='info-head__price'>
               <div className='price-item'>{price} BTC</div>
               <div className='price-item'>{price} USD</div>
             </div>
           }
         </div>
+        {!isMultipleReview &&
+          <div className='review-confirmation'>
+            <div className='review-confirmation__title'>Number of confirmations</div>
+            <div className={`review-confirmation__amount ${confirmations < 6 ? 'yellow' : 'green'}`}>
+              <div>{confirmations}</div>
+              <div>{confirmations < 6 ? 'unconfirmed' : 'confirmed'}</div>
+            </div>
+          </div>
+        }
         <div className='review-comments__list'>
           {
             isMultipleReview
