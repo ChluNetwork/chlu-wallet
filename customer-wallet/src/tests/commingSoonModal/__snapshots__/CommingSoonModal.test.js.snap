@@ -18,7 +18,7 @@ exports[`<ComingSoonModal /> should render correctly modal component 1`] = `
           onTouchStart={[Function]}
           primary={true}
           secondary={false}
-      />,
+        />,
       ]
     }
     autoDetectWindowHeight={true}

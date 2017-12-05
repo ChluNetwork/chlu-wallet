@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 // api
-import fetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
+import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
 
 // ------------------------------------
 // Constants
@@ -29,7 +29,7 @@ export function getTransactionHistory (address) {
   return async (dispatch) => {
     dispatch(fetchTransactionHistoryLoading(true))
     try {
-      const fetch = new fetchTransactionHistory
+      const fetch = new FetchTransactionHistory()
       const response = await fetch.getFromBlockchain(address)
       const responceWithTransactionPlatform = {
         ...response,

@@ -4,15 +4,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
 // libs
-import { actions } from 'shared-libraries/lib'
+import { getRates } from 'store/modules/data/fxRates'
 import { setFxRates, convertFromUsdToBtc } from 'lib/fxRates'
 // components
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
-// constants
-const { dataActions: { fxRates: { getRates } } } = actions
 
 class CustomerWalletPage extends Component {
   static propTypes = {

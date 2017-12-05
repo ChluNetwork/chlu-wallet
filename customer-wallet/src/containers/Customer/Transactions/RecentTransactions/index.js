@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { actions } from 'shared-libraries/lib'
+import { submitEditReview, fetchReviews } from 'store/modules/data/reviews'
 import { setRatingRecentTransaction } from 'store/modules/components/RecentTransaction'
 import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
 // hoc
@@ -23,12 +23,6 @@ import './style.css'
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
 const { submitBtnStyle } = styles
-
-const {
-  dataActions: {
-    reviews: { submitEditReview, fetchReviews }
-  }
-} = actions
 
 class RecentTransaction extends Component {
   static propTypes = {

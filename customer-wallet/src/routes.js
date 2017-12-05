@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, IndexRedirect, browserHistory } from 'react-router'
 import 'babel-polyfill'
 // redux
-import dataActions from 'shared-libraries/lib/reducers/actions'
+import { getProfile } from 'store/modules/data/profile'
 // containers
 import MainLayout from './containers/MainLayout'
 import CustomerWallet from './containers/Customer/CustomerWallet'
@@ -13,8 +13,6 @@ import TransactionHistory from './containers/Customer/Transactions/TransactionHi
 import RecentTransactions from './containers/Customer/Transactions/RecentTransactions'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
-// constants
-const { dataActions: { profile: { getProfile } } } = dataActions
 
 function getRoutes (store) {
   return (

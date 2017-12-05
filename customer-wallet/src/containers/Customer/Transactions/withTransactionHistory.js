@@ -2,19 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { actions } from 'shared-libraries/lib'
+import { getTransactionHistory } from 'store/modules/data/transactionHistory'
 // libs
 import _ from 'lodash'
 // components
 import CircularProgress from 'material-ui/CircularProgress'
 // assets
 import data from './assets/data'
-// constants
-const {
-  dataActions: {
-    transactionHistory: { getTransactionHistory }
-  }
-} = actions
 
 const { address } = data
 

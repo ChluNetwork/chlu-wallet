@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem'
 import './styles.css'
 import { menuItemStyles } from 'styles/inlineStyles/components/drawer'
 // data
-import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'shared-libraries/lib/fixtures/links'
+import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'fixtures/links'
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
   const userType = data ? data.userType : ''

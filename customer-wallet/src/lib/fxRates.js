@@ -1,5 +1,5 @@
 import { fx } from 'money'
-import rates from 'shared-libraries/lib/fixtures/rates'
+import rates from 'fixtures/rates'
 // constants
 const denominator = 100000000
 

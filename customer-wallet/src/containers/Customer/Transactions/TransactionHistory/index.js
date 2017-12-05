@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // redux
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { actions } from 'shared-libraries/lib'
+import { getRates } from 'store/modules/data/fxRates'
 // hoc
 import withTransactionHistory from '../withTransactionHistory'
 // libs
@@ -12,12 +12,6 @@ import { setFxRates, convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRate
 import TransactionItem from './TransactionItem/index'
 // styles
 import './style.css'
-// constants
-const {
-  dataActions: {
-    fxRates: { getRates }
-  }
-} = actions
 
 class TransactionHistory extends Component {
   static propTypes = {
