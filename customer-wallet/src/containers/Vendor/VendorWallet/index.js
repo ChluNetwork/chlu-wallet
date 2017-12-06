@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getVendorReviews } from 'store/modules/data/vendorWallet'
 import { getRates } from 'store/modules/data/fxRates'
+// helpers
+import get from 'lodash/get'
 // libs
 import { setFxRates, convertFromBtcToUsd } from 'lib/fxRates'
 // components
@@ -13,7 +15,10 @@ import Avatar from 'material-ui/Avatar'
 // styles
 import './styles.css'
 import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
-
+// test data
+import data from 'containers/Customer/Transactions/assets/data'
+// constants
+const { address } = data
 const { avatarStyle } = style
 
 class VendorWallet extends Component {
@@ -26,12 +31,42 @@ class VendorWallet extends Component {
     getVendorReviews: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
-    this.getFxRates()
-  }
+  unconfirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
+  confirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
 
   componentDidMount() {
-    this.props.getVendorReviews()
+    const { getVendorReviews } = this.props
+
+    getVendorReviews()
+    this.getFxRates()
+
+    this.confirmed.onmessage = (event) => {
+      const data = JSON.parse(get(event, 'data', '{}'))
+      getVendorReviews(address)
+      console.log('updated', data)
+    }
+
+    this.confirmed.onopen = () => {
+      this.confirmed.send(JSON.stringify({
+        event: 'confirmed-tx',
+        address
+      }))
+    }
+
+    // unconfirmed
+    this.unconfirmed.onmessage = this.confirmed.onmessage
+
+    this.unconfirmed.onopen = () => {
+      this.unconfirmed.send(JSON.stringify({
+        event: 'unconfirmed-tx',
+        address
+      }))
+    }
+  }
+
+  componentWillUnmount () {
+    this.unconfirmed.close()
+    this.confirmed.close()
   }
 
   getFxRates () {
@@ -96,7 +131,7 @@ class VendorWallet extends Component {
                 <div className='container'>
                   {
                     reviews.map(({ date, reviews }, index) =>
-                     <ReviewsList date={date} reviews={reviews} key={index} getTotalUsd={this.getTotalUsd}/>)
+                     <ReviewsList date={date} reviews={reviews} key={index} />)
                   }
                 </div>
               </div>

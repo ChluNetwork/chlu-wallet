@@ -6,6 +6,7 @@ import ReviewTitle from './ReviewTitle'
 import noProduct from 'images/no-product.png'
 // helpers
 import Date from 'helpers/Date'
+import { convertFromBtcToUsd } from 'lib/fxRates'
 // styles
 import './style.css'
 
@@ -41,7 +42,7 @@ const ReviewItem = ({
             !isMultipleReview &&
             <div className='info-head__price'>
               <div className='price-item'>{price} BTC</div>
-              <div className='price-item'>{price} USD</div>
+              <div className='price-item'>{convertFromBtcToUsd(price)} USD</div>
             </div>
           }
         </div>

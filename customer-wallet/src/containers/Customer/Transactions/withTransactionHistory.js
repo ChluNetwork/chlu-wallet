@@ -24,30 +24,30 @@ const withTransactionHistory = (WrappedComponent) => {
     }
 
     groupTransactionByAddress = (transactions) => {
-      const rezult = []
+      const result = []
       const grouped = _.groupBy(transactions, ({ addresses }) => addresses[addresses.length - 1])
 
       for(const address in grouped){
-        rezult.push({
+        result.push({
           address,
           totalSpent: this.calculateTotalSpent(grouped[address]),
           transactions: grouped[address]
         })
       }
 
-      return rezult
+      return result
     }
 
     calculateTotalSpent = (transactions, field = 'total') => {
-      let rezult = 0
+      let result = 0
 
       if(Array.isArray(transactions) && transactions.length){
-        rezult = transactions.reduce((accumulator, transaction) => (
+        result = transactions.reduce((accumulator, transaction) => (
           accumulator + transaction[field]
         ), 0)
       }
 
-      return rezult
+      return result
     }
 
     render () {
