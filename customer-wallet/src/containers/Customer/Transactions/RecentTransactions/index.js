@@ -7,6 +7,8 @@ import { compose } from 'redux'
 import { submitEditReview, fetchReviews } from 'store/modules/data/reviews'
 import { setRatingRecentTransaction } from 'store/modules/components/RecentTransaction'
 import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
+// helpers
+import get from 'lodash/get'
 // hoc
 import withTransactionHistory from '../withTransactionHistory'
 // components
@@ -85,15 +87,18 @@ class RecentTransaction extends Component {
 
   render() {
     const {
-      routeParams: { address },
+      routeParams,
       editRating,
       isEditFormOpen,
-      transactionHistory: { data: { txs } },
+      transactionHistory,
       calculateTotalSpent,
       reviews: { loading: isReviewsLoading, data: { reviews } }
     } = this.props
 
-    const transaction = txs.filter(({ addresses }) => addresses[addresses.length - 1] === address)
+    const address = get(routeParams,'address', '')
+
+    const transaction = get(transactionHistory, 'data.txs', [])
+      .filter(({ addresses }) => addresses[addresses.length - 1] === address)
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(transaction))
     const totalUSD = convertFromBtcToUsd(totalBTC)
 

@@ -78,13 +78,13 @@ class TransactionHistory extends Component {
 
   render() {
     const {
-      location: { pathname },
-      transactionHistory: { data: { txs } },
+      location,
+      transactionHistory,
       groupTransactionByAddress,
       calculateTotalSpent
     } = this.props
 
-    const groupedTransaction = groupTransactionByAddress(txs)
+    const groupedTransaction = groupTransactionByAddress(get(transactionHistory, 'data.txs', []))
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
@@ -110,7 +110,7 @@ class TransactionHistory extends Component {
                   <TransactionItem
                     key={index}
                     address={address}
-                    pathname={pathname}
+                    pathname={get(location, 'pathname', '')}
                     price={totalSpent}
                   />
                 ))

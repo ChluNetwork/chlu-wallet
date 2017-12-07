@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, IndexRedirect, browserHistory } from 'react-router'
-import 'babel-polyfill'
 // redux
 import { getProfile } from 'store/modules/data/profile'
 // containers
@@ -19,7 +18,7 @@ function getRoutes (store) {
     <Route
       path='/'
       component={MainLayout}
-      onEnter={(nextState, replace, proceed) => preloadUser(proceed, store)}
+      onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
     >
       <IndexRedirect to='customer' />
       <Route path='customer/:id' >
@@ -43,21 +42,17 @@ function getRoutes (store) {
   )
 }
 
-function preloadUser(proceed, { getState, dispatch }) {
+function preloadUser(nextState, proceed, { getState, dispatch }) {
   const { data } = getState().data.profile
+  const [ , nextUserType, nextId, ...rest ] = nextState.location.pathname.split('/')
 
-  if(!data){
-
-    dispatch(getProfile())
+  if (!data) {
+    dispatch(getProfile(nextUserType))
       .then(({ userType, id }) => {
-        browserHistory.replace(`/${userType}/${id}`)
+        const nextPath = [ nextUserType || userType, nextId || id, ...rest ].join('/')
+        browserHistory.replace(`/${nextPath}`)
       })
       .catch(response => proceed())
-  }
-  else {
-    const { userType, id } = data
-
-    browserHistory.replace(`/${userType}/${id}`)
   }
 
   proceed()
