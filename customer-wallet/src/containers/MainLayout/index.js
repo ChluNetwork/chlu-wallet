@@ -30,14 +30,14 @@ const MainLayout = ({
   isSwitchUserMenuOpen,
   toggleSwitchUserMenuShow
 }) => {
-  const { loading, data } = profile
+  const { loading, data, error } = profile
   const id = data ? data.id : 0
   const userType = data ? data.userType : ''
 
   return (
     <div>
-      {loading
-        ? <CircularProgress {...circularProgressStyle} />
+      {loading ? <CircularProgress {...circularProgressStyle} /> : error
+        ? 'Something went wrong'
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar

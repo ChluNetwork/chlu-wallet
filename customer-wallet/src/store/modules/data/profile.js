@@ -30,15 +30,18 @@ export const changeUserTypeAction = createAction(CHANGE_USER_TYPE)
 // ------------------------------------
 function testReq () {
   return new Promise(resolve => setTimeout(() =>
-    resolve(profileData), 1000))
+    resolve(profileData), 500))
 }
 
-export function getProfile () {
+export function getProfile (nextUserType) {
   return async (dispatch) => {
-    dispatch(fetchProfileDataLoading(true))
+    dispatch(fetchProfileDataLoading())
     try {
       const response = await testReq()
-      dispatch(fetchProfileDataSuccess(response))
+      dispatch(fetchProfileDataSuccess({
+        ...response,
+        userType: response.userType === nextUserType ? response.userType : nextUserType
+      }))
       return response
     } catch (error) {
       dispatch(fetchProfileDataError(error))
@@ -59,20 +62,18 @@ export function changeUserType (nextUser, id) {
 // ------------------------------------
 export default handleActions({
   [FETCH_PROFILE_DATA_SUCCESS]: (state, { payload: data }) => ({
-    ...state,
     data,
     loading: false,
     error: null
   }),
   [FETCH_PROFILE_DATA_ERROR]: (state, { payload: error }) => ({
     ...state,
-    data: null,
     loading: false,
     error
   }),
-  [FETCH_PROFILE_DATA_LOADING]: (state, { payload: loading }) => ({
+  [FETCH_PROFILE_DATA_LOADING]: (state) => ({
     ...state,
-    loading
+    loading: true
   }),
   [CHANGE_USER_TYPE]: (state, { payload: userType } ) => ({
     ...state,

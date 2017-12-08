@@ -46,5 +46,25 @@
         margin-bottom: 10px;
       }
     }
+
+    .review-confirmation {
+      display: flex;
+
+      &__title {
+        padding-right: 10px;
+      }
+
+      &__amount {
+        text-align: right;
+      }
+
+      .yellow {
+        color: $orange;
+      }
+
+      .green {
+        color: green;
+      }
+    }
   }
 }

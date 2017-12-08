@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { func, bool, number, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
@@ -14,12 +14,12 @@ import { buttonsData } from '../assets/data'
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {
-    submitPayment: PropTypes.func.isRequired,
-    isReviewOpen: PropTypes.bool,
-    loading: PropTypes.bool,
-    rating: PropTypes.number.isRequired,
-    setRating: PropTypes.func.isRequired,
-    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+    submitPayment: func,
+    isReviewOpen: bool,
+    loading: bool,
+    rating: number,
+    setRating: func,
+    rates: oneOfType([object, bool])
   }
 
   handleSubmit = (data) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, number } from 'prop-types'
 //components
 import StarRatingComponent from 'react-star-rating-component'
 // styles
@@ -28,9 +28,9 @@ const ReviewTitle = ({ comment, date, rating }) => (
 )
 
 ReviewTitle.propTypes = {
-  comment: PropTypes.string,
-  date: PropTypes.string,
-  rating: PropTypes.number
+  comment: string,
+  date: string,
+  rating: number
 }
 
 export default ReviewTitle

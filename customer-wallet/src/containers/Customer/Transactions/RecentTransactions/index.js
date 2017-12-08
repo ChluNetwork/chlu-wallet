@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { shape, bool, any, object, func, number } from 'prop-types'
 import { Link } from 'react-router'
 // redux
 import { connect } from 'react-redux'
@@ -7,8 +7,11 @@ import { compose } from 'redux'
 import { submitEditReview, fetchReviews } from 'store/modules/data/reviews'
 import { setRatingRecentTransaction } from 'store/modules/components/RecentTransaction'
 import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
+// helpers
+import get from 'lodash/get'
 // hoc
-import withTransactionHistory from '../withTransactionHistory'
+import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
+import withFxRates from '../../../Hoc/withFxRates'
 // components
 import Review from 'components/Review'
 import EditReviewForm from './EditReviewForm'
@@ -16,7 +19,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TransactionInfo from './TransactionInfo'
 import CircularProgress from 'material-ui/CircularProgress'
 // libs
-import { convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRates'
 import { toastr } from 'react-redux-toastr'
 // styles
 import './style.css'
@@ -26,32 +28,34 @@ const { submitBtnStyle } = styles
 
 class RecentTransaction extends Component {
   static propTypes = {
-    transactionHistory: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      data: PropTypes.object.isRequired
-    }).isRequired,
-    reviews: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      data: PropTypes.object.isRequired
-    }).isRequired,
-    editRating: PropTypes.number,
-    isEditFormOpen: PropTypes.bool,
-    submitEditReview: PropTypes.func.isRequired,
-    setRating: PropTypes.func.isRequired,
-    IsShowEditForm: PropTypes.func.isRequired,
-    calculateTotalSpent: PropTypes.func.isRequired,
-    groupTransactionByAddress: PropTypes.func,
-    fetchReviews: PropTypes.func.isRequired
+    customerTransactions: shape({
+      loading: bool,
+      error: any,
+      data: object
+    }),
+    reviews: shape({
+      loading: bool,
+      error: any,
+      data: object
+    }),
+    editRating: number,
+    isEditFormOpen: bool,
+    submitEditReview: func,
+    setRating: func,
+    IsShowEditForm: func,
+    calculateTotalSpent: func,
+    groupTransactionByAddress: func,
+    fetchReviews: func,
+    convertSatoshiToBTC: func,
+    convertFromBtcToUsd: func,
+    convertFromUsdToBtc: func
   }
 
   componentDidMount() {
     const { isEditFormOpen, fetchReviews, routeParams: { address } } = this.props
 
     fetchReviews(address)
-
-    if (isEditFormOpen) {
-      this.hideEditForm()
-    }
+    isEditFormOpen &&  this.hideEditForm()
   }
 
   handleEditFormSubmit = (comment) => {
@@ -85,22 +89,26 @@ class RecentTransaction extends Component {
 
   render() {
     const {
-      routeParams: { address },
+      routeParams,
       editRating,
       isEditFormOpen,
-      transactionHistory: { data: { txs } },
+      customerTransactions,
       calculateTotalSpent,
-      reviews: { loading: isReviewsLoading, data: { reviews } }
+      reviews: { loading: isReviewsLoading, data },
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
     } = this.props
 
-    const transaction = txs.filter(({ addresses }) => addresses[addresses.length - 1] === address)
+    const address = get(routeParams,'address', '')
+
+    const transaction = get(customerTransactions, 'data.txs', [])
+      .filter(({ addresses }) => addresses[addresses.length - 1] === address)
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(transaction))
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
       <div className='page-container color-main'>
-        {
-          transaction.length
+        {transaction.length
           ? <div className='recent-transaction'>
             <div className='section-head container'>
               <div className='title font-weight-bold'>Recent Transaction</div>
@@ -116,53 +124,49 @@ class RecentTransaction extends Component {
             <div className='section-content'>
               <div className='container'>
                 <div className='transaction-info__wrapper'>
-                  {
-                    transaction.map(({ received, total, isChluTransaction }, index) => (
-                      <TransactionInfo
-                        key={index}
-                        address={address}
-                        date={received}
-                        price={total}
-                        isChluTransaction={isChluTransaction}
-                      />
-                    ))
-                  }
+                  {transaction.map((item, index) => (
+                    <TransactionInfo
+                      key={index}
+                      address={address}
+                      transaction={item}
+                      convertSatoshiToBTC={convertSatoshiToBTC}
+                    />
+                  ))}
                 </div>
                 <div className='review container-border-top container-border-bottom'>
-                  {
-                    isReviewsLoading
-                      ? <CircularProgress />
-                      : (reviews && reviews.length)
-                        ? <Review
-                          isMultipleReview
-                          commentsList={reviews}
-                          review={'New Product'}
-                        />
-                        : <div>no comments yet</div>
+                  {isReviewsLoading
+                    ? <CircularProgress />
+                    : get(data, 'reviews', []).length
+                      ? <Review
+                        isMultipleReview
+                        convertSatoshiToBTC={convertSatoshiToBTC}
+                        convertFromBtcToUsd={convertFromBtcToUsd}
+                        commentsList={get(data, 'reviews')}
+                      />
+                      : <div>no comments yet</div>
                   }
                 </div>
                 <div className='edit-review'>
-                  {
-                    isEditFormOpen
-                      ? <EditReviewForm
-                        onSubmit={this.handleEditFormSubmit}
-                        handleCancel={this.hideEditForm}
-                        onStarClick={this.onStarClick}
-                        rating={editRating}
-                        isLoading={isReviewsLoading}
-                      />
-                      : <RaisedButton
-                        {...submitBtnStyle}
-                        label='Edit'
-                        onClick={this.showEditForm}
-                      />
+                  {isEditFormOpen
+                    ? <EditReviewForm
+                      onSubmit={this.handleEditFormSubmit}
+                      handleCancel={this.hideEditForm}
+                      onStarClick={this.onStarClick}
+                      rating={editRating}
+                      isLoading={isReviewsLoading}
+                    />
+                    : <RaisedButton
+                      {...submitBtnStyle}
+                      label='Edit'
+                      onClick={this.showEditForm}
+                    />
                   }
                 </div>
               </div>
             </div>
           </div>
           : <div className='container'>
-            There are no transactions with this address <span className='font-weight-bold'>(userAddress)</span>
+            There are no transactions with this address <span className='font-weight-bold'>({address})</span>
           </div>
         }
       </div>
@@ -185,6 +189,7 @@ const mapDispatchToProps = {
 }
 
 export default compose(
-  withTransactionHistory,
+  withFxRates,
+  withCustomerTransactions,
   connect(mapStateToProps, mapDispatchToProps)
 )(RecentTransaction)

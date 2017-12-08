@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { func, bool, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
-// libs
-import { getRates } from 'store/modules/data/fxRates'
-import { setFxRates, convertFromUsdToBtc } from 'lib/fxRates'
+// hoc
+import withFxRates from '../../Hoc/withFxRates'
 // components
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
@@ -14,24 +14,16 @@ import './styles.css'
 
 class CustomerWalletPage extends Component {
   static propTypes = {
-    toggleModal: PropTypes.func,
-    modalOpen: PropTypes.bool,
-    rates: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-    getRates: PropTypes.func.isRequired
-  }
-
-  componentDidMount() {
-    const { rates } = this.props
-
-    if(!rates) {
-      this.props.getRates()
-        .then(response => setFxRates(response))
-        .catch(error => console.log(error))
-    }
+    toggleModal: func,
+    modalOpen: bool,
+    rates: oneOfType([object, bool]),
+    convertSatoshiToBTC: func,
+    convertFromBtcToUsd: func,
+    convertFromUsdToBtc: func
   }
 
   render() {
-    const { toggleModal, modalOpen, price = 400 } = this.props
+    const { toggleModal, modalOpen, price = 400, convertFromUsdToBtc } = this.props
     const priceBtc = convertFromUsdToBtc(price)
 
     return (
@@ -54,13 +46,14 @@ class CustomerWalletPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  modalOpen: state.ui.comingSoonModal.open,
-  rates: state.data.fxRates.rates
+  modalOpen: state.ui.comingSoonModal.open
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: () => dispatch(toggleComingSoonModal()),
-  getRates: () => dispatch(getRates())
+  toggleModal: () => dispatch(toggleComingSoonModal())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletPage)
+export default compose(
+  withFxRates,
+  connect(mapStateToProps, mapDispatchToProps)
+)(CustomerWalletPage)
