@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 // helpers
-import { getMonthYear, getMonthDateYear } from 'helpers/Date'
+import { withTestData, updateTransactions } from '../../../helpers/transactions'
 import { get } from 'lodash'
 // api
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
@@ -11,6 +11,8 @@ import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transactio
 const GET_TRANSACTIONS_LOADING = 'customer/GET_TRANSACTIONS_LOADING'
 const GET_TRANSACTIONS_SUCCESS = 'customer/GET_TRANSACTIONS_SUCCESS'
 const GET_TRANSACTIONS_ERROR = 'customer/GET_TRANSACTIONS_ERROR'
+// update
+const UPDATE_TRANSACTIONS = 'customer/UPDATE_TRANSACTIONS'
 
 const initialState = {
   loading: false,
@@ -24,7 +26,7 @@ const initialState = {
 export const getTransactionsLoading = createAction(GET_TRANSACTIONS_LOADING)
 export const getTransactionsSuccess = createAction(GET_TRANSACTIONS_SUCCESS)
 export const getTransactionsError = createAction(GET_TRANSACTIONS_ERROR)
-
+export const updateCustomerTransactions = createAction(UPDATE_TRANSACTIONS)
 // ------------------------------------
 // Thunks
 // ------------------------------------
@@ -36,12 +38,7 @@ export function getCustomerTransactions (address) {
       const response = await fetch.getFromBlockchain(address)
       const fixResponce = {
         ...response,
-        txs: response.txs.map((transaction) => ({
-          ...transaction,
-          shortDate: getMonthYear(get(transaction, 'received', new Date())),
-          longDate: getMonthDateYear(get(transaction, 'received', new Date())),
-          isChluTransaction: Math.random() > 0.5
-        }))
+        txs: response.txs.map((transaction) => withTestData(transaction))
       }
       dispatch(getTransactionsSuccess(fixResponce))
       return response
@@ -69,5 +66,12 @@ export default handleActions({
     ...state,
     loading: false,
     error
+  }),
+  [UPDATE_TRANSACTIONS]: (state, { payload: transaction }) => ({
+    ...state,
+    data: {
+      ...state.data,
+      txs: updateTransactions(get(state.data, 'txs', []), transaction)
+    }
   })
 }, initialState)

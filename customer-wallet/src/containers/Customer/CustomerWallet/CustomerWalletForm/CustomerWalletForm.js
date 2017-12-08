@@ -5,7 +5,7 @@ import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 // hoc
-import withFxRates from 'containers/withFxRates'
+import withFxRates from 'containers/Hoc/withFxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { object, bool, func } from 'prop-types'
+import { object, bool, func, string } from 'prop-types'
 // components
 import ReviewTitle from './ReviewTitle'
 // helpers
@@ -15,22 +15,26 @@ const ReviewItem = ({
   commentsList = [],
   isMultipleReview,
   convertSatoshiToBTC,
-  convertFromBtcToUsd,
-  ...rest
+  convertFromBtcToUsd
 }) => {
   const BTC = convertSatoshiToBTC(get(transaction, 'total'))
   const USD = convertFromBtcToUsd(BTC)
   const confirmations = get(transaction, 'confirmations')
 
   return (
-    <div className='review-item container-border-bottom' {...rest}>
+    <div className='review-item container-border-bottom'>
       <div className='review-item__avatar'>
         <img src={get(transaction, 'review.productPhoto') || noProduct} alt='avatar' className='avatar'/>
       </div>
       <div className='review-item__info'>
         <div className='info-head-wrapper'>
           <div className='info-head'>
-            <div className='info-head__name'>{get(transaction, 'review.review')}</div>
+            <div className='info-head__name'>
+              {isMultipleReview
+                ? 'New Item'
+                : get(transaction, 'review.review')
+              }
+            </div>
             <div className='info-head__date color-light'>
               {!isMultipleReview && <div className='date'>{`${ get(transaction, 'longDate')}`}</div>}
               <div className='platform'>{get(transaction, 'review.platform')}</div>
@@ -72,6 +76,7 @@ const ReviewItem = ({
 ReviewItem.propTypes = {
   isMultipleReview: bool,
   transaction: object,
+  commentsListName: string,
   convertSatoshiToBTC: func,
   convertFromBtcToUsd: func
 }

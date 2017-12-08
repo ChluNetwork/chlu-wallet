@@ -2,52 +2,45 @@ import React, { Component } from 'react'
 import { object, func } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getCustomerTransactions } from 'store/modules/data/customerTransactions'
+import { getCustomerTransactions, updateCustomerTransactions } from 'store/modules/data/customerTransactions'
 // libs
 import { get, groupBy } from 'lodash'
 // components
 import CircularProgress from 'material-ui/CircularProgress'
 // assets
-import { address } from '../containers/Customer/Transactions/assets/data'
+import { address } from '../Customer/Transactions/assets/data'
+//
+const apiEnd = process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3'
 
 const withCustomerTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
     static propTypes = {
       customerTransactions: object,
-      getCustomerTransactions: func
+      getCustomerTransactions: func,
+      updateCustomerTransactions: func
     }
 
-    unconfirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
-    confirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
+    socket = new WebSocket(`wss://socket.blockcypher.com/v1/btc/${apiEnd}`)
 
-    componentDidMount () {
+    componentDidMount() {
       this.props.getCustomerTransactions(address.address)
 
-      // confirmed
-      this.confirmed.onmessage = (event) => {
+      this.socket.onmessage = (event) => {
         const data = JSON.parse(get(event, 'data', '{}'))
-        console.log('updated', data)
-      }
-      this.confirmed.onopen = () => {
-        this.confirmed.send(JSON.stringify({
-          event: 'confirmed-tx',
-          address
-        }))
+        this.props.updateCustomerTransactions(data)
       }
 
-      // unconfirmed
-      this.unconfirmed.onmessage = this.confirmed.onmessage
-      this.unconfirmed.onopen = () => {
-        this.unconfirmed.send(JSON.stringify({
-          event: 'unconfirmed-tx',
-          address
+      this.socket.onopen = () => {
+        this.socket.send(JSON.stringify({
+          event: 'tx-confirmation',
+          address: address.address,
+          confirmations: 10
         }))
       }
     }
 
     componentWillUnmount () {
-      this.unconfirmed.close()
-      this.confirmed.close()
+      this.socket.close()
     }
 
     groupTransactionByAddress = (transactions) => {
@@ -98,7 +91,8 @@ const withCustomerTransactions = (WrappedComponent) => {
   })
 
   const mapDispatchToProps = {
-    getCustomerTransactions
+    getCustomerTransactions,
+    updateCustomerTransactions
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(AsyncTransactionHistory)

@@ -2,52 +2,45 @@ import React, { Component } from 'react'
 import { object, func } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getVendorTransactions } from 'store/modules/data/vendorTransactions'
+import { getVendorTransactions, updateVendorTransactions } from 'store/modules/data/vendorTransactions'
 // helpers
 import { get } from 'lodash'
 // components
 import CircularProgress from 'material-ui/CircularProgress'
 // assets
-import { address } from '../containers/Vendor/assets/data'
+import { address } from '../Vendor/assets/data'
+//
+const apiEnd = process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3'
 
 const withVendorTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
     static propTypes = {
       vendorTransaction: object,
-      getVendorTransactions: func
+      getVendorTransactions: func,
+      updateVendorTransactions: func
     }
 
-    unconfirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
-    confirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
+    socket = new WebSocket(`wss://socket.blockcypher.com/v1/btc/${apiEnd}`)
 
     componentDidMount() {
       this.props.getVendorTransactions(address.address)
 
-      // confirmed
-      this.confirmed.onmessage = (event) => {
+      this.socket.onmessage = (event) => {
         const data = JSON.parse(get(event, 'data', '{}'))
-        console.log('updated', data)
-      }
-      this.confirmed.onopen = () => {
-        this.confirmed.send(JSON.stringify({
-          event: 'confirmed-tx',
-          address: address.address
-        }))
+        this.props.updateVendorTransactions(data)
       }
 
-      // unconfirmed
-      this.unconfirmed.onmessage = this.confirmed.onmessage
-      this.unconfirmed.onopen = () => {
-        this.unconfirmed.send(JSON.stringify({
-          event: 'unconfirmed-tx',
-          address: address.address
+      this.socket.onopen = () => {
+        this.socket.send(JSON.stringify({
+          event: 'tx-confirmation',
+          address: address.address,
+          confirmations: 10
         }))
       }
     }
 
     componentWillUnmount () {
-      this.unconfirmed.close()
-      this.confirmed.close()
+      this.socket.close()
     }
 
     render () {
@@ -69,7 +62,8 @@ const withVendorTransactions = (WrappedComponent) => {
   })
 
   const mapDispatchToProps = {
-    getVendorTransactions
+    getVendorTransactions,
+    updateVendorTransactions
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(AsyncTransactionHistory)

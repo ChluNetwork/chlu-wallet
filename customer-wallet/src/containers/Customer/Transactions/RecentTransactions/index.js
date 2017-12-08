@@ -10,8 +10,8 @@ import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
 // helpers
 import get from 'lodash/get'
 // hoc
-import withCustomerTransactions from '../../../withCustomerTransactions'
-import withFxRates from '../../../withFxRates'
+import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
+import withFxRates from '../../../Hoc/withFxRates'
 // components
 import Review from 'components/Review'
 import EditReviewForm from './EditReviewForm'
@@ -142,7 +142,6 @@ class RecentTransaction extends Component {
                         convertSatoshiToBTC={convertSatoshiToBTC}
                         convertFromBtcToUsd={convertFromBtcToUsd}
                         commentsList={get(data, 'reviews')}
-                        review={'New Product'}
                       />
                       : <div>no comments yet</div>
                   }

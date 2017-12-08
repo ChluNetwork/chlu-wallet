@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { toggleComingSoonModal } from 'store/modules/ui/comingSoonModal'
 // hoc
-import withFxRates from '../../withFxRates'
+import withFxRates from '../../Hoc/withFxRates'
 // components
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import CustomerWalletFormWrapper from './CustomerWalletForm'

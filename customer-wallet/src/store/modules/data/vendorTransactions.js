@@ -2,11 +2,8 @@ import { createAction, handleActions } from 'redux-actions'
 // api
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
 // helper
-import randomInteger from '../../../helpers/randomInteger'
-import { getMonthYear, getMonthDateYear } from 'helpers/Date'
+import { withTestData, updateTransactions } from '../../../helpers/transactions'
 import { get } from 'lodash'
-// testData
-import { reviews } from '../../../containers/Vendor/assets/data'
 
 // ------------------------------------
 // Constants
@@ -14,6 +11,8 @@ import { reviews } from '../../../containers/Vendor/assets/data'
 const GET_TRANSACTIONS_LOADING = 'vendor/GET_TRANSACTIONS_LOADING'
 const GET_TRANSACTIONS_SUCCESS = 'vendor/GET_TRANSACTIONS_SUCCESS'
 const GET_TRANSACTIONS_ERROR = 'vendor/GET_TRANSACTIONS_ERROR'
+// update
+const UPDATE_TRANSACTIONS = 'vendor/UPDATE_TRANSACTIONS'
 
 const initialState = {
   loading: false,
@@ -27,6 +26,7 @@ const initialState = {
 export const getTransactionsLoading = createAction(GET_TRANSACTIONS_LOADING)
 export const getTransactionsSuccess = createAction(GET_TRANSACTIONS_SUCCESS)
 export const getTransactionsError = createAction(GET_TRANSACTIONS_ERROR)
+export const updateVendorTransactions = createAction(UPDATE_TRANSACTIONS)
 
 // ------------------------------------
 // Thunks
@@ -39,12 +39,7 @@ export function getVendorTransactions (address) {
       const response = await fetch.getFromBlockchain(address)
       const fixResponse = {
         ...response,
-        txs: response.txs.map((transaction) => ({
-          ...transaction,
-          shortDate: getMonthYear(get(transaction, 'received', new Date())),
-          longDate: getMonthDateYear(get(transaction, 'received', new Date())),
-          review: reviews[randomInteger(0, reviews.length - 1)]
-        }))
+        txs: response.txs.map((transaction) => withTestData(transaction))
       }
       dispatch(getTransactionsSuccess(fixResponse))
       return response
@@ -73,5 +68,12 @@ export default handleActions({
     ...state,
     loading: false,
     error
+  }),
+  [UPDATE_TRANSACTIONS]: (state, { payload: transaction }) => ({
+    ...state,
+    data: {
+      ...state.data,
+      txs: updateTransactions(get(state.data, 'txs', []), transaction)
+    }
   })
 }, initialState)

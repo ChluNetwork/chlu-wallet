@@ -6,8 +6,8 @@ import { compose } from 'redux'
 // helpers
 import { get, groupBy } from 'lodash'
 // hoc
-import withFxRates from 'containers/withFxRates'
-import withVendorTransactions from 'containers/withVendorTransactions'
+import withFxRates from 'containers/Hoc/withFxRates'
+import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // components
 import ReviewsList from './ReviewsList'
 import Avatar from 'material-ui/Avatar'

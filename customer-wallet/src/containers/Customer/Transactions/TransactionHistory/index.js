@@ -6,8 +6,8 @@ import get from 'lodash/get'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 // hoc
-import withCustomerTransactions from '../../../withCustomerTransactions'
-import withFxRates from '../../../withFxRates'
+import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
+import withFxRates from '../../../Hoc/withFxRates'
 // components
 import TransactionItem from './TransactionItem/index'
 // styles

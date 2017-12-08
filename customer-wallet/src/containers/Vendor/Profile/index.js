@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { toggleSearchShow } from 'store/modules/ui/profile'
 // hoc
-import withFxRates from 'containers/withFxRates'
-import withVendorTransactions from 'containers/withVendorTransactions'
+import withFxRates from 'containers/Hoc/withFxRates'
+import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // helpers
 import { get } from 'lodash'
 // components
