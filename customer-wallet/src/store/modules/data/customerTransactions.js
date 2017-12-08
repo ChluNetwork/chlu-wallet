@@ -1,13 +1,16 @@
 import { createAction, handleActions } from 'redux-actions'
+// helpers
+import { getMonthYear, getMonthDateYear } from 'helpers/Date'
+import { get } from 'lodash'
 // api
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_TRANSACTION_HISTORY_SUCCESS = 'customer/FETCH_TRANSACTION_HISTORY_SUCCESS'
-const FETCH_TRANSACTION_HISTORY_ERROR = 'customer/FETCH_TRANSACTION_HISTORY_ERROR'
-const FETCH_TRANSACTION_HISTORY_LOADING = 'customer/FETCH_TRANSACTION_HISTORY_LOADING'
+const GET_TRANSACTIONS_LOADING = 'customer/GET_TRANSACTIONS_LOADING'
+const GET_TRANSACTIONS_SUCCESS = 'customer/GET_TRANSACTIONS_SUCCESS'
+const GET_TRANSACTIONS_ERROR = 'customer/GET_TRANSACTIONS_ERROR'
 
 const initialState = {
   loading: false,
@@ -18,30 +21,32 @@ const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchTransactionHistorySuccess = createAction(FETCH_TRANSACTION_HISTORY_SUCCESS)
-export const fetchTransactionHistoryError = createAction(FETCH_TRANSACTION_HISTORY_ERROR)
-export const fetchTransactionHistoryLoading = createAction(FETCH_TRANSACTION_HISTORY_LOADING)
+export const getTransactionsLoading = createAction(GET_TRANSACTIONS_LOADING)
+export const getTransactionsSuccess = createAction(GET_TRANSACTIONS_SUCCESS)
+export const getTransactionsError = createAction(GET_TRANSACTIONS_ERROR)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
-export function getTransactionHistory (address) {
+export function getCustomerTransactions (address) {
   return async (dispatch) => {
-    dispatch(fetchTransactionHistoryLoading(true))
+    dispatch(getTransactionsLoading())
     try {
       const fetch = new FetchTransactionHistory()
       const response = await fetch.getFromBlockchain(address)
-      const responceWithTransactionPlatform = {
+      const fixResponce = {
         ...response,
         txs: response.txs.map((transaction) => ({
           ...transaction,
+          shortDate: getMonthYear(get(transaction, 'received', new Date())),
+          longDate: getMonthDateYear(get(transaction, 'received', new Date())),
           isChluTransaction: Math.random() > 0.5
         }))
       }
-      dispatch(fetchTransactionHistorySuccess(responceWithTransactionPlatform))
+      dispatch(getTransactionsSuccess(fixResponce))
       return response
     } catch (error) {
-      dispatch(fetchTransactionHistoryError(error))
+      dispatch(getTransactionsError(error))
       throw error
     }
   }
@@ -51,19 +56,18 @@ export function getTransactionHistory (address) {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [FETCH_TRANSACTION_HISTORY_SUCCESS]: (state, { payload: data }) => ({
+  [GET_TRANSACTIONS_LOADING]: (state) => ({
     ...state,
+    loading: true
+  }),
+  [GET_TRANSACTIONS_SUCCESS]: (state, { payload: data }) => ({
     data,
     loading: false,
     error: null
   }),
-  [FETCH_TRANSACTION_HISTORY_ERROR]: (state, { payload: error }) => ({
+  [GET_TRANSACTIONS_ERROR]: (state, { payload: error }) => ({
     ...state,
     loading: false,
     error
-  }),
-  [FETCH_TRANSACTION_HISTORY_LOADING]: (state, { payload: loading }) => ({
-    ...state,
-    loading
   })
 }, initialState)

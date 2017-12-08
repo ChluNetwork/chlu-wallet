@@ -1,10 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { func, bool, number } from 'prop-types'
 // libs
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import { fx } from 'lib/fxRates'
+// hoc
+import withFxRates from 'containers/withFxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
@@ -148,13 +149,14 @@ const CustomerWalletForm = ({
 )
 
 CustomerWalletForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  onStarClick: PropTypes.func.isRequired,
-  currencyFieldOnChange: PropTypes.func.isRequired,
-  convertFieldValue: PropTypes.func.isRequired,
-  isReviewOpen: PropTypes.bool,
-  loading: PropTypes.bool,
-  ratingValue: PropTypes.number
+  handleSubmit: func.isRequired,
+  onStarClick: func.isRequired,
+  currencyFieldOnChange: func.isRequired,
+  convertFieldValue: func.isRequired,
+  isReviewOpen: bool,
+  loading: bool,
+  ratingValue: number,
+  getFx: func
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -163,11 +165,12 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   reduxForm({ form: 'customer-wallet-form' }),
+  withFxRates,
   connect(null, mapDispatchToProps),
   withHandlers({
-    convertFieldValue: props => (value, { name, fromTo }) => {
-      const convertedValue = fx.convert(value, fromTo)
-      props.changeField('customer-wallet-form', name, convertedValue.toFixed(2))
+    convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
+      const convertedValue = getFx().convert(value, fromTo)
+      changeField('customer-wallet-form', name, convertedValue.toFixed(2))
     },
     currencyFieldOnChange: (props) => (e, value, fn) => {
       const name = e.target.name

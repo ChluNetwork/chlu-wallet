@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { shape, bool, object, func, string, any } from 'prop-types'
 // helpers
 import get from 'lodash/get'
 // redux
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { getRates } from 'store/modules/data/fxRates'
-import { getTransactionHistory } from 'store/modules/data/transactionHistory'
 // hoc
-import withTransactionHistory from '../withTransactionHistory'
-// libs
-import { setFxRates, convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRates'
+import withCustomerTransactions from '../../../withCustomerTransactions'
+import withFxRates from '../../../withFxRates'
 // components
 import TransactionItem from './TransactionItem/index'
 // styles
@@ -18,73 +15,31 @@ import './style.css'
 
 class TransactionHistory extends Component {
   static propTypes = {
-    transactionHistory: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      data: PropTypes.object.isRequired
-    }).isRequired,
-    groupTransactionByAddress: PropTypes.func.isRequired,
-    calculateTotalSpent: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
-    }).isRequired,
-    getRates: PropTypes.func.isRequired,
-    address: PropTypes.string,
-    getTransactionHistory: PropTypes.func.isRequired
-  }
-
-  unconfirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
-  confirmed = new WebSocket('wss://socket.blockcypher.com/v1/btc/main')
-
-  componentDidMount () {
-    const { address } = this.props
-
-    this.getFxRates()
-
-    // confirmed
-    this.confirmed.onmessage = (event) => {
-      const data = JSON.parse(get(event, 'data', '{}'))
-      getTransactionHistory(address)
-      console.log('updated', data)
-    }
-
-    this.confirmed.onopen = () => {
-      this.confirmed.send(JSON.stringify({
-        event: 'confirmed-tx',
-        address
-      }))
-    }
-
-    // unconfirmed
-    this.unconfirmed.onmessage = this.confirmed.onmessage
-
-    this.unconfirmed.onopen = () => {
-      this.unconfirmed.send(JSON.stringify({
-        event: 'unconfirmed-tx',
-        address
-      }))
-    }
-  }
-
-  componentWillUnmount () {
-    this.unconfirmed.close()
-    this.confirmed.close()
-  }
-
-  getFxRates () {
-    this.props.getRates()
-      .then(data => setFxRates(data))
-      .catch(error => console.log(error))
+    customerTransactions: shape({
+      loading: bool,
+      error: any,
+      data: object
+    }),
+    groupTransactionByAddress: func,
+    calculateTotalSpent: func,
+    location: shape({ pathname: string }),
+    getRates: func,
+    convertSatoshiToBTC: func,
+    convertFromBtcToUsd: func,
+    convertFromUsdToBtc: func
   }
 
   render() {
     const {
       location,
-      transactionHistory,
+      customerTransactions,
       groupTransactionByAddress,
-      calculateTotalSpent
+      calculateTotalSpent,
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
     } = this.props
 
-    const groupedTransaction = groupTransactionByAddress(get(transactionHistory, 'data.txs', []))
+    const groupedTransaction = groupTransactionByAddress(get(customerTransactions, 'data.txs', []))
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
@@ -92,7 +47,7 @@ class TransactionHistory extends Component {
       <div className='page-container transaction color-main container-border-top'>
         <div className='section-head container'>
           <div className='transaction-name font-weight-bold'>
-            Customer transition history
+            Customer transaction history
           </div>
           <div className='transaction-spent'>
             <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
@@ -105,16 +60,16 @@ class TransactionHistory extends Component {
         <div className='section-content'>
           <div className='container'>
             <div className='transaction-list'>
-              {
-                groupedTransaction.map(({ address, totalSpent }, index) => (
-                  <TransactionItem
-                    key={index}
-                    address={address}
-                    pathname={get(location, 'pathname', '')}
-                    price={totalSpent}
-                  />
-                ))
-              }
+              {groupedTransaction.map(({ address, totalSpent }, index) => (
+                <TransactionItem
+                  key={index}
+                  address={address}
+                  pathname={get(location, 'pathname', '')}
+                  price={totalSpent}
+                  convertFromBtcToUsd={convertFromBtcToUsd}
+                  convertSatoshiToBTC={convertSatoshiToBTC}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -123,16 +78,12 @@ class TransactionHistory extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  getRates,
-  getTransactionHistory
-}
-
 const mapStateToProps = state => ({
   location: state.location
 })
 
 export default compose(
-  withTransactionHistory,
-  connect(mapStateToProps, mapDispatchToProps)
+  withFxRates,
+  withCustomerTransactions,
+  connect(mapStateToProps)
 )(TransactionHistory)

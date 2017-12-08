@@ -1,19 +1,19 @@
 import { combineReducers } from 'redux'
 // reducers
-import vendorWallet from './vendorWallet'
 import payment from './payment'
 import fxRates from './fxRates'
 import profile from './profile'
 import checkout from './checkout'
-import transactionHistory from './transactionHistory'
+import customerTransactions from './customerTransactions'
+import vendorTransaction from './vendorTransactions'
 import reviews from './reviews'
 
 export default combineReducers({
-  vendorWallet,
   payment,
   fxRates,
   profile,
   checkout,
-  transactionHistory,
+  customerTransactions,
+  vendorTransaction,
   reviews
 })

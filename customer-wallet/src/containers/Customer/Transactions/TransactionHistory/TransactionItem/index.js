@@ -1,10 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, number, func } from 'prop-types'
 import { Link } from 'react-router'
-// libs
-import { convertFromBtcToUsd, convertSatoshiToBTC } from 'lib/fxRates'
 
-const TransactionItem = ({ address, price, pathname }) => {
+const TransactionItem = ({ address, price, pathname, convertFromBtcToUsd, convertSatoshiToBTC }) => {
   const priceBTC = convertSatoshiToBTC(price)
   const priceUSD = convertFromBtcToUsd(priceBTC)
   const linkPath = `${pathname}/${address}`
@@ -27,9 +25,11 @@ const TransactionItem = ({ address, price, pathname }) => {
 }
 
 TransactionItem.propTypes = {
-  address: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  pathname: PropTypes.string.isRequired
+  address: string,
+  price: number,
+  pathname: string,
+  convertFromBtcToUsd: func,
+  convertSatoshiToBTC: func
 }
 
 export default TransactionItem

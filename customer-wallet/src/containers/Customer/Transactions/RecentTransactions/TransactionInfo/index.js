@@ -1,15 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, object } from 'prop-types'
 // helpers
-import Date from 'helpers/Date'
-// libs
-import { convertSatoshiToBTC } from 'lib/fxRates'
+import get from 'lodash/get'
 // styles
 import './style.css'
 
-const TransactionInfo = ({ address, date, price, isChluTransaction, confirmations, ...rest }) => {
-  const parseDate = new Date(date)
-  const priceBTC = convertSatoshiToBTC(price)
+const TransactionInfo = ({ transaction, address, convertSatoshiToBTC, ...rest }) => {
+  const priceBTC = convertSatoshiToBTC(get(transaction, 'total', 0))
+  const confirmations = get(transaction, 'confirmations', 0)
 
   return (
     <div className='transaction__info' {...rest}>
@@ -19,9 +17,7 @@ const TransactionInfo = ({ address, date, price, isChluTransaction, confirmation
       </div>
       <div className='field field-date'>
         <div className='field__title'>Date</div>
-        <div className='field__data'>
-          {`${parseDate.getMonthName()} ${parseDate.getDay()}, ${parseDate.getFullYear()}`}
-        </div>
+        <div className='field__data'>{get(transaction, 'longDate')}</div>
       </div>
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
@@ -33,16 +29,14 @@ const TransactionInfo = ({ address, date, price, isChluTransaction, confirmation
           {confirmations}
         </div>
       </div>
-      {isChluTransaction || <div className='field-not-chlu'>Not Chlu transaction</div>}
+      {get(transaction, 'isChluTransaction') || <div className='field-not-chlu'>Not Chlu transaction</div>}
     </div>
   )
 }
 
 TransactionInfo.propTypes = {
-  address: PropTypes.string,
-  date: PropTypes.string,
-  price: PropTypes.number,
-  isChluTransaction: PropTypes.bool
+  transaction: object,
+  address: string
 }
 
 export default TransactionInfo
