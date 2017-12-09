@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { any, func, bool, string } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
@@ -70,13 +70,13 @@ const MainLayout = ({
 }
 
 MainLayout.propTypes = {
-  children: PropTypes.any,
-  toggleDrawer: PropTypes.func.isRequired,
-  drawerOpen: PropTypes.bool,
-  changeUserType: PropTypes.func,
-  userType: PropTypes.string,
-  isSwitchUserMenuOpen: PropTypes.bool,
-  toggleSwitchUserMenuShow: PropTypes.func
+  children: any,
+  toggleDrawer: func,
+  drawerOpen: bool,
+  changeUserType: func,
+  userType: string,
+  isSwitchUserMenuOpen: bool,
+  toggleSwitchUserMenuShow: func
 }
 
 const mapStateToProps = state => ({
@@ -87,7 +87,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: (userType, userId) => dispatch(changeUserType(userType, userId)),
+  changeUserType: (userType) => dispatch(changeUserType(userType)),
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 
