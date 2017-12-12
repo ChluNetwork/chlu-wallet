@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { func, bool, number, oneOfType, object } from 'prop-types'
+import { func, bool, number, oneOfType, object, shape } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
+import { toggleComingSoonModal } from 'store/modules/ui/modal'
 // libs
 import { toastr } from 'react-redux-toastr'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
+import ComingSoonModal from 'components/Modals/ComingSoonModal'
 // assets
 import { buttonsData } from '../assets/data'
 
@@ -19,7 +21,9 @@ class CustomerWalletFormWrapper extends Component {
     loading: bool,
     rating: number,
     setRating: func,
-    rates: oneOfType([object, bool])
+    rates: oneOfType([object, bool]),
+    comingSoonModal: shape({ isOpen: bool }),
+    toggleComingSoonModal: func
   }
 
   handleSubmit = (data) => {
@@ -36,19 +40,22 @@ class CustomerWalletFormWrapper extends Component {
   onStarClick = rating => this.props.setRating(rating)
 
   render () {
-    const { isReviewOpen, loading, rating, toggleModal, priceBtc } = this.props
+    const { isReviewOpen, loading, rating, priceBtc, comingSoonModal: { isOpen }, toggleComingSoonModal } = this.props
 
     return (
-      <CustomerWalletForm
-        onSubmit={this.handleSubmit}
-        onStarClick={this.onStarClick}
-        ratingValue={rating}
-        isReviewOpen={isReviewOpen}
-        loading={loading}
-        buttonsData={buttonsData}
-        toggleModal={toggleModal}
-        priceBtc={priceBtc}
-      />
+      <div>
+        <CustomerWalletForm
+          onSubmit={this.handleSubmit}
+          onStarClick={this.onStarClick}
+          ratingValue={rating}
+          isReviewOpen={isReviewOpen}
+          loading={loading}
+          buttonsData={buttonsData}
+          priceBtc={priceBtc}
+          showModal={toggleComingSoonModal}
+        />
+        <ComingSoonModal isOpen={isOpen} hideModal={toggleComingSoonModal} />
+      </div>
     )
   }
 }
@@ -59,12 +66,14 @@ const mapStateToProps = state => ({
   isReviewOpen: selector(state, 'reviewOpen'),
   loading: state.data.payment.loading,
   rating: state.components.customerWallet.rating,
-  rates: state.data.fxRates.rates
+  rates: state.data.fxRates.rates,
+  comingSoonModal: state.ui.modal.comingSoonModal
 })
 
 const mapDispatchToProps = dispatch => ({
   submitPayment: data => dispatch(submitPayment(data)),
-  setRating: data => dispatch(setRatingForCustomerWallet(data))
+  setRating: data => dispatch(setRatingForCustomerWallet(data)),
+  toggleComingSoonModal: () => dispatch(toggleComingSoonModal())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletFormWrapper)

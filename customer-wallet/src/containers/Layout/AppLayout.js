@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
 import { changeUserType } from 'store/modules/data/profile'
 import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
-// libs
-import ReduxToastr from 'react-redux-toastr'
 // components
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'components/Drawer'
@@ -21,7 +19,7 @@ import chluLogo from 'images/svg/chlu-2.svg'
 
 const { circularProgressStyle, AppBarStyle } = style
 
-const MainLayout = ({
+const AppLayout = ({
   children,
   toggleDrawer,
   drawerOpen,
@@ -55,21 +53,13 @@ const MainLayout = ({
           >
           </AppBar>
           {children}
-          <ReduxToastr
-            timeOut={4000}
-            preventDuplicates
-            position='top-right'
-            transitionIn='fadeIn'
-            transitionOut='fadeOut'
-            newestOnTop
-          />
         </div>
       }
     </div>
   )
 }
 
-MainLayout.propTypes = {
+AppLayout.propTypes = {
   children: any,
   toggleDrawer: func,
   drawerOpen: bool,
@@ -91,4 +81,4 @@ const mapDispatchToProps = dispatch => ({
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)
+export default connect(mapStateToProps, mapDispatchToProps)(AppLayout)

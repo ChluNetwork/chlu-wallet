@@ -1,9 +1,12 @@
 import React from 'react'
-import { Route, IndexRedirect, browserHistory } from 'react-router'
+import { Route, IndexRedirect } from 'react-router'
+// helpers
+import replace from 'helpers/replace'
 // redux
 import { getProfile } from 'store/modules/data/profile'
 // containers
-import Layout from './containers/Layout'
+import MainLayout from './containers/Layout/MainLayout'
+import AppLayout from './containers/Layout/AppLayout'
 import Wallet from './containers/Wallet'
 import CreateWallet from './containers/Wallet/Create/index'
 import ImportWallet from './containers/Wallet/Import/index'
@@ -18,13 +21,15 @@ import Demo from './containers/Demonstrator/Demo'
 
 function getRoutes (store) {
   return (
-    <Route path='/' >
+    <Route path='/' component={MainLayout}>
       <IndexRedirect to='wallet' />
-      <Route exact path='wallet' component={Wallet} />
-      <Route path='wallet/create' component={CreateWallet} />
-      <Route path='wallet/import' components={ImportWallet} />
+      <Route onEnter={(nextState, replace, proceed) => checkMnemonicExists(proceed)}>
+        <Route exact path='wallet' component={Wallet} />
+        <Route path='wallet/create' component={CreateWallet} />
+        <Route path='wallet/import' components={ImportWallet} />
+      </Route>
       <Route
-        component={Layout}
+        component={AppLayout}
         onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
       >
         <Route path='customer' >
@@ -49,6 +54,14 @@ function getRoutes (store) {
   )
 }
 
+function checkMnemonicExists(proceed) {
+  if (localStorage.getItem('mnemonic_key')) {
+    replace('/customer')
+  }
+
+  proceed()
+}
+
 function preloadUser(nextState, proceed, { getState, dispatch }) {
   const { data } = getState().data.profile
   const [ , nextUserType, ...rest ] = nextState.location.pathname.split('/')
@@ -57,8 +70,7 @@ function preloadUser(nextState, proceed, { getState, dispatch }) {
     dispatch(getProfile(nextUserType))
       .then(({ userType }) => {
         const nextPath = [ nextUserType || userType, ...rest ].join('/')
-        console.log(nextPath)
-        browserHistory.replace(`/${nextPath}`)
+        replace(`/${nextPath}`)
       })
       .catch(response => proceed())
   }

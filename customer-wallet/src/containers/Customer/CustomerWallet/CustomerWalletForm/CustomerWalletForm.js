@@ -30,7 +30,7 @@ const CustomerWalletForm = ({
   loading,
   priceBtc,
   buttonsData,
-  toggleModal
+  showModal
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
@@ -61,7 +61,7 @@ const CustomerWalletForm = ({
                 <div
                   className={`button ${active ? 'button-active' : null }`}
                   key={idx}
-                  onClick={toggleModal}
+                  onClick={showModal}
                 >
                   <div className='button-icon'>
                     <img src={active ? iconBlue : icon} alt={label} className='icon' />
@@ -156,7 +156,8 @@ CustomerWalletForm.propTypes = {
   isReviewOpen: bool,
   loading: bool,
   ratingValue: number,
-  getFx: func
+  getFx: func,
+  showModal: func
 }
 
 const mapDispatchToProps = dispatch => ({

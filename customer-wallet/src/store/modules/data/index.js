@@ -7,6 +7,7 @@ import checkout from './checkout'
 import customerTransactions from './customerTransactions'
 import vendorTransaction from './vendorTransactions'
 import reviews from './reviews'
+import wallet from './wallet'
 
 export default combineReducers({
   payment,
@@ -15,5 +16,6 @@ export default combineReducers({
   checkout,
   customerTransactions,
   vendorTransaction,
-  reviews
+  reviews,
+  wallet
 })
