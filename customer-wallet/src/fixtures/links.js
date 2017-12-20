@@ -1,7 +1,8 @@
 const linksForCustomer = [
   { label: 'Checkout', href: `/customer/checkout` },
   { label: 'Customer Wallet', href: `/customer/wallet` },
-  { label: 'Transactions', href: `/customer/transactions` }
+  { label: 'Transactions', href: `/customer/transactions` },
+  { label: 'Settings', href: '/customer/settings' }
 ]
 
 const linksForVendor = [

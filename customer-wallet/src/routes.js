@@ -11,6 +11,7 @@ import Wallet from './containers/Wallet'
 import CreateWallet from './containers/Wallet/Create/index'
 import ImportWallet from './containers/Wallet/Import/index'
 import CustomerWallet from './containers/Customer/CustomerWallet'
+import Settings from './containers/Customer/Settings'
 import VendorWallet from './containers/Vendor/VendorWallet'
 import Checkout from './containers/Customer/Checkout'
 import Profile from './containers/Vendor/Profile'
@@ -38,6 +39,7 @@ function getRoutes (store) {
           <Route path='wallet' component={CustomerWallet} />
           <Route path='transactions' component={TransactionHistory} />
           <Route path='transactions/:address' component={RecentTransactions} />
+          <Route path='settings' component={Settings} />
         </Route>
         <Route path='vendor' >
           <IndexRedirect to='wallet' />

@@ -7,7 +7,7 @@ import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // libs
-import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
+import ImportPrivateKey from 'chlu-wallet-support-js/src/import_private_key'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 // components
