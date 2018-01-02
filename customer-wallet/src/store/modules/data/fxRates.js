@@ -35,7 +35,6 @@ export function getRates () {
       return response
     } catch (error) {
       dispatch(fetchRatesError(error))
-      throw error
     }
   }
 }

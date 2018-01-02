@@ -9,7 +9,6 @@ import get from 'lodash/get'
 import replace from 'helpers/replace'
 // libs
 import { submit } from 'redux-form'
-import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import { toastr } from 'react-redux-toastr'
@@ -31,6 +30,10 @@ class ImportWallet extends Component {
     submit: func
   }
 
+  static contextTypes = {
+    blockchainClient: object
+  }
+
   onFormSubmit = () => this.props.submit('import-wallet-form')
 
   handleSubmit = ({ mnemonic: newMnemonic }) => {
@@ -44,7 +47,7 @@ class ImportWallet extends Component {
   }
 
   importFromMnemonic = (newMnemonic) => {
-    const importPrivateKey = new ImportPrivateKey()
+    const { blockchainClient: { importPrivateKey } } = this.context
     const importFromMnemonic = importPrivateKey.importFromMnemonic(newMnemonic, 'm/1')
     this.props.setMnemonic(newMnemonic)
 

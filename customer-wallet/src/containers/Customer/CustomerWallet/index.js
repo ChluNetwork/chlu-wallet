@@ -13,11 +13,12 @@ class CustomerWalletPage extends Component {
     rates: oneOfType([object, bool]),
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
-    convertFromUsdToBtc: func
+    convertFromUsdToBtc: func,
+    convertBTCToSatoshi: func
   }
 
   render() {
-    const { price = 400, convertFromUsdToBtc } = this.props
+    const { price = 400, convertFromUsdToBtc, convertBTCToSatoshi } = this.props
     const priceBtc = convertFromUsdToBtc(price)
 
     return (
@@ -28,7 +29,10 @@ class CustomerWalletPage extends Component {
           <div className='section-head__price-btc'>{priceBtc} BTC</div>
         </div>
         <div className='section-content'>
-          <CustomerWalletFormWrapper priceBtc={priceBtc}/>
+          <CustomerWalletFormWrapper
+            convertBTCToSatoshi={convertBTCToSatoshi}
+            priceBtc={priceBtc}
+          />
         </div>
       </div>
     )

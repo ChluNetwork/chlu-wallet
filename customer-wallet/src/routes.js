@@ -58,7 +58,7 @@ function getRoutes (store) {
 
 function checkMnemonicExists(proceed) {
   if (localStorage.getItem('mnemonic_key')) {
-    replace('/customer')
+    // replace('/customer')
   }
 
   proceed()
@@ -74,7 +74,10 @@ function preloadUser(nextState, proceed, { getState, dispatch }) {
         const nextPath = [ nextUserType || userType, ...rest ].join('/')
         replace(`/${nextPath}`)
       })
-      .catch(response => proceed())
+      .catch(error => {
+        console.log('error_____', error)
+        proceed()
+      })
   }
 
   proceed()

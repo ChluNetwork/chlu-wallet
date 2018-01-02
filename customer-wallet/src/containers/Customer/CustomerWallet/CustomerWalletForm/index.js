@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { func, bool, number, oneOfType, object, shape } from 'prop-types'
+import { func, bool, number, oneOfType, object, shape, array } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
@@ -21,38 +21,79 @@ class CustomerWalletFormWrapper extends Component {
     loading: bool,
     rating: number,
     setRating: func,
+    wallet: shape({ addresses: array }),
     rates: oneOfType([object, bool]),
     comingSoonModal: shape({ isOpen: bool }),
-    toggleComingSoonModal: func
+    toggleComingSoonModal: func,
+    convertBTCToSatoshi: func
   }
 
-  handleSubmit = (data) => {
-    const { submitPayment } = this.props
-    const { rating } = this.props
+  static contextTypes = {
+    blockchainClient: object
+  }
 
-    submitPayment({ ...data, rating })
-      .then((response) => {
-        console.log(response)
-        toastr.success('success', 'Payment success')
-      })
+  constructor(props) {
+    super(props)
+
+    const { wallet: { addresses } } = props
+
+    this.state = {
+      activeAddress: addresses[0],
+      isDisabledSubmit: false
+    }
+  }
+
+  handleChangeAddress = (activeAddress) => this.setState({ activeAddress })
+
+  handleSubmit = ({ toAddress, amountBtc }) => {
+    this.setState({ isDisabledSubmit: true }, () => {
+      const { rating, convertBTCToSatoshi } = this.props
+      const { blockchainClient: { createChluTransaction: tr } } = this.context
+      const { activeAddress } = this.state
+
+      tr.create(activeAddress, toAddress, convertBTCToSatoshi(parseFloat(amountBtc)), null, 'Hello World')
+        .then((response) => {
+          console.log(response)
+          toastr.success('success', 'Payment success')
+          this.setState({ isDisabledSubmit: false })
+        })
+        .catch(error => {
+          console.log(error)
+          this.setState({ isDisabledSubmit: false })
+          throw error
+        })
+    })
   }
 
   onStarClick = rating => this.props.setRating(rating)
 
   render () {
-    const { isReviewOpen, loading, rating, priceBtc, comingSoonModal: { isOpen }, toggleComingSoonModal } = this.props
+    const { activeAddress, isDisabledSubmit } = this.state
+    const {
+      isReviewOpen,
+      loading,
+      rating,
+      priceBtc,
+      comingSoonModal: { isOpen },
+      toggleComingSoonModal,
+      wallet: { addresses }
+    } = this.props
 
     return (
       <div>
         <CustomerWalletForm
           onSubmit={this.handleSubmit}
           onStarClick={this.onStarClick}
+          ownAddresses={addresses}
+          activeAddress={activeAddress}
+          handleChangeAddress={this.handleChangeAddress}
           ratingValue={rating}
           isReviewOpen={isReviewOpen}
           loading={loading}
           buttonsData={buttonsData}
           priceBtc={priceBtc}
           showModal={toggleComingSoonModal}
+          isDisabledSubmit={isDisabledSubmit}
         />
         <ComingSoonModal isOpen={isOpen} hideModal={toggleComingSoonModal} />
       </div>
@@ -67,7 +108,8 @@ const mapStateToProps = state => ({
   loading: state.data.payment.loading,
   rating: state.components.customerWallet.rating,
   rates: state.data.fxRates.rates,
-  comingSoonModal: state.ui.modal.comingSoonModal
+  comingSoonModal: state.ui.modal.comingSoonModal,
+  wallet: state.data.wallet
 })
 
 const mapDispatchToProps = dispatch => ({

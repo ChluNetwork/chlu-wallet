@@ -8,6 +8,7 @@ const GENERATE_MNEMONIC = 'wallet/GENERATE_MNEMONIC'
 
 const initialState = {
   mnemonic: localStorage.getItem('mnemonic_key'),
+  addresses: ['mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb'],
   createWallet: {
     mnemonic: null
   }

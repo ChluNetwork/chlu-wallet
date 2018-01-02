@@ -29,7 +29,6 @@ const AppLayout = ({
   toggleSwitchUserMenuShow
 }) => {
   const { loading, data, error } = profile
-  const id = data ? data.id : 0
   const userType = data ? data.userType : ''
 
   return (
@@ -44,7 +43,6 @@ const AppLayout = ({
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}
-              userId={id}
               userType={userType}
               isOpen={isSwitchUserMenuOpen}
               onRequestChange={toggleSwitchUserMenuShow}

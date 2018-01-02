@@ -1,5 +1,5 @@
 import React from 'react'
-import { func, bool, number } from 'prop-types'
+import { func, bool, number, array, string } from 'prop-types'
 // libs
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
@@ -10,6 +10,7 @@ import withFxRates from 'containers/Hoc/withFxRates'
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import Input from 'components/Form/Input'
+import Select from 'components/Form/Select'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
 import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
@@ -30,17 +31,32 @@ const CustomerWalletForm = ({
   loading,
   priceBtc,
   buttonsData,
-  showModal
+  showModal,
+  ownAddresses,
+  handleChangeAddress,
+  activeAddress,
+  isDisabledSubmit
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
+          <div className='label font-smaller color-light'>Your Address</div>
+          <div className='your-address__wrapper'>
+            <Field
+              {...textFieldsStyle}
+              name='fromAddress'
+              component={Select}
+              value={activeAddress}
+              options={ownAddresses.map((address) => ({ value: address, label: address }))}
+              handleChange={handleChangeAddress}
+            />
+          </div>
           <div className='vendor-address'>
             <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
             <Field
               {...textFieldsStyle}
-              name='vendorAddress'
+              name='toAddress'
               type='text'
               component={Input}
               inputStyle={VendorAddressInputStyle}
@@ -140,8 +156,9 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
+          label={isDisabledSubmit ? 'Loading...' : `Pay ${priceBtc} BTC`}
           className='submit-button'
+          disabled={isDisabledSubmit}
         />
       </div>
     </div>
@@ -153,11 +170,15 @@ CustomerWalletForm.propTypes = {
   onStarClick: func.isRequired,
   currencyFieldOnChange: func.isRequired,
   convertFieldValue: func.isRequired,
+  handleChangeAddress: func.isRequired,
   isReviewOpen: bool,
   loading: bool,
   ratingValue: number,
   getFx: func,
-  showModal: func
+  showModal: func,
+  ownAddresses: array,
+  activeAddress: string,
+  isDisabledSubmit: bool
 }
 
 const mapDispatchToProps = dispatch => ({

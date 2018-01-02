@@ -25,12 +25,14 @@ export default (WrappedComponent) => {
 
     getFx = () => this.fx
 
-    convertSatoshiToBTC = (value) => {
+    convertSatoshiToBTC = (value = 0) => {
       const result = value / 100000000
       return result.toFixed(8)
     }
 
-    convertFromBtcToUsd = (value) => {
+    convertBTCToSatoshi = (value = 0) => value * 100000000
+
+    convertFromBtcToUsd = (value = 0) => {
       const { fxRates } = this.props
 
       this.fx.rates = get(fxRates, 'rates')
@@ -39,7 +41,7 @@ export default (WrappedComponent) => {
       return this.fx.convert(value, { from: 'BTC', to: 'USD' }).toFixed(4)
     }
 
-    convertFromUsdToBtc = (value) => {
+    convertFromUsdToBtc = (value = 0) => {
       const { fxRates } = this.props
 
       this.fx.rates = get(fxRates, 'rates')
@@ -51,6 +53,7 @@ export default (WrappedComponent) => {
     render() {
       return <WrappedComponent
         convertSatoshiToBTC={this.convertSatoshiToBTC}
+        convertBTCToSatoshi={this.convertBTCToSatoshi}
         convertFromBtcToUsd={this.convertFromBtcToUsd}
         convertFromUsdToBtc={this.convertFromUsdToBtc}
         getFx={this.getFx}

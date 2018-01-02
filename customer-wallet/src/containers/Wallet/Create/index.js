@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { shape, bool, func, string, oneOfType } from 'prop-types'
+import { shape, bool, func, string, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleMnemonicExists } from 'store/modules/ui/modal'
@@ -7,7 +7,6 @@ import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // libs
-import ImportPrivateKey from 'chlu-wallet-support-js/src/import_private_key'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 // components
@@ -30,8 +29,12 @@ class CreateWallet extends Component {
     setCreateMnemonic: func
   }
 
+  static contextTypes = {
+    blockchainClient: object
+  }
+
   componentDidMount () {
-    const importPrivateKey = new ImportPrivateKey()
+    const { blockchainClient: { importPrivateKey } } = this.context
     const newMnemonic = importPrivateKey.generateNewMnemonic()
 
     this.props.setCreateMnemonic(newMnemonic)
