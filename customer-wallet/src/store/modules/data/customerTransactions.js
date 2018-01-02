@@ -4,6 +4,8 @@ import { withTestData, updateTransactions } from '../../../helpers/transactions'
 import { get } from 'lodash'
 // api
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
+// env
+const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
 
 // ------------------------------------
 // Constants
@@ -34,7 +36,7 @@ export function getCustomerTransactions (address) {
   return async (dispatch) => {
     dispatch(getTransactionsLoading())
     try {
-      const fetch = new FetchTransactionHistory()
+      const fetch = new FetchTransactionHistory(blockCypherKey)
       const response = await fetch.getFromBlockchain(address)
       const fixResponce = {
         ...response,

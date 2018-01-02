@@ -6,6 +6,8 @@ import ReduxToastr from 'react-redux-toastr'
 import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction'
 
+const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
+
 class MainLayout extends Component {
   static propTypes = {
     children: any,
@@ -18,7 +20,7 @@ class MainLayout extends Component {
   blockchainClient = {
     importPrivateKey: new ImportPrivateKey(),
     createChluTransaction: (() => {
-      const tr = new CreateChluTransaction()
+      const tr = new CreateChluTransaction(blockCypherKey)
       tr.getImportedKey('alter ankle cart harvest ecology sign athlete congress desert scare planet love')
 
       return tr
