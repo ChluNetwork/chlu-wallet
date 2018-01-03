@@ -58,7 +58,7 @@ function getRoutes (store) {
 
 function checkMnemonicExists(proceed) {
   if (localStorage.getItem('mnemonic_key')) {
-    // replace('/customer')
+    replace('/customer')
   }
 
   proceed()
