@@ -25,6 +25,10 @@ const ComingSoon = ({ isOpen, hideModal }) => {
   )
 }
 
+ComingSoon.defaultProps = {
+  isOpen: false
+}
+
 ComingSoon.propTypes = {
   isOpen: bool,
   hideModal: func

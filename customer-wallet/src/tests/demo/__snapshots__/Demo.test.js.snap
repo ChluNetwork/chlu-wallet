@@ -10,12 +10,12 @@ exports[`<Demo /> should render correctly demo container 1`] = `
     <div
       className="wallets-container__item"
     >
-      <Connect(CustomerWalletPage) />
+      <Connect(WithFxRates) />
     </div>
     <div
       className="wallets-container__item"
     >
-      <Connect(VendorWallet) />
+      <Connect(WithFxRates) />
     </div>
   </div>
   <div
