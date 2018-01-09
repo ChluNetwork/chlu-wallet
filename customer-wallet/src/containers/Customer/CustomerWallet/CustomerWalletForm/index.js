@@ -53,7 +53,7 @@ class CustomerWalletFormWrapper extends Component {
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
-      const chluIpfs = await getChluIPFS({ type: types.customer })
+      const chluIpfs = await getChluIPFS(types.customer)
       const contentHash = await chluIpfs.storeReviewRecord(Buffer.from('fake review record content'))
 
       tr.create(activeAddress, toAddress, convertBTCToSatoshi(parseFloat(amountBtc)), null, contentHash)
