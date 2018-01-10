@@ -33,8 +33,7 @@ const withVendorTransactions = (WrappedComponent) => {
       this.socket.onopen = () => {
         this.socket.send(JSON.stringify({
           event: 'tx-confirmation',
-          address: address.address,
-          confirmations: 10
+          address: address.address
         }))
       }
     }
