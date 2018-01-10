@@ -1,14 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { func, bool, number, array, string } from 'prop-types'
 // libs
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import { fx } from 'lib/fxRates'
+// helpers
+import { convertToBits } from 'helpers/converters'
+// hoc
+import withFxRates from 'containers/Hoc/withFxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import Input from 'components/Form/Input'
+import Select from 'components/Form/Select'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
 import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
@@ -29,17 +33,32 @@ const CustomerWalletForm = ({
   loading,
   priceBtc,
   buttonsData,
-  toggleModal
+  showModal,
+  ownAddresses,
+  handleChangeAddress,
+  activeAddress,
+  isDisabledSubmit
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
+          <div className='label font-smaller color-light'>Your Address</div>
+          <div className='your-address__wrapper'>
+            <Field
+              {...textFieldsStyle}
+              name='fromAddress'
+              component={Select}
+              value={activeAddress}
+              options={ownAddresses.map((address) => ({ value: address, label: address }))}
+              handleChange={handleChangeAddress}
+            />
+          </div>
           <div className='vendor-address'>
             <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
             <Field
               {...textFieldsStyle}
-              name='vendorAddress'
+              name='toAddress'
               type='text'
               component={Input}
               inputStyle={VendorAddressInputStyle}
@@ -60,7 +79,7 @@ const CustomerWalletForm = ({
                 <div
                   className={`button ${active ? 'button-active' : null }`}
                   key={idx}
-                  onClick={toggleModal}
+                  onClick={showModal}
                 >
                   <div className='button-icon'>
                     <img src={active ? iconBlue : icon} alt={label} className='icon' />
@@ -71,14 +90,14 @@ const CustomerWalletForm = ({
             </div>
           </div>
           <div className='amount-btc'>
-            <div className='amount-btc__label label font-smaller color-light'>Amount (BTC)</div>
+            <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
             <div className='amount-btc__fields'>
               <Field
                 {...textFieldsStyle}
                 name='amountBtc'
                 type='tel'
                 component={Input}
-                placeholder='BTC'
+                placeholder='bits'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
               />
@@ -139,8 +158,9 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={loading ? 'Loading...' : `Pay ${priceBtc} BTC`}
+          label={isDisabledSubmit ? 'Loading...' : `Pay ${priceBtc} bits`}
           className='submit-button'
+          disabled={isDisabledSubmit}
         />
       </div>
     </div>
@@ -148,13 +168,19 @@ const CustomerWalletForm = ({
 )
 
 CustomerWalletForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  onStarClick: PropTypes.func.isRequired,
-  currencyFieldOnChange: PropTypes.func.isRequired,
-  convertFieldValue: PropTypes.func.isRequired,
-  isReviewOpen: PropTypes.bool,
-  loading: PropTypes.bool,
-  ratingValue: PropTypes.number
+  handleSubmit: func.isRequired,
+  onStarClick: func.isRequired,
+  currencyFieldOnChange: func.isRequired,
+  convertFieldValue: func.isRequired,
+  handleChangeAddress: func.isRequired,
+  isReviewOpen: bool,
+  loading: bool,
+  ratingValue: number,
+  getFx: func,
+  showModal: func,
+  ownAddresses: array,
+  activeAddress: string,
+  isDisabledSubmit: bool
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -163,13 +189,17 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   reduxForm({ form: 'customer-wallet-form' }),
+  withFxRates,
   connect(null, mapDispatchToProps),
   withHandlers({
-    convertFieldValue: props => (value, { name, fromTo }) => {
-      const convertedValue = fx.convert(value, fromTo)
-      props.changeField('customer-wallet-form', name, convertedValue.toFixed(2))
+    convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
+      let convertedValue = getFx().convert(value, fromTo)
+      if (name === 'amountUsd') convertedValue = convertToBits(convertedValue, false, 8)
+      if (name === 'amountBtc') convertedValue = convertToBits(convertedValue, true, 8)
+
+      changeField('customer-wallet-form', name, convertedValue)
     },
-    currencyFieldOnChange: (props) => (e, value, fn) => {
+    currencyFieldOnChange: () => (e, value, fn) => {
       const name = e.target.name
       const convertOptions = {
         amountBtc: { name: 'amountUsd', fromTo: { from: 'BTC', to: 'USD' } },

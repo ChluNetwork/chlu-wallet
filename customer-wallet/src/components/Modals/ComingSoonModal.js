@@ -1,42 +1,37 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { bool, func } from 'prop-types'
+// libs
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
-class ComingSoon extends React.Component {
-  static propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired
-  }
+const ComingSoon = ({ isOpen, hideModal }) => {
+  const actions = [
+    <FlatButton
+      label='OK'
+      onClick={hideModal}
+      primary
+    />
+  ]
 
-  renderModalActions () {
-    const { closeModal } = this.props
-    return [
-      <FlatButton
-        label='OK'
-        onClick={closeModal}
-        primary
-      />
-    ]
-  }
+  return (
+    <div>
+      <Dialog
+        title='Work in progress'
+        actions={actions}
+        open={isOpen}
+        onRequestClose={hideModal}
+      >Currently we only support Bitcoin, all the other currencies shown here are coming soon.</Dialog>
+    </div>
+  )
+}
 
-  render() {
-    const { open, closeModal } = this.props
-    const actions = this.renderModalActions()
-    return (
-      <div>
-        <Dialog
-          title='Work in progress'
-          actions={actions}
-          modal={false}
-          open={open}
-          onRequestClose={closeModal}
-        >
-          Currently we only support Bitcoin, all the other currencies shown here are coming soon.
-        </Dialog>
-      </div>
-    )
-  }
+ComingSoon.defaultProps = {
+  isOpen: false
+}
+
+ComingSoon.propTypes = {
+  isOpen: bool,
+  hideModal: func
 }
 
 export default ComingSoon

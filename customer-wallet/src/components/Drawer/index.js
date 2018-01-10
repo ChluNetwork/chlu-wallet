@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { func, bool, shape, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 // components
@@ -14,15 +14,14 @@ import { linksForCustomer, linksForVendor, linksForDemonstrator } from 'fixtures
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
   const userType = data ? data.userType : ''
-  const userId = data ? data.id : 0
   let links = []
 
   switch(userType){
-    case 'customer': links = linksForCustomer(userId)
+    case 'customer': links = linksForCustomer
       break
-    case 'vendor': links = linksForVendor(userId)
+    case 'vendor': links = linksForVendor
       break
-    case 'demonstrator': links = linksForDemonstrator(userId)
+    case 'demonstrator': links = linksForDemonstrator
       break
     default: links = []
       break
@@ -51,11 +50,11 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, profile: { data } }) => {
 }
 
 DrawerComponent.propTypes = {
-  toggleDrawer: PropTypes.func.isRequired,
-  drawerOpen: PropTypes.bool,
-  profile: PropTypes.shape({
-    data: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired
-  }).isRequired
+  toggleDrawer: func,
+  drawerOpen: bool,
+  profile: shape({
+    data: oneOfType([object, bool])
+  })
 }
 
 const mapStateToProps = store => ({

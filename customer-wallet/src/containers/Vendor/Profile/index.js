@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { shape, func, bool, object, any } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { toggleSearchShow } from 'store/modules/ui/profile'
+// hoc
+import withFxRates from 'containers/Hoc/withFxRates'
+import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
+// helpers
+import { get } from 'lodash'
 // components
-import CircularProgress from 'material-ui/CircularProgress'
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
 // styles
@@ -12,50 +17,55 @@ import './styles.css'
 
 class Profile extends Component {
   static propTypes = {
-    profile: PropTypes.shape({
-      name: PropTypes.string,
-      rating: PropTypes.number,
-      titleReviews: PropTypes.string,
-      titleSold: PropTypes.string,
-      reviews: PropTypes.array
-    }).isRequired,
-    uiProfile: PropTypes.shape({ isSearchFieldOpen: PropTypes.bool }),
-    toggleSearchShow: PropTypes.func.isRequired
+    vendorTransaction: shape({
+      loading: bool,
+      error: any,
+      data: object
+    }),
+    profile: shape({
+      loading: bool,
+      error: any,
+      data: object
+    }),
+    uiProfile: shape({ isSearchFieldOpen: bool }),
+    toggleSearchShow: func,
+    convertSatoshiToBTC: func,
+    convertFromBtcToUsd: func,
+    convertFromUsdToBtc: func
   }
 
   render() {
     const {
-      profile: {
-        loading,
-        data: { name, rating, titleReviews, titleSold, reviews }
-      },
+      profile: { data: profileData },
       uiProfile: { isSearchFieldOpen },
-      toggleSearchShow
+      vendorTransaction: { data: vendorTransaction },
+      toggleSearchShow,
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
     } = this.props
 
     return (
       <div className='page-container profile color-main'>
-        {
-          loading
-            ? <CircularProgress />
-            : <div>
-              <ProfileHeader
-                name={name}
-                rating={rating}
-                titleReviews={titleReviews}
-                titleSold={titleSold}
-                isSearchFieldOpen={isSearchFieldOpen}
-                handleToggleSearchShow={toggleSearchShow}
+        <ProfileHeader
+          name={get(profileData, 'name')}
+          rating={get(profileData, 'rating')}
+          titleReviews={get(profileData, 'titleReviews')}
+          titleSold={get(profileData, 'titleSold')}
+          isSearchFieldOpen={isSearchFieldOpen}
+          handleToggleSearchShow={toggleSearchShow}
+        />
+        <div className='section-content'>
+          <div className='container'>
+            {get(vendorTransaction, 'txs', []).map((transaction, idx) => (
+              <Review
+                key={idx}
+                convertSatoshiToBTC={convertSatoshiToBTC}
+                convertFromBtcToUsd={convertFromBtcToUsd}
+                transaction={transaction}
               />
-              <div className='section-content'>
-                <div className='container'>
-                  {Array.isArray(reviews) && reviews.map((review, idx) => (
-                    <Review {...review} key={idx}/>
-                  ))}
-                </div>
-              </div>
-            </div>
-        }
+            ))}
+          </div>
+        </div>
       </div>
     )
   }
@@ -70,4 +80,8 @@ const mapDispatchToProps = dispatch => ({
   toggleSearchShow: () => dispatch(toggleSearchShow())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default compose(
+  withFxRates,
+  withVendorTransactions,
+  connect(mapStateToProps, mapDispatchToProps)
+)(Profile)

@@ -1,12 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { any, func, bool, string } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
 import { changeUserType } from 'store/modules/data/profile'
 import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
-// libs
-import ReduxToastr from 'react-redux-toastr'
 // components
 import AppBar from 'material-ui/AppBar'
 import Drawer from 'components/Drawer'
@@ -21,7 +19,7 @@ import chluLogo from 'images/svg/chlu-2.svg'
 
 const { circularProgressStyle, AppBarStyle } = style
 
-const MainLayout = ({
+const AppLayout = ({
   children,
   toggleDrawer,
   drawerOpen,
@@ -30,14 +28,13 @@ const MainLayout = ({
   isSwitchUserMenuOpen,
   toggleSwitchUserMenuShow
 }) => {
-  const { loading, data } = profile
-  const id = data ? data.id : 0
+  const { loading, data, error } = profile
   const userType = data ? data.userType : ''
 
   return (
     <div>
-      {loading
-        ? <CircularProgress {...circularProgressStyle} />
+      {loading ? <CircularProgress {...circularProgressStyle} /> : error
+        ? 'Something went wrong'
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
@@ -46,7 +43,6 @@ const MainLayout = ({
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
               items={usersType}
-              userId={id}
               userType={userType}
               isOpen={isSwitchUserMenuOpen}
               onRequestChange={toggleSwitchUserMenuShow}
@@ -55,28 +51,20 @@ const MainLayout = ({
           >
           </AppBar>
           {children}
-          <ReduxToastr
-            timeOut={4000}
-            preventDuplicates
-            position='top-right'
-            transitionIn='fadeIn'
-            transitionOut='fadeOut'
-            newestOnTop
-          />
         </div>
       }
     </div>
   )
 }
 
-MainLayout.propTypes = {
-  children: PropTypes.any,
-  toggleDrawer: PropTypes.func.isRequired,
-  drawerOpen: PropTypes.bool,
-  changeUserType: PropTypes.func,
-  userType: PropTypes.string,
-  isSwitchUserMenuOpen: PropTypes.bool,
-  toggleSwitchUserMenuShow: PropTypes.func
+AppLayout.propTypes = {
+  children: any,
+  toggleDrawer: func,
+  drawerOpen: bool,
+  changeUserType: func,
+  userType: string,
+  isSwitchUserMenuOpen: bool,
+  toggleSwitchUserMenuShow: func
 }
 
 const mapStateToProps = state => ({
@@ -87,8 +75,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: (userType, userId) => dispatch(changeUserType(userType, userId)),
+  changeUserType: (userType) => dispatch(changeUserType(userType)),
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)
+export default connect(mapStateToProps, mapDispatchToProps)(AppLayout)

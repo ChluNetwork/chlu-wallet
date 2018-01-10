@@ -1,16 +1,17 @@
-const linksForCustomer = userId => ([
-  { label: 'Checkout', href: `/customer/${userId}/checkout` },
-  { label: 'Customer Wallet', href: `/customer/${userId}/wallet` },
-  { label: 'Transactions', href: `/customer/${userId}/transactions` }
-])
+const linksForCustomer = [
+  { label: 'Checkout', href: `/customer/checkout` },
+  { label: 'Customer Wallet', href: `/customer/wallet` },
+  { label: 'Transactions', href: `/customer/transactions` },
+  { label: 'Settings', href: '/customer/settings' }
+]
 
-const linksForVendor = userId => ([
-  { label: 'Vendor Profile', href: `/vendor/${userId}/profile` },
-  { label: 'Vendor Wallet', href: `/vendor/${userId}/wallet` }
-])
+const linksForVendor = [
+  { label: 'Vendor Profile', href: `/vendor/profile` },
+  { label: 'Vendor Wallet', href: `/vendor/wallet` }
+]
 
-const linksForDemonstrator = userId => ([
-  { label: 'demo', href: `/demonstrator/${userId}/demo` }
-])
+const linksForDemonstrator = [
+  { label: 'demo', href: `/demonstrator/demo` }
+]
 
 export { linksForCustomer, linksForVendor, linksForDemonstrator }

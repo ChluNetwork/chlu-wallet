@@ -1,18 +1,20 @@
 import { createAction, handleActions } from 'redux-actions'
 // utils
 import { getExchangeRates } from 'helpers/exchangeReq'
+// fixtures
+import rates from 'fixtures/rates'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+const FETCH_RATES_LOADING = 'rates/FETCH_RATES_LOADING'
 const FETCH_RATES_SUCCESS = 'rates/FETCH_RATES_SUCCESS'
 const FETCH_RATES_ERROR = 'rates/FETCH_RATES_ERROR'
-const FETCH_RATES_LOADING = 'rates/FETCH_RATES_LOADING'
 
 const initialState = {
   loading: false,
   error: null,
-  rates: null
+  rates
 }
 
 // ------------------------------------
@@ -24,22 +26,15 @@ export const fetchRatesLoading = createAction(FETCH_RATES_LOADING)
 // ------------------------------------
 // Thunks
 // ------------------------------------
-const getFxRates = () => {
-  return getExchangeRates()
-    .then(data => data)
-    .catch(error => { throw error })
-}
-
 export function getRates () {
   return async (dispatch) => {
     dispatch(fetchRatesLoading(true))
     try {
-      const response = await getFxRates()
+      const response = await getExchangeRates()
       dispatch(fetchRatesSuccess(response))
       return response
     } catch (error) {
       dispatch(fetchRatesError(error))
-      throw error
     }
   }
 }
@@ -48,8 +43,11 @@ export function getRates () {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [FETCH_RATES_SUCCESS]: (state, { payload: rates }) => ({
+  [FETCH_RATES_LOADING]: (state) => ({
     ...state,
+    loading: true
+  }),
+  [FETCH_RATES_SUCCESS]: (state, { payload: rates }) => ({
     loading: false,
     error: null,
     rates
@@ -58,9 +56,5 @@ export default handleActions({
     ...state,
     loading: false,
     error
-  }),
-  [FETCH_RATES_LOADING]: (state, { payload: loading }) => ({
-    ...state,
-    loading
   })
 }, initialState)

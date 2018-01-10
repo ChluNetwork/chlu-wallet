@@ -1,42 +1,43 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, object, func } from 'prop-types'
 // helpers
-import Date from 'helpers/Date'
-// libs
-import { convertSatoshiToBTC } from 'lib/fxRates'
+import get from 'lodash/get'
 // styles
 import './style.css'
 
-const TransactionInfo = ({ address, date, price, isChluTransaction }) => {
-  const parseDate = new Date(date)
-  const priceBTC = convertSatoshiToBTC(price)
+const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }) => {
+  const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
+  const confirmations = get(transaction, 'confirmations', 0)
 
   return (
-    <div className='transaction__info'>
+    <div className='transaction__info' {...rest}>
       <div className='field field-address'>
         <div className='field__title'>To</div>
         <div className='field__data'>{address}</div>
       </div>
       <div className='field field-date'>
         <div className='field__title'>Date</div>
-        <div className='field__data'>
-          {`${parseDate.getMonthName()} ${parseDate.getDay()}, ${parseDate.getFullYear()}`}
-        </div>
+        <div className='field__data'>{get(transaction, 'longDate')}</div>
       </div>
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
-        <div className='field__data'>{priceBTC} BTC</div>
+        <div className='field__data'>{priceBits} bits</div>
       </div>
-      {isChluTransaction || <div className='field-not-chlu'>Not Chlu transaction</div>}
+      <div className='field field-confirm'>
+        <div className='field__title'>Number of confirmations</div>
+        <div className={`field__data font-weight-bold ${confirmations < 6 ? 'yellow' : 'green'}`}>
+          {confirmations}
+        </div>
+      </div>
+      {get(transaction, 'isChluTransaction') || <div className='field-not-chlu'>Not a Chlu transaction</div>}
     </div>
   )
 }
 
 TransactionInfo.propTypes = {
-  address: PropTypes.string,
-  date: PropTypes.string,
-  price: PropTypes.number,
-  isChluTransaction: PropTypes.bool
+  transaction: object,
+  address: string,
+  convertSatoshiToBits: func
 }
 
 export default TransactionInfo

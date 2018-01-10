@@ -1,5 +1,5 @@
 import React from 'react'
-import PropType from 'prop-types'
+import { array, bool, func, string } from 'prop-types'
 // components
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -10,7 +10,7 @@ import style from 'styles/inlineStyles/containers/MainLayout'
 // constants
 const { switchUser: { iconStyle, getStyle } } = style
 
-const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, userType }) => (
+const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userType }) => (
   <IconMenu
     iconButtonElement={<IconButton {...iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
@@ -21,7 +21,7 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, u
         <MenuItem
           value={user}
           primaryText={user}
-          onClick={() => onItemClick(user, userId)}
+          onClick={() => onItemClick(user)}
           key={index}
           style={getStyle(user === userType)}
         />
@@ -31,12 +31,11 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userId, u
 )
 
 SwitchUserMenu.propType = {
-  items: PropType.array.isRequired,
-  isOpen: PropType.bool.isRequired,
-  onRequestChange: PropType.func.isRequired,
-  onItemClick: PropType.func.isRequired,
-  userId: PropType.oneOfType([PropType.number, PropType.string]).isRequired,
-  userType: PropType.string.isRequired
+  items: array,
+  isOpen: bool,
+  onRequestChange: func,
+  onItemClick: func,
+  userType: string
 }
 
 export default SwitchUserMenu

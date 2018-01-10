@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CustomerWalletForm /> should render correctly customer wallet form 1`] = `
-<Connect(Form(Connect(withHandlers(CustomerWalletForm))))
+<Connect(Form(Connect(WithFxRates)))
   destroyOnUnmount={true}
   enableReinitialize={false}
   forceUnregisterOnUnmount={false}
@@ -18,5 +18,6 @@ exports[`<CustomerWalletForm /> should render correctly customer wallet form 1`]
   shouldWarn={[Function]}
   touchOnBlur={true}
   touchOnChange={false}
+  updateUnregisteredFields={false}
 />
 `;

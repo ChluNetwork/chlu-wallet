@@ -22,4 +22,5 @@ class App extends Component {
   }
 }
 
+export { store }
 export default App

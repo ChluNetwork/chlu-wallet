@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, number, func, bool } from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
 import Search from 'material-ui/svg-icons/action/search'
@@ -47,12 +47,12 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSear
 )
 
 ProfileHeader.propTypes = {
-  name: PropTypes.string,
-  rating: PropTypes.number,
-  titleReviews: PropTypes.string,
-  titleSold: PropTypes.string,
-  handleToggleSearchShow: PropTypes.func.isRequired,
-  isSearchFieldOpen: PropTypes.bool
+  name: string,
+  rating: number,
+  titleReviews: string,
+  titleSold: string,
+  handleToggleSearchShow: func.isRequired,
+  isSearchFieldOpen: bool
 }
 
 export default ProfileHeader

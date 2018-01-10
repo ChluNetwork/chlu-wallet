@@ -1,21 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, func, array } from 'prop-types'
 //components
 import Review from 'components/Review'
 
-const PaymentsList = ({ date, reviews, getTotalUsd }) => (
+const PaymentsList = ({ date, transactions, convertSatoshiToBits, convertFromBitsToUsd }) => (
   <div className='reviews-list'>
     <div className='reviews-list__date color-light'>{date}</div>
-    {
-      reviews.map((review, index) => <Review {...review} getTotalUsd={getTotalUsd} key={index}/>)
-    }
+    {transactions.map((transaction, index) =>
+      <Review
+        key={index}
+        convertSatoshiToBits={convertSatoshiToBits}
+        convertFromBitsToUsd={convertFromBitsToUsd}
+        transaction={transaction}
+      />)}
   </div>
 )
 
 PaymentsList.propTypes = {
-  date: PropTypes.string.isRequired,
-  reviews: PropTypes.array.isRequired,
-  getTotalUsd: PropTypes.func
+  date: string,
+  transactions: array,
+  convertSatoshiToBits: func,
+  convertFromBitsToUsd: func
 }
 
 export default PaymentsList
