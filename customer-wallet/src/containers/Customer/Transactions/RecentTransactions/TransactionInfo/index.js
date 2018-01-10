@@ -1,12 +1,12 @@
 import React from 'react'
-import { string, object } from 'prop-types'
+import { string, object, func } from 'prop-types'
 // helpers
 import get from 'lodash/get'
 // styles
 import './style.css'
 
-const TransactionInfo = ({ transaction, address, convertSatoshiToBTC, ...rest }) => {
-  const priceBTC = convertSatoshiToBTC(get(transaction, 'total', 0))
+const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }) => {
+  const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
   const confirmations = get(transaction, 'confirmations', 0)
 
   return (
@@ -21,7 +21,7 @@ const TransactionInfo = ({ transaction, address, convertSatoshiToBTC, ...rest })
       </div>
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
-        <div className='field__data'>{priceBTC} BTC</div>
+        <div className='field__data'>{priceBits} bits</div>
       </div>
       <div className='field field-confirm'>
         <div className='field__title'>Number of confirmations</div>
@@ -29,14 +29,15 @@ const TransactionInfo = ({ transaction, address, convertSatoshiToBTC, ...rest })
           {confirmations}
         </div>
       </div>
-      {get(transaction, 'isChluTransaction') || <div className='field-not-chlu'>Not Chlu transaction</div>}
+      {get(transaction, 'isChluTransaction') || <div className='field-not-chlu'>Not a Chlu transaction</div>}
     </div>
   )
 }
 
 TransactionInfo.propTypes = {
   transaction: object,
-  address: string
+  address: string,
+  convertSatoshiToBits: func
 }
 
 export default TransactionInfo

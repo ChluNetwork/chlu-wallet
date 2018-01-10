@@ -14,11 +14,11 @@ const ReviewItem = ({
   transaction,
   commentsList = [],
   isMultipleReview,
-  convertSatoshiToBTC,
-  convertFromBtcToUsd
+  convertSatoshiToBits,
+  convertFromBitsToUsd
 }) => {
-  const BTC = convertSatoshiToBTC(get(transaction, 'total'))
-  const USD = convertFromBtcToUsd(BTC)
+  const Bits = convertSatoshiToBits(get(transaction, 'total'))
+  const USD = convertFromBitsToUsd(Bits)
   const confirmations = get(transaction, 'confirmations')
 
   return (
@@ -42,7 +42,7 @@ const ReviewItem = ({
           </div>
           {!isMultipleReview &&
           <div className='info-head__price'>
-            <div className='price-item'>{BTC} BTC</div>
+            <div className='price-item'>{Bits} bits</div>
             <div className='price-item'>{USD} USD</div>
           </div>
           }
@@ -77,8 +77,8 @@ ReviewItem.propTypes = {
   isMultipleReview: bool,
   transaction: object,
   commentsListName: string,
-  convertSatoshiToBTC: func,
-  convertFromBtcToUsd: func
+  convertSatoshiToBits: func,
+  convertFromBitsToUsd: func
 }
 
 export default ReviewItem

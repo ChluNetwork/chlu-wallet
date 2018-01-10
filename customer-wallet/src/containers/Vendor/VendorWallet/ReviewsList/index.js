@@ -3,14 +3,14 @@ import { string, func, array } from 'prop-types'
 //components
 import Review from 'components/Review'
 
-const PaymentsList = ({ date, transactions, convertSatoshiToBTC, convertFromBtcToUsd }) => (
+const PaymentsList = ({ date, transactions, convertSatoshiToBits, convertFromBitsToUsd }) => (
   <div className='reviews-list'>
     <div className='reviews-list__date color-light'>{date}</div>
     {transactions.map((transaction, index) =>
       <Review
         key={index}
-        convertSatoshiToBTC={convertSatoshiToBTC}
-        convertFromBtcToUsd={convertFromBtcToUsd}
+        convertSatoshiToBits={convertSatoshiToBits}
+        convertFromBitsToUsd={convertFromBitsToUsd}
         transaction={transaction}
       />)}
   </div>
@@ -19,8 +19,8 @@ const PaymentsList = ({ date, transactions, convertSatoshiToBTC, convertFromBtcT
 PaymentsList.propTypes = {
   date: string,
   transactions: array,
-  convertSatoshiToBTC: func,
-  convertFromBtcToUsd: func
+  convertSatoshiToBits: func,
+  convertFromBitsToUsd: func
 }
 
 export default PaymentsList

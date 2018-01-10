@@ -2,9 +2,9 @@ import React from 'react'
 import { string, number, func } from 'prop-types'
 import { Link } from 'react-router'
 
-const TransactionItem = ({ address, price, pathname, convertFromBtcToUsd, convertSatoshiToBTC }) => {
-  const priceBTC = convertSatoshiToBTC(price)
-  const priceUSD = convertFromBtcToUsd(priceBTC)
+const TransactionItem = ({ address, price, pathname, convertSatoshiToBits, convertFromBitsToUsd }) => {
+  const priceBits = convertSatoshiToBits(price)
+  const priceUSD = convertFromBitsToUsd(priceBits)
   const linkPath = `${pathname}/${address}`
 
   return (
@@ -16,7 +16,7 @@ const TransactionItem = ({ address, price, pathname, convertFromBtcToUsd, conver
       <div className='item-price'>
         <div className='item-price__title'>Spent</div>
         <div className='item-price__spent'>
-          <div className='price-item'>{priceBTC} BTC</div>
+          <div className='price-item'>{priceBits} bits</div>
           <div className='price-item'>{priceUSD} USD</div>
         </div>
       </div>
@@ -28,8 +28,8 @@ TransactionItem.propTypes = {
   address: string,
   price: number,
   pathname: string,
-  convertFromBtcToUsd: func,
-  convertSatoshiToBTC: func
+  convertSatoshiToBits: func,
+  convertFromBitsToUsd: func
 }
 
 export default TransactionItem

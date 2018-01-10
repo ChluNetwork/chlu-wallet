@@ -31,7 +31,9 @@ class VendorWallet extends Component {
     }),
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
-    convertFromUsdToBtc: func
+    convertSatoshiToBits: func,
+    convertFromBitsToUsd: func,
+    convertFromBtcToBits: func
   }
 
   calculateTotalBtc = (data) =>
@@ -40,13 +42,16 @@ class VendorWallet extends Component {
   render () {
     const {
       convertFromBtcToUsd,
-      convertSatoshiToBTC,
+      convertSatoshiToBits,
+      convertFromBtcToBits,
+      convertFromBitsToUsd,
       vendorTransaction: { data },
       profile: { data: profileData }
     } = this.props
 
     const combineTransactions = groupBy(get(data, 'txs', []), (item) => item.shortDate)
     const totalBtc = this.calculateTotalBtc(get(data, 'txs', []))
+    const totalBits = convertFromBtcToBits(totalBtc, 8)
     const totalUsd = convertFromBtcToUsd(totalBtc)
 
     return (
@@ -65,7 +70,7 @@ class VendorWallet extends Component {
              </div>
            </div>
            <div className='total-crypto'>
-             <div className='total-crypto__item big'>{totalBtc} BTC</div>
+             <div className='total-crypto__item big'>{totalBits} bits</div>
              <div className='total-crypto__item'>${totalUsd} USD</div>
             </div>
           </div>
@@ -77,8 +82,8 @@ class VendorWallet extends Component {
                 key={index}
                 date={key}
                 transactions={combineTransactions[key]}
-                convertSatoshiToBTC={convertSatoshiToBTC}
-                convertFromBtcToUsd={convertFromBtcToUsd}
+                convertSatoshiToBits={convertSatoshiToBits}
+                convertFromBitsToUsd={convertFromBitsToUsd}
               />)}
           </div>
         </div>

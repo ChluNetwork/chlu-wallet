@@ -48,6 +48,8 @@ class RecentTransaction extends Component {
     fetchReviews: func,
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
+    convertFromBtcToBits: func,
+    convertSatoshiToBits: func,
     convertFromUsdToBtc: func
   }
 
@@ -96,7 +98,9 @@ class RecentTransaction extends Component {
       calculateTotalSpent,
       reviews: { loading: isReviewsLoading, data },
       convertSatoshiToBTC,
-      convertFromBtcToUsd
+      convertFromBtcToBits,
+      convertFromBtcToUsd,
+      convertSatoshiToBits
     } = this.props
 
     const address = get(routeParams,'address', '')
@@ -104,6 +108,7 @@ class RecentTransaction extends Component {
     const transaction = get(customerTransactions, 'data.txs', [])
       .filter(({ addresses }) => addresses[addresses.length - 1] === address)
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(transaction))
+    const totalBits = convertFromBtcToBits(totalBTC, 8)
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
@@ -116,7 +121,7 @@ class RecentTransaction extends Component {
               <div className='price'>
                 <div className='price-title font-weight-bold'>Spent</div>
                 <div className='price-spent'>
-                  <div className='price-spent__item font-weight-bold'>{totalBTC} BTC</div>
+                  <div className='price-spent__item font-weight-bold'>{totalBits} bits</div>
                   <div className='price-spent__item font-smaller'>{totalUSD} USD</div>
                 </div>
               </div>
@@ -129,7 +134,7 @@ class RecentTransaction extends Component {
                       key={index}
                       address={address}
                       transaction={item}
-                      convertSatoshiToBTC={convertSatoshiToBTC}
+                      convertSatoshiToBits={convertSatoshiToBits}
                     />
                   ))}
                 </div>

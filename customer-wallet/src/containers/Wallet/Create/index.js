@@ -87,7 +87,7 @@ class CreateWallet extends Component {
           <div className='buttons'>
             <RaisedButton
               {...buttonStyle}
-              label='Save mnemonic'
+              label='Download mnemonic'
               onClick={this.handleDownload(mnemonic)}
             />
             <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>

@@ -40,13 +40,13 @@ class Settings extends Component {
           <div className='container settings-section'>
             {mnemonic
               ? mnemonic
-              : 'Mnemonic key is not exist'
+              : 'Mnemonic does not exist. Have you created a wallet yet?'
             }
             {mnemonic
               ? <div className='settings-section__buttons'>
                 <RaisedButton
                   {...buttonStyle}
-                  label='Save mnemonic'
+                  label='Download mnemonic'
                   onClick={this.handleDownload(mnemonic)}
                 />
                 <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
@@ -60,7 +60,7 @@ class Settings extends Component {
                 <Link to='/'>
                   <RaisedButton
                     {...buttonStyle}
-                    label='Create wallet'
+                    label='Create new wallet'
                   />
                 </Link>
               </div>

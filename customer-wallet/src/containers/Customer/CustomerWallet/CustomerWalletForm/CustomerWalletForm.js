@@ -4,6 +4,8 @@ import { func, bool, number, array, string } from 'prop-types'
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
+// helpers
+import { convertToBits } from 'helpers/converters'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
@@ -88,14 +90,14 @@ const CustomerWalletForm = ({
             </div>
           </div>
           <div className='amount-btc'>
-            <div className='amount-btc__label label font-smaller color-light'>Amount (BTC)</div>
+            <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
             <div className='amount-btc__fields'>
               <Field
                 {...textFieldsStyle}
                 name='amountBtc'
                 type='tel'
                 component={Input}
-                placeholder='BTC'
+                placeholder='bits'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
               />
@@ -156,7 +158,7 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={isDisabledSubmit ? 'Loading...' : `Pay ${priceBtc} BTC`}
+          label={isDisabledSubmit ? 'Loading...' : `Pay ${priceBtc} bits`}
           className='submit-button'
           disabled={isDisabledSubmit}
         />
@@ -191,10 +193,13 @@ export default compose(
   connect(null, mapDispatchToProps),
   withHandlers({
     convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
-      const convertedValue = getFx().convert(value, fromTo)
-      changeField('customer-wallet-form', name, convertedValue.toFixed(2))
+      let convertedValue = getFx().convert(value, fromTo)
+      if (name === 'amountUsd') convertedValue = convertToBits(convertedValue, false, 8)
+      if (name === 'amountBtc') convertedValue = convertToBits(convertedValue, true, 8)
+
+      changeField('customer-wallet-form', name, convertedValue)
     },
-    currencyFieldOnChange: (props) => (e, value, fn) => {
+    currencyFieldOnChange: () => (e, value, fn) => {
       const name = e.target.name
       const convertOptions = {
         amountBtc: { name: 'amountUsd', fromTo: { from: 'BTC', to: 'USD' } },

@@ -22,7 +22,7 @@ const UnAutorized = () => (
             <RaisedButton {...buttonStyle} label='Import wallet' />
           </Link>
           <Link to='wallet/create'>
-            <RaisedButton {...buttonStyle} label='Create wallet' />
+            <RaisedButton {...buttonStyle} label='Create new wallet' />
           </Link>
         </div>
       </div>

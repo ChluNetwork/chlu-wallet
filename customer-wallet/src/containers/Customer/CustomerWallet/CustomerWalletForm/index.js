@@ -8,6 +8,7 @@ import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
 // libs
 import { toastr } from 'react-redux-toastr'
+import { round } from 'lodash'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
@@ -25,7 +26,7 @@ class CustomerWalletFormWrapper extends Component {
     rates: oneOfType([object, bool]),
     comingSoonModal: shape({ isOpen: bool }),
     toggleComingSoonModal: func,
-    convertBTCToSatoshi: func
+    convertBitsToSatoshi: func
   }
 
   static contextTypes = {
@@ -47,11 +48,11 @@ class CustomerWalletFormWrapper extends Component {
 
   handleSubmit = ({ toAddress, amountBtc }) => {
     this.setState({ isDisabledSubmit: true }, () => {
-      const { rating, convertBTCToSatoshi } = this.props
+      const { rating, convertBitsToSatoshi } = this.props
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
-      tr.create(activeAddress, toAddress, convertBTCToSatoshi(parseFloat(amountBtc)), null, 'Hello World')
+      tr.create(activeAddress, toAddress, round(convertBitsToSatoshi(parseFloat(amountBtc))), null, 'Hello World')
         .then((response) => {
           console.log(response)
           toastr.success('success', 'Payment success')

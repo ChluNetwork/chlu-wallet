@@ -26,7 +26,9 @@ class TransactionHistory extends Component {
     getRates: func,
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
-    convertFromUsdToBtc: func
+    convertFromBitsToUsd: func,
+    convertSatoshiToBits: func,
+    convertFromBtcToBits: func
   }
 
   render() {
@@ -36,11 +38,15 @@ class TransactionHistory extends Component {
       groupTransactionByAddress,
       calculateTotalSpent,
       convertSatoshiToBTC,
-      convertFromBtcToUsd
+      convertFromBtcToUsd,
+      convertFromBtcToBits,
+      convertSatoshiToBits,
+      convertFromBitsToUsd
     } = this.props
 
     const groupedTransaction = groupTransactionByAddress(get(customerTransactions, 'data.txs', []))
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
+    const totalBits = convertFromBtcToBits(totalBTC, 8)
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
@@ -52,7 +58,7 @@ class TransactionHistory extends Component {
           <div className='transaction-spent'>
             <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
             <div className='transaction-spent__price'>
-              <div className='price-item font-weight-bold'>{totalBTC} BTC</div>
+              <div className='price-item font-weight-bold'>{totalBits} bits</div>
               <div className='price-item font-smaller'>{totalUSD} USD</div>
             </div>
           </div>
@@ -66,8 +72,8 @@ class TransactionHistory extends Component {
                   address={address}
                   pathname={get(location, 'pathname', '')}
                   price={totalSpent}
-                  convertFromBtcToUsd={convertFromBtcToUsd}
-                  convertSatoshiToBTC={convertSatoshiToBTC}
+                  convertSatoshiToBits={convertSatoshiToBits}
+                  convertFromBitsToUsd={convertFromBitsToUsd}
                 />
               ))}
             </div>
