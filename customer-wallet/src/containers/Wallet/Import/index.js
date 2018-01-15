@@ -37,7 +37,7 @@ class ImportWallet extends Component {
   onFormSubmit = () => this.props.submit('import-wallet-form')
 
   handleSubmit = ({ mnemonic: newMnemonic }) => {
-    const { wallet: { mnemonic }, toggleMnemonicExists} = this.props
+    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
 
     if (mnemonic) {
       toggleMnemonicExists({ newMnemonic: newMnemonic })
