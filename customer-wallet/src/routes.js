@@ -19,6 +19,7 @@ import TransactionHistory from './containers/Customer/Transactions/TransactionHi
 import RecentTransactions from './containers/Customer/Transactions/RecentTransactions'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
+import { getChluIPFS, types } from './helpers/ipfs';
 
 function getRoutes (store) {
   return (
@@ -33,7 +34,7 @@ function getRoutes (store) {
         component={AppLayout}
         onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
       >
-        <Route path='customer' >
+        <Route path='customer' onEnter={(nextState, replace, proceed) => initChluIPFS(types.customer, proceed)}>
           <IndexRedirect to='wallet' />
           <Route path='checkout' component={Checkout}/>
           <Route path='wallet' component={CustomerWallet} />
@@ -41,8 +42,8 @@ function getRoutes (store) {
           <Route path='transactions/:address' component={RecentTransactions} />
           <Route path='settings' component={Settings} />
         </Route>
-        <Route path='vendor' >
-          <IndexRedirect to='wallet' />
+        <Route path='vendor' onEnter={(nextState, replace, proceed) => initChluIPFS(types.vendor, proceed)}>
+          <IndexRedirect to='wallet'/>
           <Route path='profile' component={Profile} />
           <Route path='wallet' component={VendorWallet} />
         </Route>
@@ -64,20 +65,28 @@ function checkMnemonicExists(proceed) {
   proceed()
 }
 
-function preloadUser(nextState, proceed, { getState, dispatch }) {
+async function preloadUser(nextState, proceed, { getState, dispatch }) {
   const { data } = getState().data.profile
   const [ , nextUserType, ...rest ] = nextState.location.pathname.split('/')
 
   if (!data) {
-    dispatch(getProfile(nextUserType))
-      .then(({ userType }) => {
-        const nextPath = [ nextUserType || userType, ...rest ].join('/')
-        replace(`/${nextPath}`)
-      })
-      .catch(error => {
-        console.log('error_____', error)
-        proceed()
-      })
+    try {
+      const { userType } = await dispatch(getProfile(nextUserType))
+      const nextPath = [ nextUserType || userType, ...rest ].join('/')
+      replace(`/${nextPath}`)
+    } catch (error) {
+        console.log('error_____', error.message)
+    }
+  }
+  
+  proceed()
+}
+
+async function initChluIPFS(type, proceed){
+  try {
+    await getChluIPFS(type);
+  } catch (error) {
+    console.log('error_____', error.message)
   }
 
   proceed()

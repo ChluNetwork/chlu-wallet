@@ -10,7 +10,7 @@ import { buttonStyle } from 'styles/inlineStyles/containers/Wallet'
 import chluLogo from 'images/svg/chlu-1.svg'
 
 const UnAutorized = () => (
-  <div className="page-container wallet">
+  <div className='page-container wallet'>
     <div className='container wallet-header'>
       <img src={chluLogo} className='logo' alt='Chlu' />
     </div>

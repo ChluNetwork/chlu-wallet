@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 // data
 import profileData from 'fixtures/profile'
 
@@ -53,7 +53,7 @@ export function getProfile (nextUserType) {
 export function changeUserType (nextUser) {
   return dispatch => {
     dispatch(changeUserTypeAction(nextUser))
-    browserHistory.replace(`/${nextUser}`)
+    hashHistory.replace(`/${nextUser}`)
   }
 }
 
