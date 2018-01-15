@@ -49,14 +49,14 @@ class CustomerWalletFormWrapper extends Component {
 
   handleSubmit = ({ toAddress, amountBtc }) => {
     this.setState({ isDisabledSubmit: true }, async () => {
-      const { rating, convertBTCToSatoshi } = this.props
+      const { rating, convertBitsToSatoshi } = this.props
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
       const chluIpfs = await getChluIPFS(types.customer)
       const contentHash = await chluIpfs.storeReviewRecord(Buffer.from('fake review record content'))
 
-      tr.create(activeAddress, toAddress, convertBTCToSatoshi(parseFloat(amountBtc)), null, contentHash)
+      tr.create(activeAddress, toAddress, convertBitsToSatoshi(parseFloat(amountBtc)), null, contentHash)
         .then((response) => {
           console.log(response)
           toastr.success('success', 'Payment success')
