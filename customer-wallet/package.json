@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
     "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",

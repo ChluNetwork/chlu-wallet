@@ -6,6 +6,7 @@ import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWal
 import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
+import { getChluIPFS, types } from 'helpers/ipfs'
 // libs
 import { toastr } from 'react-redux-toastr'
 import { round } from 'lodash'
@@ -47,12 +48,15 @@ class CustomerWalletFormWrapper extends Component {
   handleChangeAddress = (activeAddress) => this.setState({ activeAddress })
 
   handleSubmit = ({ toAddress, amountBtc }) => {
-    this.setState({ isDisabledSubmit: true }, () => {
+    this.setState({ isDisabledSubmit: true }, async () => {
       const { rating, convertBitsToSatoshi } = this.props
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
-      tr.create(activeAddress, toAddress, round(convertBitsToSatoshi(parseFloat(amountBtc))), null, 'Hello World')
+      const chluIpfs = await getChluIPFS(types.customer)
+      const contentHash = await chluIpfs.storeReviewRecord(Buffer.from('fake review record content'))
+
+      tr.create(activeAddress, toAddress, convertBitsToSatoshi(parseFloat(amountBtc)), null, contentHash)
         .then((response) => {
           console.log(response)
           toastr.success('success', 'Payment success')
