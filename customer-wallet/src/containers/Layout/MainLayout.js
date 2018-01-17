@@ -36,7 +36,7 @@ class MainLayout extends Component {
       <div>
         {children}
         <ReduxToastr
-          timeOut={4000}
+          timeOut={5000}
           preventDuplicates
           position='top-right'
           transitionIn='fadeIn'

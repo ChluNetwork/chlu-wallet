@@ -51,7 +51,7 @@ class VendorWallet extends Component {
 
     const combineTransactions = groupBy(get(data, 'txs', []), (item) => item.shortDate)
     const totalBtc = this.calculateTotalBtc(get(data, 'txs', []))
-    const totalBits = convertFromBtcToBits(totalBtc, 8)
+    const totalBits = convertFromBtcToBits(totalBtc, 2)
     const totalUsd = convertFromBtcToUsd(totalBtc)
 
     return (

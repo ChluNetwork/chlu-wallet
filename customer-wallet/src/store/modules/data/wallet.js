@@ -5,6 +5,7 @@ import { createAction, handleActions } from 'redux-actions'
 // ------------------------------------
 const SET_MNEMONIC = 'wallet/SET_MNEMONIC'
 const GENERATE_MNEMONIC = 'wallet/GENERATE_MNEMONIC'
+const UPDATE_NEW_MNEMONIC = 'wallet/UPDATE_NEW_MNEMONIC'
 
 const initialState = {
   mnemonic: localStorage.getItem('mnemonic_key'),
@@ -19,6 +20,7 @@ const initialState = {
 // ------------------------------------
 export const setMnemonic = createAction(SET_MNEMONIC)
 export const setCreateMnemonic = createAction(GENERATE_MNEMONIC)
+export const updateMnemonic = createAction(UPDATE_NEW_MNEMONIC)
 // ------------------------------------
 // Thunks
 // ------------------------------------
@@ -31,6 +33,10 @@ export default handleActions({
     localStorage.setItem('mnemonic_key', payload)
     return { ...state, mnemonic: payload }
   },
+  [UPDATE_NEW_MNEMONIC]: (state) => ({
+    ...state,
+    mnemonic: localStorage.getItem('mnemonic_key')
+  }),
   [GENERATE_MNEMONIC]: (state, { payload }) => ({
     ...state,
     createWallet: {
