@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getRates } from 'store/modules/data/fxRates'
 // helpers
-import { get } from 'lodash'
+import { get, round } from 'lodash'
 import { convertToBits } from 'helpers/converters'
 // libs
 import { fx } from 'money'
@@ -43,7 +43,7 @@ export default (WrappedComponent) => {
       this.fx.rates = get(fxRates, 'rates')
       this.fx.base = get(fxRates, 'base', 'USD')
 
-      return this.fx.convert(value, { from: 'BTC', to: 'USD' })
+      return round(this.fx.convert(value, { from: 'BTC', to: 'USD' }), 2)
     }
 
     convertFromUsdToBtc = (value = 0) => {

@@ -46,7 +46,7 @@ class TransactionHistory extends Component {
 
     const groupedTransaction = groupTransactionByAddress(get(customerTransactions, 'data.txs', []))
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
-    const totalBits = convertFromBtcToBits(totalBTC, 8)
+    const totalBits = convertFromBtcToBits(totalBTC, 2)
     const totalUSD = convertFromBtcToUsd(totalBTC)
 
     return (
