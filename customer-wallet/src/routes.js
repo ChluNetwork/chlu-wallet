@@ -37,7 +37,11 @@ function getRoutes (store) {
         <Route path='customer' onEnter={(nextState, replace, proceed) => initChluIPFS(types.customer, proceed)}>
           <IndexRedirect to='wallet' />
           <Route path='checkout' component={Checkout}/>
-          <Route path='wallet' component={CustomerWallet} />
+          <Route
+            path='wallet'
+            component={CustomerWallet}
+            onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}
+          />
           <Route path='transactions' component={TransactionHistory} />
           <Route path='transactions/:address' component={RecentTransactions} />
           <Route path='settings' component={Settings} />
@@ -60,6 +64,14 @@ function getRoutes (store) {
 function checkMnemonicExists(proceed) {
   if (localStorage.getItem('mnemonic_key')) {
     replace('/customer')
+  }
+
+  proceed()
+}
+
+function checkMissingMnemonic(proceed) {
+  if (!localStorage.getItem('mnemonic_key')) {
+    replace('/')
   }
 
   proceed()
