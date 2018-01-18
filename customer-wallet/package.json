@@ -32,7 +32,7 @@
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
-    "postbuild": "npx uglify-es build/static/js/main.*.js -c -o build/static/js/$(ls build/static/js | head -n 1)",
+    "postbuild": "npx uglify-es build/static/js/main.*.js -o build/static/js/$(ls build/static/js | head -n 1)",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ."
