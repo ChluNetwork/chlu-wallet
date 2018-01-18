@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { shape, bool, object, func, string, any } from 'prop-types'
 // helpers
 import get from 'lodash/get'
+import { formatCurrency } from 'helpers/currencyFormat'
 // redux
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -48,7 +49,8 @@ class TransactionHistory extends Component {
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
     const totalBits = convertFromBtcToBits(totalBTC, 2)
     const totalUSD = convertFromBtcToUsd(totalBTC)
-
+    const totalBitsFormatted = formatCurrency(totalBits)
+    const totalUSDFormatted = formatCurrency(totalUSD)
     return (
       <div className='page-container transaction color-main container-border-top'>
         <div className='section-head container'>
@@ -58,8 +60,8 @@ class TransactionHistory extends Component {
           <div className='transaction-spent'>
             <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
             <div className='transaction-spent__price'>
-              <div className='price-item font-weight-bold'>{totalBits} bits</div>
-              <div className='price-item font-smaller'>{totalUSD} USD</div>
+              <div className='price-item font-weight-bold'>{totalBitsFormatted} bits</div>
+              <div className='price-item font-smaller'>{totalUSDFormatted} USD</div>
             </div>
           </div>
         </div>

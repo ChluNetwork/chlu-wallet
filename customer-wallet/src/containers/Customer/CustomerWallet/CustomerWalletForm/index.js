@@ -41,7 +41,8 @@ class CustomerWalletFormWrapper extends Component {
 
     this.state = {
       activeAddress: addresses[0],
-      isDisabledSubmit: false
+      isDisabledSubmit: false,
+      paymentType: 'cryptocurrency'
     }
   }
 
@@ -70,10 +71,19 @@ class CustomerWalletFormWrapper extends Component {
     })
   }
 
+  onSwitchPaymentType = () => {
+    const paymentTypesValue = {
+      cryptocurrency: 'masterCard',
+      masterCard: 'cryptocurrency',
+    }
+
+    this.setState(({ paymentType }) => ({ paymentType: paymentTypesValue[paymentType] }))
+  }
+
   onStarClick = rating => this.props.setRating(rating)
 
   render () {
-    const { activeAddress, isDisabledSubmit } = this.state
+    const { activeAddress, isDisabledSubmit, paymentType } = this.state
     const {
       isReviewOpen,
       loading,
@@ -89,9 +99,10 @@ class CustomerWalletFormWrapper extends Component {
         <CustomerWalletForm
           onSubmit={this.handleSubmit}
           onStarClick={this.onStarClick}
+          switchPaymentType={this.onSwitchPaymentType}
+          handleChangeAddress={this.handleChangeAddress}
           ownAddresses={addresses}
           activeAddress={activeAddress}
-          handleChangeAddress={this.handleChangeAddress}
           ratingValue={rating}
           isReviewOpen={isReviewOpen}
           loading={loading}
@@ -99,6 +110,7 @@ class CustomerWalletFormWrapper extends Component {
           priceBtc={priceBtc}
           showModal={toggleComingSoonModal}
           isDisabledSubmit={isDisabledSubmit}
+          isCreditCardPayment={paymentType === 'masterCard'}
         />
         <ComingSoonModal isOpen={isOpen} hideModal={toggleComingSoonModal} />
       </div>

@@ -4,6 +4,7 @@ import { shape, bool, any, object, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 // helpers
+import { formatCurrency } from 'helpers/currencyFormat'
 import { get, groupBy } from 'lodash'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
@@ -53,6 +54,8 @@ class VendorWallet extends Component {
     const totalBtc = this.calculateTotalBtc(get(data, 'txs', []))
     const totalBits = convertFromBtcToBits(totalBtc, 2)
     const totalUsd = convertFromBtcToUsd(totalBtc)
+    const totalBitsFormatted = formatCurrency(totalBits)
+    const totalUsdFormatted = formatCurrency(totalUsd)
 
     return (
       <div className='page-container vendor-wallet color-main'>
@@ -70,8 +73,8 @@ class VendorWallet extends Component {
              </div>
            </div>
            <div className='total-crypto'>
-             <div className='total-crypto__item big'>{totalBits} bits</div>
-             <div className='total-crypto__item'>${totalUsd} USD</div>
+             <div className='total-crypto__item big'>{totalBitsFormatted} bits</div>
+             <div className='total-crypto__item'>${totalUsdFormatted} USD</div>
             </div>
           </div>
         </div>
