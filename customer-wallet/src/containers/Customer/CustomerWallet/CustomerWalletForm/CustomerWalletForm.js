@@ -53,6 +53,24 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
       <div className='container'>
+        <div className='payment-switch-buttons m-b-35'>
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by Crypto'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={!isCreditCardPayment}
+          />
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by MasterCard'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={isCreditCardPayment}
+          />
+        </div>
         {!isCreditCardPayment && <div className='fields-wrapper'>
           <div className='label font-smaller color-light'>Your Address</div>
           <div className='your-address__wrapper'>
@@ -195,24 +213,6 @@ const CustomerWalletForm = ({
                 </div>}
             </div>
           </div>
-        </div>
-        <div className='payment-switch-buttons m-t-35'>
-          <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
-            label={'Pay by Crypto'}
-            onClick={switchPaymentType}
-            className='submit-button'
-            disabled={!isCreditCardPayment}
-          />
-          <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
-            label={'Pay by MasterCard'}
-            onClick={switchPaymentType}
-            className='submit-button'
-            disabled={isCreditCardPayment}
-          />
         </div>
       </div>
     </div>
