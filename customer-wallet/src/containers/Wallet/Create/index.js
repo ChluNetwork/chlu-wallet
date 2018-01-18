@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { shape, bool, func, string, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { toggleMnemonicExists } from 'store/modules/ui/modal'
 import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
+import { setWalletCreated, setSaveMnemonic } from 'store/modules/components/CreateWallet'
 // helpers
 import replace from 'helpers/replace'
 // libs
@@ -12,10 +12,9 @@ import fileDownload from 'js-file-download'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import { toastr } from 'react-redux-toastr'
-import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
 // styles
-import './style.css'
 import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Create'
+import './style.css'
 
 class CreateWallet extends Component {
   static propTypes = {
@@ -23,10 +22,12 @@ class CreateWallet extends Component {
       mnemonic: string,
       createWallet: shape({ mnemonic: oneOfType([bool, string]) })
     }),
-    mnemonicExistsModal: shape({ isOpen: bool }),
-    toggleMnemonicExists: func,
     setMnemonic: func,
-    setCreateMnemonic: func
+    setCreateMnemonic: func,
+    setSaveMnemonic: func,
+    setWalletCreated: func,
+    mnemonicSaved: bool,
+    walletCreated: bool
   }
 
   static contextTypes = {
@@ -38,43 +39,51 @@ class CreateWallet extends Component {
     const newMnemonic = importPrivateKey.generateNewMnemonic()
 
     this.props.setCreateMnemonic(newMnemonic)
+    this.props.setMnemonic(newMnemonic)
   }
 
-  onImportCancel = () => {
-    this.props.toggleMnemonicExists()
-    replace('/customer')
-  }
-
-  onImportContinue = () => {
-    this.createWallet()
-    this.props.toggleMnemonicExists()
-  }
-
-  onCreateWalletClick = () => {
-    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
-
-    if (mnemonic) {
-      toggleMnemonicExists()
-    } else {
-      this.createWallet()
-    }
+  componentWillUnmount () {
+    this.props.setWalletCreated(false)
+    this.props.setSaveMnemonic(false)
   }
 
   createWallet = () => {
-    const { wallet: { createWallet: { mnemonic } }, setMnemonic } = this.props
+    const { wallet: { createWallet: { mnemonic } }, setMnemonic, mnemonicSaved } = this.props
 
-    console.log('create wallet with mnemonic: ', mnemonic)
-    toastr.success('success', 'Create wallet success')
+    if (!mnemonicSaved) {
+      toastr.warning(
+        'warning',
+        'Please save your mnemonic. Once you have saved it you will be able to access the wallet'
+      )
+    }
+
     setMnemonic(mnemonic)
+    console.log('create wallet with mnemonic: ', mnemonic)
+    this.props.setWalletCreated(true)
+  }
+
+  moveToTheWallet = () => {
     replace('/customer')
   }
 
-  handleCopy = (data) => data ? toastr.success('success', 'Copying success') : toastr.error('failed', 'Copying failed')
-  handleDownload = (mnemonic) => () => fileDownload(mnemonic, 'mnemonic_key.txt')
+  handleCopy = (data) => {
+    if (data) {
+      toastr.success('success', 'Copying success')
+      this.props.setSaveMnemonic(true)
+    } else {
+      toastr.error('failed', 'Copying failed')
+    }
+  }
+
+  handleDownload = (mnemonic) => () => {
+    this.props.setSaveMnemonic(true)
+    fileDownload(mnemonic, 'mnemonic_key.txt')
+  }
 
   render () {
     const {
-      mnemonicExistsModal: { isOpen },
+      mnemonicSaved,
+      walletCreated,
       wallet: { createWallet: { mnemonic } }
     } = this.props
 
@@ -99,31 +108,34 @@ class CreateWallet extends Component {
           </div>
         </div>
         <div className='container create-footer'>
-          <RaisedButton
-            label='Create wallet'
-            fullWidth
-            onClick={this.onCreateWalletClick}
-          />
+          {(mnemonicSaved && walletCreated)
+            ? <RaisedButton
+              label='Go to wallet'
+              fullWidth
+              onClick={this.moveToTheWallet}
+            />
+            : <RaisedButton
+              label='Create wallet'
+              fullWidth
+              onClick={this.createWallet}
+            />}
         </div>
-        <MnemonicExistsModal
-          isOpen={isOpen}
-          handleCancel={this.onImportCancel}
-          handleContinue={this.onImportContinue}
-        />
       </div>
     )
   }
 }
 
 const mapStateToProps = store => ({
-  mnemonicExistsModal: store.ui.modal.mnemonicExistsModal,
-  wallet: store.data.wallet
+  wallet: store.data.wallet,
+  mnemonicSaved: store.components.createWallet.mnemonicSaved,
+  walletCreated: store.components.createWallet.walletCreated
 })
 
 const mapDispatchToProps = {
-  toggleMnemonicExists,
   setMnemonic,
-  setCreateMnemonic
+  setCreateMnemonic,
+  setWalletCreated,
+  setSaveMnemonic
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWallet)
