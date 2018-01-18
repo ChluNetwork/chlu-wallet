@@ -1,8 +1,12 @@
-import { ratingColor, blue, mainColor, backgroundColorDark, borderColorDark } from 'context/palette'
+import { ratingColor, blue, mainColor, backgroundColorDark, borderColorDark, lightTextColor } from 'context/palette'
 
 export default {
   submitBtnStyle: {
     backgroundColor: ratingColor,
+    labelColor: 'rgb(255, 255, 255)'
+  },
+  switchPaymentBtnStyle: {
+    backgroundColor: lightTextColor,
     labelColor: 'rgb(255, 255, 255)'
   },
   avatarStyle: {

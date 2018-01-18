@@ -4,8 +4,10 @@ import { func, bool, number, array, string } from 'prop-types'
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
+import cn from 'classnames'
 // helpers
 import { convertToBits } from 'helpers/converters'
+import { formatCurrency } from 'helpers/currencyFormat'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
@@ -19,7 +21,15 @@ import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
 // styles
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
-const { submitBtnStyle, avatarStyle, getCheckboxStyle, textFieldsStyle, VendorAddressInputStyle, ratingStyle } = styles
+const {
+  submitBtnStyle,
+  avatarStyle,
+  getCheckboxStyle,
+  textFieldsStyle,
+  VendorAddressInputStyle,
+  ratingStyle,
+  switchPaymentBtnStyle
+} = styles
 
 const starCount = 5
 
@@ -37,12 +47,14 @@ const CustomerWalletForm = ({
   ownAddresses,
   handleChangeAddress,
   activeAddress,
-  isDisabledSubmit
+  isDisabledSubmit,
+  isCreditCardPayment,
+  switchPaymentType
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
       <div className='container'>
-        <div className='fields-wrapper'>
+        {!isCreditCardPayment && <div className='fields-wrapper'>
           <div className='label font-smaller color-light'>Your Address</div>
           <div className='your-address__wrapper'>
             <Field
@@ -73,7 +85,7 @@ const CustomerWalletForm = ({
             </div>
           </div>
           <div className='payment-currency'>
-            <div className='payment-currency__title font-smaller color-light'>Payment currency</div>
+            <div className='payment-currency__title font-smaller color-light'>Payment cryptocurrency</div>
             <div className='payment-currency__buttons color-light'>
               {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
                 <div
@@ -113,13 +125,48 @@ const CustomerWalletForm = ({
               />
             </div>
           </div>
-        </div>
+        </div>}
+        {isCreditCardPayment && <div className='fields-wrapper'>
+          <div className='label font-smaller color-light'>Cardholder Name</div>
+          <Field
+            {...textFieldsStyle}
+            name='cardholderName'
+            type='text'
+            component={Input}
+            fullWidth
+          />
+
+          <div className='label font-smaller color-light'>Card Number</div>
+          <Field
+            {...textFieldsStyle}
+            name='cardNumber'
+            type='text'
+            component={Input}
+            fullWidth
+          />
+          <div className='label font-smaller color-light'>Expiry Date</div>
+          <Field
+            {...textFieldsStyle}
+            name='expDate'
+            type='text'
+            component={Input}
+            fullWidth
+          />
+          <div className='label font-smaller color-light'>CV</div>
+          <Field
+            {...textFieldsStyle}
+            name='cvv'
+            type='text'
+            component={Input}
+            fullWidth
+          />
+        </div>}
       </div>
     </div>
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
-          <div className='review'>
+          {!isCreditCardPayment && <div className='review'>
             <div className='review-fields'>
               <Field
                 {...getCheckboxStyle(isReviewOpen)}
@@ -146,10 +193,27 @@ const CustomerWalletForm = ({
                     component={Input}
                     multiLine
                   />
-                </div>
-              }
+                </div>}
             </div>
-          </div>
+          </div>}
+        </div>
+        <div className={cn({ 'm-t-35': !isCreditCardPayment }, 'payment-switch-buttons')}>
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by Crypto'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={!isCreditCardPayment}
+          />
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by MasterCard'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={isCreditCardPayment}
+          />
         </div>
       </div>
     </div>
@@ -158,7 +222,7 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={isDisabledSubmit ? 'Loading...' : `Pay ${priceBtc} bits`}
+          label={isDisabledSubmit ? 'Loading...' : `Pay ${formatCurrency(priceBtc)} bits`}
           className='submit-button'
           disabled={isDisabledSubmit}
         />
@@ -175,9 +239,11 @@ CustomerWalletForm.propTypes = {
   handleChangeAddress: func.isRequired,
   isReviewOpen: bool,
   loading: bool,
+  isCreditCardPayment: bool,
   ratingValue: number,
   getFx: func,
   showModal: func,
+  switchPaymentType: func,
   ownAddresses: array,
   activeAddress: string,
   isDisabledSubmit: bool

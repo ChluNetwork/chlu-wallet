@@ -2,6 +2,27 @@
 
 .customer-wallet-form {
 
+  .payment-switch-buttons {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    max-width: 400px;
+
+    .submit-button:first-child {
+      margin-right: 10px;
+    }
+
+    @media (max-width: 350px) {
+      flex-direction: column;
+      justify-content: center;
+
+      .submit-button:first-child {
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+    }
+  }
+
   .section-head {
     &__name {
       font-weight: bold;

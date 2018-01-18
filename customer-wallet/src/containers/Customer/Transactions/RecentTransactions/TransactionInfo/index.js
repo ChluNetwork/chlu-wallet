@@ -1,6 +1,7 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
 // helpers
+import { formatCurrency } from 'helpers/currencyFormat'
 import get from 'lodash/get'
 // styles
 import './style.css'
@@ -8,6 +9,7 @@ import './style.css'
 const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }) => {
   const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
   const confirmations = get(transaction, 'confirmations', 0)
+  const priceBitsFormatted = formatCurrency(priceBits)
 
   return (
     <div className='transaction__info' {...rest}>
@@ -21,7 +23,7 @@ const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }
       </div>
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
-        <div className='field__data'>{priceBits} bits</div>
+        <div className='field__data'>{priceBitsFormatted} bits</div>
       </div>
       <div className='field field-confirm'>
         <div className='field__title'>Number of confirmations</div>

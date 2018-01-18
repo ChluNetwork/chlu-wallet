@@ -9,6 +9,7 @@ import { setRatingRecentTransaction } from 'store/modules/components/RecentTrans
 import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
 // helpers
 import get from 'lodash/get'
+import { formatCurrency } from 'helpers/currencyFormat'
 // hoc
 import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
@@ -110,6 +111,8 @@ class RecentTransaction extends Component {
     const totalBTC = convertSatoshiToBTC(calculateTotalSpent(transaction))
     const totalBits = convertFromBtcToBits(totalBTC, 8)
     const totalUSD = convertFromBtcToUsd(totalBTC)
+    const totalBitsFormatted = formatCurrency(totalBits)
+    const totalUSDFormatted = formatCurrency(totalUSD)
 
     return (
       <div className='page-container color-main'>
@@ -121,8 +124,8 @@ class RecentTransaction extends Component {
               <div className='price'>
                 <div className='price-title font-weight-bold'>Spent</div>
                 <div className='price-spent'>
-                  <div className='price-spent__item font-weight-bold'>{totalBits} bits</div>
-                  <div className='price-spent__item font-smaller'>{totalUSD} USD</div>
+                  <div className='price-spent__item font-weight-bold'>{totalBitsFormatted} bits</div>
+                  <div className='price-spent__item font-smaller'>{totalUSDFormatted} USD</div>
                 </div>
               </div>
             </div>

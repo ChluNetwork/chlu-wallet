@@ -5,6 +5,7 @@ import ReviewTitle from './ReviewTitle'
 // helpers
 import { get } from 'lodash'
 import { getMonthDateYear } from '../../helpers/Date'
+import { formatCurrency } from 'helpers/currencyFormat'
 // data
 import noProduct from 'images/no-product.png'
 // styles
@@ -19,6 +20,8 @@ const ReviewItem = ({
 }) => {
   const Bits = convertSatoshiToBits(get(transaction, 'total'))
   const USD = convertFromBitsToUsd(Bits)
+  const BitsFormatted = formatCurrency(Bits)
+  const USDFormatted = formatCurrency(USD)
   const confirmations = get(transaction, 'confirmations')
 
   return (
@@ -41,21 +44,19 @@ const ReviewItem = ({
             </div>
           </div>
           {!isMultipleReview &&
-          <div className='info-head__price'>
-            <div className='price-item'>{Bits} bits</div>
-            <div className='price-item'>{USD} USD</div>
-          </div>
-          }
+            <div className='info-head__price'>
+              <div className='price-item'>{BitsFormatted} bits</div>
+              <div className='price-item'>{USDFormatted} USD</div>
+            </div>}
         </div>
         {!isMultipleReview &&
-        <div className='review-confirmation'>
-          <div className='review-confirmation__title'>Number of confirmations</div>
-          <div className={`review-confirmation__amount ${confirmations < 6 ? 'yellow' : 'green'}`}>
-            <div>{confirmations}</div>
-            <div>{confirmations < 6 ? 'unconfirmed' : 'confirmed'}</div>
-          </div>
-        </div>
-        }
+          <div className='review-confirmation'>
+            <div className='review-confirmation__title'>Number of confirmations</div>
+            <div className={`review-confirmation__amount ${confirmations < 6 ? 'yellow' : 'green'}`}>
+              <div>{confirmations}</div>
+              <div>{confirmations < 6 ? 'unconfirmed' : 'confirmed'}</div>
+            </div>
+          </div>}
         <div className='review-comments__list'>
           {isMultipleReview
             ? commentsList.map((comment, index) => {
@@ -65,8 +66,7 @@ const ReviewItem = ({
             : <ReviewTitle
               rating={get(transaction, 'review.rating')}
               comment={get(transaction, 'review.comment')}
-            />
-          }
+            />}
         </div>
       </div>
     </div>
