@@ -51,77 +51,76 @@ const CustomerWalletForm = ({
   switchPaymentType
 }) => (
   <form onSubmit={handleSubmit} className='form color-main'>
-    <div className='container-border-bottom'>
-      <div className='container'>
-        <div className='payment-switch-buttons m-b-35'>
-          <RaisedButton
+    <div className='container'>
+      <div className='payment-switch-buttons m-b-35'>
+        <RaisedButton
             {...switchPaymentBtnStyle}
             type='button'
             label={'Pay by Crypto'}
             onClick={switchPaymentType}
             className='submit-button'
             disabled={!isCreditCardPayment}
-          />
-          <RaisedButton
+        />
+        <RaisedButton
             {...switchPaymentBtnStyle}
             type='button'
             label={'Pay by MasterCard'}
             onClick={switchPaymentType}
             className='submit-button'
             disabled={isCreditCardPayment}
-          />
-        </div>
-        {!isCreditCardPayment && <div className='fields-wrapper'>
-          <div className='label font-smaller color-light'>Your Address</div>
-          <div className='your-address__wrapper'>
-            <Field
+        />
+      </div>
+      {!isCreditCardPayment && <div className='fields-wrapper'>
+        <div className='label font-smaller color-light'>Your Address</div>
+        <div className='your-address__wrapper'>
+          <Field
               {...textFieldsStyle}
               name='fromAddress'
               component={Select}
               value={activeAddress}
               options={ownAddresses.map((address) => ({ value: address, label: address }))}
               handleChange={handleChangeAddress}
-            />
-          </div>
-          <div className='vendor-address'>
-            <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
-            <Field
+          />
+        </div>
+        <div className='vendor-address'>
+          <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
+          <Field
               {...textFieldsStyle}
               name='toAddress'
               type='text'
               component={Input}
               inputStyle={VendorAddressInputStyle}
-            />
-            <div className='vendor-address__avatar'>
-              <Avatar
+          />
+          <div className='vendor-address__avatar'>
+            <Avatar
                 {...avatarStyle}
                 size={40}
-              >
-                A
-              </Avatar>
-            </div>
+            >
+              A
+            </Avatar>
           </div>
-          <div className='payment-currency'>
-            <div className='payment-currency__title font-smaller color-light'>Payment cryptocurrency</div>
-            <div className='payment-currency__buttons color-light'>
-              {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
-                <div
-                  className={`button ${active ? 'button-active' : null }`}
-                  key={idx}
-                  onClick={showModal}
-                >
-                  <div className='button-icon'>
-                    <img src={active ? iconBlue : icon} alt={label} className='icon' />
-                  </div>
-                  <div className='button-label'>{label}</div>
-                </div>
-              ))}
-            </div>
+        </div>
+        <div className='payment-currency'>
+          <div className='payment-currency__title font-smaller color-light'>Payment cryptocurrency</div>
+          <div className='payment-currency__buttons color-light'>
+            {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
+               <div
+                   className={`button ${active ? 'button-active' : null }`}
+                   key={idx}
+                   onClick={showModal}
+               >
+                 <div className='button-icon'>
+                   <img src={active ? iconBlue : icon} alt={label} className='icon' />
+                 </div>
+                 <div className='button-label'>{label}</div>
+               </div>
+             ))}
           </div>
-          <div className='amount-btc'>
-            <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
-            <div className='amount-btc__fields'>
-              <Field
+        </div>
+        <div className='amount-btc'>
+          <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
+          <div className='amount-btc__fields'>
+            <Field
                 {...textFieldsStyle}
                 name='amountBtc'
                 type='tel'
@@ -129,9 +128,9 @@ const CustomerWalletForm = ({
                 placeholder='bits'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
-              />
-              <div className='equally'>=</div>
-              <Field
+            />
+            <div className='equally'>=</div>
+            <Field
                 {...textFieldsStyle}
                 name='amountUsd'
                 type='tel'
@@ -139,79 +138,76 @@ const CustomerWalletForm = ({
                 placeholder='USD'
                 onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
                 fullWidth
-              />
-            </div>
+            />
           </div>
-        </div>}
-        {isCreditCardPayment && <div className='fields-wrapper'>
-          <div className='label font-smaller color-light'>Cardholder Name</div>
-          <Field
+        </div>
+      </div>}
+      {isCreditCardPayment && <div className='fields-wrapper'>
+        <div className='label font-smaller color-light'>Cardholder Name</div>
+        <Field
             {...textFieldsStyle}
             name='cardholderName'
             type='text'
             component={Input}
             fullWidth
-          />
+        />
 
-          <div className='label font-smaller color-light'>Card Number</div>
-          <Field
+        <div className='label font-smaller color-light'>Card Number</div>
+        <Field
             {...textFieldsStyle}
             name='cardNumber'
             type='text'
             component={Input}
             fullWidth
-          />
-          <div className='label font-smaller color-light'>Expiry Date</div>
-          <Field
+        />
+        <div className='label font-smaller color-light'>Expiry Date</div>
+        <Field
             {...textFieldsStyle}
             name='expDate'
             type='text'
             component={Input}
             fullWidth
-          />
-          <div className='label font-smaller color-light'>CV</div>
-          <Field
+        />
+        <div className='label font-smaller color-light'>CV</div>
+        <Field
             {...textFieldsStyle}
             name='cvv'
             type='text'
             component={Input}
             fullWidth
-          />
-        </div>}
-      </div>
+        />
+      </div>}
     </div>
-    <div className='container-border-bottom'>
-      <div className='container'>
-        <div className='fields-wrapper'>
-          <div className='review'>
-            <div className='review-fields'>
-              <Field
+    <div className='container'>
+      <div className='fields-wrapper'>
+        <div className='review'>
+          <div className='review-fields'>
+            <Field
                 {...getCheckboxStyle(isReviewOpen)}
                 label='Write a review now'
                 name='reviewOpen'
                 component={Checkbox}
                 uncheckedIcon={<CheckIcon />}
-              />
-              {isReviewOpen &&
-                <div>
-                  <StarRatingComponent
-                    {...ratingStyle}
-                    className='review-rating'
-                    name='rating'
-                    starCount={starCount}
-                    value={ratingValue}
-                    onStarClick={onStarClick}
-                  />
-                  <div className='comment-label label font-smaller color-light'>Comment</div>
-                  <Field
-                    {...textFieldsStyle}
-                    name='review'
-                    type='text'
-                    component={Input}
-                    multiLine
-                  />
-                </div>}
-            </div>
+            />
+            {isReviewOpen &&
+             <div>
+               <StarRatingComponent
+                   {...ratingStyle}
+                   className='review-rating'
+                   name='rating'
+                   starCount={starCount}
+                   value={ratingValue}
+                   onStarClick={onStarClick}
+               />
+               <div className='comment-label label font-smaller color-light'>Comment</div>
+               <Field
+                   {...textFieldsStyle}
+                   name='review'
+                   type='text'
+                   component={Input}
+                   multiLine
+               />
+             </div>}
           </div>
         </div>
       </div>

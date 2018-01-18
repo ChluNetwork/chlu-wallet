@@ -29,7 +29,7 @@ class CustomerWalletPage extends Component {
     return (
       <div className='page-container customer-wallet-form'>
         <div className='container section-head color-main'>
-          <div className='section-head__name color-light'>Payment for Shinny New Toy</div>
+          <div className='section-head__name color-light'>Payment for Apple iPhone 6</div>
           <div className='section-head__price-usd'>$ {formattedUsd}</div>
           <div className='section-head__price-btc'>{formattedBits} bits</div>
         </div>
