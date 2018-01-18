@@ -4,7 +4,6 @@ import { func, bool, number, array, string } from 'prop-types'
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import cn from 'classnames'
 // helpers
 import { convertToBits } from 'helpers/converters'
 import { formatCurrency } from 'helpers/currencyFormat'
@@ -54,6 +53,24 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container-border-bottom'>
       <div className='container'>
+        <div className='payment-switch-buttons m-b-35'>
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by Crypto'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={!isCreditCardPayment}
+          />
+          <RaisedButton
+            {...switchPaymentBtnStyle}
+            type='button'
+            label={'Pay by MasterCard'}
+            onClick={switchPaymentType}
+            className='submit-button'
+            disabled={isCreditCardPayment}
+          />
+        </div>
         {!isCreditCardPayment && <div className='fields-wrapper'>
           <div className='label font-smaller color-light'>Your Address</div>
           <div className='your-address__wrapper'>
@@ -166,7 +183,7 @@ const CustomerWalletForm = ({
     <div className='container-border-bottom'>
       <div className='container'>
         <div className='fields-wrapper'>
-          {!isCreditCardPayment && <div className='review'>
+          <div className='review'>
             <div className='review-fields'>
               <Field
                 {...getCheckboxStyle(isReviewOpen)}
@@ -195,25 +212,7 @@ const CustomerWalletForm = ({
                   />
                 </div>}
             </div>
-          </div>}
-        </div>
-        <div className={cn({ 'm-t-35': !isCreditCardPayment }, 'payment-switch-buttons')}>
-          <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
-            label={'Pay by Crypto'}
-            onClick={switchPaymentType}
-            className='submit-button'
-            disabled={!isCreditCardPayment}
-          />
-          <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
-            label={'Pay by MasterCard'}
-            onClick={switchPaymentType}
-            className='submit-button'
-            disabled={isCreditCardPayment}
-          />
+          </div>
         </div>
       </div>
     </div>
