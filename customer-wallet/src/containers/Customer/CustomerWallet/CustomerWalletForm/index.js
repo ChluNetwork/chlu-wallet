@@ -48,16 +48,56 @@ class CustomerWalletFormWrapper extends Component {
 
   handleChangeAddress = (activeAddress) => this.setState({ activeAddress })
 
-  handleSubmit = ({ toAddress, amountBtc }) => {
+  handleSubmit = ({ toAddress, amountBtc, review }) => {
     this.setState({ isDisabledSubmit: true }, async () => {
       const { rating, convertBitsToSatoshi } = this.props
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
       const chluIpfs = await getChluIPFS(types.customer)
-      const contentHash = await chluIpfs.storeReviewRecord(Buffer.from('fake review record content'))
+      const reviewRecord = {
+        popr: {
+          item_id: 0,
+          invoice_id: 0,
+          customer_id: 0,
+          created_at: 0,
+          expires_at: 0,
+          currency_symbol: 'USD',
+          amount: 400,
+          marketplace_url: 'chlu demo',
+          marketplace_vendor_url: 'chlu demo',
+          key_location: 'chlu demo',
+          attributes: [
+              {
+                  name: 'rating',
+                  min_rating: 1,
+                  max_rating: 5,
+                  description: 'rating',
+                  is_required: true
+              }
+          ],
+          chlu_version: 0,
+          signature: '-'
+        },
+        currency_symbol: 'BTC',
+        amount: parseFloat(amountBtc || 0),
+        customer_address: activeAddress,
+        vendor_address: toAddress,
+        review_text: review,
+        rating,
+        chlu_version: 0,
+        hash: '-' // TODO: ipfs-support needs to calculate this on its own
+      }
 
-      tr.create(activeAddress, toAddress, round(convertBitsToSatoshi(parseFloat(amountBtc))), null, contentHash)
+      let contentHash = null;
+      try {
+        contentHash = await chluIpfs.storeReviewRecord(reviewRecord)
+      } catch(exception) {
+        console.log(exception)
+        throw exception
+      }
+
+      tr.create(activeAddress, toAddress, round(convertBitsToSatoshi(parseFloat(amountBtc || 0))), null, contentHash)
         .then((response) => {
           console.log(response)
           toastr.success('success', 'Payment success')
