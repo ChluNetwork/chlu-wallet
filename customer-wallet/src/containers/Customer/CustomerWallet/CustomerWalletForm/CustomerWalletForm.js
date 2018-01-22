@@ -11,7 +11,6 @@ import { formatCurrency } from 'helpers/currencyFormat'
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
-import Avatar from 'material-ui/Avatar'
 import Input from 'components/Form/Input'
 import Select from 'components/Form/Select'
 import Checkbox from 'components/Form/Checkbox'
@@ -22,10 +21,8 @@ import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
 const {
   submitBtnStyle,
-  avatarStyle,
   getCheckboxStyle,
   textFieldsStyle,
-  VendorAddressInputStyle,
   ratingStyle,
   switchPaymentBtnStyle
 } = styles
@@ -82,24 +79,6 @@ const CustomerWalletForm = ({
               handleChange={handleChangeAddress}
           />
         </div>
-        <div className='vendor-address'>
-          <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
-          <Field
-              {...textFieldsStyle}
-              name='toAddress'
-              type='text'
-              component={Input}
-              inputStyle={VendorAddressInputStyle}
-          />
-          <div className='vendor-address__avatar'>
-            <Avatar
-                {...avatarStyle}
-                size={40}
-            >
-              A
-            </Avatar>
-          </div>
-        </div>
         <div className='payment-currency'>
           <div className='payment-currency__title font-smaller color-light'>Payment cryptocurrency</div>
           <div className='payment-currency__buttons color-light'>
@@ -115,30 +94,6 @@ const CustomerWalletForm = ({
                  <div className='button-label'>{label}</div>
                </div>
              ))}
-          </div>
-        </div>
-        <div className='amount-btc'>
-          <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
-          <div className='amount-btc__fields'>
-            <Field
-                {...textFieldsStyle}
-                name='amountBtc'
-                type='tel'
-                component={Input}
-                placeholder='bits'
-                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-                fullWidth
-            />
-            <div className='equally'>=</div>
-            <Field
-                {...textFieldsStyle}
-                name='amountUsd'
-                type='tel'
-                component={Input}
-                placeholder='USD'
-                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-                fullWidth
-            />
           </div>
         </div>
       </div>}

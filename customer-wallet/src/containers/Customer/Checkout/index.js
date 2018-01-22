@@ -42,7 +42,8 @@ class Checkout extends Component {
                     <RaisedButton
                       {...buttonStyle}
                       label='Continue'
-                      fullWidth={true}
+                        fullWidth={true}
+                        href='/customer/wallet'
                       onClick={() => null}
                     />
                   </div>

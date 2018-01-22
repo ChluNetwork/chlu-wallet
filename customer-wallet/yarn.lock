@@ -1693,11 +1693,12 @@ cheerio@^0.22.0:
 
 "chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#0e0367fad6e11b5584c4df05c33cd3d0d227acfc"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#bb02394fa6a0a203a369c0ab5ee3055b66335161"
   dependencies:
-    ipfs "~0.27.6"
+    ipfs "~0.27.7"
     ipfs-pubsub-room "~1.1.5"
     orbit-db "~0.19.2"
+    protons "~1.0.1"
 
 "chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git":
   version "0.0.1"
@@ -4595,7 +4596,7 @@ ipfs-unixfs@~0.1.14:
   dependencies:
     protons "^1.0.0"
 
-ipfs@~0.27.6:
+ipfs@~0.27.6, ipfs@~0.27.7:
   version "0.27.7"
   resolved "https://registry.yarnpkg.com/ipfs/-/ipfs-0.27.7.tgz#c73ab18888fce2b99437c97bcb656f9d22f95b33"
   dependencies:
@@ -8190,7 +8191,7 @@ protocol-buffers-schema@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-3.3.2.tgz#00434f608b4e8df54c59e070efeefc37fb4bb859"
 
-protons@^1.0.0, protons@^1.0.1:
+protons@^1.0.0, protons@^1.0.1, protons@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/protons/-/protons-1.0.1.tgz#1c107144c07fc2d1cb8b6cb76451e6a938237676"
   dependencies:

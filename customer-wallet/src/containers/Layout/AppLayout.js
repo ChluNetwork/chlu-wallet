@@ -16,6 +16,7 @@ import usersType from 'fixtures/usersType'
 import style from 'styles/inlineStyles/containers/MainLayout'
 // assets
 import chluLogo from 'images/svg/chlu-2.svg'
+//import marketplaceLogo from 'images/svg/apple.svg'
 
 const { circularProgressStyle, AppBarStyle } = style
 
@@ -26,11 +27,18 @@ const AppLayout = ({
   changeUserType,
   profile,
   isSwitchUserMenuOpen,
-  toggleSwitchUserMenuShow
+  toggleSwitchUserMenuShow,
+  location
 }) => {
   const { loading, data, error } = profile
   const userType = data ? data.userType : ''
 
+  let logo = <img src={chluLogo} className='navbar-logo' alt='logo' />
+  if ( location.pathname === "/customer/checkout" ) {
+    logo = null
+  }
+  
+  
   return (
     <div>
       {loading ? <CircularProgress {...circularProgressStyle} /> : error
@@ -38,7 +46,7 @@ const AppLayout = ({
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <AppBar
-            title={<img src={chluLogo} className='navbar-logo' alt='logo' />}
+            title={logo}
             {...AppBarStyle}
             onLeftIconButtonTouchTap={toggleDrawer}
             iconElementRight={<SwitchUserMenu
