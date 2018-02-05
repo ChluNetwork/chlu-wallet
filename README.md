@@ -1,9 +1,9 @@
 
 [![Build Status](https://travis-ci.org/ChluNetwork/chlu-demo.svg?branch=master)](https://travis-ci.org/ChluNetwork/chlu-demo.svg?branch=master)
 
-## What is Chlu? ##
+## What is Chlu?
 
-Chlu a decentralised reputation system.
+Chlu is a decentralised reputation system.
 
 Vendor reputation is backed by payments received via cryptocurrencies.
 
@@ -13,7 +13,7 @@ marketplaces can not limit access to a vendor's data.
 Chlu supports payments with any cryptocurrencies as long there are
 wallets for that cryptocurrency with support for Chlu.
 
-### How does Chlu work? ###
+### How does Chlu work?
 
 Chlu enables paying customers to leave reviews and ratings for
 vendors. The reviews and ratings are saved on IPFS and vendors remain
@@ -23,14 +23,14 @@ marketplaces where they sell their services and products.
 
 The position paper on https://chlu.io has more details.
 
-### Who runs Chlu? ###
+### Who runs Chlu?
 
 Short answer - no one. But there is a team developing the protocols
 and reference open source implementations of the wallets and services.
 
 There is no smart contract that any one organisation controls.
 
-## What are Chlu protocols? ##
+## What are Chlu protocols?
 
 Chlu requires customer and vendor wallets to provide functionality
 that enables customers and vendors to leave reviews, edit them later
@@ -42,12 +42,12 @@ protocol specifies the format of messages and when and how the
 messages are to be exchanged, where the data is to be saved and how
 this data should be interpreted by wallets.
 
-## Can anyone create a wallet? ##
+## Can anyone create a wallet?
 
 Yes, any wallet can support the Chlu reputation platform by providing
 support for the Chlu protocols specified in this repository.
 
-## Contribution ##
+## Contribution
 
 To contribute to our reference open source implementation of wallets,
 please create an issue in this repository and/or a pull request with
@@ -55,3 +55,22 @@ associated changes.
 
 To make suggestions for improving the Chlu protocol, please go to our
 [protocol repository](git@github.com:ChluNetwork/chlu-protocol.git)
+
+## Install
+
+The customer wallet is created using create-react-app
+
+- `cd customer-wallet`
+- copy `.env.example` to create a `.env` file. Fill in the API keys
+if you want to take advantage of blockchain functionality
+- `yarn` to install dependencies
+- `yarn start` to run a development server
+- `yarn build` to make a production build
+
+If you want to build your own wallet or integrate Chlu into your
+project, check out the libraries used by the demo:
+
+- [chlu-ipfs-support](https://github.com/ChluNetwork/chlu-ipfs-support)
+- [chlu-wallet-support-js](https://github.com/ChluNetwork/chlu-wallet-support-js)
+
+The libraries are still in development
