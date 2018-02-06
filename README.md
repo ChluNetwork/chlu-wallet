@@ -58,11 +58,10 @@ To make suggestions for improving the Chlu protocol, please go to our
 
 ## Install
 
-The customer wallet is created using create-react-app
+The customer wallet was setup using create-react-app
 
 - `cd customer-wallet`
-- copy `.env.example` to create a `.env` file. Fill in the API keys
-if you want to take advantage of blockchain functionality
+- copy `.env.example` to create a `.env` file. Fill in the API keys for blockcypher. We will eventually move off blockcypher, but for now we are using a third part API to push transactions
 - `yarn` to install dependencies
 - `yarn start` to run a development server
 - `yarn build` to make a production build
