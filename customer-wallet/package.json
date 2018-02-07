@@ -1,6 +1,7 @@
 {
   "name": "customer-wallet",
   "version": "0.1.0",
+  "homepage": ".",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
@@ -33,6 +34,7 @@
     "build": "npm run build-css && react-scripts build",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
     "postbuild": "npx uglify-es build/static/js/main.*.js -o build/static/js/$(ls build/static/js | head -n 1)",
+    "deploy": "node ./deploy.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ."
