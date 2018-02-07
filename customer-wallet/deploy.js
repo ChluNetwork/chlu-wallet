@@ -15,6 +15,7 @@ async function main(){
     const multihash = result[result.length-1].hash
     console.log('\n')
     console.log('Test the build using https://ipfs.io/ipfs/' + multihash)
+    console.log('This build has been automatically pinned. You can remove it using ipfs pin rm -r ' + multihash)
     console.log('To publish the build, run ipfs name publish /ipfs/' + multihash)
 }
 
