@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // libs
-import { browserHistory, Router } from 'react-router'
+import { hashHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getRoutes from 'routes'
@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <MuiThemeProvider>
-          <Router history={browserHistory} children={getRoutes(store)} />
+          <Router history={hashHistory} children={getRoutes(store)} />
         </MuiThemeProvider>
       </Provider>
     )
