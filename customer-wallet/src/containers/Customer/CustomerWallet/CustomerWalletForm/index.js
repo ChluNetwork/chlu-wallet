@@ -54,7 +54,8 @@ class CustomerWalletFormWrapper extends Component {
       const { blockchainClient: { createChluTransaction: tr } } = this.context
       const { activeAddress } = this.state
 
-      const chluIpfs = await getChluIPFS(types.customer)
+      const amountSatoshi = round(convertBitsToSatoshi(parseFloat(amountBtc || 0)))
+
       const reviewRecord = {
         popr: {
           item_id: 0,
@@ -67,47 +68,34 @@ class CustomerWalletFormWrapper extends Component {
           marketplace_url: 'chlu demo',
           marketplace_vendor_url: 'chlu demo',
           key_location: 'chlu demo',
-          attributes: [
-              {
-                  name: 'rating',
-                  min_rating: 1,
-                  max_rating: 5,
-                  description: 'rating',
-                  is_required: true
-              }
-          ],
+          attributes: [],
           chlu_version: 0,
           signature: '-'
         },
-        currency_symbol: 'BTC',
-        amount: parseFloat(amountBtc || 0),
+        currency_symbol: 'satoshi',
+        amount: amountSatoshi,
         customer_address: activeAddress,
         vendor_address: toAddress,
         review_text: review,
+        detailed_review: [],
         rating,
         chlu_version: 0,
         hash: '-' // TODO: ipfs-support needs to calculate this on its own
       }
 
-      let contentHash = null;
       try {
-        contentHash = await chluIpfs.storeReviewRecord(reviewRecord)
+        const chluIpfs = await getChluIPFS(types.customer)
+        const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+        const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
+        console.log(response)
+        await chluIpfs.storeReviewRecord(reviewRecord)
+        toastr.success('success', 'Payment success')
+        this.setState({ isDisabledSubmit: false })
       } catch(exception) {
         console.log(exception)
+        this.setState({ isDisabledSubmit: false })
         throw exception
       }
-
-      tr.create(activeAddress, toAddress, round(convertBitsToSatoshi(parseFloat(amountBtc || 0))), null, contentHash)
-        .then((response) => {
-          console.log(response)
-          toastr.success('success', 'Payment success')
-          this.setState({ isDisabledSubmit: false })
-        })
-        .catch(error => {
-          console.log(error)
-          this.setState({ isDisabledSubmit: false })
-          throw error
-        })
     })
   }
 
