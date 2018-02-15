@@ -19,7 +19,8 @@ import TransactionHistory from './containers/Customer/Transactions/TransactionHi
 import RecentTransactions from './containers/Customer/Transactions/RecentTransactions'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
-import { getChluIPFS, types } from './helpers/ipfs';
+import WithChluIPFS from './containers/Hoc/WithChluIPFS'
+import ChluIPFS from 'chlu-ipfs-support'
 
 function getRoutes (store) {
   return (
@@ -34,22 +35,22 @@ function getRoutes (store) {
         component={AppLayout}
         onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
       >
-        <Route path='customer' onEnter={(nextState, replace, proceed) => initChluIPFS(types.customer, proceed)}>
+        <Route path='customer'>
           <IndexRedirect to='wallet' />
           <Route path='checkout' component={Checkout}/>
           <Route
             path='wallet'
-            component={CustomerWallet}
+            component={WithChluIPFS(ChluIPFS.types.customer, CustomerWallet)}
             onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}
           />
           <Route path='transactions' component={TransactionHistory} />
           <Route path='transactions/:address' component={RecentTransactions} />
           <Route path='settings' component={Settings} />
         </Route>
-        <Route path='vendor' onEnter={(nextState, replace, proceed) => initChluIPFS(types.vendor, proceed)}>
+        <Route path='vendor'>
           <IndexRedirect to='wallet'/>
-          <Route path='profile' component={Profile} />
-          <Route path='wallet' component={VendorWallet} />
+          <Route path='profile' component={WithChluIPFS(ChluIPFS.types.vendor, Profile)} />
+          <Route path='wallet' component={WithChluIPFS(ChluIPFS.types.vendor, VendorWallet)} />
         </Route>
         <Route path='demonstrator' >
           <IndexRedirect to='demo' />
@@ -91,16 +92,6 @@ async function preloadUser(nextState, proceed, { getState, dispatch }) {
     }
   }
   
-  proceed()
-}
-
-async function initChluIPFS(type, proceed){
-  try {
-    await getChluIPFS(type);
-  } catch (error) {
-    console.log('error_____', error.message)
-  }
-
   proceed()
 }
 
