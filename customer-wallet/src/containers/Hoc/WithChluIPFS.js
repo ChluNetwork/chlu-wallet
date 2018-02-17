@@ -7,13 +7,16 @@ export default function WithChluIPFS(type, WrappedComponent) {
         constructor(props) {
             super(props)
             this.state = {
-                ready: false
+                ready: true
             }
         }
 
         componentDidMount() {
             getChluIPFS(type).then(chluIpfs => {
                 this.setState({ ready: true })
+            }).catch(err => {
+                console.log(err)
+                // TODO - retry or inform user things are busted
             })
         }
 

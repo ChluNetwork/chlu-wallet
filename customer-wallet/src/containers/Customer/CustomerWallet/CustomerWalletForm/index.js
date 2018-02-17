@@ -88,6 +88,7 @@ class CustomerWalletFormWrapper extends Component {
         const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
         const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
         console.log(response)
+        await tr.pushTransaction(response)
         await chluIpfs.storeReviewRecord(reviewRecord)
         toastr.success('success', 'Payment success')
         this.setState({ isDisabledSubmit: false })
