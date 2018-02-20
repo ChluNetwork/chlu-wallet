@@ -1,6 +1,7 @@
 import React from 'react'
 import { func, bool, number, array, string } from 'prop-types'
 // libs
+import { isEmpty } from 'lodash'
 import { reduxForm, Field, change } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
@@ -248,8 +249,28 @@ const mapDispatchToProps = dispatch => ({
   changeField: (form, field, value) => dispatch(change(form, field, value))
 })
 
+function validate(values) {
+  const errors = {}
+  const requiredFieldError = 'This field is required'
+  // Cryptocurrency payment
+  if (isEmpty(values.toAddress)) errors.toAddress = requiredFieldError
+  if (isEmpty(values.amountBtc) && isEmpty(values.amountUsd)) {
+    errors.amountBtc = requiredFieldError
+    errors.amountUsd = requiredFieldError
+  }
+  // Credit card payment
+  if (isEmpty(values.cardholderName)) errors.cardholderName = requiredFieldError
+  if (isEmpty(values.cardNumber)) errors.cardNumber = requiredFieldError
+  if (isEmpty(values.expDate)) errors.expDate = requiredFieldError
+  if (isEmpty(values.cvv)) errors.cvv = requiredFieldError
+  return errors
+}
+
 export default compose(
-  reduxForm({ form: 'customer-wallet-form' }),
+  reduxForm({
+    form: 'customer-wallet-form',
+    validate
+  }),
   withFxRates,
   connect(null, mapDispatchToProps),
   withHandlers({

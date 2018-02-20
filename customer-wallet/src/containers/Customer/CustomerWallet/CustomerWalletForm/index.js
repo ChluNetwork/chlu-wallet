@@ -67,10 +67,10 @@ class CustomerWalletFormWrapper extends Component {
           amount: 400,
           marketplace_url: 'chlu demo',
           marketplace_vendor_url: 'chlu demo',
-          key_location: 'chlu demo',
+          key_location: 'chlu demo', // TODO: put multihash of real key used to create signature
           attributes: [],
           chlu_version: 0,
-          signature: '-'
+          signature: '' // TODO: generate real signature
         },
         currency_symbol: 'satoshi',
         amount: amountSatoshi,
@@ -80,7 +80,7 @@ class CustomerWalletFormWrapper extends Component {
         detailed_review: [],
         rating,
         chlu_version: 0,
-        hash: '-' // TODO: ipfs-support needs to calculate this on its own
+        hash: '' // TODO: allow ChluIPFS to store review record correctly without providing this field
       }
 
       try {
