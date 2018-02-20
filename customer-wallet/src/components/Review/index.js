@@ -4,20 +4,19 @@ import { object, bool, func, string } from 'prop-types'
 import ReviewTitle from './ReviewTitle'
 // helpers
 import { get } from 'lodash'
-import { getMonthDateYear } from '../../helpers/Date'
 import { formatCurrency } from 'helpers/currencyFormat'
 // data
 import noProduct from 'images/no-product.png'
 // styles
 import './style.css'
 
-const ReviewItem = ({
-  transaction,
-  commentsList = [],
-  isMultipleReview,
-  convertSatoshiToBits,
-  convertFromBitsToUsd
-}) => {
+const ReviewItem = props => {
+  const {
+    review,
+    transaction,
+    convertSatoshiToBits,
+    convertFromBitsToUsd
+  } = props
   const Bits = convertSatoshiToBits(get(transaction, 'total'))
   const USD = convertFromBitsToUsd(Bits)
   const BitsFormatted = formatCurrency(Bits)
@@ -27,46 +26,29 @@ const ReviewItem = ({
   return (
     <div className='review-item container-border-bottom'>
       <div className='review-item__avatar'>
-        <img src={get(transaction, 'review.productPhoto') || noProduct} alt='avatar' className='avatar'/>
+        <img src={noProduct} alt='avatar' className='avatar'/>
       </div>
       <div className='review-item__info'>
         <div className='info-head-wrapper'>
           <div className='info-head'>
             <div className='info-head__name'>
-              {isMultipleReview
-                ? 'New Item'
-                : get(transaction, 'review.review')
-              }
+              Chlu Review
             </div>
             <div className='info-head__date color-light'>
-              {!isMultipleReview && <div className='date'>{`${ get(transaction, 'longDate')}`}</div>}
-              <div className='platform'>{get(transaction, 'review.platform')}</div>
+              <div className='date'>Unknown Date</div>
+              <div className='platform'>Unverified</div>
             </div>
           </div>
-          {!isMultipleReview &&
-            <div className='info-head__price'>
-              <div className='price-item'>{BitsFormatted} bits</div>
-              <div className='price-item'>{USDFormatted} USD</div>
-            </div>}
+          <div className='info-head__price'>
+            <div className='price-item'>{BitsFormatted} bits</div>
+            <div className='price-item'>{USDFormatted} USD</div>
+          </div>
         </div>
-        {!isMultipleReview &&
-          <div className='review-confirmation'>
-            <div className='review-confirmation__title'>Number of confirmations</div>
-            <div className={`review-confirmation__amount ${confirmations < 6 ? 'yellow' : 'green'}`}>
-              <div>{confirmations}</div>
-              <div>{confirmations < 6 ? 'unconfirmed' : 'confirmed'}</div>
-            </div>
-          </div>}
         <div className='review-comments__list'>
-          {isMultipleReview
-            ? commentsList.map((comment, index) => {
-              const parseDate = { ...comment, date: getMonthDateYear(get(comment, 'date', new Date())) }
-              return <ReviewTitle {...parseDate} key={index} />
-            })
-            : <ReviewTitle
-              rating={get(transaction, 'review.rating')}
-              comment={get(transaction, 'review.comment')}
-            />}
+          <ReviewTitle
+            rating={get(review, 'rating', 0)}
+            comment={get(review, 'review_text', '')}
+          />
         </div>
       </div>
     </div>
@@ -74,9 +56,8 @@ const ReviewItem = ({
 }
 
 ReviewItem.propTypes = {
-  isMultipleReview: bool,
+  review: object,
   transaction: object,
-  commentsListName: string,
   convertSatoshiToBits: func,
   convertFromBitsToUsd: func
 }
