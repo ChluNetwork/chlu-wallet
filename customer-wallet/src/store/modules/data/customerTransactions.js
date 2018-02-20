@@ -1,9 +1,12 @@
 import { createAction, handleActions } from 'redux-actions'
 // helpers
-import { withTestData, updateTransactions } from '../../../helpers/transactions'
+import { updateTransactions } from '../../../helpers/transactions'
 import { get } from 'lodash'
 // api
+import { readReviewRecord } from './reviews'
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
+import getOpReturn from 'chlu-wallet-support-js/src/get_opreturn' // TODO: use lib
+import multihashes from 'multihashes'
 // env
 const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
 
@@ -22,6 +25,15 @@ const initialState = {
   data: {}
 }
 
+function isStringMultihash(str) {
+  try {
+    multihashes.fromB58String(str)
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -33,16 +45,27 @@ export const updateCustomerTransactions = createAction(UPDATE_TRANSACTIONS)
 // Thunks
 // ------------------------------------
 export function getCustomerTransactions (address) {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch(getTransactionsLoading())
     try {
       const fetch = new FetchTransactionHistory(blockCypherKey)
       const response = await fetch.getFromBlockchain(address)
-      const fixResponce = {
+      const withReviewRecords = response.txs.map(transaction => {
+        const opReturn = getOpReturn(transaction)
+        if (opReturn && isStringMultihash(opReturn.string)) {
+          transaction.multihash = opReturn.string
+          console.log(transaction.hash)
+          dispatch(readReviewRecord(transaction.hash, transaction.multihash))
+        } else {
+          transaction.multihash = null
+        }
+        return transaction
+      })
+      const fixResponse = {
         ...response,
-        txs: response.txs.map((transaction) => withTestData(transaction))
+        txs: withReviewRecords
       }
-      dispatch(getTransactionsSuccess(fixResponce))
+      dispatch(getTransactionsSuccess(fixResponse))
       return response
     } catch (error) {
       dispatch(getTransactionsError(error))

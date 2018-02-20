@@ -1,52 +1,47 @@
 import { createAction, handleActions } from 'redux-actions'
-// data
-import { reviews } from '../../../containers/Customer/Transactions/assets/data'
+import { getChluIPFS, types } from 'helpers/ipfs'
+import { updateReviewRecord } from '../../../helpers/transactions'
+import { get } from 'lodash'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const FETCH_REVIEWS_SUCCESS = 'customer/FETCH_REVIEWS_SUCCESS'
-const FETCH_REVIEWS_ERROR = 'customer/FETCH_REVIEWS_ERROR'
-const FETCH_REVIEWS_LOADING = 'customer/FETCH_REVIEWS_LOADING'
 const EDIT_REVIEW_LOADING = 'customer/EDIT_REVIEW_LOADING'
 const EDIT_REVIEW_ERROR = 'customer/EDIT_REVIEW_ERROR'
 const EDIT_REVIEW_SUCCESS = 'customer/EDIT_REVIEW_SUCCESS'
+const READ_REVIEWRECORD_LOADING = 'customer/READ_REVIEWRECORD_LOADING'
+const READ_REVIEWRECORD_SUCCESS = 'customer/READ_REVIEWRECORD_SUCCESS'
+const READ_REVIEWRECORD_ERROR = 'customer/READ_REVIEWRECORD_ERROR'
 
 const initialState = {
   loading: false,
   error: null,
-  data: {}
+  reviews: {}
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchReviewsSuccess = createAction(FETCH_REVIEWS_SUCCESS)
-export const fetchReviewsError = createAction(FETCH_REVIEWS_ERROR)
-export const fetchReviewsLoading = createAction(FETCH_REVIEWS_LOADING)
 export const editReviewLoading = createAction(EDIT_REVIEW_LOADING)
 export const editReviewError = createAction(EDIT_REVIEW_ERROR)
 export const editReviewSuccess = createAction(EDIT_REVIEW_SUCCESS)
+export const readReviewRecordLoading = createAction(READ_REVIEWRECORD_LOADING)
+export const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
+export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
-function testReq (address) {
-  return new Promise(resolve => setTimeout(() => {
-    const filterReviews = reviews.find(({ address: adr }) => adr === address )
-    filterReviews ? resolve(filterReviews) : resolve({})
-  }, 1000))
-}
 
-export function fetchReviews (address) {
-  return async (dispatch) => {
-    dispatch(fetchReviewsLoading(true))
+export function readReviewRecord (txHash, multihash) {
+  return async dispatch => {
+    dispatch(readReviewRecordLoading({ txHash, multihash }))
+    console.log('Read Review Record', multihash)
+    const chluIpfs = await getChluIPFS(types.customer)
     try {
-      const response = await testReq(address)
-      dispatch(fetchReviewsSuccess(response))
-      return response
+      const reviewRecord = await chluIpfs.readReviewRecord(multihash)
+      dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
-      dispatch(fetchReviewsError(error))
-      throw error
+      dispatch(readReviewRecordError({ error, multihash, txHash }))
     }
   }
 }
@@ -74,21 +69,6 @@ export function submitEditReview (data) {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [FETCH_REVIEWS_SUCCESS]: (state, { payload: data }) => ({
-    ...state,
-    data,
-    loading: false,
-    error: null
-  }),
-  [FETCH_REVIEWS_ERROR]: (state, { payload: error }) => ({
-    ...state,
-    loading: false,
-    error
-  }),
-  [FETCH_REVIEWS_LOADING]: (state, { payload: loading }) => ({
-    ...state,
-    loading
-  }),
   [EDIT_REVIEW_LOADING] : (state, { payload: loading }) => ({
     ...state,
     loading
@@ -116,5 +96,23 @@ export default handleActions({
           : [comment]
       }
     }
-  }
+  },
+  [READ_REVIEWRECORD_LOADING]: (state, { payload: { multihash, txHash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, { loading: true, multihash })
+    }
+  }),
+  [READ_REVIEWRECORD_SUCCESS]: (state, { payload: { reviewRecord, multihash, txHash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, Object.assign(reviewRecord, { loading: false }))
+    }
+  }),
+  [READ_REVIEWRECORD_ERROR]: (state, { payload: { error, txHash, multihash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, { error, loading: false, multihash })
+    }
+  })
 }, initialState)

@@ -1,18 +1,32 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
+// components
+import CircularProgress from 'material-ui/CircularProgress'
+import Review from 'components/Review'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 import get from 'lodash/get'
 // styles
 import './style.css'
 
-const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }) => {
+const TransactionInfo = props => {
+  const {
+    transaction,
+    address,
+    convertSatoshiToBits,
+    convertFromBitsToUsd,
+    review
+  } = props
   const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
   const confirmations = get(transaction, 'confirmations', 0)
   const priceBitsFormatted = formatCurrency(priceBits)
 
   return (
-    <div className='transaction__info' {...rest}>
+    <div className='transaction__info'>
+      <div className='field'>
+        <div className='field__title'>Hash</div>
+        <div className='field__data'>{transaction.hash}</div>
+      </div>
       <div className='field field-address'>
         <div className='field__title'>To</div>
         <div className='field__data'>{address}</div>
@@ -31,7 +45,20 @@ const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }
           {confirmations}
         </div>
       </div>
-      {get(transaction, 'isChluTransaction') || <div className='field-not-chlu'>Not a Chlu transaction</div>}
+      <div className='review container-border-top container-border-bottom'>
+        {
+          review ? (
+            review.loading
+            ? 'Loading' 
+            : <Review
+              convertFromBitsToUsd={convertFromBitsToUsd}
+              convertSatoshiToBits={convertSatoshiToBits}
+              transaction={transaction}
+              review={review}
+            />
+          ) : <div className='field-not-chlu'>Not a Chlu transaction</div>
+        } 
+      </div>
     </div>
   )
 }
@@ -39,7 +66,8 @@ const TransactionInfo = ({ transaction, address, convertSatoshiToBits, ...rest }
 TransactionInfo.propTypes = {
   transaction: object,
   address: string,
-  convertSatoshiToBits: func
+  convertSatoshiToBits: func,
+  convertFromBitsToUsd: func
 }
 
 export default TransactionInfo

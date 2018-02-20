@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { submitEditReview, fetchReviews } from 'store/modules/data/reviews'
+import { submitEditReview } from 'store/modules/data/reviews'
 import { setRatingRecentTransaction } from 'store/modules/components/RecentTransaction'
 import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
 // helpers
@@ -14,11 +14,9 @@ import { formatCurrency } from 'helpers/currencyFormat'
 import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
 // components
-import Review from 'components/Review'
 import EditReviewForm from './EditReviewForm'
 import RaisedButton from 'material-ui/RaisedButton'
 import TransactionInfo from './TransactionInfo'
-import CircularProgress from 'material-ui/CircularProgress'
 // libs
 import { toastr } from 'react-redux-toastr'
 // styles
@@ -46,19 +44,17 @@ class RecentTransaction extends Component {
     IsShowEditForm: func,
     calculateTotalSpent: func,
     groupTransactionByAddress: func,
-    fetchReviews: func,
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
     convertFromBtcToBits: func,
+    convertFromBitsToUsd: func,
     convertSatoshiToBits: func,
     convertFromUsdToBtc: func
   }
 
   componentDidMount() {
-    const { isEditFormOpen, fetchReviews, routeParams: { address } } = this.props
-
-    fetchReviews(address)
-    isEditFormOpen &&  this.hideEditForm()
+    const { isEditFormOpen } = this.props
+    isEditFormOpen && this.hideEditForm()
   }
 
   handleEditFormSubmit = (comment) => {
@@ -97,9 +93,10 @@ class RecentTransaction extends Component {
       isEditFormOpen,
       customerTransactions,
       calculateTotalSpent,
-      reviews: { loading: isReviewsLoading, data },
+      reviews: { reviews },
       convertSatoshiToBTC,
       convertFromBtcToBits,
+      convertFromBitsToUsd,
       convertFromBtcToUsd,
       convertSatoshiToBits
     } = this.props
@@ -138,21 +135,12 @@ class RecentTransaction extends Component {
                       address={address}
                       transaction={item}
                       convertSatoshiToBits={convertSatoshiToBits}
+                      convertSatoshiToBTC={convertSatoshiToBTC}
+                      convertFromBtcToUsd={convertFromBtcToUsd}
+                      convertFromBitsToUsd={convertFromBitsToUsd}
+                      review={reviews[item.hash]}
                     />
                   ))}
-                </div>
-                <div className='review container-border-top container-border-bottom'>
-                  {isReviewsLoading
-                    ? <CircularProgress />
-                    : get(data, 'reviews', []).length
-                      ? <Review
-                        isMultipleReview
-                        convertSatoshiToBTC={convertSatoshiToBTC}
-                        convertFromBtcToUsd={convertFromBtcToUsd}
-                        commentsList={get(data, 'reviews')}
-                      />
-                      : <div>no comments yet</div>
-                  }
                 </div>
                 <div className='edit-review'>
                   {isEditFormOpen
@@ -161,7 +149,6 @@ class RecentTransaction extends Component {
                       handleCancel={this.hideEditForm}
                       onStarClick={this.onStarClick}
                       rating={editRating}
-                      isLoading={isReviewsLoading}
                     />
                     : <RaisedButton
                       {...submitBtnStyle}
@@ -192,8 +179,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = {
   submitEditReview,
   setRating: setRatingRecentTransaction,
-  IsShowEditForm,
-  fetchReviews
+  IsShowEditForm
 }
 
 export default compose(
