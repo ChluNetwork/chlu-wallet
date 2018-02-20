@@ -27,6 +27,7 @@ class Select extends Component {
   render () {
     const { input, options = [], handleChange,  meta: { touched, error }, label, placeholder, ...others } = this.props
     const { value } = this.state
+    const hasError = touched && error
 
     return (
       <div>
@@ -35,7 +36,7 @@ class Select extends Component {
           <SelectField
             {...input}
             {...others}
-            errorText={touched && error}
+            errorText={hasError ? error : undefined}
             placeholder={placeholder}
             onChange={this.ownChange}
             value={value}

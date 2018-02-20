@@ -19,5 +19,6 @@ exports[`<CustomerWalletForm /> should render correctly customer wallet form 1`]
   touchOnBlur={true}
   touchOnChange={false}
   updateUnregisteredFields={false}
+  validate={[Function]}
 />
 `;

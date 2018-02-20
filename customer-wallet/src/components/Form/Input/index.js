@@ -9,9 +9,10 @@ const Input = ({ input, label, type, placeholder, meta: { touched, error }, onCh
     input.onChange(e)
     onChange && onChange(e.target.value)
   }
+  const hasError = touched && error
 
   return (
-    <div className={cn('form-field m-b-10', { 'has-error': touched && error })}>
+    <div className={cn('form-field m-b-10', { 'has-error': hasError })}>
       <span className='input-label'>{label}</span>
       <div className='input-wrapper'>
         <TextField
@@ -21,6 +22,7 @@ const Input = ({ input, label, type, placeholder, meta: { touched, error }, onCh
           placeholder={placeholder}
           type={type}
           readOnly={readOnly}
+          errorText={hasError ? error : undefined}
         />
       </div>
     </div>
