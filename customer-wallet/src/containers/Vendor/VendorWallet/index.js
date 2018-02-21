@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { shape, bool, any, object, func } from 'prop-types'
+import moment from 'moment'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -49,15 +50,22 @@ class VendorWallet extends Component {
       convertFromBtcToBits,
       convertFromBitsToUsd,
       vendorTransaction: { data },
+      reviews: { reviews },
       profile: { data: profileData }
     } = this.props
 
-    const combineTransactions = groupBy(get(data, 'txs', []), (item) => item.shortDate)
+    const transactions = get(data, 'txs', [])
+      .map(tx => {
+        tx.shortDate = moment(tx.received).format('MMMM YYYY')
+        return tx
+      })
+    const combineTransactions = groupBy(transactions, tx => tx.shortDate)
     const totalBtc = this.calculateTotalBtc(get(data, 'txs', []))
     const totalBits = convertFromBtcToBits(totalBtc, 2)
     const totalUsd = convertFromBtcToUsd(totalBtc)
     const totalBitsFormatted = formatCurrency(totalBits)
     const totalUsdFormatted = formatCurrency(totalUsd)
+
 
     return (
       <div className='page-container vendor-wallet color-main'>
@@ -87,6 +95,7 @@ class VendorWallet extends Component {
                 key={index}
                 date={key}
                 transactions={combineTransactions[key]}
+                reviews={reviews}
                 convertSatoshiToBits={convertSatoshiToBits}
                 convertFromBitsToUsd={convertFromBitsToUsd}
               />)}
@@ -97,8 +106,9 @@ class VendorWallet extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.data.profile
+const mapStateToProps = state => ({
+  profile: state.data.profile,
+  reviews: state.data.reviews
 })
 
 export default compose(
