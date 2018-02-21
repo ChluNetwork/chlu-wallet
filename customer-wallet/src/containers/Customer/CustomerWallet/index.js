@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 import { func, bool, oneOfType, object } from 'prop-types'
 // hoc
 import withFxRates from '../../Hoc/withFxRates'
@@ -8,6 +9,7 @@ import { formatCurrency } from 'helpers/currencyFormat'
 import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
+import WithChluIPFS from '../../Hoc/WithChluIPFS';
 
 class CustomerWalletPage extends Component {
   static propTypes = {
@@ -44,4 +46,7 @@ class CustomerWalletPage extends Component {
   }
 }
 
-export default withFxRates(CustomerWalletPage)
+export default compose(
+  WithChluIPFS,
+  withFxRates
+)(CustomerWalletPage)

@@ -6,6 +6,8 @@ import Search from 'material-ui/svg-icons/action/search'
 import Close from 'material-ui/svg-icons/navigation/close'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
+// helpers
+import { formatCurrency } from 'helpers/currencyFormat'
 // styles
 import style from 'styles/inlineStyles/containers/Vendor/profile'
 // constants
@@ -13,7 +15,7 @@ const { ratingStyle, searchIconStyle, searchInputStyle } = style
 
 const starCount = 5
 
-const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSearchShow, isSearchFieldOpen }) => (
+const ProfileHeader = ({ name, rating, totalBitsSold, reviewCount, handleToggleSearchShow, isSearchFieldOpen }) => (
   <div className='profile-header container'>
     <div className='section-head'>
       <div className='profile-header__info'>
@@ -31,8 +33,8 @@ const ProfileHeader = ({ name, rating, titleSold, titleReviews, handleToggleSear
             editing={false}
           />
           <div className='profile-info__title color-light'>
-            <div className='title-reviews'>{titleReviews}</div>
-            <div className='title-sold'>{titleSold}</div>
+            <div className='title-reviews'>{reviewCount} Reviews</div>
+            <div className='title-sold'>{formatCurrency(totalBitsSold)} bits</div>
           </div>
         </div>
       </div>

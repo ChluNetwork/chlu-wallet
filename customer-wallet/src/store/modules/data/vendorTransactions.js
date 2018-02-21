@@ -1,11 +1,9 @@
 import { createAction, handleActions } from 'redux-actions'
-// api
-import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
 // helper
-import { withTestData, updateTransactions } from '../../../helpers/transactions'
+import { updateTransactions } from '../../../helpers/transactions'
 import { get } from 'lodash'
-// env
-const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
+// api
+import { getTransactions } from './transactions';
 
 // ------------------------------------
 // Constants
@@ -25,31 +23,13 @@ const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const getTransactionsLoading = createAction(GET_TRANSACTIONS_LOADING)
-export const getTransactionsSuccess = createAction(GET_TRANSACTIONS_SUCCESS)
-export const getTransactionsError = createAction(GET_TRANSACTIONS_ERROR)
 export const updateVendorTransactions = createAction(UPDATE_TRANSACTIONS)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 export function getVendorTransactions (address) {
-  return async (dispatch) => {
-    dispatch(getTransactionsLoading())
-    try {
-      const fetch = new FetchTransactionHistory(blockCypherKey)
-      const response = await fetch.getFromBlockchain(address)
-      const fixResponse = {
-        ...response,
-        txs: response.txs.map((transaction) => withTestData(transaction))
-      }
-      dispatch(getTransactionsSuccess(fixResponse))
-      return response
-    } catch (error) {
-      dispatch(getTransactionsError(error))
-      throw error
-    }
-  }
+  return getTransactions('vendor', address) 
 }
 
 // ------------------------------------
