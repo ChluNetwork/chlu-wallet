@@ -30,8 +30,10 @@ function updateTransactions (txs, transaction) {
 }
 
 function updateReviewRecord (reviews, txHash, data) {
-  reviews[txHash] = Object.assign(reviews[txHash] || {}, data)
-  return reviews
+  return {
+    ...reviews,
+    [txHash]: Object.assign(reviews[txHash] || {}, data)
+  }
 }
 
 export { withTestData, updateTransactions, updateReviewRecord }

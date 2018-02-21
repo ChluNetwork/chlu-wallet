@@ -6,8 +6,10 @@ import { compose } from 'redux'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 import { get, groupBy } from 'lodash'
+import { types } from 'helpers/ipfs';
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
+import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // components
 import ReviewsList from './ReviewsList'
@@ -100,6 +102,7 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
+  WithChluIPFS(types.vendor),
   withFxRates,
   withVendorTransactions,
   connect(mapStateToProps)

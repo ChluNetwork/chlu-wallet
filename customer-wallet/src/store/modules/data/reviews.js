@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS, types } from 'helpers/ipfs'
+import { getChluIPFS } from 'helpers/ipfs'
 import { updateReviewRecord } from '../../../helpers/transactions'
 import { get } from 'lodash'
 // ------------------------------------
@@ -8,9 +8,9 @@ import { get } from 'lodash'
 const EDIT_REVIEW_LOADING = 'customer/EDIT_REVIEW_LOADING'
 const EDIT_REVIEW_ERROR = 'customer/EDIT_REVIEW_ERROR'
 const EDIT_REVIEW_SUCCESS = 'customer/EDIT_REVIEW_SUCCESS'
-const READ_REVIEWRECORD_LOADING = 'customer/READ_REVIEWRECORD_LOADING'
-const READ_REVIEWRECORD_SUCCESS = 'customer/READ_REVIEWRECORD_SUCCESS'
-const READ_REVIEWRECORD_ERROR = 'customer/READ_REVIEWRECORD_ERROR'
+const READ_REVIEWRECORD_LOADING = 'READ_REVIEWRECORD_LOADING'
+const READ_REVIEWRECORD_SUCCESS = 'READ_REVIEWRECORD_SUCCESS'
+const READ_REVIEWRECORD_ERROR = 'READ_REVIEWRECORD_ERROR'
 
 const initialState = {
   loading: false,
@@ -35,7 +35,7 @@ export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
 export function readReviewRecord (txHash, multihash) {
   return async dispatch => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
-    const chluIpfs = await getChluIPFS(types.customer)
+    const chluIpfs = await getChluIPFS()
     try {
       const reviewRecord = await chluIpfs.readReviewRecord(multihash)
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
@@ -105,7 +105,7 @@ export default handleActions({
   [READ_REVIEWRECORD_SUCCESS]: (state, { payload: { reviewRecord, multihash, txHash } }) => ({
     ...state,
     reviews: {
-      ...updateReviewRecord(get(state, 'reviews', {}), txHash, Object.assign(reviewRecord, { loading: false }))
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, Object.assign({}, reviewRecord, { loading: false }))
     }
   }),
   [READ_REVIEWRECORD_ERROR]: (state, { payload: { error, txHash, multihash } }) => ({

@@ -14,6 +14,9 @@ import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
 // styles
 import './styles.css'
+import CircularProgress from 'material-ui/CircularProgress/CircularProgress';
+import WithChluIPFS from '../../Hoc/WithChluIPFS';
+import { types } from '../../../helpers/ipfs';
 
 class Profile extends Component {
   static propTypes = {
@@ -39,31 +42,50 @@ class Profile extends Component {
       profile: { data: profileData },
       uiProfile: { isSearchFieldOpen },
       vendorTransaction: { data: vendorTransaction },
+      reviews: { reviews },
       toggleSearchShow,
       convertSatoshiToBTC,
+      convertSatoshiToBits,
       convertFromBtcToUsd
     } = this.props
+
+    const transactions = get(vendorTransaction, 'txs', [])
+    const totals = transactions.reduce((acc, tx) => {
+      const review = get(reviews, tx.hash, false)
+      if (review) {
+        acc.reviewCount++
+        if (review.rating > 0) {
+          acc.ratingCount++
+          acc.ratingSum += review.rating
+        }
+      }
+      acc.bits += convertSatoshiToBits(get(tx, 'total', 0))
+      return acc
+    }, { bits: 0, ratingCount: 0, ratingSum: 0, reviewCount: 0 })
+    const averageRating = totals.ratingSum / totals.ratingCount
 
     return (
       <div className='page-container profile color-main'>
         <ProfileHeader
           name={get(profileData, 'name')}
-          rating={get(profileData, 'rating')}
-          titleReviews={get(profileData, 'titleReviews')}
-          titleSold={get(profileData, 'titleSold')}
+          rating={averageRating}
+          reviewCount={totals.reviewCount}
+          totalBitsSold={totals.bits}
           isSearchFieldOpen={isSearchFieldOpen}
           handleToggleSearchShow={toggleSearchShow}
         />
         <div className='section-content'>
           <div className='container'>
-            {get(vendorTransaction, 'txs', []).map((transaction, idx) => (
-              <Review
+            {transactions.map((tx, idx) => {
+              const review = get(reviews, tx.hash, false)
+              return <Review
                 key={idx}
                 convertSatoshiToBTC={convertSatoshiToBTC}
                 convertFromBtcToUsd={convertFromBtcToUsd}
-                transaction={transaction}
+                transaction={tx}
+                review={review}
               />
-            ))}
+            })}
           </div>
         </div>
       </div>
@@ -73,6 +95,7 @@ class Profile extends Component {
 
 const mapStateToProps = store => ({
   profile: store.data.profile,
+  reviews: store.data.reviews,
   uiProfile: store.ui.profile
 })
 
@@ -81,6 +104,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
+  WithChluIPFS(types.vendor),
   withFxRates,
   withVendorTransactions,
   connect(mapStateToProps, mapDispatchToProps)

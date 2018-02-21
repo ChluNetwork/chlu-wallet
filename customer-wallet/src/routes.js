@@ -19,8 +19,6 @@ import TransactionHistory from './containers/Customer/Transactions/TransactionHi
 import RecentTransactions from './containers/Customer/Transactions/RecentTransactions'
 import NotFound from './components/NotFound/'
 import Demo from './containers/Demonstrator/Demo'
-import WithChluIPFS from './containers/Hoc/WithChluIPFS'
-import ChluIPFS from 'chlu-ipfs-support'
 
 function getRoutes (store) {
   return (
@@ -40,7 +38,7 @@ function getRoutes (store) {
           <Route path='checkout' component={Checkout}/>
           <Route
             path='wallet'
-            component={WithChluIPFS(ChluIPFS.types.customer, CustomerWallet)}
+            component={CustomerWallet}
             onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}
           />
           <Route path='transactions' component={TransactionHistory} />
@@ -49,8 +47,8 @@ function getRoutes (store) {
         </Route>
         <Route path='vendor'>
           <IndexRedirect to='wallet'/>
-          <Route path='profile' component={WithChluIPFS(ChluIPFS.types.vendor, Profile)} />
-          <Route path='wallet' component={WithChluIPFS(ChluIPFS.types.vendor, VendorWallet)} />
+          <Route path='profile' component={Profile} />
+          <Route path='wallet' component={VendorWallet} />
         </Route>
         <Route path='demonstrator' >
           <IndexRedirect to='demo' />
