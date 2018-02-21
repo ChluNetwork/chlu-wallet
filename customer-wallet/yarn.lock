@@ -1699,9 +1699,9 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git":
+"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#events":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#9286cf437354953ca677975bdb34946f62980dd3"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#f8d26341bf74127b3941f890afbd4b7dac947df7"
   dependencies:
     bitcoinjs-lib "^3.3.2"
     ipfs "~0.27.7"
@@ -6881,6 +6881,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment@^2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
 money@^0.2.0:
   version "0.2.0"

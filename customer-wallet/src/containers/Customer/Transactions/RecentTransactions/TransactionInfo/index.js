@@ -1,5 +1,6 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
+import moment from 'moment'
 // components
 import CircularProgress from 'material-ui/CircularProgress'
 import Review from 'components/Review'
@@ -20,6 +21,9 @@ const TransactionInfo = props => {
   const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
   const confirmations = get(transaction, 'confirmations', 0)
   const priceBitsFormatted = formatCurrency(priceBits)
+  const date = moment(transaction.received).calendar()
+  const reviewIsUpdate = Boolean(review && review.last_version_multihash)
+  const reviewDate = reviewIsUpdate ? null : date
 
   return (
     <div className='transaction__info'>
@@ -33,7 +37,7 @@ const TransactionInfo = props => {
       </div>
       <div className='field field-date'>
         <div className='field__title'>Date</div>
-        <div className='field__data'>{get(transaction, 'longDate')}</div>
+        <div className='field__data'>{date}</div>
       </div>
       <div className='field field-amount'>
         <div className='field__title '>Amount</div>
@@ -49,11 +53,12 @@ const TransactionInfo = props => {
         {
           review ? (
             review.loading
-            ? 'Loading' 
+            ? <CircularProgress style={{ display:'block', margin:'auto' }}/>
             : <Review
               convertFromBitsToUsd={convertFromBitsToUsd}
               convertSatoshiToBits={convertSatoshiToBits}
               transaction={transaction}
+              date={reviewDate}
               review={review}
             />
           ) : <div className='field-not-chlu'>Not a Chlu transaction</div>

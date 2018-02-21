@@ -54,7 +54,6 @@ export function getCustomerTransactions (address) {
         const opReturn = getOpReturn(transaction)
         if (opReturn && isStringMultihash(opReturn.string)) {
           transaction.multihash = opReturn.string
-          console.log(transaction.hash)
           dispatch(readReviewRecord(transaction.hash, transaction.multihash))
         } else {
           transaction.multihash = null
