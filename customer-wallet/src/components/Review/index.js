@@ -32,11 +32,11 @@ const ReviewItem = props => {
         <div className='info-head-wrapper'>
           <div className='info-head'>
             <div className='info-head__name'>
-              Chlu Review
+              {review ? 'Chlu Review' : 'Not a Chlu transaction'}
             </div>
             <div className='info-head__date color-light'>
               <div className='date'>{date || 'Unknown Date'}</div>
-              <div className='platform'>Unverified</div>
+              <div className='platform'>{review ? (review.error ? 'Invalid' : 'Unverified') : 'Unverified'}</div>
             </div>
           </div>
           <div className='info-head__price'>
@@ -45,10 +45,16 @@ const ReviewItem = props => {
           </div>
         </div>
         <div className='review-comments__list'>
-          <ReviewTitle
-            rating={get(review, 'rating', 0)}
-            comment={get(review, 'review_text', '')}
-          />
+          {review
+            ? (review.error
+              ? <b>{review.error.message || 'Something went wrong'}</b>
+              : <ReviewTitle
+                rating={get(review, 'rating', 0)}
+                comment={get(review, 'review_text', '')}
+              />
+            )
+            : null
+          }
         </div>
       </div>
     </div>
