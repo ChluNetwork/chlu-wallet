@@ -14,6 +14,7 @@ const ReviewItem = props => {
   const {
     review,
     transaction,
+    date,
     convertSatoshiToBits,
     convertFromBitsToUsd
   } = props
@@ -21,7 +22,6 @@ const ReviewItem = props => {
   const USD = convertFromBitsToUsd(Bits)
   const BitsFormatted = formatCurrency(Bits)
   const USDFormatted = formatCurrency(USD)
-  const confirmations = get(transaction, 'confirmations')
 
   return (
     <div className='review-item container-border-bottom'>
@@ -35,7 +35,7 @@ const ReviewItem = props => {
               Chlu Review
             </div>
             <div className='info-head__date color-light'>
-              <div className='date'>Unknown Date</div>
+              <div className='date'>{date || 'Unknown Date'}</div>
               <div className='platform'>Unverified</div>
             </div>
           </div>
@@ -58,6 +58,7 @@ const ReviewItem = props => {
 ReviewItem.propTypes = {
   review: object,
   transaction: object,
+  date: string,
   convertSatoshiToBits: func,
   convertFromBitsToUsd: func
 }

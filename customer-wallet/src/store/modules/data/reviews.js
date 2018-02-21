@@ -35,7 +35,6 @@ export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
 export function readReviewRecord (txHash, multihash) {
   return async dispatch => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
-    console.log('Read Review Record', multihash)
     const chluIpfs = await getChluIPFS(types.customer)
     try {
       const reviewRecord = await chluIpfs.readReviewRecord(multihash)
