@@ -16,7 +16,8 @@ const TransactionInfo = props => {
     address,
     convertSatoshiToBits,
     convertFromBitsToUsd,
-    review
+    review,
+    editing
   } = props
   const priceBits = convertSatoshiToBits(get(transaction, 'total', 0))
   const confirmations = get(transaction, 'confirmations', 0)
@@ -60,6 +61,7 @@ const TransactionInfo = props => {
               transaction={transaction}
               date={reviewDate}
               review={review}
+              editing={editing}
             />
           ) : <div className='field-not-chlu'>Not a Chlu transaction</div>
         } 

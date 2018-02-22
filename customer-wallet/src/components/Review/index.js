@@ -2,6 +2,7 @@ import React from 'react'
 import { object, bool, func, string } from 'prop-types'
 // components
 import ReviewTitle from './ReviewTitle'
+import EditReview from './EditReview'
 // helpers
 import { get } from 'lodash'
 import { formatCurrency } from 'helpers/currencyFormat'
@@ -10,9 +11,10 @@ import noProduct from 'images/no-product.png'
 // styles
 import './style.css'
 
-const ReviewItem = props => {
+const Review = props => {
   const {
     review,
+    editing,
     transaction,
     date,
     convertSatoshiToBits,
@@ -45,7 +47,7 @@ const ReviewItem = props => {
           </div>
         </div>
         <div className='review-comments__list'>
-          {review
+          {review && editing !== review.multihash
             ? (review.error
               ? <b>{review.error.message || 'Something went wrong'}</b>
               : <ReviewTitle
@@ -56,12 +58,20 @@ const ReviewItem = props => {
             : null
           }
         </div>
+        <div className='edit-review'>
+          {review && review.editable
+            ? <EditReview
+              multihash={review.multihash}
+            />
+            : null
+          }
+        </div>
       </div>
     </div>
   )
 }
 
-ReviewItem.propTypes = {
+Review.propTypes = {
   review: object,
   transaction: object,
   date: string,
@@ -69,4 +79,4 @@ ReviewItem.propTypes = {
   convertFromBitsToUsd: func
 }
 
-export default ReviewItem
+export default Review
