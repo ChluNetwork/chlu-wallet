@@ -71,17 +71,21 @@ const withCustomerTransactions = (WrappedComponent) => {
 
     render () {
       const { customerTransactions } = this.props
+      const loading = get(customerTransactions, 'loading', false) 
+      const error = get(customerTransactions, 'error', null)
 
-      return (
-        get(customerTransactions, 'loading') ? <CircularProgress /> : get(customerTransactions, 'error')
-        ? 'Something went wrong!'
-        : <WrappedComponent
-            groupTransactionByAddress={this.groupTransactionByAddress}
-            calculateTotalSpent={this.calculateTotalSpent}
-            customerTransactions={customerTransactions}
-            {...this.props}
-          />
-      )
+      if (loading) {
+        return <CircularProgress />
+      } else if (error) {
+        return <div>Something went wrong!</div>
+      } else {
+        return <WrappedComponent
+          groupTransactionByAddress={this.groupTransactionByAddress}
+          calculateTotalSpent={this.calculateTotalSpent}
+          customerTransactions={customerTransactions}
+          {...this.props}
+        />
+      }
     }
   }
 

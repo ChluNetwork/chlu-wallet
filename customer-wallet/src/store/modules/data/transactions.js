@@ -1,6 +1,7 @@
 import { readReviewRecord } from './reviews'
+import { types } from 'helpers/ipfs'
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
-import getOpReturn from 'chlu-wallet-support-js/src/get_opreturn' // TODO: use lib
+import getOpReturn from 'chlu-wallet-support-js/lib/get_opreturn'
 import multihashes from 'multihashes'
 const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
 
@@ -24,26 +25,22 @@ export function getTransactions(type, address) {
     })
     try {
       const fetch = new FetchTransactionHistory(blockCypherKey)
-      const response = await fetch.getFromBlockchain(address)
-      const withReviewRecords = response.txs.map(transaction => {
+      const txs = await fetch.getFromBlockchain(address)
+      const withReviewRecords = txs.map(transaction => {
         const opReturn = getOpReturn(transaction)
         if (opReturn && isStringMultihash(opReturn.string)) {
           transaction.multihash = opReturn.string
-          dispatch(readReviewRecord(transaction.hash, transaction.multihash))
+          dispatch(readReviewRecord(types[type], transaction.hash, transaction.multihash))
         } else {
           transaction.multihash = null
         }
         return transaction
       })
-      const fixResponse = {
-        ...response,
-        txs: withReviewRecords
-      }
       dispatch({
           type: type + '/' + GET_TRANSACTIONS_SUCCESS,
-          payload: fixResponse
+          payload: { txs: withReviewRecords }
       })
-      return response
+      return withReviewRecords
     } catch (error) {
       dispatch({
           type: type + '/' + GET_TRANSACTIONS_ERROR,
