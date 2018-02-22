@@ -4,9 +4,11 @@ import { shape, func, bool, object, any } from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { toggleSearchShow } from 'store/modules/ui/profile'
+import { types } from 'helpers/ipfs';
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
+import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 // helpers
 import { get } from 'lodash'
 // components
@@ -14,9 +16,6 @@ import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
 // styles
 import './styles.css'
-import CircularProgress from 'material-ui/CircularProgress/CircularProgress';
-import WithChluIPFS from '../../Hoc/WithChluIPFS';
-import { types } from '../../../helpers/ipfs';
 
 class Profile extends Component {
   static propTypes = {

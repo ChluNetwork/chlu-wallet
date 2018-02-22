@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { func, bool, oneOfType, object } from 'prop-types'
+import { types } from 'helpers/ipfs';
 // hoc
 import withFxRates from '../../Hoc/withFxRates'
+import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 // components
 import CustomerWalletFormWrapper from './CustomerWalletForm'
 // styles
 import './styles.css'
-import WithChluIPFS from '../../Hoc/WithChluIPFS';
 
 class CustomerWalletPage extends Component {
   static propTypes = {
@@ -47,6 +48,6 @@ class CustomerWalletPage extends Component {
 }
 
 export default compose(
-  WithChluIPFS,
+  WithChluIPFS(types.customer),
   withFxRates
 )(CustomerWalletPage)

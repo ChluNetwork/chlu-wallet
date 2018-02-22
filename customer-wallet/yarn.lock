@@ -1711,9 +1711,9 @@ cheerio@^0.22.0:
     orbit-db "~0.19.4"
     protons "~1.0.1"
 
-"chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git":
+"chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git#fix-build":
   version "0.0.1"
-  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#3534b38e45c480c1c4ec733e270a567d2aac5c98"
+  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#5539bd53af8745ec976e6277e112f9ef3c205bdc"
   dependencies:
     bip39 "^2.4.0"
     bitcoinjs-lib "^3.1.1"
