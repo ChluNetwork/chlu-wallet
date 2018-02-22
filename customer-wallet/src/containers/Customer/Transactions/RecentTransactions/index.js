@@ -4,9 +4,6 @@ import { Link } from 'react-router'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { submitEditReview } from 'store/modules/data/reviews'
-import { setRatingRecentTransaction } from 'store/modules/components/RecentTransaction'
-import { IsShowEditForm } from 'store/modules/ui/RecentTransaction'
 // helpers
 import get from 'lodash/get'
 import { formatCurrency } from 'helpers/currencyFormat'
@@ -14,16 +11,9 @@ import { formatCurrency } from 'helpers/currencyFormat'
 import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
 // components
-import EditReviewForm from './EditReviewForm'
-import RaisedButton from 'material-ui/RaisedButton'
 import TransactionInfo from './TransactionInfo'
-// libs
-import { toastr } from 'react-redux-toastr'
 // styles
 import './style.css'
-import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
-// constants
-const { submitBtnStyle } = styles
 
 class RecentTransaction extends Component {
   static propTypes = {
@@ -39,8 +29,6 @@ class RecentTransaction extends Component {
     }),
     editRating: number,
     isEditFormOpen: bool,
-    submitEditReview: func,
-    setRating: func,
     IsShowEditForm: func,
     calculateTotalSpent: func,
     groupTransactionByAddress: func,
@@ -57,43 +45,12 @@ class RecentTransaction extends Component {
     isEditFormOpen && this.hideEditForm()
   }
 
-  handleEditFormSubmit = (comment) => {
-    const {
-      routeParams: { address },
-      submitEditReview,
-      editRating: rating
-    } = this.props
-
-    submitEditReview({ address, comment: { ...comment, rating, date: '2017-09-22T06:17:32Z' } })
-      .then((response) => {
-        console.log(response)
-        toastr.success('success', 'Edit success')
-        this.hideEditForm()
-      })
-  }
-
-  onStarClick = rating => this.props.setRating(rating)
-
-  showEditForm = () => this.props.IsShowEditForm(true)
-
-  hideEditForm = () => {
-    const { IsShowEditForm, editRating } = this.props
-
-    IsShowEditForm(false)
-
-    if (editRating !== 0){
-      this.onStarClick(0)
-    }
-  }
-
   render() {
     const {
       routeParams,
-      editRating,
-      isEditFormOpen,
       customerTransactions,
       calculateTotalSpent,
-      reviews: { reviews },
+      reviews,
       convertSatoshiToBTC,
       convertFromBtcToBits,
       convertFromBitsToUsd,
@@ -138,24 +95,10 @@ class RecentTransaction extends Component {
                       convertSatoshiToBTC={convertSatoshiToBTC}
                       convertFromBtcToUsd={convertFromBtcToUsd}
                       convertFromBitsToUsd={convertFromBitsToUsd}
-                      review={reviews[item.hash]}
+                      review={reviews.reviews[item.hash]}
+                      editing={reviews.editing}
                     />
                   ))}
-                </div>
-                <div className='edit-review'>
-                  {isEditFormOpen
-                    ? <EditReviewForm
-                      onSubmit={this.handleEditFormSubmit}
-                      handleCancel={this.hideEditForm}
-                      onStarClick={this.onStarClick}
-                      rating={editRating}
-                    />
-                    : <RaisedButton
-                      {...submitBtnStyle}
-                      label='Edit'
-                      onClick={this.showEditForm}
-                    />
-                  }
                 </div>
               </div>
             </div>
@@ -170,20 +113,12 @@ class RecentTransaction extends Component {
 }
 
 const mapStateToProps = store => ({
-  editRating: store.components.recentTransaction.rating,
-  isEditFormOpen: store.ui.recentTransaction.isEditFormOpen,
   transactionHistory: store.data.transactionHistory,
   reviews: store.data.reviews
 })
 
-const mapDispatchToProps = {
-  submitEditReview,
-  setRating: setRatingRecentTransaction,
-  IsShowEditForm
-}
-
 export default compose(
   withFxRates,
   withCustomerTransactions,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps)
 )(RecentTransaction)

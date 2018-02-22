@@ -1701,7 +1701,7 @@ cheerio@^0.22.0:
 
 "chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#events":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#f8d26341bf74127b3941f890afbd4b7dac947df7"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#e803cf5db31d4b3243936eb6432c7ea01e77a8ef"
   dependencies:
     bitcoinjs-lib "^3.3.2"
     ipfs "~0.27.7"
@@ -1711,9 +1711,9 @@ cheerio@^0.22.0:
     orbit-db "~0.19.4"
     protons "~1.0.1"
 
-"chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git#fix-build":
+"chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git":
   version "0.0.1"
-  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#5539bd53af8745ec976e6277e112f9ef3c205bdc"
+  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#2e27a54ee4e48c86c67296fae064301c58d9dd7f"
   dependencies:
     bip39 "^2.4.0"
     bitcoinjs-lib "^3.1.1"
@@ -6199,8 +6199,8 @@ libp2p-webrtc-star@~0.13.3:
     webrtcsupport "github:ipfs/webrtcsupport"
 
 libp2p-websocket-star@~0.7.2:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/libp2p-websocket-star/-/libp2p-websocket-star-0.7.6.tgz#6c7a903701665fbfe4a39650fef150507ff623d9"
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/libp2p-websocket-star/-/libp2p-websocket-star-0.7.7.tgz#db04fd85a4057f646aed1bb12b142546976e6aa2"
   dependencies:
     async "^2.6.0"
     data-queue "0.0.3"
@@ -6213,7 +6213,7 @@ libp2p-websocket-star@~0.7.2:
     once "^1.4.0"
     peer-id "^0.10.6"
     peer-info "^0.11.6"
-    pull-stream "^3.6.1"
+    pull-stream "^3.6.2"
     socket.io-client "^2.0.4"
     socket.io-pull-stream "^0.1.4"
     uuid "^3.2.1"
@@ -6802,13 +6802,13 @@ mime-db@~1.30.0:
   version "1.30.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
 
-mime-types@^2.1.12, mime-types@^2.1.17, mime-types@~2.1.17, mime-types@~2.1.7:
+mime-types@^2.1.12, mime-types@^2.1.17, mime-types@~2.1.16, mime-types@~2.1.17, mime-types@~2.1.7:
   version "2.1.18"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.18.tgz#6f323f60a83d11146f831ff11fd66e2fe5503bb8"
   dependencies:
     mime-db "~1.33.0"
 
-mime-types@~2.1.15, mime-types@~2.1.16:
+mime-types@~2.1.15:
   version "2.1.17"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.17.tgz#09d7a393f03e995a79f8af857b70a9e0ab16557a"
   dependencies:
@@ -6987,7 +6987,11 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-nan@^2.0, nan@^2.0.5, nan@^2.2.1, nan@^2.3.0, nan@^2.3.2, nan@^2.6.2:
+nan@^2.0, nan@^2.0.5, nan@^2.2.1, nan@^2.3.0, nan@^2.6.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.9.2.tgz#f564d75f5f8f36a6d9456cca7a6c4fe488ab7866"
+
+nan@^2.3.2:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
 
@@ -7032,8 +7036,8 @@ no-case@^2.2.0:
     lower-case "^1.1.1"
 
 nock@^9.0.18:
-  version "9.1.6"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-9.1.6.tgz#16395af4c45b0fd84d1a4a9668154e16fa6624db"
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.1.9.tgz#eec261a1b5876e066bc9f9b3da320ffea1663e4d"
   dependencies:
     chai ">=1.9.2 <4.0.0"
     debug "^2.2.0"
@@ -8209,8 +8213,8 @@ pretty-format@^21.2.1:
     ansi-styles "^3.2.0"
 
 priorityqueue@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/priorityqueue/-/priorityqueue-0.2.0.tgz#717948e22f8392c9570d2d762e90eb411a1b7f9a"
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/priorityqueue/-/priorityqueue-0.2.1.tgz#f57e623f20237f30c142d4cb45fafed9e7d51403"
 
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
