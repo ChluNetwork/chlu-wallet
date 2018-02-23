@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS, types } from 'helpers/ipfs'
-import { updateReviewRecord } from '../../../helpers/transactions'
+import { updateReviewRecord, getTxHashByMultihash } from '../../../helpers/transactions'
 import { get, find } from 'lodash'
 // ------------------------------------
 // Constants
@@ -143,6 +143,15 @@ export default handleActions({
     ...state,
     reviews: {
       ...updateReviewRecord(get(state, 'reviews', {}), txHash, { error, loading: false, multihash })
+    }
+  }),
+  [UPDATE_REVIEW_RECORD]: (state, { payload: { multihash, newMultihash, reviewRecord } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), getTxHashByMultihash(get(state, 'reviews', {}), multihash), {
+        ...reviewRecord,
+        updatedMultihash: newMultihash
+      })
     }
   })
 }, initialState)
