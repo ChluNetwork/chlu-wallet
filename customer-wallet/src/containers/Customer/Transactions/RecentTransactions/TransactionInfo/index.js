@@ -62,6 +62,7 @@ const TransactionInfo = props => {
               date={reviewDate}
               review={review}
               editing={editing}
+              editable={true}
             />
           ) : <div className='field-not-chlu'>Not a Chlu transaction</div>
         } 

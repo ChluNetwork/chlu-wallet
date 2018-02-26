@@ -1,5 +1,5 @@
 import React from 'react'
-import { object, bool, func, string } from 'prop-types'
+import { object, func, string } from 'prop-types'
 // components
 import ReviewTitle from './ReviewTitle'
 import EditReview from './EditReview'
@@ -15,6 +15,7 @@ const Review = props => {
   const {
     review,
     editing,
+    editable,
     transaction,
     date,
     convertSatoshiToBits,
@@ -59,7 +60,7 @@ const Review = props => {
           }
         </div>
         <div className='edit-review'>
-          {review && review.editable
+          {editable && review && review.editable
             ? <EditReview
               multihash={review.multihash}
             />

@@ -34,6 +34,7 @@ const EditReview = props => {
       {...submitBtnStyle}
       label='Edit'
       onClick={() => showEditForm(multihash)}
+      disabled={!!editing}
     />}
   </div>
 }
