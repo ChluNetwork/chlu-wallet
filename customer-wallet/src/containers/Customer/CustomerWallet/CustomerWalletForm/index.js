@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { func, bool, number, oneOfType, object, shape, array } from 'prop-types'
+import { func, bool, number, oneOfType, object, shape, string } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
@@ -23,7 +23,7 @@ class CustomerWalletFormWrapper extends Component {
     loading: bool,
     rating: number,
     setRating: func,
-    wallet: shape({ addresses: array }),
+    wallet: shape({ addresses: string }),
     rates: oneOfType([object, bool]),
     comingSoonModal: shape({ isOpen: bool }),
     toggleComingSoonModal: func,
@@ -37,7 +37,8 @@ class CustomerWalletFormWrapper extends Component {
   constructor(props) {
     super(props)
 
-    const { wallet: { addresses } } = props
+    const addressesString = props.wallet.addresses
+    const addresses = JSON.parse(addressesString)
 
     this.state = {
       activeAddress: addresses[0],
@@ -130,7 +131,7 @@ class CustomerWalletFormWrapper extends Component {
           onStarClick={this.onStarClick}
           switchPaymentType={this.onSwitchPaymentType}
           handleChangeAddress={this.handleChangeAddress}
-          ownAddresses={addresses}
+          ownAddresses={JSON.parse(addresses)}
           activeAddress={activeAddress}
           ratingValue={rating}
           isReviewOpen={isReviewOpen}
