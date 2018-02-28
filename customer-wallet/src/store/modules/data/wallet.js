@@ -1,4 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
+import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 
 // ------------------------------------
 // Constants
@@ -9,9 +10,10 @@ const UPDATE_NEW_MNEMONIC = 'wallet/UPDATE_NEW_MNEMONIC'
 
 const initialState = {
   mnemonic: localStorage.getItem('mnemonic_key'),
-  addresses: ['mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb'],
+  addresses: localStorage.getItem('addresses'),
   createWallet: {
-    mnemonic: null
+    mnemonic: null,
+    addresses: []
   }
 }
 
@@ -30,12 +32,19 @@ export const updateMnemonic = createAction(UPDATE_NEW_MNEMONIC)
 // ------------------------------------
 export default handleActions({
   [SET_MNEMONIC]: (state, { payload }) => {
+    var keyPath = "m/44'/1'/0'/0/0"
+    const importer = new ImportPrivateKey()
+    const kp = importer.importFromMnemonic(payload, keyPath)
+    const address = kp.getAddress()
+    
     localStorage.setItem('mnemonic_key', payload)
-    return { ...state, mnemonic: payload }
+    localStorage.setItem('addresses', JSON.stringify([address]))
+    return { ...state, mnemonic: payload, addresses: [address] }
   },
   [UPDATE_NEW_MNEMONIC]: (state) => ({
     ...state,
-    mnemonic: localStorage.getItem('mnemonic_key')
+    mnemonic: localStorage.getItem('mnemonic_key'),
+    addresses: JSON.parse(localStorage.getItem('addresses'))
   }),
   [GENERATE_MNEMONIC]: (state, { payload }) => ({
     ...state,

@@ -1,5 +1,5 @@
 const address = {
-  address: 'mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb'
+  address: 'ms4TpM57RWHnEq5PRFtfJ8bcdiXoUE3tfv'
 }
 
 export { address }

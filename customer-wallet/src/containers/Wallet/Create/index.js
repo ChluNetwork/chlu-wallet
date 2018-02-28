@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { shape, bool, func, string, oneOfType, object } from 'prop-types'
+import { shape, bool, func, string, oneOfType, object, arrayOf } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
@@ -19,8 +19,12 @@ import './style.css'
 class CreateWallet extends Component {
   static propTypes = {
     wallet: shape({
-      mnemonic: string,
-      createWallet: shape({ mnemonic: oneOfType([bool, string]) })
+        mnemonic: string,
+        addresses: arrayOf(string),
+        createWallet: shape({
+            mnemonic: oneOfType([bool, string]),
+            addressess: arrayOf(string)
+        })
     }),
     setMnemonic: func,
     setCreateMnemonic: func,
@@ -37,7 +41,6 @@ class CreateWallet extends Component {
   componentDidMount () {
     const { blockchainClient: { importPrivateKey } } = this.context
     const newMnemonic = importPrivateKey.generateNewMnemonic()
-
     this.props.setCreateMnemonic(newMnemonic)
     this.props.setMnemonic(newMnemonic)
   }
@@ -132,10 +135,10 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = {
-  setMnemonic,
-  setCreateMnemonic,
-  setWalletCreated,
-  setSaveMnemonic
+    setMnemonic,
+    setCreateMnemonic,
+    setWalletCreated,
+    setSaveMnemonic
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWallet)

@@ -48,7 +48,8 @@ class ImportWallet extends Component {
 
   importFromMnemonic = (newMnemonic) => {
     const { blockchainClient: { importPrivateKey } } = this.context
-    const importFromMnemonic = importPrivateKey.importFromMnemonic(newMnemonic, 'm/1')
+    const keyPath = "m/44'/1'/0'/0/0"
+    const importFromMnemonic = importPrivateKey.importFromMnemonic(newMnemonic, keyPath)
     this.props.setMnemonic(newMnemonic)
 
     if (importFromMnemonic) {

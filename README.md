@@ -66,6 +66,19 @@ The customer wallet was setup using create-react-app
 - `yarn start` to run a development server
 - `yarn build` to make a production build
 
+## Test & Demo
+
+### Customer wallet
+
+Use mnemonic `alter ankle cart harvest ecology sign athlete congress desert scare planet love` and you should get the address
+`mjw2BcBvNKkgLvQyYhzRERRgWSUVG7HHTb`.
+
+That wallet has some BTC on testnet, so feel free to use a bit of it ;)
+
+### Vendor demo address
+
+Use the address `ms4TpM57RWHnEq5PRFtfJ8bcdiXoUE3tfv` to send payments to. It has some reviews already there.
+
 If you want to build your own wallet or integrate Chlu into your
 project, check out the libraries used by the demo:
 
