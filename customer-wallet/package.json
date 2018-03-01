@@ -4,7 +4,7 @@
   "homepage": ".",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
+    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git#fix-multihash-mismatch",
     "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",

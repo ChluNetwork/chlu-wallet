@@ -59,9 +59,9 @@ class CustomerWalletFormWrapper extends Component {
 
       const reviewRecord = {
         popr: {
-          item_id: 0,
-          invoice_id: 0,
-          customer_id: 0,
+          item_id: '0',
+          invoice_id: '0',
+          customer_id: '0',
           created_at: 0,
           expires_at: 0,
           currency_symbol: 'USD',
