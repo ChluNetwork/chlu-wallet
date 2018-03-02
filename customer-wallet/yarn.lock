@@ -1715,9 +1715,9 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#fix-multihash-mismatch":
+"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#fbd450515b182250b465af159825f9ead3e1c5a2"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#8b3aa4f9b41c5a9d16254783f938b018021d34ea"
   dependencies:
     bitcoinjs-lib "^3.3.2"
     ipfs "~0.27.7"
