@@ -1,13 +1,13 @@
 import React from 'react'
 import { func, bool, number, array, string } from 'prop-types'
 // libs
-import { isEmpty } from 'lodash'
-import { reduxForm, Field, change } from 'redux-form'
+import { isEmpty, isUndefined } from 'lodash'
+import { reduxForm, Field, change, formValueSelector } from 'redux-form'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 // helpers
 import { convertToBits } from 'helpers/converters'
-import { formatCurrency } from 'helpers/currencyFormat'
+// import { formatCurrency } from 'helpers/currencyFormat'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
@@ -42,6 +42,8 @@ const CustomerWalletForm = ({
   convertFieldValue,
   loading,
   priceBtc,
+  amountBtc,
+  amountUsd,
   buttonsData,
   showModal,
   ownAddresses,
@@ -218,7 +220,7 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={isDisabledSubmit ? 'Loading...' : `Pay ${formatCurrency(priceBtc)} bits`}
+          label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}
           className='submit-button'
           disabled={isDisabledSubmit}
         />
@@ -266,13 +268,21 @@ function validate(values) {
   return errors
 }
 
+const selector = formValueSelector('customer-wallet-form')
+
 export default compose(
   reduxForm({
     form: 'customer-wallet-form',
     validate
   }),
   withFxRates,
-  connect(null, mapDispatchToProps),
+    connect( state => {
+        const { amountBtc, amountUsd } = selector(state, 'amountBtc', 'amountUsd')
+        return {
+            amountBtc,
+            amountUsd
+        }
+    }, mapDispatchToProps),
   withHandlers({
     convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
       let convertedValue = getFx().convert(value, fromTo)

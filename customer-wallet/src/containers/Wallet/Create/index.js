@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { shape, bool, func, string, oneOfType, object, arrayOf } from 'prop-types'
+import { shape, bool, func, string, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
@@ -20,10 +20,10 @@ class CreateWallet extends Component {
   static propTypes = {
     wallet: shape({
         mnemonic: string,
-        addresses: arrayOf(string),
+        addresses: string,
         createWallet: shape({
             mnemonic: oneOfType([bool, string]),
-            addressess: arrayOf(string)
+            addressess: string
         })
     }),
     setMnemonic: func,
