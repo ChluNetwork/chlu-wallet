@@ -1,4 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
+import { requestPopr } from 'helpers/marketplace'
+import { push } from 'react-router-redux'
 // data
 import checkoutData from 'fixtures/checkout'
 
@@ -25,21 +27,22 @@ export const fetchCheckoutDataLoading = createAction(FETCH_CHECKOUT_DATA_LOADING
 // ------------------------------------
 // Thunks
 // ------------------------------------
-function testReq () {
-  return new Promise(resolve => setTimeout(() =>
-    resolve(checkoutData), 1000))
-}
 
 export function getCheckout () {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch(fetchCheckoutDataLoading(true))
     try {
-      const response = await testReq()
-      dispatch(fetchCheckoutDataSuccess(response))
-      return response
+      // TODO: replace fixture data with stuff from PoPR
+      // TODO: handle error in UI
+      const vendorId = process.env.REACT_APP_VENDOR_ID || 'Qmtest'
+      const url = process.env.REACT_APP_MARKETPLACE_URL || 'http://localhost:4000'
+      const popr = await requestPopr(url, vendorId, {
+          amount: 400
+      })
+      dispatch(fetchCheckoutDataSuccess(Object.assign({}, popr, checkoutData)))
+      return popr
     } catch (error) {
-      dispatch(fetchCheckoutDataError(error))
-      throw error
+      dispatch(fetchCheckoutDataError(error.message || error))
     }
   }
 }
@@ -54,7 +57,7 @@ export default handleActions({
     loading: false,
     error: null
   }),
-  [FETCH_CHECKOUT_DATA_ERROR]: (state, { payload: { error } }) => ({
+  [FETCH_CHECKOUT_DATA_ERROR]: (state, { payload: error }) => ({
     ...state,
     loading: false,
     error

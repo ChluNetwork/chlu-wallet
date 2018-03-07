@@ -34,7 +34,7 @@ function getRoutes (store) {
         onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
       >
         <Route path='customer'>
-          <IndexRedirect to='wallet' />
+          <IndexRedirect to='checkout' />
           <Route path='checkout' component={Checkout}/>
           <Route
             path='wallet'

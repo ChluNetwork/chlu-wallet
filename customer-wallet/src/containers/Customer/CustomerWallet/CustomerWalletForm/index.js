@@ -6,9 +6,7 @@ import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWal
 import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
-import { getChluIPFS, types } from 'helpers/ipfs'
 // libs
-import { toastr } from 'react-redux-toastr'
 import { round } from 'lodash'
 // components
 import CustomerWalletForm from './CustomerWalletForm'
@@ -42,7 +40,6 @@ class CustomerWalletFormWrapper extends Component {
 
     this.state = {
       activeAddress: addresses[0],
-      isDisabledSubmit: false,
       paymentType: 'cryptocurrency'
     }
   }
@@ -50,54 +47,17 @@ class CustomerWalletFormWrapper extends Component {
   handleChangeAddress = (activeAddress) => this.setState({ activeAddress })
 
   handleSubmit = ({ toAddress, amountBtc, review }) => {
-    this.setState({ isDisabledSubmit: true }, async () => {
-      const { rating, convertBitsToSatoshi } = this.props
-      const { blockchainClient: { createChluTransaction: tr } } = this.context
-      const { activeAddress } = this.state
-
-      const amountSatoshi = round(convertBitsToSatoshi(parseFloat(amountBtc || 0)))
-
-      const reviewRecord = {
-        popr: {
-          item_id: '0',
-          invoice_id: '0',
-          customer_id: '0',
-          created_at: 0,
-          expires_at: 0,
-          currency_symbol: 'USD',
-          amount: 400,
-          marketplace_url: 'chlu demo',
-          marketplace_vendor_url: 'chlu demo',
-          key_location: 'chlu demo', // TODO: put multihash of real key used to create signature
-          attributes: [],
-          chlu_version: 0,
-          signature: '' // TODO: generate real signature
-        },
-        currency_symbol: 'satoshi',
-        amount: amountSatoshi,
-        customer_address: activeAddress,
-        vendor_address: toAddress,
-        review_text: review,
-        detailed_review: [],
-        rating,
-        chlu_version: 0,
-        hash: '' // TODO: allow ChluIPFS to store review record correctly without providing this field
-      }
-
-      try {
-        const chluIpfs = await getChluIPFS(types.customer)
-        const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
-        const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
-        console.log(response)
-        await tr.pushTransaction(response)
-        await chluIpfs.storeReviewRecord(reviewRecord)
-        toastr.success('success', 'Payment success')
-        this.setState({ isDisabledSubmit: false })
-      } catch(exception) {
-        console.log(exception)
-        this.setState({ isDisabledSubmit: false })
-        throw exception
-      }
+    const { rating, convertBitsToSatoshi } = this.props
+    const { blockchainClient } = this.context
+    const { activeAddress } = this.state
+    const amountSatoshi = round(convertBitsToSatoshi(parseFloat(amountBtc || 0)))
+    this.props.submitPayment({
+      rating,
+      blockchainClient,
+      amountSatoshi,
+      activeAddress,
+      toAddress,
+      review
     })
   }
 
@@ -113,7 +73,7 @@ class CustomerWalletFormWrapper extends Component {
   onStarClick = rating => this.props.setRating(rating)
 
   render () {
-    const { activeAddress, isDisabledSubmit, paymentType } = this.state
+    const { activeAddress, paymentType } = this.state
     const {
       isReviewOpen,
       loading,
@@ -121,8 +81,14 @@ class CustomerWalletFormWrapper extends Component {
       priceBtc,
       comingSoonModal: { isOpen },
       toggleComingSoonModal,
-      wallet: { addresses }
+      wallet: { addresses },
+      checkout: {
+        data: popr,
+        loading: checkoutLoading,
+        error: checkoutError
+      }
     } = this.props
+    const isDisabledSubmit = !popr || checkoutLoading || checkoutError
 
     return (
       <div>
@@ -156,7 +122,8 @@ const mapStateToProps = state => ({
   rating: state.components.customerWallet.rating,
   rates: state.data.fxRates.rates,
   comingSoonModal: state.ui.modal.comingSoonModal,
-  wallet: state.data.wallet
+  wallet: state.data.wallet,
+  checkout: state.data.checkout
 })
 
 const mapDispatchToProps = dispatch => ({
