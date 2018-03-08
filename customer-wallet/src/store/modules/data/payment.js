@@ -49,7 +49,7 @@ export function submitPayment (data) {
         amount: amountSatoshi,
         customer_address: activeAddress,
         vendor_address: toAddress,
-        review_text: review,
+        review_text: review || '', // TODO: fix missing string field encoding different from empty string
         detailed_review: [],
         rating: rating,
         chlu_version: 0
@@ -60,6 +60,7 @@ export function submitPayment (data) {
       console.log(response)
       await tr.pushTransaction(response)
       await chluIpfs.storeReviewRecord(reviewRecord)
+      toastr.success('success', 'Payment success')
       dispatch(setPaymentSuccess())
     } catch(exception) {
       console.log(exception)

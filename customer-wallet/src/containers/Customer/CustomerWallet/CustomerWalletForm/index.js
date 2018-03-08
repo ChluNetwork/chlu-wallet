@@ -106,7 +106,7 @@ class CustomerWalletFormWrapper extends Component {
     const amountBits = convertFromUsdToBits(amountUsd)
 
     if (loading) {
-      return <CircularProgress style={{margin:'auto',display:'block'}}/>
+      return <CircularProgress style={{ margin:'auto',display:'block' }}/>
     }
 
     return (

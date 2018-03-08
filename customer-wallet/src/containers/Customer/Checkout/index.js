@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getCheckout, goToPayment } from 'store/modules/data/checkout'
+import { getCheckout } from 'store/modules/data/checkout'
 // components
 import RaisedButton from 'material-ui/RaisedButton'
 import PaySection from './sections/PaySection'
