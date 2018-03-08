@@ -7,7 +7,6 @@ import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 // helpers
 import { convertToBits } from 'helpers/converters'
-// import { formatCurrency } from 'helpers/currencyFormat'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
@@ -256,7 +255,7 @@ function validate(values) {
   const requiredFieldError = 'This field is required'
   // Cryptocurrency payment
   if (isEmpty(values.toAddress)) errors.toAddress = requiredFieldError
-  if (isEmpty(values.amountBtc) && isEmpty(values.amountUsd)) {
+  if (isEmpty(String(values.amountBtc)) && isEmpty(String(values.amountUsd))) {
     errors.amountBtc = requiredFieldError
     errors.amountUsd = requiredFieldError
   }
@@ -276,13 +275,13 @@ export default compose(
     validate
   }),
   withFxRates,
-    connect( state => {
-        const { amountBtc, amountUsd } = selector(state, 'amountBtc', 'amountUsd')
-        return {
-            amountBtc,
-            amountUsd
-        }
-    }, mapDispatchToProps),
+  connect( state => {
+      const { amountBtc, amountUsd } = selector(state, 'amountBtc', 'amountUsd')
+      return {
+          amountBtc,
+          amountUsd
+      }
+  }, mapDispatchToProps),
   withHandlers({
     convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
       let convertedValue = getFx().convert(value, fromTo)

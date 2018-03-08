@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
 import { requestPopr } from 'helpers/marketplace'
-import { push } from 'react-router-redux'
 // data
 import checkoutData from 'fixtures/checkout'
 
@@ -37,7 +36,8 @@ export function getCheckout () {
       const vendorId = process.env.REACT_APP_VENDOR_ID || 'Qmtest'
       const url = process.env.REACT_APP_MARKETPLACE_URL || 'http://localhost:4000'
       const popr = await requestPopr(url, vendorId, {
-          amount: 400
+        amount: checkoutData.price * 100,
+        currency_symbol: 'USD cents'
       })
       dispatch(fetchCheckoutDataSuccess(Object.assign({}, popr, checkoutData)))
       return popr

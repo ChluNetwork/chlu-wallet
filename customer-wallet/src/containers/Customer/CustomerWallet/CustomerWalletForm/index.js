@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { func, bool, number, oneOfType, object, shape, string } from 'prop-types'
+import { compose } from 'recompose'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
@@ -7,12 +8,17 @@ import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
 // libs
-import { round } from 'lodash'
+import { round, isEmpty } from 'lodash'
 // components
+import CircularProgress from 'material-ui/CircularProgress'
 import CustomerWalletForm from './CustomerWalletForm'
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
+// Hoc
+import withFxRates from 'containers/Hoc/withFxRates'
 // assets
 import { buttonsData } from '../assets/data'
+// helpers
+import replace from 'helpers/replace'
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {
@@ -76,7 +82,7 @@ class CustomerWalletFormWrapper extends Component {
     const { activeAddress, paymentType } = this.state
     const {
       isReviewOpen,
-      loading,
+      loading: formLoading,
       rating,
       priceBtc,
       comingSoonModal: { isOpen },
@@ -86,9 +92,22 @@ class CustomerWalletFormWrapper extends Component {
         data: popr,
         loading: checkoutLoading,
         error: checkoutError
-      }
+      },
+      convertFromUsdToBits
     } = this.props
-    const isDisabledSubmit = !popr || checkoutLoading || checkoutError
+    const emptyPopr = isEmpty(popr)
+    if (emptyPopr || checkoutError) {
+      replace('/customer/checkout')
+      return null // Avoid rendering
+    }
+    const isDisabledSubmit = emptyPopr || checkoutLoading || checkoutError
+    const loading = checkoutLoading || formLoading
+    const amountUsd = popr.amount / 100
+    const amountBits = convertFromUsdToBits(amountUsd)
+
+    if (loading) {
+      return <CircularProgress style={{margin:'auto',display:'block'}}/>
+    }
 
     return (
       <div>
@@ -99,6 +118,11 @@ class CustomerWalletFormWrapper extends Component {
           handleChangeAddress={this.handleChangeAddress}
           ownAddresses={JSON.parse(addresses)}
           activeAddress={activeAddress}
+          initialValues={{
+            toAddress: popr.vendorAddress,
+            amountUsd,
+            amountBtc: amountBits // TODO: fix
+          }}
           ratingValue={rating}
           isReviewOpen={isReviewOpen}
           loading={loading}
@@ -132,4 +156,7 @@ const mapDispatchToProps = dispatch => ({
   toggleComingSoonModal: () => dispatch(toggleComingSoonModal())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletFormWrapper)
+export default compose(
+  withFxRates,
+  connect(mapStateToProps, mapDispatchToProps)
+)(CustomerWalletFormWrapper)
