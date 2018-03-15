@@ -54,11 +54,16 @@ export function submitPayment (data) {
         rating: rating,
         chlu_version: 0
       }
+      console.log('Getting ChluIPFS')
       const chluIpfs = await getChluIPFS(types.customer)
+      console.log('Storing review record (no publish)')
       const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+      console.log('Creating transaction')
       const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
       console.log(response)
+      console.log('Pushing transaction')
       await tr.pushTransaction(response)
+      console.log('Publishing review record')
       await chluIpfs.storeReviewRecord(reviewRecord)
       toastr.success('success', 'Payment success')
       dispatch(setPaymentSuccess())
