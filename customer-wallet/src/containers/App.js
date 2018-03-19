@@ -9,6 +9,8 @@ import createStore from 'store/createStore'
 import 'styles/main.css'
 
 const store = createStore()
+// Need to keep a ref to window so that chluIpfs can dispatch events
+window.reduxStore = store;
 
 class App extends Component {
   render() {

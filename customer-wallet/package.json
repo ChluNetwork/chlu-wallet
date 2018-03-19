@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git#popr-crypto",
+    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git#review-updates",
     "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",
@@ -28,6 +28,9 @@
     "redux-form": "^7.0.3",
     "redux-thunk": "^2.2.0",
     "superagent": "^3.6.0"
+  },
+  "resolutions": {
+    "node-forge": "0.7.4"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
