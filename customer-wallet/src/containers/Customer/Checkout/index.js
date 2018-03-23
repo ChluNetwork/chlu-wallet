@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
 import CircularProgress from 'material-ui/CircularProgress'
+// helpers
+import replace from 'helpers/replace'
 // styles
 import './styles.css'
 import styles from 'styles/inlineStyles/containers/Customer/checkout'
@@ -24,6 +26,7 @@ class Checkout extends Component {
     const {
       checkout: {
         loading,
+        error,
         data: { rating, avatar, price, product }
       }
     } = this.props
@@ -32,21 +35,26 @@ class Checkout extends Component {
       <div className='page-container checkout color-main'>
         <div className='container'>
           {
-            loading
-              ? <CircularProgress />
-              : <div className='checkout-vendor'>
-                  <ProductSection product={product} price={price} avatar={avatar} rating={rating} />
-                  <div className='payment-label'>Payment Method</div>
-                  <PaySection />
-                  <div className='checkout-vendor__button'>
-                    <RaisedButton
-                      {...buttonStyle}
-                      label='Continue'
-                      fullWidth={true}
-                      onClick={() => null}
-                    />
+            error
+              ? error
+              : (
+                loading
+                  ? <CircularProgress />
+                  : <div className='checkout-vendor'>
+                      <ProductSection product={product} price={price} avatar={avatar} rating={rating} />
+                      <div className='payment-label'>Payment Method</div>
+                      <PaySection />
+                      <div className='checkout-vendor__button'>
+                        <RaisedButton
+                          {...buttonStyle}
+                          label='Continue'
+                          fullWidth={true}
+                          onClick={() => replace('/customer/wallet')}
+                        />
+                      </div>
                   </div>
-              </div>
+                )
+            
           }
         </div>
       </div>
@@ -59,7 +67,7 @@ Checkout.propTypes = {
   getCheckout: PropTypes.func.isRequired
 }
 
-const maoStateToProps = store => ({
+const mapStateToProps = store => ({
   checkout: store.data.checkout
 })
 
@@ -67,4 +75,4 @@ const mapDispatchToProps = {
   getCheckout
 }
 
-export default connect(maoStateToProps, mapDispatchToProps)(Checkout)
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

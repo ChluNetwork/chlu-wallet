@@ -33,13 +33,12 @@ function getRoutes (store) {
         component={AppLayout}
         onEnter={(nextState, replace, proceed) => preloadUser(nextState, proceed, store)}
       >
-        <Route path='customer'>
-          <IndexRedirect to='wallet' />
+        <Route path='customer' onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}>
+          <IndexRedirect to='checkout' />
           <Route path='checkout' component={Checkout}/>
           <Route
             path='wallet'
             component={CustomerWallet}
-            onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}
           />
           <Route path='transactions' component={TransactionHistory} />
           <Route path='transactions/:address' component={RecentTransactions} />

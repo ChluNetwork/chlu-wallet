@@ -29,7 +29,7 @@ export const cancelEditReview = createAction(EDIT_REVIEW_CANCEL)
 export const editReviewLoading = createAction(EDIT_REVIEW_LOADING)
 export const editReviewError = createAction(EDIT_REVIEW_ERROR)
 const editReviewSuccess = createAction(EDIT_REVIEW_SUCCESS)
-const updateReviewRecordAction = createAction(UPDATE_REVIEW_RECORD)
+export const updateReviewRecordAction = createAction(UPDATE_REVIEW_RECORD)
 export const readReviewRecordLoading = createAction(READ_REVIEWRECORD_LOADING)
 export const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
 export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
@@ -44,15 +44,7 @@ export function readReviewRecord (type, txHash, multihash) {
     try {
       const chluIpfs = await getChluIPFS(type)
       const reviewRecord = await chluIpfs.readReviewRecord(multihash, {
-        notifyUpdate: async (multihash, newMultihash) => {
-          const rr = await chluIpfs.readReviewRecord(newMultihash)
-          rr.editable = reviewRecord.orbitDb === chluIpfs.getOrbitDBAddress()
-          dispatch(updateReviewRecordAction({
-            multihash, 
-            newMultihash,
-            reviewRecord: rr
-          }))
-        }
+        checkForUpdates: true
       })
       reviewRecord.editable = reviewRecord.orbitDb === chluIpfs.getOrbitDBAddress()
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))

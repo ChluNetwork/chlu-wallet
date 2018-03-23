@@ -1,4 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
+import { getChluIPFS, types } from 'helpers/ipfs'
+import { toastr } from 'react-redux-toastr'
 
 // ------------------------------------
 // Constants
@@ -22,21 +24,52 @@ export const setPaymentLoading = createAction(SET_PAYMENT_LOADING)
 // ------------------------------------
 // Thunks
 // ------------------------------------
-function testReq (data) {
-  return new Promise(resolve => setTimeout(() =>
-    resolve(`payment success with following data ${JSON.stringify(data)}`), 1000))
-}
 
 export function submitPayment (data) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch(setPaymentLoading(true))
     try {
-      const response = await testReq(data)
+      const {
+        toAddress,
+        activeAddress,
+        review,
+        amountSatoshi,
+        rating,
+        blockchainClient: {
+          createChluTransaction: tr
+        }
+      } = data
+      const popr = getState().data.checkout.data;
+      if (popr === null) {
+        throw new Error('Need PoPR')
+      }
+      const reviewRecord = {
+        popr,
+        currency_symbol: 'satoshi',
+        amount: amountSatoshi,
+        customer_address: activeAddress,
+        vendor_address: toAddress,
+        review_text: review || '', // TODO: fix missing string field encoding different from empty string
+        detailed_review: [],
+        rating: rating,
+        chlu_version: 0
+      }
+      console.log('Getting ChluIPFS')
+      const chluIpfs = await getChluIPFS(types.customer)
+      console.log('Storing review record (no publish)')
+      const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+      console.log('Creating transaction')
+      const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
+      console.log(response)
+      console.log('Pushing transaction')
+      await tr.pushTransaction(response)
+      console.log('Publishing review record')
+      await chluIpfs.storeReviewRecord(reviewRecord)
+      toastr.success('success', 'Payment success')
       dispatch(setPaymentSuccess())
-      return response
-    } catch (error) {
-      dispatch(setPaymentError({ error }))
-      throw error
+    } catch(exception) {
+      console.log(exception)
+      dispatch(setPaymentError(exception.message || exception))
     }
   }
 }

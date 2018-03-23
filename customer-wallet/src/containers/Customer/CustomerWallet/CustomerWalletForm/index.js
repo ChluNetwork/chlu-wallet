@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { func, bool, number, oneOfType, object, shape, string } from 'prop-types'
+import { compose } from 'recompose'
 // redux
 import { connect } from 'react-redux'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
-import { getChluIPFS, types } from 'helpers/ipfs'
 // libs
-import { toastr } from 'react-redux-toastr'
-import { round } from 'lodash'
+import { round, isEmpty } from 'lodash'
 // components
+import CircularProgress from 'material-ui/CircularProgress'
 import CustomerWalletForm from './CustomerWalletForm'
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
+// Hoc
+import withFxRates from 'containers/Hoc/withFxRates'
 // assets
 import { buttonsData } from '../assets/data'
+// helpers
+import replace from 'helpers/replace'
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {
@@ -42,7 +46,6 @@ class CustomerWalletFormWrapper extends Component {
 
     this.state = {
       activeAddress: addresses[0],
-      isDisabledSubmit: false,
       paymentType: 'cryptocurrency'
     }
   }
@@ -50,54 +53,17 @@ class CustomerWalletFormWrapper extends Component {
   handleChangeAddress = (activeAddress) => this.setState({ activeAddress })
 
   handleSubmit = ({ toAddress, amountBtc, review }) => {
-    this.setState({ isDisabledSubmit: true }, async () => {
-      const { rating, convertBitsToSatoshi } = this.props
-      const { blockchainClient: { createChluTransaction: tr } } = this.context
-      const { activeAddress } = this.state
-
-      const amountSatoshi = round(convertBitsToSatoshi(parseFloat(amountBtc || 0)))
-
-      const reviewRecord = {
-        popr: {
-          item_id: '0',
-          invoice_id: '0',
-          customer_id: '0',
-          created_at: 0,
-          expires_at: 0,
-          currency_symbol: 'USD',
-          amount: 400,
-          marketplace_url: 'chlu demo',
-          marketplace_vendor_url: 'chlu demo',
-          key_location: 'chlu demo', // TODO: put multihash of real key used to create signature
-          attributes: [],
-          chlu_version: 0,
-          signature: '' // TODO: generate real signature
-        },
-        currency_symbol: 'satoshi',
-        amount: amountSatoshi,
-        customer_address: activeAddress,
-        vendor_address: toAddress,
-        review_text: review,
-        detailed_review: [],
-        rating,
-        chlu_version: 0,
-        hash: '' // TODO: allow ChluIPFS to store review record correctly without providing this field
-      }
-
-      try {
-        const chluIpfs = await getChluIPFS(types.customer)
-        const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
-        const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
-        console.log(response)
-        await tr.pushTransaction(response)
-        await chluIpfs.storeReviewRecord(reviewRecord)
-        toastr.success('success', 'Payment success')
-        this.setState({ isDisabledSubmit: false })
-      } catch(exception) {
-        console.log(exception)
-        this.setState({ isDisabledSubmit: false })
-        throw exception
-      }
+    const { rating, convertBitsToSatoshi } = this.props
+    const { blockchainClient } = this.context
+    const { activeAddress } = this.state
+    const amountSatoshi = round(convertBitsToSatoshi(parseFloat(amountBtc || 0)))
+    this.props.submitPayment({
+      rating,
+      blockchainClient,
+      amountSatoshi,
+      activeAddress,
+      toAddress,
+      review
     })
   }
 
@@ -113,16 +79,35 @@ class CustomerWalletFormWrapper extends Component {
   onStarClick = rating => this.props.setRating(rating)
 
   render () {
-    const { activeAddress, isDisabledSubmit, paymentType } = this.state
+    const { activeAddress, paymentType } = this.state
     const {
       isReviewOpen,
-      loading,
+      loading: formLoading,
       rating,
       priceBtc,
       comingSoonModal: { isOpen },
       toggleComingSoonModal,
-      wallet: { addresses }
+      wallet: { addresses },
+      checkout: {
+        data: popr,
+        loading: checkoutLoading,
+        error: checkoutError
+      },
+      convertFromUsdToBits
     } = this.props
+    const emptyPopr = isEmpty(popr)
+    if (emptyPopr || checkoutError) {
+      replace('/customer/checkout')
+      return null // Avoid rendering
+    }
+    const isDisabledSubmit = emptyPopr || checkoutLoading || checkoutError
+    const loading = checkoutLoading || formLoading
+    const amountUsd = popr.amount / 100
+    const amountBits = convertFromUsdToBits(amountUsd)
+
+    if (loading) {
+      return <CircularProgress style={{ margin:'auto',display:'block' }}/>
+    }
 
     return (
       <div>
@@ -133,6 +118,11 @@ class CustomerWalletFormWrapper extends Component {
           handleChangeAddress={this.handleChangeAddress}
           ownAddresses={JSON.parse(addresses)}
           activeAddress={activeAddress}
+          initialValues={{
+            toAddress: popr.vendorAddress,
+            amountUsd,
+            amountBtc: amountBits // TODO: fix
+          }}
           ratingValue={rating}
           isReviewOpen={isReviewOpen}
           loading={loading}
@@ -156,7 +146,8 @@ const mapStateToProps = state => ({
   rating: state.components.customerWallet.rating,
   rates: state.data.fxRates.rates,
   comingSoonModal: state.ui.modal.comingSoonModal,
-  wallet: state.data.wallet
+  wallet: state.data.wallet,
+  checkout: state.data.checkout
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -165,4 +156,7 @@ const mapDispatchToProps = dispatch => ({
   toggleComingSoonModal: () => dispatch(toggleComingSoonModal())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerWalletFormWrapper)
+export default compose(
+  withFxRates,
+  connect(mapStateToProps, mapDispatchToProps)
+)(CustomerWalletFormWrapper)

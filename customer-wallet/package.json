@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "homepage": ".",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
+    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git#review-updates",
     "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",
@@ -28,6 +29,9 @@
     "redux-thunk": "^2.2.0",
     "superagent": "^3.6.0"
   },
+  "resolutions": {
+    "node-forge": "0.7.4"
+  },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
@@ -36,7 +40,9 @@
     "build": "npm run build-css && react-scripts build",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
     "postbuild": "npx uglify-es build/static/js/main.*.js -o build/static/js/$(ls build/static/js | head -n 1)",
-    "deploy": "node ./deploy.js",
+    "deploy-s3": "npm run delete-source-maps && aws s3 sync build/ s3://demo.chlu.io --delete --exclude index.html --acl public-read && aws s3 sync build/ s3://demo.chlu.io --exclude '*' --include index.html --acl public-read --cache-control 'max-age=0'",
+    "deploy-ipfs": "npm run delete-source-maps && node ./deploy.js",
+    "delete-source-maps": "find ./build -name *.map -type f -delete",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ."
