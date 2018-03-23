@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 6.11.3
+  - 8.9.4
 env:
   global:
     - NODE_PATH: src/
@@ -8,6 +8,6 @@ env:
     - secure: BCgb4M88zB0Bx0v47MpVMd36Yz5KlXmkXpUy7ZbYZcnGH9JvxA3dqURl1uXlwZ+XAPHw2hawQ9YblrTrL5Z7SaI8VbghTe/ML9cS5MV7dYB3XzlkP7ga6GcJ6RYB25ak3DWc+ax4V1t/bpLylBBxK9yh9IZ1SPPJ56z9MRyZh7DjrJMvuZtRYJk75EvQOw5Umkxhjig649JYSFV4aRYTTP4MYDzrZ2fmynpk4/TfOPzpqTjfvNT7KCi2wQ85X/z+XHT1CdswOMxMrffsHLIYTegSaBORaygEau8SOMG+87aSDdbDrwv/lip06mvcz1mdT8ZQaMGBnury9Ah2QGjkWw==
 before_script:
     - cd customer-wallet/
-    - npm install
-    - npm run build-css
-script: npm test
+    - yarn install
+    - yarn run build-css
+script: yarn test
