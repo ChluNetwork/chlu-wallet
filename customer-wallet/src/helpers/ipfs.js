@@ -11,7 +11,6 @@ export async function getChluIPFS(type) {
         await window.chluIpfs.start()
         // Turn Review Record updates into redux actions
         window.chluIpfs.instance.events.on('updated ReviewRecord', (multihash, updatedMultihash, reviewRecord) => {
-          reviewRecord.editable = reviewRecord.orbitDb === window.chluIpfs.getOrbitDBAddress()
           window.reduxStore.dispatch(updateReviewRecordAction({
             multihash, 
             updatedMultihash,

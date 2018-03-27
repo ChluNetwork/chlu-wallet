@@ -44,9 +44,9 @@ export function readReviewRecord (type, txHash, multihash) {
     try {
       const chluIpfs = await getChluIPFS(type)
       const reviewRecord = await chluIpfs.readReviewRecord(multihash, {
+        getLatestVersion: true,
         checkForUpdates: true
       })
-      reviewRecord.editable = reviewRecord.orbitDb === chluIpfs.getOrbitDBAddress()
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
       dispatch(readReviewRecordError({ error, multihash, txHash }))
