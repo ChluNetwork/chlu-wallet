@@ -115,8 +115,8 @@ export function submitPayment (data) {
       }      
     } catch (exception) {
       console.log(exception)
-      toastr.error("Unknown Error",
-                   "There was an error making the payment. Please try again later.")
+        toastr.error("Check Wallet Balance",
+                     "There was an error making the payment. Please check your wallet's balance")
       dispatch(setPaymentError(exception.message || exception))
       return
     }
