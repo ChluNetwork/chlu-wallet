@@ -69,6 +69,8 @@ export function submitPayment (data) {
       dispatch(setPaymentSuccess())
     } catch(exception) {
       console.log(exception)
+        toastr.error("Check Wallet Balance",
+                     "There was an error making the payment. Please check your wallet's balance")
       dispatch(setPaymentError(exception.message || exception))
     }
   }

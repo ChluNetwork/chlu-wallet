@@ -29,12 +29,15 @@ const TransactionInfo = props => {
   return (
     <div className='transaction__info'>
       <div className='field'>
-        <div className='field__title'>Hash</div>
-        <div className='field__data'>{transaction.hash}</div>
+          <div className='field__title'>Tx</div>
+          <div className='field__data'>
+              <a href={`${process.env.REACT_APP_BTC_EXPLORER_URL_TX}/${transaction.hash}`}>{transaction.hash}</a></div>
       </div>
       <div className='field field-address'>
         <div className='field__title'>To</div>
-        <div className='field__data'>{address}</div>
+        <div className='field__data'>
+            <a href={`${process.env.REACT_APP_BTC_EXPLORER_URL_ADDRESS}/${address}`}>{address}</a>
+        </div>
       </div>
       <div className='field field-date'>
         <div className='field__title'>Date</div>
@@ -45,7 +48,7 @@ const TransactionInfo = props => {
         <div className='field__data'>{priceBitsFormatted} bits</div>
       </div>
       <div className='field field-confirm'>
-        <div className='field__title'>Number of confirmations</div>
+        <div className='field__title'>Confirmations</div>
         <div className={`field__data font-weight-bold ${confirmations < 6 ? 'yellow' : 'green'}`}>
           {confirmations}
         </div>
