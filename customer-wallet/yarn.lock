@@ -1737,12 +1737,13 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#single-db":
+"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#networks":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#4d5c9fbbaf053a42be470890ec16a5dd839ebc38"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#87493da28556f0d14559ea90f9da6322abb9c9a3"
   dependencies:
     axios "^0.18.0"
     bitcoinjs-lib "^3.3.2"
+    commander "^2.15.1"
     ipfs "~0.28.0"
     lodash "^4.17.5"
     orbit-db "~0.19.7"
@@ -1939,7 +1940,7 @@ commander@2.12.x, commander@^2.9.0, commander@~2.12.1:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
 
-commander@^2.11.0, commander@^2.9:
+commander@^2.11.0, commander@^2.15.1, commander@^2.9:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -6042,7 +6043,7 @@ level-js@^2.2.4, level-js@~2.2.4:
     typedarray-to-buffer "~1.0.0"
     xtend "~2.1.2"
 
-"level-js@github:timkuijsten/level.js#idbunwrapper":
+level-js@timkuijsten/level.js#idbunwrapper:
   version "2.2.3"
   resolved "https://codeload.github.com/timkuijsten/level.js/tar.gz/18e03adab34c49523be7d3d58fafb0c632f61303"
   dependencies:
@@ -7092,7 +7093,7 @@ multihashing-async@~0.4.6, multihashing-async@~0.4.7, multihashing-async@~0.4.8:
     murmurhash3js "^3.0.1"
     nodeify "^1.0.1"
 
-"multiplex@github:dignifiedquire/multiplex":
+multiplex@dignifiedquire/multiplex:
   version "6.7.0"
   resolved "https://codeload.github.com/dignifiedquire/multiplex/tar.gz/b5d5edd30454e2c978ee8c52df86f5f4840d2eab"
   dependencies:

@@ -2,7 +2,10 @@ import ChluIPFS from 'chlu-ipfs-support'
 import { updateReviewRecordAction } from 'store/modules/data/reviews'
 
 export async function getChluIPFS(type) {
-    const options = { type }
+    const options = {
+        type,
+        network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental
+    }
     if (!window.chluIpfs) {
         if (!type) {
             throw new Error('Type required')
