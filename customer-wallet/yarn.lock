@@ -1737,15 +1737,17 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git#networks":
+"chlu-ipfs-support@https://github.com/ChluNetwork/chlu-ipfs-support.git":
   version "0.1.0"
-  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#87493da28556f0d14559ea90f9da6322abb9c9a3"
+  resolved "https://github.com/ChluNetwork/chlu-ipfs-support.git#6cc1ecb2185edcebba656202b90a362fe15131a9"
   dependencies:
     axios "^0.18.0"
     bitcoinjs-lib "^3.3.2"
     commander "^2.15.1"
+    debounce-async "^0.0.1"
     ipfs "~0.28.0"
     lodash "^4.17.5"
+    lru-cache "^4.1.2"
     orbit-db "~0.19.7"
     protons "~1.0.1"
 
@@ -2381,6 +2383,10 @@ datastore-level@~0.7.0:
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
+
+debounce-async@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/debounce-async/-/debounce-async-0.0.1.tgz#bdec6528219fc30cc8b3e238a8049805364c9dc2"
 
 debug@2.6.9, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.1, debug@^2.6.6, debug@^2.6.8, debug@~2.6.4, debug@~2.6.6:
   version "2.6.9"
