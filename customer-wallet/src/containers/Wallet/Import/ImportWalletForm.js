@@ -11,7 +11,7 @@ const ImportWalletForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <Field
       {...textFieldsStyle}
-      placeholder='your mnemonic here...'
+      placeholder='Your mnemonic here...'
       name='mnemonic'
       type='text'
       component={Input}

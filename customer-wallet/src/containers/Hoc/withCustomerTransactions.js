@@ -49,21 +49,8 @@ const withCustomerTransactions = (WrappedComponent) => {
       for(const address in grouped){
         result.push({
           address,
-          totalSpent: this.calculateTotalSpent(grouped[address]),
           transactions: grouped[address]
         })
-      }
-
-      return result
-    }
-
-    calculateTotalSpent = (transactions, field = 'total') => {
-      let result = 0
-
-      if(Array.isArray(transactions) && transactions.length){
-        result = transactions.reduce((accumulator, transaction) => (
-          accumulator + transaction[field]
-        ), 0)
       }
 
       return result
@@ -81,7 +68,6 @@ const withCustomerTransactions = (WrappedComponent) => {
       } else {
         return <WrappedComponent
           groupTransactionByAddress={this.groupTransactionByAddress}
-          calculateTotalSpent={this.calculateTotalSpent}
           customerTransactions={customerTransactions}
           {...this.props}
         />

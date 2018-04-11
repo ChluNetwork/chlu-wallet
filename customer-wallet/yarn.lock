@@ -1753,7 +1753,7 @@ cheerio@^0.22.0:
 
 "chlu-wallet-support-js@https://github.com/ChluNetwork/chlu-wallet-support-js.git":
   version "0.0.1"
-  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#2e27a54ee4e48c86c67296fae064301c58d9dd7f"
+  resolved "https://github.com/ChluNetwork/chlu-wallet-support-js.git#ef27eccaef8f7e797770cb37f7da15cd8cc3e180"
   dependencies:
     bip39 "^2.4.0"
     bitcoinjs-lib "^3.1.1"
