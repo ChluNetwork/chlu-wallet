@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { object, func } from 'prop-types'
+import { object, func, array } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { getCustomerTransactions, updateCustomerTransactions } from 'store/modules/data/customerTransactions'
@@ -7,36 +7,38 @@ import { getCustomerTransactions, updateCustomerTransactions } from 'store/modul
 import { get, groupBy } from 'lodash'
 // components
 import CircularProgress from 'material-ui/CircularProgress'
-// assets
-import { address } from '../Customer/Transactions/assets/data'
-//
+// helpers
+import { calculateTotalSpentFromTransactions } from 'helpers/transactions'
+
 const apiEnd = process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3'
 
 const withCustomerTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
-    static propTypes = {
-      customerTransactions: object,
-      getCustomerTransactions: func,
-      updateCustomerTransactions: func
-    }
+      static propTypes = {
+          addresses: array,
+          customerTransactions: object,        
+          getCustomerTransactions: func,
+          updateCustomerTransactions: func
+      }
 
     socket = new WebSocket(`wss://socket.blockcypher.com/v1/btc/${apiEnd}`)
 
-    componentDidMount() {
-      this.props.getCustomerTransactions(address.address)
-
-      this.socket.onmessage = (event) => {
-        const data = JSON.parse(get(event, 'data', '{}'))
-        this.props.updateCustomerTransactions(data)
+      componentDidMount() {
+          const address = this.props.addresses[0]
+          this.props.getCustomerTransactions(address)
+          
+          this.socket.onmessage = (event) => {
+              const data = JSON.parse(get(event, 'data', '{}'))
+              this.props.updateCustomerTransactions(data)
+          }
+          
+          this.socket.onopen = () => {
+              this.socket.send(JSON.stringify({
+                  event: 'tx-confirmation',
+                  address: address
+              }))
+          }
       }
-
-      this.socket.onopen = () => {
-        this.socket.send(JSON.stringify({
-          event: 'tx-confirmation',
-          address: address.address
-        }))
-      }
-    }
 
     componentWillUnmount () {
       this.socket.close()
@@ -46,10 +48,11 @@ const withCustomerTransactions = (WrappedComponent) => {
       const result = []
       const grouped = groupBy(transactions, ({ addresses }) => addresses[addresses.length - 1])
 
-      for(const address in grouped){
+        for(const address in grouped){
         result.push({
-          address,
-          transactions: grouped[address]
+            address,
+            totalSpent: calculateTotalSpentFromTransactions(grouped[address], address),
+            transactions: grouped[address]
         })
       }
 
@@ -76,7 +79,8 @@ const withCustomerTransactions = (WrappedComponent) => {
   }
 
   const mapStateToProps = store => ({
-    customerTransactions: store.data.customerTransactions
+      customerTransactions: store.data.customerTransactions,
+      addresses: JSON.parse(store.data.wallet.addresses)
   })
 
   const mapDispatchToProps = {

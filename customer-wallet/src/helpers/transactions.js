@@ -31,6 +31,14 @@ function getTxHashByMultihash (reviews, multihash) {
   return findKey(reviews, r => r.multihash === multihash)
 }
 
+function calculateTotalSpentFromTransactions (transactions, address) {
+    let result = 0
+    result = reduce(transactions, (acc, tx) => {
+        return acc + calculateTotalSpent(tx, address)
+    }, 0)
+    return result
+}
+
 function calculateTotalSpent (transaction, address) {
 
     let result = 0
@@ -48,4 +56,4 @@ function calculateTotalSpent (transaction, address) {
 }
 
 
-export { updateTransactions, updateReviewRecord, getTxHashByMultihash, calculateTotalSpent }
+export { updateTransactions, updateReviewRecord, getTxHashByMultihash, calculateTotalSpent, calculateTotalSpentFromTransactions }

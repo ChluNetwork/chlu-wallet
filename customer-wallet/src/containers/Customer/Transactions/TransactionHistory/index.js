@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { shape, bool, object, func, string, any } from 'prop-types'
 // helpers
 import get from 'lodash/get'
-import { formatCurrency } from 'helpers/currencyFormat'
 // redux
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -22,14 +21,10 @@ class TransactionHistory extends Component {
       data: object
     }),
     groupTransactionByAddress: func,
-    calculateTotalSpent: func,
     location: shape({ pathname: string }),
     getRates: func,
-    convertSatoshiToBTC: func,
-    convertFromBtcToUsd: func,
     convertFromBitsToUsd: func,
     convertSatoshiToBits: func,
-    convertFromBtcToBits: func
   }
 
   render() {
@@ -37,32 +32,16 @@ class TransactionHistory extends Component {
       location,
       customerTransactions,
       groupTransactionByAddress,
-      calculateTotalSpent,
-      convertSatoshiToBTC,
-      convertFromBtcToUsd,
-      convertFromBtcToBits,
       convertSatoshiToBits,
       convertFromBitsToUsd
     } = this.props
 
     const groupedTransaction = groupTransactionByAddress(get(customerTransactions, 'data.txs', []))
-    const totalBTC = convertSatoshiToBTC(calculateTotalSpent(groupedTransaction, 'totalSpent'))
-    const totalBits = convertFromBtcToBits(totalBTC, 2)
-    const totalUSD = convertFromBtcToUsd(totalBTC)
-    const totalBitsFormatted = formatCurrency(totalBits)
-    const totalUSDFormatted = formatCurrency(totalUSD)
     return (
       <div className='page-container transaction color-main container-border-top'>
         <div className='section-head container'>
           <div className='transaction-name font-weight-bold'>
             Customer transaction history
-          </div>
-          <div className='transaction-spent'>
-            <div className='transaction-spent__title font-weight-bold'>Total Spent</div>
-            <div className='transaction-spent__price'>
-              <div className='price-item font-weight-bold'>{totalBitsFormatted} bits</div>
-              <div className='price-item font-smaller'>{totalUSDFormatted} USD</div>
-            </div>
           </div>
         </div>
         <div className='section-content'>
