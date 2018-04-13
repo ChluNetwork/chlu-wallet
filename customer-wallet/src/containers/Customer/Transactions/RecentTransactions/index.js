@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 // helpers
 import get from 'lodash/get'
-import { formatCurrency } from 'helpers/currencyFormat'
 // hoc
 import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
@@ -30,11 +29,9 @@ class RecentTransaction extends Component {
     editRating: number,
     isEditFormOpen: bool,
     IsShowEditForm: func,
-    calculateTotalSpent: func,
     groupTransactionByAddress: func,
     convertSatoshiToBTC: func,
     convertFromBtcToUsd: func,
-    convertFromBtcToBits: func,
     convertFromBitsToUsd: func,
     convertSatoshiToBits: func,
     convertFromUsdToBtc: func
@@ -49,10 +46,8 @@ class RecentTransaction extends Component {
     const {
       routeParams,
       customerTransactions,
-      calculateTotalSpent,
       reviews,
       convertSatoshiToBTC,
-      convertFromBtcToBits,
       convertFromBitsToUsd,
       convertFromBtcToUsd,
       convertSatoshiToBits
@@ -62,11 +57,6 @@ class RecentTransaction extends Component {
 
     const transaction = get(customerTransactions, 'data.txs', [])
       .filter(({ addresses }) => addresses[addresses.length - 1] === address)
-    const totalBTC = convertSatoshiToBTC(calculateTotalSpent(transaction))
-    const totalBits = convertFromBtcToBits(totalBTC, 8)
-    const totalUSD = convertFromBtcToUsd(totalBTC)
-    const totalBitsFormatted = formatCurrency(totalBits)
-    const totalUSDFormatted = formatCurrency(totalUSD)
 
     return (
       <div className='page-container color-main'>
@@ -75,13 +65,6 @@ class RecentTransaction extends Component {
             <div className='section-head container'>
               <div className='title font-weight-bold'>Recent Transaction</div>
               <Link to='#' className='address'>{address}</Link>
-              <div className='price'>
-                <div className='price-title font-weight-bold'>Spent</div>
-                <div className='price-spent'>
-                  <div className='price-spent__item font-weight-bold'>{totalBitsFormatted} bits</div>
-                  <div className='price-spent__item font-smaller'>{totalUSDFormatted} USD</div>
-                </div>
-              </div>
             </div>
             <div className='section-content'>
               <div className='container'>

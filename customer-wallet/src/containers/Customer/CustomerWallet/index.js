@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { func, bool, oneOfType, object } from 'prop-types'
 import { types } from 'helpers/ipfs';
 // hoc
@@ -22,8 +23,8 @@ class CustomerWalletPage extends Component {
     convertBTCToSatoshi: func
   }
 
-  render() {
-    const { price = 400, convertFromUsdToBits, convertBitsToSatoshi } = this.props
+    render() {
+    const { price, convertFromUsdToBits, convertBitsToSatoshi } = this.props
     const priceBits = convertFromUsdToBits(price, false)
 
     const formattedBits = formatCurrency(priceBits)
@@ -48,6 +49,12 @@ class CustomerWalletPage extends Component {
 }
 
 export default compose(
-  WithChluIPFS(types.customer),
-  withFxRates
+    connect( state => {
+        const price = state.data.checkout.data.price
+        return {
+            price
+        }
+    }),
+    WithChluIPFS(types.customer),
+    withFxRates
 )(CustomerWalletPage)

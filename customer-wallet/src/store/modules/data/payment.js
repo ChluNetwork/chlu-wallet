@@ -54,22 +54,71 @@ export function submitPayment (data) {
         rating: rating,
         chlu_version: 0
       }
-      console.log('Getting ChluIPFS')
-      const chluIpfs = await getChluIPFS(types.customer)
-      console.log('Storing review record (no publish)')
-      const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
-      console.log('Creating transaction')
-      const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
-      console.log(response)
-      console.log('Pushing transaction')
-      await tr.pushTransaction(response)
-      console.log('Publishing review record')
-      await chluIpfs.storeReviewRecord(reviewRecord)
-      toastr.success('success', 'Payment success')
-      dispatch(setPaymentSuccess())
-    } catch(exception) {
+      try {
+        console.log('Getting ChluIPFS')
+        const chluIpfs = await getChluIPFS(types.customer)
+        try {
+          console.log('Storing review record (no publish)')
+          const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+          console.log('Creating transaction')
+          console.log(amountSatoshi)
+          try {
+            const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
+            console.log(response)
+            try {
+              console.log('Pushing transaction')
+              await tr.pushTransaction(response)
+              console.log('Publishing review record')
+              try {
+                await chluIpfs.storeReviewRecord(reviewRecord)
+                toastr.success('success', 'Payment success')
+                dispatch(setPaymentSuccess())
+              } catch (exception) {
+                console.log('Error saving review record')
+                console.log(exception)
+                toastr.error("Unable to save review",
+                             "Your payment went through, but the review wasn't saved. The review will be saved when you access the wallet again later.")
+                dispatch(setPaymentError(exception.message || exception))
+                return
+              }
+            } catch (exception) {
+              console.log('Error pushing transaction')
+              console.log(exception)
+              toastr.error("Check Wallet Balance",
+                           "There was an error making the payment. Please check your wallet's balance")
+              dispatch(setPaymentError(exception.message || exception))
+              return
+            }
+          } catch (exception) {
+            console.log('Error creating transaction')
+            console.log(exception)
+            toastr.error("Check Wallet Balance",
+                         "There was an error making the payment. Please check your wallet's balance")
+            dispatch(setPaymentError(exception.message || exception))
+            return
+          }
+        } catch (exception) {
+          console.log('Error creating the review')
+          console.log(exception)
+          toastr.error("Review Error",
+                       "There was an error creating the review. Your funds were not spent. Please check your network and try again")
+          dispatch(setPaymentError(exception.message || exception))
+          return
+        }
+      } catch (exception) {
+        console.log('IPFS unreachable')
+        console.log(exception)
+        toastr.error("Network Error",
+                     "IPFS is unreachable, please check your network connection and try again")
+        dispatch(setPaymentError(exception.message || exception))
+        return
+      }      
+    } catch (exception) {
       console.log(exception)
+      toastr.error("Unknown Error",
+                   "There was an error making the payment. Please try again later.")
       dispatch(setPaymentError(exception.message || exception))
+      return
     }
   }
 }

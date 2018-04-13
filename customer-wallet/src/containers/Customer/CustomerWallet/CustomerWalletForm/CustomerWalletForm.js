@@ -2,11 +2,9 @@ import React from 'react'
 import { func, bool, number, array, string } from 'prop-types'
 // libs
 import { isEmpty, isUndefined } from 'lodash'
-import { reduxForm, Field, change, formValueSelector } from 'redux-form'
-import { compose, withHandlers } from 'recompose'
+import { reduxForm, Field, formValueSelector } from 'redux-form'
+import { compose } from 'recompose'
 import { connect } from 'react-redux'
-// helpers
-import { convertToBits } from 'helpers/converters'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
@@ -37,8 +35,6 @@ const CustomerWalletForm = ({
   onStarClick,
   ratingValue,
   isReviewOpen,
-  currencyFieldOnChange,
-  convertFieldValue,
   loading,
   priceBtc,
   amountBtc,
@@ -117,30 +113,6 @@ const CustomerWalletForm = ({
                  <div className='button-label'>{label}</div>
                </div>
              ))}
-          </div>
-        </div>
-        <div className='amount-btc'>
-          <div className='amount-btc__label label font-smaller color-light'>Amount (bits)</div>
-          <div className='amount-btc__fields'>
-            <Field
-                {...textFieldsStyle}
-                name='amountBtc'
-                type='tel'
-                component={Input}
-                placeholder='bits'
-                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-                fullWidth
-            />
-            <div className='equally'>=</div>
-            <Field
-                {...textFieldsStyle}
-                name='amountUsd'
-                type='tel'
-                component={Input}
-                placeholder='USD'
-                onChange={(e, value) => currencyFieldOnChange(e, value, convertFieldValue)}
-                fullWidth
-            />
           </div>
         </div>
       </div>}
@@ -231,8 +203,6 @@ const CustomerWalletForm = ({
 CustomerWalletForm.propTypes = {
   handleSubmit: func.isRequired,
   onStarClick: func.isRequired,
-  currencyFieldOnChange: func.isRequired,
-  convertFieldValue: func.isRequired,
   handleChangeAddress: func.isRequired,
   isReviewOpen: bool,
   loading: bool,
@@ -245,10 +215,6 @@ CustomerWalletForm.propTypes = {
   activeAddress: string,
   isDisabledSubmit: bool
 }
-
-const mapDispatchToProps = dispatch => ({
-  changeField: (form, field, value) => dispatch(change(form, field, value))
-})
 
 function validate(values) {
   const errors = {}
@@ -281,23 +247,5 @@ export default compose(
           amountBtc,
           amountUsd
       }
-  }, mapDispatchToProps),
-  withHandlers({
-    convertFieldValue: ({ getFx, changeField }) => (value, { name, fromTo }) => {
-      let convertedValue = getFx().convert(value, fromTo)
-      if (name === 'amountUsd') convertedValue = convertToBits(convertedValue, false, 8)
-      if (name === 'amountBtc') convertedValue = convertToBits(convertedValue, true, 8)
-
-      changeField('customer-wallet-form', name, convertedValue)
-    },
-    currencyFieldOnChange: () => (e, value, fn) => {
-      const name = e.target.name
-      const convertOptions = {
-        amountBtc: { name: 'amountUsd', fromTo: { from: 'BTC', to: 'USD' } },
-        amountUsd: { name: 'amountBtc', fromTo: { from: 'USD', to: 'BTC' } }
-      }
-
-      fn(value, convertOptions[name])
-    }
   })
 )(CustomerWalletForm)

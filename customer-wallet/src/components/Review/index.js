@@ -1,11 +1,10 @@
 import React from 'react'
-import { object, func, string } from 'prop-types'
+import { object, string } from 'prop-types'
 // components
 import ReviewTitle from './ReviewTitle'
 import EditReview from './EditReview'
 // helpers
 import { get } from 'lodash'
-import { formatCurrency } from 'helpers/currencyFormat'
 // data
 import noProduct from 'images/no-product.png'
 // styles
@@ -16,16 +15,16 @@ const Review = props => {
     review,
     editing,
     editable,
-    transaction,
-    date,
-    convertSatoshiToBits,
-    convertFromBitsToUsd
+    date
   } = props
-  const Bits = convertSatoshiToBits(get(transaction, 'total'))
-  const USD = convertFromBitsToUsd(Bits)
-  const BitsFormatted = formatCurrency(Bits)
-  const USDFormatted = formatCurrency(USD)
 
+   let status = (<div className='platform'>Unverified</div>)
+    if (review.error) {
+        status = (<div className='platform'>Invalid</div>)
+    } else {
+        status = (<div className='platform'>Verified </div>)
+    }
+    
   return (
     <div className='review-item container-border-bottom'>
       <div className='review-item__avatar'>
@@ -39,12 +38,8 @@ const Review = props => {
             </div>
             <div className='info-head__date color-light'>
               <div className='date'>{date || 'Unknown Date'}</div>
-              <div className='platform'>{review ? (review.error ? 'Invalid' : 'Unverified') : 'Unverified'}</div>
+              {status}
             </div>
-          </div>
-          <div className='info-head__price'>
-            <div className='price-item'>{BitsFormatted} bits</div>
-            <div className='price-item'>{USDFormatted} USD</div>
           </div>
         </div>
         <div className='review-comments__list'>
@@ -74,10 +69,7 @@ const Review = props => {
 
 Review.propTypes = {
   review: object,
-  transaction: object,
-  date: string,
-  convertSatoshiToBits: func,
-  convertFromBitsToUsd: func
+  date: string
 }
 
 export default Review
