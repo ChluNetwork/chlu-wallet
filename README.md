@@ -54,7 +54,7 @@ please create an issue in this repository and/or a pull request with
 associated changes.
 
 To make suggestions for improving the Chlu protocol, please go to our
-[protocol repository](git@github.com:ChluNetwork/chlu-protocol.git)
+[protocol repository](https://github.com/ChluNetwork/chlu-protocol)
 
 ## Install
 
@@ -67,6 +67,32 @@ The customer wallet was setup using create-react-app
 - `yarn build` to make a production build
 
 ## Test & Demo
+
+### Set up marketplace
+
+To work, the Demo requires a Chlu marketplace instance.
+
+- clone and configure [chlu-marketplace-js](https://github.com/ChluNetwork/chlu-marketplace-js)
+- in the config file, set it for example on port `4000` and set up the marketplace URL to `http://localhost:4000`
+- make sure it is reachable using a command like `curl http://localhost:4000`
+- run `node src/bin/ setup-vendor -u http://localhost:4000` to set up a test vendor on your marketplace
+- if there were no errors, try running `curl http://localhost:4000/vendors` and you should get an array with one string, that's your vendor ID. Copy it
+- set that vendor ID as the `REACT_APP_VENDOR_ID` variable in your `.env`
+- set the `REACT_APP_MARKETPLACE_URL` variable in your `.env` to `http://localhost:4000` which is your marketplace URL.
+
+__Note:__ make sure your marketplace is running on the same chlu network as the Demo.
+
+By default, in development, the demo runs on experimental but the marketplace binary runs on staging.
+
+Add this to your `config.json` for the marketplace:
+
+```json
+"chluIpfs": {
+    "network": "experimental"
+}
+```
+
+Your marketplace should now run on the `experimental` network, like the demo does in development.
 
 ### Customer wallet
 
