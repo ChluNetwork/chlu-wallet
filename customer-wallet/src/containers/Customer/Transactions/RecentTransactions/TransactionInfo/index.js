@@ -19,7 +19,7 @@ class TransactionInfo extends Component {
         convertSatoshiToBits: func,
         convertFromBitsToUsd: func
     }
-    
+
     render () {
         const {
             transaction,
