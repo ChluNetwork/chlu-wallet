@@ -66,10 +66,12 @@ export function submitPayment (data) {
             console.log(response)
             try {
               console.log('Pushing transaction')
-              await tr.pushTransaction(response)
+              const tx = await tr.pushTransaction(response)
               console.log('Publishing review record')
               try {
-                await chluIpfs.storeReviewRecord(reviewRecord)
+                await chluIpfs.storeReviewRecord(reviewRecord, {
+                  bitcoinTransactionHash: tx.hash
+                })
                 toastr.success('success', 'Payment success')
                 dispatch(setPaymentSuccess())
               } catch (exception) {
