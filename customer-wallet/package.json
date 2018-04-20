@@ -5,8 +5,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
-    "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
+    "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support#ipfs-api",
+    "chlu-wallet-support-js": "ChluNetwork/chlu-wallet-support-js#fixes",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",
     "lodash": "^4.17.4",
