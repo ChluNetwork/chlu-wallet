@@ -30,8 +30,7 @@
     "superagent": "^3.6.0"
   },
   "resolutions": {
-    "node-forge": "0.7.4",
-    "stable": "0.1.6"
+    "node-forge": "0.7.4"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
