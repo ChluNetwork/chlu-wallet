@@ -15,7 +15,7 @@ export async function getChluIPFS(type) {
         window.chluIpfs = new ChluIPFS(options)
         await window.chluIpfs.start()
         // Turn Review Record updates into redux actions
-        window.chluIpfs.instance.events.on('updated ReviewRecord', (multihash, updatedMultihash, reviewRecord) => {
+        window.chluIpfs.instance.events.on('reviewrecord/updated', (multihash, updatedMultihash, reviewRecord) => {
           window.reduxStore.dispatch(updateReviewRecordAction({
             multihash, 
             updatedMultihash,
