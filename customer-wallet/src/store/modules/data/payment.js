@@ -59,7 +59,14 @@ export function submitPayment (data) {
         const chluIpfs = await getChluIPFS(types.customer)
         try {
           console.log('Storing review record (no publish)')
-          const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+          const rrMultihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+          console.log('Creating tx op return');
+          const multihash = await chluIpfs.instance.bitcoin.createTransactionOpReturn([
+            {
+              index: 0,
+              multihash: rrMultihash
+            }
+          ], false) 
           console.log('Creating transaction')
           console.log(amountSatoshi)
           try {
@@ -68,6 +75,13 @@ export function submitPayment (data) {
             try {
               console.log('Pushing transaction')
               const tx = await tr.pushTransaction(response)
+              console.log('Publishing tx op return')
+              await chluIpfs.instance.bitcoin.createTransactionOpReturn([
+                {
+                  index: 0,
+                  multihash: rrMultihash
+                }
+              ]) 
               console.log('Publishing review record')
               try {
                 await chluIpfs.storeReviewRecord(reviewRecord, {

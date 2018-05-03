@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support#ipfs-api",
+    "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support#multiplex",
     "chlu-wallet-support-js": "ChluNetwork/chlu-wallet-support-js#fixes",
     "classnames": "^2.2.5",
     "js-file-download": "^0.4.1",
