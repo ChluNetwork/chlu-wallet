@@ -62,7 +62,7 @@ const CustomerWalletForm = ({
         <RaisedButton
             {...switchPaymentBtnStyle}
             type='button'
-            label={'Pay by MasterCard'}
+            label={'Pay by Lightning'}
             onClick={switchPaymentType}
             className='submit-button'
             disabled={isCreditCardPayment}
