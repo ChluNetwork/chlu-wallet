@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS, types } from 'helpers/ipfs'
 import { toastr } from 'react-redux-toastr'
+import Lightning from 'helpers/ln';
 
 // ------------------------------------
 // Constants
@@ -54,23 +55,28 @@ export function submitPayment (data) {
         rating: rating,
         chlu_version: 0
       }
+      const fromNode = new Lightning(Lightning.nodes.Enrico)
+      const toNode = new Lightning(Lightning.nodes.Andronikos)
       try {
         console.log('Getting ChluIPFS')
         const chluIpfs = await getChluIPFS(types.customer)
+        console.log('Getting LND')
+        console.log(Lightning.nodes)
         try {
           console.log('Storing review record (no publish)')
           const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
-          console.log('Creating transaction')
+          console.log('Creating Invoice')
           console.log(amountSatoshi)
           try {
-            const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
-            console.log(response)
+            const invoice = await toNode.generateInvoice(amountSatoshi)
+            console.log(invoice)
             try {
-              console.log('Pushing transaction')
-              await tr.pushTransaction(response)
+              console.log('Paying invoice')
+              const response = await fromNode.payInvoice(invoice)
+              console.log(response)
               console.log('Publishing review record')
               try {
-                await chluIpfs.storeReviewRecord(reviewRecord)
+                //await chluIpfs.storeReviewRecord(reviewRecord)
                 toastr.success('success', 'Payment success')
                 dispatch(setPaymentSuccess())
               } catch (exception) {
