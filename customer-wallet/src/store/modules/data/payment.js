@@ -69,7 +69,8 @@ export function submitPayment (data) {
           console.log(amountSatoshi)
           try {
             //const invoice = await toNode.generateInvoice(amountSatoshi)
-            const invoice = 'lntb10u1pdspx5ypp5kcjz5peffleyktfz6pv9u8hhv8xgtga2zmcugj6pqyx8ug6jjvjqdqqcqzysxqyz5vqgx8n3amq3glgxlav7csagu9k3w7nkxcrfr6vx20826fxlp2z22v8mq3u5mlcz8m7hgjljzgfhv7lg2ve59ntdta8j75385qxtc4sumsqcjjduz'
+            // const invoice = 'lntb10u1pdspx5ypp5kcjz5peffleyktfz6pv9u8hhv8xgtga2zmcugj6pqyx8ug6jjvjqdqqcqzysxqyz5vqgx8n3amq3glgxlav7csagu9k3w7nkxcrfr6vx20826fxlp2z22v8mq3u5mlcz8m7hgjljzgfhv7lg2ve59ntdta8j75385qxtc4sumsqcjjduz'
+            const invoice = window.invoice_id
             console.log(invoice)
             try {
               console.log('Paying invoice')

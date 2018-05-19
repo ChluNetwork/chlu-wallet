@@ -117,38 +117,15 @@ const CustomerWalletForm = ({
         </div>
       </div>}
       {isCreditCardPayment && <div className='fields-wrapper'>
-        <div className='label font-smaller color-light'>Cardholder Name</div>
+        <div className='label font-smaller color-light'>Invoice</div>
         <Field
             {...textFieldsStyle}
-            name='cardholderName'
+            name='Invoice'
             type='text'
             component={Input}
+            id='invoice-id'
             fullWidth
-        />
-
-        <div className='label font-smaller color-light'>Card Number</div>
-        <Field
-            {...textFieldsStyle}
-            name='cardNumber'
-            type='text'
-            component={Input}
-            fullWidth
-        />
-        <div className='label font-smaller color-light'>Expiry Date</div>
-        <Field
-            {...textFieldsStyle}
-            name='expDate'
-            type='text'
-            component={Input}
-            fullWidth
-        />
-        <div className='label font-smaller color-light'>CV</div>
-        <Field
-            {...textFieldsStyle}
-            name='cvv'
-            type='text'
-            component={Input}
-            fullWidth
+            onChange={(e) => window.invoice_id = e.target.value }
         />
       </div>}
     </div>
@@ -191,7 +168,8 @@ const CustomerWalletForm = ({
         <RaisedButton
           {...submitBtnStyle}
           type='submit'
-          label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}
+            //label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}
+            label='Pay'
           className='submit-button'
           disabled={isDisabledSubmit}
         />
