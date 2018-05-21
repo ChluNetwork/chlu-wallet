@@ -8,13 +8,13 @@ import { connect } from 'react-redux'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
-import Avatar from 'material-ui/Avatar'
+import Button from 'material-ui/core/Button'
+import Avatar from 'material-ui/core/Avatar'
 import Input from 'components/Form/Input'
 import Select from 'components/Form/Select'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
-import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import CheckIcon from 'material-ui/core/svg-icons/toggle/check-box-outline-blank'
 // styles
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
@@ -51,7 +51,7 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container'>
       <div className='payment-switch-buttons m-b-35'>
-        <RaisedButton
+        <Button
             {...switchPaymentBtnStyle}
             type='button'
             label={'Pay by Crypto'}
@@ -59,7 +59,7 @@ const CustomerWalletForm = ({
             className='submit-button'
             disabled={!isCreditCardPayment}
         />
-        <RaisedButton
+        <Button
             {...switchPaymentBtnStyle}
             type='button'
             label={'Pay by MasterCard'}
@@ -188,7 +188,7 @@ const CustomerWalletForm = ({
     </div>
     <div className='button-container'>
       <div className='container'>
-        <RaisedButton
+        <Button
           {...submitBtnStyle}
           type='submit'
           label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}

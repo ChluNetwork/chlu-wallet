@@ -6,7 +6,7 @@ import { getCustomerTransactions, updateCustomerTransactions } from 'store/modul
 // libs
 import { get, groupBy } from 'lodash'
 // components
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from 'material-ui/core/CircularProgress'
 // helpers
 import { calculateTotalSpentFromTransactions } from 'helpers/transactions'
 
@@ -16,7 +16,7 @@ const withCustomerTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
       static propTypes = {
           addresses: array,
-          customerTransactions: object,        
+          customerTransactions: object,
           getCustomerTransactions: func,
           updateCustomerTransactions: func
       }
@@ -26,12 +26,12 @@ const withCustomerTransactions = (WrappedComponent) => {
       componentDidMount() {
           const address = this.props.addresses[0]
           this.props.getCustomerTransactions(address)
-          
+
           this.socket.onmessage = (event) => {
               const data = JSON.parse(get(event, 'data', '{}'))
               this.props.updateCustomerTransactions(data)
           }
-          
+
           this.socket.onopen = () => {
               this.socket.send(JSON.stringify({
                   event: 'tx-confirmation',
@@ -61,7 +61,7 @@ const withCustomerTransactions = (WrappedComponent) => {
 
     render () {
       const { customerTransactions } = this.props
-      const loading = get(customerTransactions, 'loading', false) 
+      const loading = get(customerTransactions, 'loading', false)
       const error = get(customerTransactions, 'error', null)
 
       if (loading) {

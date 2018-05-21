@@ -9,7 +9,7 @@ import { updateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
 // styles
 import './style.css'
@@ -59,16 +59,16 @@ class UnAutorized extends Component {
     return (
       <div className="page-container wallet">
         <div className='container wallet-header'>
-          <img src={chluLogo} className='logo' alt='Chlu' />
+          <img src={chluLogo} className='logo' alt='Chlu' /> Your Decentralized Reputation Wallet
         </div>
         <div className='section-content container-border-top container-border-bottom'>
           <div className='container'>
             <div className='title color-main'>Earn rewards for sending and receiving payments</div>
             <div className='buttons'>
               <Link to='wallet/import'>
-                <RaisedButton {...buttonStyle} label='Import wallet' />
+                <Button {...buttonStyle} label='Import wallet' />
               </Link>
-              <RaisedButton {...buttonStyle} label='Create new wallet' onClick={this.onCreateWalletClick} />
+              <Button {...buttonStyle} label='Create new wallet' onClick={this.onCreateWalletClick} />
             </div>
           </div>
         </div>
@@ -93,4 +93,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UnAutorized)
-

@@ -4,8 +4,8 @@ import { func, bool, shape, oneOfType, object } from 'prop-types'
 import { connect } from 'react-redux'
 // components
 import { Link } from 'react-router'
-import Drawer from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
+import Drawer from 'material-ui/core/Drawer'
+import MenuItem from 'material-ui/core/MenuItem'
 // styles
 import './styles.css'
 import { menuItemStyles } from 'styles/inlineStyles/components/drawer'

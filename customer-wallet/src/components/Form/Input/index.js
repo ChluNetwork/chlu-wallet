@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 // components
-import TextField from 'material-ui/TextField'
+import TextField from 'material-ui/core/TextField'
 
 const Input = ({ input, label, type, placeholder, meta: { touched, error }, onChange, readOnly, ...others }) => {
   const inputOnChange = (e) => {

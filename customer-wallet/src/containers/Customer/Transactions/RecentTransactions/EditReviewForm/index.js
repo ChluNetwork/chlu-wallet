@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form'
 // components
 import StarRating from 'components/Form/StarRating'
 import Input from 'components/Form/Input'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/core/Button'
 // styles
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
@@ -26,14 +26,14 @@ const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoa
       multiLine
     />
     <div className='edit-form__buttons'>
-      <RaisedButton
+      <Button
         {...submitBtnStyle}
         type='submit'
         label={submitFailed ? 'Error' : (isLoading ? 'Loading...' : 'Save')}
         className='button-item'
         disabled={isLoading || pristine || submitFailed}
       />
-      <RaisedButton
+      <Button
         {...submitBtnStyle}
         label='Cancel'
         className='button-item'

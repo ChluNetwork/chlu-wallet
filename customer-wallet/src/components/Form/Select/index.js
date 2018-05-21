@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import SelectField from 'material-ui/core/SelectField'
+import MenuItem from 'material-ui/core/MenuItem'
 // helpers
 import get from 'lodash/get'
 

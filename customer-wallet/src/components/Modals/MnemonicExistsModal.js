@@ -1,17 +1,17 @@
 import React from 'react'
 import { bool, func } from 'prop-types'
 // libs
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/core/Dialog'
+import Button from 'material-ui/core/Button'
 
 const MnemonicExists = ({ isOpen, handleCancel, handleContinue }) => {
   const actions = [
-    <FlatButton
+    <Button
       label='CONTINUE'
       onClick={handleContinue}
       primary
     />,
-    <FlatButton
+    <Button
       label='CANCEL'
       onClick={handleCancel}
       primary

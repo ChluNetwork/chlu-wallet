@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // libs
 import { hashHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiThemeProvider from 'material-ui/core/styles/MuiThemeProvider'
 import getRoutes from 'routes'
 import createStore from 'store/createStore'
 // styles

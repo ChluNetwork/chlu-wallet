@@ -10,7 +10,7 @@ import replace from 'helpers/replace'
 // libs
 import { submit } from 'redux-form'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
@@ -83,7 +83,7 @@ class ImportWallet extends Component {
             <div className='title color-main'>Enter your mnemonic to import your BTC wallet</div>
             <ImportWalletForm onSubmit={this.handleSubmit} />
             <div className='button'>
-              <RaisedButton
+              <Button
                 {...buttonStyle}
                 fullWidth
                 label='Import wallet'

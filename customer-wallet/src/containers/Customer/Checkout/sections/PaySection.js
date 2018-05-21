@@ -1,6 +1,6 @@
 import React from 'react'
 // components
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { Radio, RadioGroup } from 'material-ui/core/Radio';
 // assets
 import { buttonsData } from '../assets/data'
 // styles
@@ -13,13 +13,13 @@ const Product = () => {
 
   return (
     <div className='payment section-content'>
-      <RadioButtonGroup
+      <RadioGroup
         name='payment-method'
         defaultSelected={selectedRadio}
         onChange={() => null }
       >
         {buttonsData.map(({ icon, label, disabled, value }, idx) => (
-          <RadioButton
+          <Radio
             key={idx}
             {...radioButtonStyle}
             value={value}
@@ -27,7 +27,7 @@ const Product = () => {
             className='payment-item container-border-bottom'
           />
         ))}
-      </RadioButtonGroup>
+      </RadioGroup>
     </div>
   )
 }

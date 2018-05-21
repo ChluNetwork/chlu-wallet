@@ -10,7 +10,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toastr } from 'react-redux-toastr'
 import fileDownload from 'js-file-download'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 // styles
 import './style.css'
 import { buttonStyle } from 'styles/inlineStyles/containers/Customer/settings'
@@ -44,13 +44,13 @@ class Settings extends Component {
             }
             {mnemonic
               ? <div className='settings-section__buttons'>
-                <RaisedButton
+                <Button
                   {...buttonStyle}
                   label='Download mnemonic'
                   onClick={this.handleDownload(mnemonic)}
                 />
                 <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-                  <RaisedButton
+                  <Button
                     {...buttonStyle}
                     label='Copy mnemonic'
                   />
@@ -58,7 +58,7 @@ class Settings extends Component {
               </div>
               : <div className='settings-section__buttons'>
                 <Link to='/'>
-                  <RaisedButton
+                  <Button
                     {...buttonStyle}
                     label='Create new wallet'
                   />

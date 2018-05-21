@@ -2,10 +2,10 @@ import React from 'react'
 import { string, number, func, bool } from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
-import Search from 'material-ui/svg-icons/action/search'
-import Close from 'material-ui/svg-icons/navigation/close'
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
+import Search from 'material-ui/core/svg-icons/action/search'
+import Close from 'material-ui/core/svg-icons/navigation/close'
+import TextField from 'material-ui/core/TextField'
+import IconButton from 'material-ui/core/IconButton'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 // styles

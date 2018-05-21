@@ -10,7 +10,7 @@ import replace from 'helpers/replace'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 // styles
 import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Create'
@@ -97,13 +97,13 @@ class CreateWallet extends Component {
           <div className='container title'>Save your mnemonic</div>
           <div className='container mnemonic'>{mnemonic}</div>
           <div className='buttons'>
-            <RaisedButton
+            <Button
               {...buttonStyle}
               label='Download mnemonic'
               onClick={this.handleDownload(mnemonic)}
             />
             <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-              <RaisedButton
+              <Button
                 {...buttonStyle}
                 label='Copy mnemonic'
               />
@@ -112,12 +112,12 @@ class CreateWallet extends Component {
         </div>
         <div className='container create-footer'>
           {(mnemonicSaved && walletCreated)
-            ? <RaisedButton
+            ? <Button
               label='Go to wallet'
               fullWidth
               onClick={this.moveToTheWallet}
             />
-            : <RaisedButton
+            : <Button
               label='Create wallet'
               fullWidth
               onClick={this.createWallet}

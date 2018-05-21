@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "homepage": ".",
   "dependencies": {
+    "@material-ui/codemod": "^1.0.0",
+    "@material-ui/core": "^1.0.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
@@ -63,7 +65,6 @@
     "eslint-plugin-react": "^7.0.1",
     "immutability-helper": "^2.3.1",
     "jest-enzyme": "^3.8.2",
-    "material-ui": "^0.19.0",
     "node-sass": "^4.5.3",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^15.6.1",

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getCheckout } from 'store/modules/data/checkout'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/core/Button'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from 'material-ui/core/CircularProgress'
 // helpers
 import replace from 'helpers/replace'
 // styles
@@ -45,7 +45,7 @@ class Checkout extends Component {
                       <div className='payment-label'>Payment Method</div>
                       <PaySection />
                       <div className='checkout-vendor__button'>
-                        <RaisedButton
+                        <Button
                           {...buttonStyle}
                           label='Continue'
                           fullWidth={true}
@@ -54,7 +54,7 @@ class Checkout extends Component {
                       </div>
                   </div>
                 )
-            
+
           }
         </div>
       </div>
