@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import SelectField from 'material-ui/core/SelectField'
-import MenuItem from 'material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 // helpers
 import get from 'lodash/get'
 
-class Select extends Component {
+class CustomSelect extends Component {
   constructor(props) {
     super(props)
 
@@ -33,7 +33,7 @@ class Select extends Component {
       <div>
         {!!label && <span className='input-label'>{label}</span>}
         <div className='input-wrapper'>
-          <SelectField
+          <Select
             {...input}
             {...others}
             errorText={hasError ? error : undefined}
@@ -43,14 +43,14 @@ class Select extends Component {
             floatingLabelText={get(input, 'selected')}
           >
             {options.map(({ value, label }, index) => <MenuItem value={value} primaryText={label} key={index} />)}
-          </SelectField>
+          </Select>
         </div>
       </div>
     )
   }
 }
 
-Select.propTypes = {
+CustomSelect.propTypes = {
   select: PropTypes.object,
   label: PropTypes.string,
   placeholder: PropTypes.string,
@@ -61,4 +61,4 @@ Select.propTypes = {
   }))
 }
 
-export default Select
+export default CustomSelect

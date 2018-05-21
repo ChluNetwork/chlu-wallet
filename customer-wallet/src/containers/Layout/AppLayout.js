@@ -6,9 +6,9 @@ import { toggleDrawer } from 'store/modules/ui/drawer'
 import { changeUserType } from 'store/modules/data/profile'
 import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
 // components
-import AppBar from 'material-ui/core/AppBar'
+import AppBar from '@material-ui/core/AppBar'
 import Drawer from 'components/Drawer'
-import CircularProgress from 'material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import SwitchUserMenu from './SwitchUserMenu'
 // data
 import usersType from 'fixtures/usersType'

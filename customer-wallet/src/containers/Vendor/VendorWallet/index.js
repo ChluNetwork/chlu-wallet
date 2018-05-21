@@ -14,7 +14,7 @@ import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // components
 import ReviewsList from './ReviewsList'
-import Avatar from 'material-ui/core/Avatar'
+import Avatar from '@material-ui/core/Avatar'
 // styles
 import './styles.css'
 import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'

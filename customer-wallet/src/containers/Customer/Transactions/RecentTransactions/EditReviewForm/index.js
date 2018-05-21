@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form'
 // components
 import StarRating from 'components/Form/StarRating'
 import Input from 'components/Form/Input'
-import Button from 'material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 // styles
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants

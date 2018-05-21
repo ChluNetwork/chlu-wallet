@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getCheckout } from 'store/modules/data/checkout'
 // components
-import Button from 'material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
-import CircularProgress from 'material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // helpers
 import replace from 'helpers/replace'
 // styles

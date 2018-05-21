@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import EditReviewForm from 'containers/Customer/Transactions/RecentTransactions/EditReviewForm'
-import Button from 'material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // actions
 import { submitEditedReview , cancelEditReview, editReview } from 'store/modules/data/reviews'

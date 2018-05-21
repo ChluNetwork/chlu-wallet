@@ -10,7 +10,7 @@ import replace from 'helpers/replace'
 // libs
 import { submit } from 'redux-form'
 // components
-import Button from 'material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'

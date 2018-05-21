@@ -1,17 +1,17 @@
 import React from 'react'
 import { array, bool, func, string } from 'prop-types'
 // components
-import IconMenu from 'material-ui/core/IconMenu'
-import MenuItem from 'material-ui/core/MenuItem'
-import SwapHoriz from 'material-ui/core/svg-icons/action/swap-horiz'
-import IconButton from 'material-ui/core/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import SwapHoriz from '@material-ui/icons/SwapHoriz'
+import IconButton from '@material-ui/core/IconButton'
 // styles
 import style from 'styles/inlineStyles/containers/MainLayout'
 // constants
 const { switchUser: { iconStyle, getStyle } } = style
 
 const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userType }) => (
-  <IconMenu
+  <Menu
     iconButtonElement={<IconButton {...iconStyle}><SwapHoriz /></IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
@@ -27,7 +27,7 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userType 
         />
       )
     }
-  </IconMenu>
+  </Menu>
 )
 
 SwitchUserMenu.propType = {

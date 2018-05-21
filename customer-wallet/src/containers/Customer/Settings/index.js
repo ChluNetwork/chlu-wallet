@@ -10,7 +10,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toastr } from 'react-redux-toastr'
 import fileDownload from 'js-file-download'
 // components
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 // styles
 import './style.css'
 import { buttonStyle } from 'styles/inlineStyles/containers/Customer/settings'

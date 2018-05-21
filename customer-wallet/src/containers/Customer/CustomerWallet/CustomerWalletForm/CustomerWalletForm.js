@@ -8,13 +8,13 @@ import { connect } from 'react-redux'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
-import Button from 'material-ui/core/Button'
-import Avatar from 'material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar'
 import Input from 'components/Form/Input'
-import Select from 'components/Form/Select'
+import CustomSelect from 'components/Form/CustomSelect'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
-import CheckIcon from 'material-ui/core/svg-icons/toggle/check-box-outline-blank'
+import CheckIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 // styles
 import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
 // constants
@@ -74,7 +74,7 @@ const CustomerWalletForm = ({
           <Field
               {...textFieldsStyle}
               name='fromAddress'
-              component={Select}
+              component={CustomSelect}
               value={activeAddress}
               options={ownAddresses.map((address) => ({ value: address, label: address }))}
               handleChange={handleChangeAddress}

@@ -6,7 +6,7 @@ import { getVendorTransactions, updateVendorTransactions } from 'store/modules/d
 // helpers
 import { get } from 'lodash'
 // components
-import CircularProgress from 'material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // assets
 import { address } from '../Vendor/assets/data'
 //

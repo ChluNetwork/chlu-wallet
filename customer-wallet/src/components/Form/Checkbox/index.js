@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 // components
-import Checkbox from 'material-ui/core/Checkbox'
+import Checkbox from '@material-ui/core/Checkbox'
 
 const CheckboxComponent = ({ input, meta: { error, touched }, ...rest }) => {
   return (

@@ -9,7 +9,7 @@ import { updateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // components
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
 // styles
 import './style.css'

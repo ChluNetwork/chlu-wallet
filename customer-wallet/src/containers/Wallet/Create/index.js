@@ -10,7 +10,7 @@ import replace from 'helpers/replace'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 // components
-import Button from 'material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 // styles
 import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Create'

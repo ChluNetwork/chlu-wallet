@@ -6,7 +6,7 @@ import { getCustomerTransactions, updateCustomerTransactions } from 'store/modul
 // libs
 import { get, groupBy } from 'lodash'
 // components
-import CircularProgress from 'material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // helpers
 import { calculateTotalSpentFromTransactions } from 'helpers/transactions'
 
