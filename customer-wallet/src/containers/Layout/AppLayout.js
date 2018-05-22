@@ -15,13 +15,8 @@ import Drawer from 'components/Drawer'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SwitchUserMenu from './SwitchUserMenu'
 // routes
-import CustomerWallet from '../Customer/CustomerWallet'
-import Settings from '../Customer/Settings'
-import VendorWallet from '../Vendor/VendorWallet'
-import Checkout from '../Customer/Checkout'
-import Profile from '../Vendor/Profile'
-import TransactionHistory from '../Customer/Transactions/TransactionHistory'
-import RecentTransactions from '../Customer/Transactions/RecentTransactions'
+import Customer from '../Customer'
+import Vendor from '../Vendor'
 import NotFound from '../../components/NotFound'
 import Demo from '../Demonstrator/Demo'
 // helpers
@@ -76,23 +71,8 @@ const AppLayout = ({
             </Toolbar>
           </StyledAppBar>
           <Switch>
-            <Route path='/customer' onEnter={(nextState, replace, proceed) => checkMissingMnemonic(proceed)}>
-              <Switch>
-                <Route path='/customer/checkout' component={Checkout}/>
-                <Route path='/customer/wallet' component={CustomerWallet} />
-                <Route path='/customer/transactions/:address' component={RecentTransactions} />
-                <Route path='/customer/transactions' component={TransactionHistory} />
-                <Route path='/customer/settings' component={Settings} />
-                <Redirect exact from='/customer' to='/customer/checkout' />
-              </Switch>
-            </Route>
-            <Route path='/vendor'>
-              <Switch>
-                <Route path='/vendor/profile' component={Profile} />
-                <Route path='/vendor/wallet' component={VendorWallet} />
-                <Redirect exact from='/vendor' to='/vendor/wallet'/>
-              </Switch>
-            </Route>
+            <Route path='/customer' component={Customer} />
+            <Route path='/vendor' component={Vendor} />>
             <Route path='/demonstrator'>
               <Switch>
                 <Route path='/demonstrator/demo' component={Demo} />
@@ -130,13 +110,5 @@ const mapDispatchToProps = dispatch => ({
   changeUserType: (userType) => dispatch(changeUserType(userType)),
   toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
-
-function checkMissingMnemonic(proceed) {
-  if (!localStorage.getItem('mnemonic_key')) {
-    replace('/')
-  }
-
-  proceed()
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles({})(AppLayout))

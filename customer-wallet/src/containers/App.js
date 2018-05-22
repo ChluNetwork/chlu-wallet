@@ -3,8 +3,12 @@ import React from 'react'
 import createHistory from 'history/createHashHistory'
 import { ConnectedRouter } from 'react-router-redux'
 import { Provider } from 'react-redux'
-import getRoutes from 'routes'
+import { Route, Switch } from 'react-router'
 import createStore from 'store/createStore'
+// containers
+import MainLayout from './Layout/MainLayout'
+import AppLayout from './Layout/AppLayout'
+import Wallet from './Wallet'
 // styles
 import 'styles/main.css'
 
@@ -19,7 +23,12 @@ export default function App() {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          {getRoutes(store)}
+          <MainLayout>
+            <Switch>
+              <Route path='/wallet' component={Wallet} />
+              <Route component={AppLayout} />
+            </Switch>
+          </MainLayout>
         </ConnectedRouter>
       </Provider>
     )
