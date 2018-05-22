@@ -2,25 +2,25 @@ import { mainColor } from 'context/palette'
 
 export default {
   circularProgressStyle: {
-    style: { margin: '20px auto' }
+    root: { margin: '20px auto' }
   },
   AppBarStyle: {
-    style: { background: mainColor },
-    titleStyle: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
+    root: { background: mainColor }
   },
   switchUser: {
     iconStyle: {
-      iconStyle: {
+      root: {
         color: 'white',
         cursor: 'pointer'
       }
     },
-    getStyle: isActive => ({
-      backgroundColor: isActive ? 'rgb(229,229,229)': 'inherit'
-    })
+    menuItemStyle: {
+      root: {
+        backgroundColor: 'inherit'
+      },
+      active: {
+        backgroundColor: 'rgb(229,229,229)'
+      }
+    }
   }
 }

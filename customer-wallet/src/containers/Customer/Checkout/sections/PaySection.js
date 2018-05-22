@@ -15,13 +15,11 @@ const Product = () => {
     <div className='payment section-content'>
       <RadioGroup
         name='payment-method'
-        defaultSelected={selectedRadio}
-        onChange={() => null }
+        value={selectedRadio}
       >
         {buttonsData.map(({ icon, label, disabled, value }, idx) => (
           <Radio
             key={idx}
-            {...radioButtonStyle}
             value={value}
             label={label}
             className='payment-item container-border-bottom'

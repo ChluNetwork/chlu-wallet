@@ -13,9 +13,10 @@ import replace from 'helpers/replace'
 // styles
 import './styles.css'
 import styles from 'styles/inlineStyles/containers/Customer/checkout'
+import { withStyles } from '@material-ui/core';
 
-const { buttonStyle } = styles
-
+const { buttonStyle, buttonLabelStyle } = styles
+const StyledButton = withStyles(buttonStyle)(Button)
 
 class Checkout extends Component {
   componentDidMount() {
@@ -45,16 +46,12 @@ class Checkout extends Component {
                       <div className='payment-label'>Payment Method</div>
                       <PaySection />
                       <div className='checkout-vendor__button'>
-                        <Button
-                          {...buttonStyle}
-                          label='Continue'
-                          fullWidth={true}
-                          onClick={() => replace('/customer/wallet')}
-                        />
+                        <StyledButton onClick={() => replace('/customer/wallet')} fullWidth>
+                          <span style={buttonLabelStyle}></span>Continue
+                        </StyledButton>
                       </div>
                   </div>
                 )
-
           }
         </div>
       </div>

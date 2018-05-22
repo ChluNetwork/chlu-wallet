@@ -61,7 +61,7 @@ class UnAutorized extends Component {
     } = this.props
 
     return (
-      <div className="page-container wallet">
+      <div className='page-container wallet'>
         <div className='container wallet-header'>
           <img src={chluLogo} className='logo' alt='Chlu' /> Your Decentralized Reputation Wallet
         </div>
@@ -70,9 +70,11 @@ class UnAutorized extends Component {
             <div className='title color-main'>Earn rewards for sending and receiving payments</div>
             <div className='buttons'>
               <Link to='wallet/import'>
-                <Button {...buttonStyle} label='Import wallet' />
+                <Button {...buttonStyle}>Import Wallet</Button>
               </Link>
-              <Button {...buttonStyle} label='Create new wallet' onClick={this.onCreateWalletClick} />
+              <Button {...buttonStyle} label='Create new wallet' onClick={this.onCreateWalletClick}>
+                Create new wallet
+              </Button>
             </div>
           </div>
         </div>

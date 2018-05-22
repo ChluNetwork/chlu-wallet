@@ -2,13 +2,15 @@ import { orange, lightBorderOrange, lightOrange, mainTextColor, borderColor, dar
 
 export default {
   buttonStyle: {
-    style: { border: `1px solid ${lightBorderOrange}` },
-    buttonStyle: { background: `linear-gradient(to bottom, ${lightOrange}, ${orange})` },
-    labelStyle: {
-      textTransform: 'none',
-      fontWeight: 'bold',
-      color: mainTextColor,
-    }
+    root: {
+      border: `1px solid ${lightBorderOrange}`,
+      background: `linear-gradient(to bottom, ${lightOrange}, ${orange})`
+    },
+  },
+  buttonLabelStyle: {
+    textTransform: 'none',
+    fontWeight: 'bold',
+    color: mainTextColor,
   },
   radioButtonStyle: {
     style: { padding: '20px' },
