@@ -1,3 +1,2 @@
-import { hashHistory } from 'react-router'
 
-export default (path) => hashHistory.push(path)
+export default path => window.appHistory.push(path)

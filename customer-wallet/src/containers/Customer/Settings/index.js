@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 // helpers
 import get from 'lodash/get'
 // libs
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toastr } from 'react-redux-toastr'
 import fileDownload from 'js-file-download'

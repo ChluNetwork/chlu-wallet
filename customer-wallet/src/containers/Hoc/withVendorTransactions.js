@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 import { getVendorTransactions, updateVendorTransactions } from 'store/modules/data/vendorTransactions'
 // helpers
 import { get } from 'lodash'
-// components
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 // assets
 import { address } from '../Vendor/assets/data'
 //

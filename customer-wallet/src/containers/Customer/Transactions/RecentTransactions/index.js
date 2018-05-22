@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { shape, bool, any, object, func, number } from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'

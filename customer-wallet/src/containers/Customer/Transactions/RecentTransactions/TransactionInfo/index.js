@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { string, object, func } from 'prop-types'
 import moment from 'moment'
-// components
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Review from 'components/Review'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'

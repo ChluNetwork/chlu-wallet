@@ -1,7 +1,6 @@
 import React from 'react'
 import { bool, func } from 'prop-types'
-// libs
-import Dialog from '@material-ui/core/Dialog'
+import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button'
 
 const ComingSoon = ({ isOpen, hideModal }) => {

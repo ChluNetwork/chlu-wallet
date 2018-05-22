@@ -1,8 +1,7 @@
 import React from 'react'
 import { array, bool, func, string } from 'prop-types'
-// components
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import SwapHoriz from '@material-ui/icons/SwapHoriz'
 import IconButton from '@material-ui/core/IconButton'
 // styles

@@ -3,9 +3,9 @@ import { func, bool, shape, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 // components
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Drawer from '@material-ui/core/Drawer'
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@material-ui/core/MenuItem';
 // styles
 import './styles.css'
 import { menuItemStyles } from 'styles/inlineStyles/components/drawer'
