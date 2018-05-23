@@ -8,10 +8,6 @@ import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
-// styles
-import style from 'styles/inlineStyles/containers/Vendor/profile'
-// constants
-const { ratingStyle, searchIconStyle, searchInputStyle } = style
 
 const starCount = 5
 
@@ -25,7 +21,6 @@ const ProfileHeader = ({ name, rating, totalBitsSold, reviewCount, handleToggleS
         <div className='profile-info'>
           <div className='profile-info__name'>{name}</div>
           <StarRatingComponent
-            {...ratingStyle}
             className='profile-info__rating'
             name='rate2'
             starCount={starCount}
@@ -39,8 +34,8 @@ const ProfileHeader = ({ name, rating, totalBitsSold, reviewCount, handleToggleS
         </div>
       </div>
       <div className='profile-header__search'>
-        {isSearchFieldOpen && <TextField {...searchInputStyle} fullWidth={true} name='search'/>}
-        <IconButton  {...searchIconStyle} onClick={handleToggleSearchShow} >
+        {isSearchFieldOpen && <TextField fullWidth={true} name='search'/>}
+        <IconButton onClick={handleToggleSearchShow} >
           {isSearchFieldOpen ? <Close /> : <Search /> }
         </IconButton>
       </div>

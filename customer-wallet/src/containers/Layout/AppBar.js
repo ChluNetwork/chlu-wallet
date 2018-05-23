@@ -13,8 +13,6 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar';
-// styles
-import style from 'styles/inlineStyles/containers/MainLayout'
 // assets
 import chluLogo from 'images/svg/chlu-2.svg'
 // data
@@ -78,6 +76,6 @@ ChluAppBar.propTypes = {
 }
 
 export default compose(
-    withStyles(style.AppBarStyle),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps),
+    withStyles({}) // required for classes.menuBar
 )(ChluAppBar)

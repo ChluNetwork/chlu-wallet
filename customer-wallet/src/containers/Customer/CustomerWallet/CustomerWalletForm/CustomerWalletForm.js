@@ -15,26 +15,6 @@ import CustomSelect from 'components/Form/CustomSelect'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
 import CheckIcon from '@material-ui/icons/CheckBoxOutlineBlank'
-// styles
-import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
-import { withStyles } from '@material-ui/core';
-// constants
-const {
-  submitBtnStyle,
-  avatarStyle,
-  checkboxStyle,
-  textFieldsStyle,
-  VendorAddressInputStyle,
-  ratingStyle,
-  switchPaymentBtnStyle
-} = styles
-
-const SwitchPaymentButton = withStyles(switchPaymentBtnStyle)(Button)
-const SubmitButton = withStyles(submitBtnStyle)(Button)
-const VendorAvatar = withStyles(avatarStyle)(Avatar)
-const TextField = withStyles(textFieldsStyle)(Field)
-const Rating = withStyles(ratingStyle)(StarRatingComponent)
-const StyledCheckbox = withStyles(checkboxStyle)(Checkbox)
 
 const starCount = 5
 
@@ -59,13 +39,13 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container'>
       <div className='payment-switch-buttons m-b-35'>
-        <SwitchPaymentButton
+        <Button
             label={'Pay by Crypto'}
             onClick={switchPaymentType}
             className='submit-button'
             disabled={!isCreditCardPayment}
         />
-        <SwitchPaymentButton
+        <Button
             label={'Pay by MasterCard'}
             onClick={switchPaymentType}
             className='submit-button'
@@ -75,7 +55,7 @@ const CustomerWalletForm = ({
       {!isCreditCardPayment && <div className='fields-wrapper'>
         <div className='label font-smaller color-light'>Your Address</div>
         <div className='your-address__wrapper'>
-          <TextField
+          <Field
               name='fromAddress'
               component={CustomSelect}
               value={activeAddress}
@@ -85,13 +65,13 @@ const CustomerWalletForm = ({
         </div>
         <div className='vendor-address'>
           <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
-          <TextField
+          <Field
               name='toAddress'
               type='text'
-              component={<Input style={VendorAddressInputStyle}/>}
+              component={<Input/>}
           />
           <div className='vendor-address__avatar'>
-            <VendorAvatar size={40}>A</VendorAvatar>
+            <Avatar size={40}>A</Avatar>
           </div>
         </div>
         <div className='payment-currency'>
@@ -114,29 +94,28 @@ const CustomerWalletForm = ({
       </div>}
       {isCreditCardPayment && <div className='fields-wrapper'>
         <div className='label font-smaller color-light'>Cardholder Name</div>
-        <TextField
+        <Field
             name='cardholderName'
             type='text'
             component={Input}
             fullWidth
         />
-
         <div className='label font-smaller color-light'>Card Number</div>
-        <TextField
+        <Field
             name='cardNumber'
             type='text'
             component={Input}
             fullWidth
         />
         <div className='label font-smaller color-light'>Expiry Date</div>
-        <TextField
+        <Field
             name='expDate'
             type='text'
             component={Input}
             fullWidth
         />
         <div className='label font-smaller color-light'>CV</div>
-        <TextField
+        <Field
             name='cvv'
             type='text'
             component={Input}
@@ -151,12 +130,12 @@ const CustomerWalletForm = ({
             <Field
                 label='Write a review now'
                 name='reviewOpen'
-                component={StyledCheckbox}
+                component={Checkbox}
                 uncheckedIcon={<CheckIcon />}
             />
             {isReviewOpen &&
              <div>
-               <Rating
+               <StarRatingComponent
                    className='review-rating'
                    name='rating'
                    starCount={starCount}
@@ -165,7 +144,6 @@ const CustomerWalletForm = ({
                />
                <div className='comment-label label font-smaller color-light'>Comment</div>
                <Field
-                   {...textFieldsStyle}
                    name='review'
                    type='text'
                    component={Input}
@@ -178,7 +156,7 @@ const CustomerWalletForm = ({
     </div>
     <div className='button-container'>
       <div className='container'>
-        <SubmitButton
+        <Button
           type='submit'
           label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}
           className='submit-button'

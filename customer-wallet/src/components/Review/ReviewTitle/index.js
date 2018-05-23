@@ -2,11 +2,6 @@ import React from 'react'
 import { string, number } from 'prop-types'
 //components
 import StarRatingComponent from 'react-star-rating-component'
-// styles
-import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
-import './style.css'
-// constants
-const { ratingStyle } = style
 
 const starCount = 5
 
@@ -14,7 +9,6 @@ const ReviewTitle = ({ comment, date, rating }) => (
   <div className='review-comment'>
     <div className='review-comment__head'>
       {rating > 0 && <StarRatingComponent
-        {...ratingStyle}
         className='comment-rating'
         name='rating'
         value={rating}

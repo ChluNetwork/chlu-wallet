@@ -12,9 +12,6 @@ import fileDownload from 'js-file-download'
 // components
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
-// styles
-import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Create'
-import './style.css'
 
 class CreateWallet extends Component {
   static propTypes = {
@@ -98,13 +95,11 @@ class CreateWallet extends Component {
           <div className='container mnemonic'>{mnemonic}</div>
           <div className='buttons'>
             <Button
-              {...buttonStyle}
               label='Download mnemonic'
               onClick={this.handleDownload(mnemonic)}
             />
             <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
               <Button
-                {...buttonStyle}
                 label='Copy mnemonic'
               />
             </CopyToClipboard>

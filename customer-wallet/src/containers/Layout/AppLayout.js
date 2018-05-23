@@ -13,9 +13,6 @@ import Customer from '../Customer'
 import Vendor from '../Vendor'
 import NotFound from '../../components/NotFound'
 import Demo from '../Demonstrator/Demo'
-// styles
-import style from 'styles/inlineStyles/containers/MainLayout'
-import { withStyles } from '@material-ui/core';
 
 const AppLayout = ({
   children,
@@ -30,7 +27,7 @@ const AppLayout = ({
 
   return (
     <div>
-      {loading ? <CircularProgress {...style.circularProgressStyle} /> : error
+      {loading ? <CircularProgress/> : error
         ? 'Something went wrong'
         : <div>
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
@@ -73,4 +70,4 @@ const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles({})(AppLayout))
+export default connect(mapStateToProps, mapDispatchToProps)(AppLayout)

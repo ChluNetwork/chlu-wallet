@@ -5,20 +5,14 @@ import { reduxForm, Field } from 'redux-form'
 import StarRating from 'components/Form/StarRating'
 import Input from 'components/Form/Input'
 import Button from '@material-ui/core/Button'
-// styles
-import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
-// constants
-const { ratingStyle, textFieldsStyle, submitBtnStyle } = styles
 
 const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoading, pristine, submitFailed }) => (
   <form onSubmit={handleSubmit} className='edit-form color-main'>
     <Field
       name='rating'
       component={StarRating}
-      {...ratingStyle}
     />
     <Field
-      {...textFieldsStyle}
       name='comment'
       placeholder='Comment'
       type='text'
@@ -27,14 +21,12 @@ const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoa
     />
     <div className='edit-form__buttons'>
       <Button
-        {...submitBtnStyle}
         type='submit'
         label={submitFailed ? 'Error' : (isLoading ? 'Loading...' : 'Save')}
         className='button-item'
         disabled={isLoading || pristine || submitFailed}
       />
       <Button
-        {...submitBtnStyle}
         label='Cancel'
         className='button-item'
         onClick={handleCancel}

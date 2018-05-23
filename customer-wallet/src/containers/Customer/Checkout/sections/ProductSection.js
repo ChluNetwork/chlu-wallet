@@ -2,10 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // components
 import StarRatingComponent from 'react-star-rating-component'
-// styles
-import styles from 'styles/inlineStyles/containers/Customer/checkout'
-// constants
-const { ratingStyle } = styles
 
 const starCount = 5
 
@@ -17,7 +13,6 @@ const Product = ({ rating, avatar, price, product }) => (
       <StarRatingComponent
         className='product-info__rating'
         name='rate1'
-        {...ratingStyle}
         starCount={starCount}
         value={rating}
         editing={false}

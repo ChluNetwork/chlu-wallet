@@ -14,9 +14,6 @@ import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
-// styles
-import './style.css'
-import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Import'
 
 class ImportWallet extends Component {
   static propTypes = {
@@ -37,7 +34,7 @@ class ImportWallet extends Component {
   onFormSubmit = () => this.props.submit('import-wallet-form')
 
   handleSubmit = ({ mnemonic: newMnemonic }) => {
-    const { wallet: { mnemonic }, toggleMnemonicExists} = this.props
+    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
 
     if (mnemonic) {
       toggleMnemonicExists({ newMnemonic: newMnemonic })
@@ -84,7 +81,6 @@ class ImportWallet extends Component {
             <ImportWalletForm onSubmit={this.handleSubmit} />
             <div className='button'>
               <Button
-                {...buttonStyle}
                 fullWidth
                 label='Import wallet'
                 className='submit-button'

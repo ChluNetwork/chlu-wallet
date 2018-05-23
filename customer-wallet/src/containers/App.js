@@ -9,8 +9,6 @@ import createStore from 'store/createStore'
 import MainLayout from './Layout/MainLayout'
 import AppLayout from './Layout/AppLayout'
 import Wallet from './Wallet'
-// styles
-import 'styles/main.css'
 
 const history = createHistory()
 // keep track of history for helpers/replace.js to work

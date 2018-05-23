@@ -10,8 +10,6 @@ import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 import { formatCurrency } from 'helpers/currencyFormat'
 // components
 import CustomerWalletFormWrapper from './CustomerWalletForm'
-// styles
-import './styles.css'
 
 class CustomerWalletPage extends Component {
   static propTypes = {

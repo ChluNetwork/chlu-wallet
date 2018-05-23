@@ -4,13 +4,10 @@ import { func } from 'prop-types'
 import { reduxForm, Field } from 'redux-form'
 // components
 import Input from 'components/Form/Input'
-// styles
-import { textFieldsStyle } from 'styles/inlineStyles/containers/Wallet/Import'
 
 const ImportWalletForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <Field
-      {...textFieldsStyle}
       placeholder='Your mnemonic here...'
       name='mnemonic'
       type='text'

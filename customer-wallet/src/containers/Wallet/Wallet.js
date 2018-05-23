@@ -12,9 +12,6 @@ import replace from 'helpers/replace'
 // components
 import Button from '@material-ui/core/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
-// styles
-import './style.css'
-import { buttonStyle } from 'styles/inlineStyles/containers/Wallet'
 // assets
 import chluLogo from 'images/svg/chlu-1.svg'
 
@@ -70,9 +67,9 @@ class UnAutorized extends Component {
             <div className='title color-main'>Earn rewards for sending and receiving payments</div>
             <div className='buttons'>
               <Link to='wallet/import'>
-                <Button {...buttonStyle}>Import Wallet</Button>
+                <Button>Import Wallet</Button>
               </Link>
-              <Button {...buttonStyle} label='Create new wallet' onClick={this.onCreateWalletClick}>
+              <Button label='Create new wallet' onClick={this.onCreateWalletClick}>
                 Create new wallet
               </Button>
             </div>

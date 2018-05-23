@@ -11,9 +11,6 @@ import { toastr } from 'react-redux-toastr'
 import fileDownload from 'js-file-download'
 // components
 import Button from '@material-ui/core/Button'
-// styles
-import './style.css'
-import { buttonStyle } from 'styles/inlineStyles/containers/Customer/settings'
 
 class Settings extends Component {
   static propTypes = {
@@ -45,13 +42,11 @@ class Settings extends Component {
             {mnemonic
               ? <div className='settings-section__buttons'>
                 <Button
-                  {...buttonStyle}
                   label='Download mnemonic'
                   onClick={this.handleDownload(mnemonic)}
                 />
                 <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
                   <Button
-                    {...buttonStyle}
                     label='Copy mnemonic'
                   />
                 </CopyToClipboard>
@@ -59,7 +54,6 @@ class Settings extends Component {
               : <div className='settings-section__buttons'>
                 <Link to='/'>
                   <Button
-                    {...buttonStyle}
                     label='Create new wallet'
                   />
                 </Link>

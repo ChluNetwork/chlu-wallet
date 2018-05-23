@@ -7,8 +7,6 @@ import Review from 'components/Review'
 import { formatCurrency } from 'helpers/currencyFormat'
 import { calculateTotalSpent } from 'helpers/transactions'
 import { get } from 'lodash'
-// styles
-import './style.css'
 
 class TransactionInfo extends Component {
 

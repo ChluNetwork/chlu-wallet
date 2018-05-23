@@ -7,8 +7,6 @@ import EditReview from './EditReview'
 import { get } from 'lodash'
 // data
 import noProduct from 'images/no-product.png'
-// styles
-import './style.css'
 
 const Review = props => {
   const {

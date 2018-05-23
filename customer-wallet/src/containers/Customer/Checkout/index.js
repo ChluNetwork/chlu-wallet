@@ -10,13 +10,6 @@ import ProductSection from './sections/ProductSection'
 import CircularProgress from '@material-ui/core/CircularProgress';
 // helpers
 import replace from 'helpers/replace'
-// styles
-import './styles.css'
-import styles from 'styles/inlineStyles/containers/Customer/checkout'
-import { withStyles } from '@material-ui/core';
-
-const { buttonStyle, buttonLabelStyle } = styles
-const StyledButton = withStyles(buttonStyle)(Button)
 
 class Checkout extends Component {
   componentDidMount() {
@@ -46,9 +39,9 @@ class Checkout extends Component {
                       <div className='payment-label'>Payment Method</div>
                       <PaySection />
                       <div className='checkout-vendor__button'>
-                        <StyledButton onClick={() => replace('/customer/wallet')} fullWidth>
-                          <span style={buttonLabelStyle}>Continue</span>
-                        </StyledButton>
+                        <Button onClick={() => replace('/customer/wallet')} fullWidth>
+                          <span>Continue</span>
+                        </Button>
                       </div>
                   </div>
                 )

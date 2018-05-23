@@ -11,8 +11,6 @@ import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
 // components
 import TransactionInfo from './TransactionInfo'
-// styles
-import './style.css'
 
 class RecentTransaction extends Component {
   static propTypes = {
