@@ -25,6 +25,10 @@ const titleStyle = {
     alignItems: 'center'
 }
 
+const imgStyle = {
+    maxWidth: '150px'
+}
+
 function ChluAppBar({
     toggleDrawer,
     profile,
@@ -41,7 +45,7 @@ function ChluAppBar({
                 <MenuIcon />
             </IconButton>
             <div style={titleStyle}>
-                <img src={chluLogo} className='navbar-logo' alt='logo' />
+                <img style={imgStyle} src={chluLogo} className='navbar-logo' alt='logo' />
             </div>
             <SwitchUserMenu
                 items={usersType}
