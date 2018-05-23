@@ -10,8 +10,6 @@ import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
 import withFxRates from '../../../Hoc/withFxRates'
 // components
 import TransactionItem from './TransactionItem/index'
-// styles
-import './style.css'
 
 class TransactionHistory extends Component {
   static propTypes = {

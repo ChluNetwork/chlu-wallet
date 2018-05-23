@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { getChluIPFS } from '../../helpers/ipfs';
 
 export default function WithChluIPFS(type) {

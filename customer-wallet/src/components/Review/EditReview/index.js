@@ -2,12 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import EditReviewForm from 'containers/Customer/Transactions/RecentTransactions/EditReviewForm'
-import RaisedButton from 'material-ui/RaisedButton'
-import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
+import Button from '@material-ui/core/Button'
 // actions
 import { submitEditedReview , cancelEditReview, editReview } from 'store/modules/data/reviews'
-// constants
-const { submitBtnStyle } = styles
 
 const EditReview = props => {
   const {
@@ -30,8 +27,7 @@ const EditReview = props => {
       }}
       isLoading={loading}
     />}
-    {review.editable && editing !== multihash && <RaisedButton
-      {...submitBtnStyle}
+    {review.editable && editing !== multihash && <Button
       label='Edit'
       onClick={() => showEditForm(multihash)}
       disabled={!!editing}

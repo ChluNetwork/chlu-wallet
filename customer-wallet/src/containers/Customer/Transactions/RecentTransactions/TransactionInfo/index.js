@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import { string, object, func } from 'prop-types'
 import moment from 'moment'
-// components
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Review from 'components/Review'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 import { calculateTotalSpent } from 'helpers/transactions'
 import { get } from 'lodash'
-// styles
-import './style.css'
 
 class TransactionInfo extends Component {
 
@@ -19,7 +16,7 @@ class TransactionInfo extends Component {
         convertSatoshiToBits: func,
         convertFromBitsToUsd: func
     }
-        
+
     render () {
         const {
             transaction,
@@ -37,7 +34,7 @@ class TransactionInfo extends Component {
         const date = moment(transaction.received).calendar()
         const reviewIsUpdate = Boolean(review && review.last_version_multihash)
         const reviewDate = reviewIsUpdate ? null : date
-        
+
         return (
             <div className='transaction__info'>
                 <div className='field'>
@@ -80,12 +77,12 @@ class TransactionInfo extends Component {
                                   editable={true}
                               />
                         ) : <div className='field-not-chlu'>Not a Chlu transaction</div>
-                    } 
+                    }
                 </div>
             </div>
         )
     }
 
-}    
+}
 
 export default TransactionInfo

@@ -6,10 +6,6 @@ import { formatCurrency } from 'helpers/currencyFormat'
 import moment from 'moment'
 // components
 import StarRatingComponent from 'react-star-rating-component'
-// styles
-import style from 'styles/inlineStyles/containers/Vendor/profile'
-// constants
-const { ratingStyle } = style
 
 const starCount = 5
 
@@ -28,7 +24,6 @@ const Review = ({ transaction, review, convertSatoshiToBTC, convertFromBtcToUsd,
           </div>
         </div>
         {review ? (review.loading ? '...' : <StarRatingComponent
-          {...ratingStyle}
           name='rate3'
           starCount={starCount}
           value={get(review, 'rating', 0)}

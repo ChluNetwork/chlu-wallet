@@ -5,15 +5,12 @@ import { connect } from 'react-redux'
 // helpers
 import get from 'lodash/get'
 // libs
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toastr } from 'react-redux-toastr'
 import fileDownload from 'js-file-download'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
-// styles
-import './style.css'
-import { buttonStyle } from 'styles/inlineStyles/containers/Customer/settings'
+import Button from '@material-ui/core/Button'
 
 class Settings extends Component {
   static propTypes = {
@@ -44,22 +41,19 @@ class Settings extends Component {
             }
             {mnemonic
               ? <div className='settings-section__buttons'>
-                <RaisedButton
-                  {...buttonStyle}
+                <Button
                   label='Download mnemonic'
                   onClick={this.handleDownload(mnemonic)}
                 />
                 <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-                  <RaisedButton
-                    {...buttonStyle}
+                  <Button
                     label='Copy mnemonic'
                   />
                 </CopyToClipboard>
               </div>
               : <div className='settings-section__buttons'>
                 <Link to='/'>
-                  <RaisedButton
-                    {...buttonStyle}
+                  <Button
                     label='Create new wallet'
                   />
                 </Link>

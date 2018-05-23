@@ -4,18 +4,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getCheckout } from 'store/modules/data/checkout'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from '@material-ui/core/Button'
 import PaySection from './sections/PaySection'
 import ProductSection from './sections/ProductSection'
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 // helpers
 import replace from 'helpers/replace'
-// styles
-import './styles.css'
-import styles from 'styles/inlineStyles/containers/Customer/checkout'
-
-const { buttonStyle } = styles
-
 
 class Checkout extends Component {
   componentDidMount() {
@@ -45,16 +39,12 @@ class Checkout extends Component {
                       <div className='payment-label'>Payment Method</div>
                       <PaySection />
                       <div className='checkout-vendor__button'>
-                        <RaisedButton
-                          {...buttonStyle}
-                          label='Continue'
-                          fullWidth={true}
-                          onClick={() => replace('/customer/wallet')}
-                        />
+                        <Button onClick={() => replace('/customer/wallet')} fullWidth>
+                          <span>Continue</span>
+                        </Button>
                       </div>
                   </div>
                 )
-            
           }
         </div>
       </div>

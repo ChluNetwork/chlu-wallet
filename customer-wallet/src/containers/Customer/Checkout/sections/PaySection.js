@@ -1,33 +1,28 @@
 import React from 'react'
-// components
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 // assets
 import { buttonsData } from '../assets/data'
-// styles
-import styles from 'styles/inlineStyles/containers/Customer/checkout'
-// constants
-const { radioButtonStyle } = styles
+import { FormControlLabel } from '@material-ui/core';
 
 const Product = () => {
   const selectedRadio = buttonsData[0].value ? buttonsData[0].value : null
 
   return (
     <div className='payment section-content'>
-      <RadioButtonGroup
+      <RadioGroup
         name='payment-method'
-        defaultSelected={selectedRadio}
-        onChange={() => null }
+        value={selectedRadio}
       >
         {buttonsData.map(({ icon, label, disabled, value }, idx) => (
-          <RadioButton
+          <FormControlLabel
+            control={<Radio className='payment-item container-border-bottom'/>}
             key={idx}
-            {...radioButtonStyle}
             value={value}
             label={label}
-            className='payment-item container-border-bottom'
           />
         ))}
-      </RadioButtonGroup>
+      </RadioGroup>
     </div>
   )
 }

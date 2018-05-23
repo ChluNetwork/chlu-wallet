@@ -1,12 +1,11 @@
 import React from 'react'
 import { bool, func } from 'prop-types'
-// libs
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button'
 
 const ComingSoon = ({ isOpen, hideModal }) => {
   const actions = [
-    <FlatButton
+    <Button
       label='OK'
       onClick={hideModal}
       primary

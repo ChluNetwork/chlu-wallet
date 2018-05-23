@@ -2,8 +2,6 @@ import React from 'react'
 // components
 import CustomerWallet from 'containers/Customer/CustomerWallet'
 import VendorWallet from 'containers/Vendor/VendorWallet'
-// styles
-import './styles.css'
 
 const Demo = () => (
   <div className='demo'>

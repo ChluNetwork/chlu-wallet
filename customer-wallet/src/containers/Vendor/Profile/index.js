@@ -14,8 +14,6 @@ import { get } from 'lodash'
 // components
 import ProfileHeader from './sections/HeaderSection'
 import Review from './sections/Review'
-// styles
-import './styles.css'
 
 class Profile extends Component {
   static propTypes = {

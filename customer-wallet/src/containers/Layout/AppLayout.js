@@ -1,23 +1,19 @@
 import React from 'react'
-import { any, func, bool, string } from 'prop-types'
+import { any, func, bool, string, object } from 'prop-types'
+import { Route, Switch, Redirect } from 'react-router'
 // redux
 import { connect } from 'react-redux'
 import { toggleDrawer } from 'store/modules/ui/drawer'
-import { changeUserType } from 'store/modules/data/profile'
-import { toggleSwitchUserMenuShow } from 'store/modules/ui/switchUserMenu'
 // components
-import AppBar from 'material-ui/AppBar'
 import Drawer from 'components/Drawer'
-import CircularProgress from 'material-ui/CircularProgress'
-import SwitchUserMenu from './SwitchUserMenu'
-// data
-import usersType from 'fixtures/usersType'
-// styles
-import style from 'styles/inlineStyles/containers/MainLayout'
-// assets
-import chluLogo from 'images/svg/chlu-2.svg'
-
-const { circularProgressStyle, AppBarStyle } = style
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ChluAppBar from './AppBar'
+// routes
+import ClaimReputation from '../ClaimReputation'
+import Customer from '../Customer'
+import Vendor from '../Vendor'
+import NotFound from '../../components/NotFound'
+import Demo from '../Demonstrator/Demo'
 
 const AppLayout = ({
   children,
@@ -28,29 +24,28 @@ const AppLayout = ({
   isSwitchUserMenuOpen,
   toggleSwitchUserMenuShow
 }) => {
-  const { loading, data, error } = profile
-  const userType = data ? data.userType : ''
+  const { loading, error } = profile
 
   return (
     <div>
-      {loading ? <CircularProgress {...circularProgressStyle} /> : error
+      {loading ? <CircularProgress/> : error
         ? 'Something went wrong'
         : <div>
+          <ChluAppBar />
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
-          <AppBar
-            title={<img src={chluLogo} className='navbar-logo' alt='logo' />}
-            {...AppBarStyle}
-            onLeftIconButtonTouchTap={toggleDrawer}
-            iconElementRight={<SwitchUserMenu
-              items={usersType}
-              userType={userType}
-              isOpen={isSwitchUserMenuOpen}
-              onRequestChange={toggleSwitchUserMenuShow}
-              onItemClick={changeUserType}
-            />}
-          >
-          </AppBar>
-          {children}
+          <Switch>
+            <Route path='/claim' component={ClaimReputation} />
+            <Route path='/customer' component={Customer} />
+            <Route path='/vendor' component={Vendor} />>
+            <Route path='/demonstrator'>
+              <Switch>
+                <Route path='/demonstrator/demo' component={Demo} />
+                <Redirect exact from='/demonstrator' to='/demonstrator/demo' />
+              </Switch>
+            </Route>
+            <Redirect exact from='/' to='/wallet' />
+            <Route component={NotFound} status={404} />
+          </Switch>
         </div>
       }
     </div>
@@ -59,6 +54,7 @@ const AppLayout = ({
 
 AppLayout.propTypes = {
   children: any,
+  classes: object.isRequired,
   toggleDrawer: func,
   drawerOpen: bool,
   changeUserType: func,
@@ -69,14 +65,11 @@ AppLayout.propTypes = {
 
 const mapStateToProps = state => ({
   drawerOpen: state.ui.drawer.open,
-  profile: state.data.profile,
-  isSwitchUserMenuOpen: state.ui.switchUserMenu.isOpen
+  profile: state.data.profile
 })
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(toggleDrawer()),
-  changeUserType: (userType) => dispatch(changeUserType(userType)),
-  toggleSwitchUserMenuShow: () => dispatch(toggleSwitchUserMenuShow())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppLayout)

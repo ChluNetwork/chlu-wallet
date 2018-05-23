@@ -1,7 +1,7 @@
 import React from 'react'
 // libs
 import { string, number, func } from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 

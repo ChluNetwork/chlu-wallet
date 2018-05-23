@@ -9,8 +9,7 @@ import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
 // libs
 import { round, isEmpty } from 'lodash'
-// components
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomerWalletForm from './CustomerWalletForm'
 import ComingSoonModal from 'components/Modals/ComingSoonModal'
 // Hoc

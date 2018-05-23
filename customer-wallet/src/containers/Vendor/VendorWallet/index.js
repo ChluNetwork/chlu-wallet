@@ -14,12 +14,7 @@ import WithChluIPFS from 'containers/Hoc/WithChluIPFS';
 import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // components
 import ReviewsList from './ReviewsList'
-import Avatar from 'material-ui/Avatar'
-// styles
-import './styles.css'
-import style from 'styles/inlineStyles/containers/Vendor/vendorWallet'
-// constants
-const { avatarStyle } = style
+import Avatar from '@material-ui/core/Avatar'
 
 class VendorWallet extends Component {
   static propTypes = {
@@ -74,10 +69,7 @@ class VendorWallet extends Component {
            <div className='section-name color-light'>
              <div className='name'>Vendor Wallet</div>
              <div className='avatar'>
-               <Avatar
-                 {...avatarStyle}
-                 size={40}
-               >
+               <Avatar size={40}>
                  {get(profileData, 'name', 'c')[0].toUpperCase()}
                </Avatar>
              </div>

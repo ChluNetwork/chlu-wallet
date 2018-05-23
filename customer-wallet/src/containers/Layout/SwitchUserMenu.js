@@ -1,18 +1,13 @@
 import React from 'react'
 import { array, bool, func, string } from 'prop-types'
-// components
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import SwapHoriz from 'material-ui/svg-icons/action/swap-horiz'
-import IconButton from 'material-ui/IconButton'
-// styles
-import style from 'styles/inlineStyles/containers/MainLayout'
-// constants
-const { switchUser: { iconStyle, getStyle } } = style
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import SwapHoriz from '@material-ui/icons/SwapHoriz'
+import IconButton from '@material-ui/core/IconButton'
 
 const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userType }) => (
-  <IconMenu
-    iconButtonElement={<IconButton {...iconStyle}><SwapHoriz /></IconButton>}
+  <Menu
+    iconButtonElement={<IconButton><SwapHoriz /></IconButton>}
     open={isOpen}
     onRequestChange={onRequestChange}
   >
@@ -23,11 +18,11 @@ const SwitchUserMenu = ({ items, isOpen, onRequestChange, onItemClick, userType 
           primaryText={user}
           onClick={() => onItemClick(user)}
           key={index}
-          style={getStyle(user === userType)}
+          classes={user === userType ? ['active'] : ['root']}
         />
       )
     }
-  </IconMenu>
+  </Menu>
 )
 
 SwitchUserMenu.propType = {

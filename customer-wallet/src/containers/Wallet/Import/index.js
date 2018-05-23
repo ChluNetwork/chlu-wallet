@@ -7,16 +7,15 @@ import { setMnemonic } from 'store/modules/data/wallet'
 // helpers
 import get from 'lodash/get'
 import replace from 'helpers/replace'
+import { loginDestination } from '../Wallet'
 // libs
 import { submit } from 'redux-form'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import WalletPaper from '../Paper'
+import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
-// styles
-import './style.css'
-import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Import'
 
 class ImportWallet extends Component {
   static propTypes = {
@@ -37,7 +36,7 @@ class ImportWallet extends Component {
   onFormSubmit = () => this.props.submit('import-wallet-form')
 
   handleSubmit = ({ mnemonic: newMnemonic }) => {
-    const { wallet: { mnemonic }, toggleMnemonicExists} = this.props
+    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
 
     if (mnemonic) {
       toggleMnemonicExists({ newMnemonic: newMnemonic })
@@ -55,7 +54,7 @@ class ImportWallet extends Component {
     if (importFromMnemonic) {
       toastr.success('success', 'Import mnemonic success')
       console.log('importFromMnemonic__', importFromMnemonic)
-      replace('/customer')
+      replace(loginDestination)
     } else {
       toastr.error('failed', 'Import mnemonic failed')
     }
@@ -63,7 +62,7 @@ class ImportWallet extends Component {
 
   onImportCancel = () => {
     this.props.toggleMnemonicExists()
-    replace('/customer')
+    replace(loginDestination)
   }
 
   onImportContinue = () => {
@@ -76,29 +75,17 @@ class ImportWallet extends Component {
     const { mnemonicExistsModal: { isOpen } } = this.props
 
     return (
-      <div className='page-container import'>
-        <div className='container import-header color-light font-weight-bold'>Import Wallet</div>
-        <div className='section-content'>
-          <div className='container'>
-            <div className='title color-main'>Enter your mnemonic to import your BTC wallet</div>
-            <ImportWalletForm onSubmit={this.handleSubmit} />
-            <div className='button'>
-              <RaisedButton
-                {...buttonStyle}
-                fullWidth
-                label='Import wallet'
-                className='submit-button'
-                onClick={this.onFormSubmit}
-              />
-            </div>
-          </div>
-        </div>
+      <WalletPaper>
+        <ImportWalletForm onSubmit={this.handleSubmit} />
+        <Button variant='raised' color='primary' fullWidth onClick={this.onFormSubmit}>
+          Import wallet
+        </Button>
         <MnemonicExistsModal
           isOpen={isOpen}
           handleCancel={this.onImportCancel}
           handleContinue={this.onImportContinue}
         />
-      </div>
+      </WalletPaper>
     )
   }
 }

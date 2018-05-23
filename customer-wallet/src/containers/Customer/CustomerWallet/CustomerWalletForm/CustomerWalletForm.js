@@ -8,25 +8,13 @@ import { connect } from 'react-redux'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
-import Avatar from 'material-ui/Avatar'
+import Button from '@material-ui/core/Button'
+import Avatar from '@material-ui/core/Avatar'
 import Input from 'components/Form/Input'
-import Select from 'components/Form/Select'
+import CustomSelect from 'components/Form/CustomSelect'
 import Checkbox from 'components/Form/Checkbox'
 import StarRatingComponent from 'react-star-rating-component'
-import CheckIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
-// styles
-import styles from 'styles/inlineStyles/containers/Customer/customerWallet'
-// constants
-const {
-  submitBtnStyle,
-  avatarStyle,
-  getCheckboxStyle,
-  textFieldsStyle,
-  VendorAddressInputStyle,
-  ratingStyle,
-  switchPaymentBtnStyle
-} = styles
+import CheckIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 
 const starCount = 5
 
@@ -51,17 +39,13 @@ const CustomerWalletForm = ({
   <form onSubmit={handleSubmit} className='form color-main'>
     <div className='container'>
       <div className='payment-switch-buttons m-b-35'>
-        <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
+        <Button
             label={'Pay by Crypto'}
             onClick={switchPaymentType}
             className='submit-button'
             disabled={!isCreditCardPayment}
         />
-        <RaisedButton
-            {...switchPaymentBtnStyle}
-            type='button'
+        <Button
             label={'Pay by MasterCard'}
             onClick={switchPaymentType}
             className='submit-button'
@@ -72,9 +56,8 @@ const CustomerWalletForm = ({
         <div className='label font-smaller color-light'>Your Address</div>
         <div className='your-address__wrapper'>
           <Field
-              {...textFieldsStyle}
               name='fromAddress'
-              component={Select}
+              component={CustomSelect}
               value={activeAddress}
               options={ownAddresses.map((address) => ({ value: address, label: address }))}
               handleChange={handleChangeAddress}
@@ -83,19 +66,12 @@ const CustomerWalletForm = ({
         <div className='vendor-address'>
           <div className='vendor-address__label label font-smaller color-light'>Vendor Address</div>
           <Field
-              {...textFieldsStyle}
               name='toAddress'
               type='text'
-              component={Input}
-              inputStyle={VendorAddressInputStyle}
+              component={<Input/>}
           />
           <div className='vendor-address__avatar'>
-            <Avatar
-                {...avatarStyle}
-                size={40}
-            >
-              A
-            </Avatar>
+            <Avatar size={40}>A</Avatar>
           </div>
         </div>
         <div className='payment-currency'>
@@ -119,16 +95,13 @@ const CustomerWalletForm = ({
       {isCreditCardPayment && <div className='fields-wrapper'>
         <div className='label font-smaller color-light'>Cardholder Name</div>
         <Field
-            {...textFieldsStyle}
             name='cardholderName'
             type='text'
             component={Input}
             fullWidth
         />
-
         <div className='label font-smaller color-light'>Card Number</div>
         <Field
-            {...textFieldsStyle}
             name='cardNumber'
             type='text'
             component={Input}
@@ -136,7 +109,6 @@ const CustomerWalletForm = ({
         />
         <div className='label font-smaller color-light'>Expiry Date</div>
         <Field
-            {...textFieldsStyle}
             name='expDate'
             type='text'
             component={Input}
@@ -144,7 +116,6 @@ const CustomerWalletForm = ({
         />
         <div className='label font-smaller color-light'>CV</div>
         <Field
-            {...textFieldsStyle}
             name='cvv'
             type='text'
             component={Input}
@@ -157,7 +128,6 @@ const CustomerWalletForm = ({
         <div className='review'>
           <div className='review-fields'>
             <Field
-                {...getCheckboxStyle(isReviewOpen)}
                 label='Write a review now'
                 name='reviewOpen'
                 component={Checkbox}
@@ -166,7 +136,6 @@ const CustomerWalletForm = ({
             {isReviewOpen &&
              <div>
                <StarRatingComponent
-                   {...ratingStyle}
                    className='review-rating'
                    name='rating'
                    starCount={starCount}
@@ -175,7 +144,6 @@ const CustomerWalletForm = ({
                />
                <div className='comment-label label font-smaller color-light'>Comment</div>
                <Field
-                   {...textFieldsStyle}
                    name='review'
                    type='text'
                    component={Input}
@@ -188,8 +156,7 @@ const CustomerWalletForm = ({
     </div>
     <div className='button-container'>
       <div className='container'>
-        <RaisedButton
-          {...submitBtnStyle}
+        <Button
           type='submit'
           label={isDisabledSubmit || isUndefined(amountBtc) ? 'Pay' : `Pay ${amountBtc} bits`}
           className='submit-button'

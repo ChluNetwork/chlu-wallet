@@ -6,15 +6,15 @@ import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
 import { setWalletCreated, setSaveMnemonic } from 'store/modules/components/CreateWallet'
 // helpers
 import replace from 'helpers/replace'
+import { loginDestination } from '../Wallet'
 // libs
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
 // components
-import RaisedButton from 'material-ui/RaisedButton'
+import WalletPaper from '../Paper'
+import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
-// styles
-import { buttonStyle } from 'styles/inlineStyles/containers/Wallet/Create'
-import './style.css'
+import { Grid } from '@material-ui/core';
 
 class CreateWallet extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class CreateWallet extends Component {
   }
 
   moveToTheWallet = () => {
-    replace('/customer')
+    replace(loginDestination)
   }
 
   handleCopy = (data) => {
@@ -90,41 +90,35 @@ class CreateWallet extends Component {
       wallet: { createWallet: { mnemonic } }
     } = this.props
 
-    return (
-      <div className='page-container create'>
-        <div className='container create-header color-light font-weight-bold'>Create Wallet</div>
-        <div className='section-content container-border-top container-border-bottom color-main'>
-          <div className='container title'>Save your mnemonic</div>
-          <div className='container mnemonic'>{mnemonic}</div>
-          <div className='buttons'>
-            <RaisedButton
-              {...buttonStyle}
-              label='Download mnemonic'
-              onClick={this.handleDownload(mnemonic)}
-            />
-            <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-              <RaisedButton
-                {...buttonStyle}
-                label='Copy mnemonic'
-              />
-            </CopyToClipboard>
-          </div>
-        </div>
-        <div className='container create-footer'>
+    return <WalletPaper>
+      <Grid container spacing={24}>
+        <Grid item xs={12}>{mnemonic}</Grid>
+        <Grid item xs={12} md={6}>
+          <Button fullWidth variant='raised' color='primary' onClick={this.handleDownload(mnemonic)}>
+            Download Mnemonic
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
+            <Button fullWidth variant='raised' color='secondary'>
+              Copy Mnemonic
+            </Button>
+          </CopyToClipboard>
+        </Grid>
+        <Grid item xs={12}>
           {(mnemonicSaved && walletCreated)
-            ? <RaisedButton
+            ? <Button
               label='Go to wallet'
               fullWidth
               onClick={this.moveToTheWallet}
-            />
-            : <RaisedButton
-              label='Create wallet'
+            >Go to wallet</Button>
+            : <Button
               fullWidth
               onClick={this.createWallet}
-            />}
-        </div>
-      </div>
-    )
+            >Create wallet</Button>}
+        </Grid>
+      </Grid>
+    </WalletPaper>
   }
 }
 
