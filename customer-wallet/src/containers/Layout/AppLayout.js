@@ -9,6 +9,7 @@ import Drawer from 'components/Drawer'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ChluAppBar from './AppBar'
 // routes
+import ClaimReputation from '../ClaimReputation'
 import Customer from '../Customer'
 import Vendor from '../Vendor'
 import NotFound from '../../components/NotFound'
@@ -30,9 +31,10 @@ const AppLayout = ({
       {loading ? <CircularProgress/> : error
         ? 'Something went wrong'
         : <div>
-          <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <ChluAppBar />
+          <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <Switch>
+            <Route path='/claim' component={ClaimReputation} />
             <Route path='/customer' component={Customer} />
             <Route path='/vendor' component={Vendor} />>
             <Route path='/demonstrator'>
