@@ -7,6 +7,8 @@ import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction'
 // toastr
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+// styles
+import './style.css'
 
 const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
 

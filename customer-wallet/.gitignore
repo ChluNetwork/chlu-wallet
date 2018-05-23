@@ -25,5 +25,4 @@ yarn-error.log*
 .yarn-cache
 .DS_STORE
 dist
-src/**/*.css
 .emacs.desktop*
