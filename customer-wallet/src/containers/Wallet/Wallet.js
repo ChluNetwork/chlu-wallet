@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
 // assets
 import chluLogo from 'images/svg/chlu-1.svg'
-import { Paper, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 class LoginPage extends Component {
   static propTypes = {
@@ -29,9 +29,7 @@ class LoginPage extends Component {
   }
 
   componentDidMount () {
-      console.log('ahha1')
     if (localStorage.getItem('mnemonic_key')) {
-      console.log('ahha')
       replace('/customer')
     }
     this.props.updateMnemonic()
