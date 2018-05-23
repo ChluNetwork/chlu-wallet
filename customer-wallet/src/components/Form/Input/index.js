@@ -1,35 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import cn from 'classnames'
-// components
-import TextField from '@material-ui/core/TextField'
+import { withStyles, TextField } from '@material-ui/core';
 
-const Input = ({ input, label, type, placeholder, meta: { touched, error }, onChange, readOnly, ...others }) => {
-  const inputOnChange = (e) => {
-    input.onChange(e)
-    onChange && onChange(e.target.value)
-  }
+
+function FormInput(props) {
+  const { input, meta: { touched, error }, ...others } = props
   const hasError = touched && error
 
-  return (
-    <div className={cn('form-field m-b-10', { 'has-error': hasError })}>
-      <span className='input-label'>{label}</span>
-      <div className='input-wrapper'>
-        <TextField
-          {...input}
-          {...others}
-          onChange={inputOnChange}
-          placeholder={placeholder}
-          type={type}
-          readOnly={readOnly}
-          errorText={hasError ? error : undefined}
-        />
-      </div>
-    </div>
-  )
+  return <TextField
+    error={hasError && error}
+    {...input}
+    {...others}
+  />
 }
 
-Input.propTypes = {
+FormInput.propTypes = {
   input: PropTypes.object,
   label: PropTypes.string,
   type: PropTypes.string,
@@ -39,4 +24,4 @@ Input.propTypes = {
   readOnly: PropTypes.bool
 }
 
-export default Input
+export default withStyles({})(FormInput)

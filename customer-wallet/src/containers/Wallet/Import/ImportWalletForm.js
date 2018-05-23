@@ -1,9 +1,8 @@
 import React from 'react'
 import { func } from 'prop-types'
+import FormInput from 'components/Form/Input'
 // libs
 import { reduxForm, Field } from 'redux-form'
-// components
-import Input from 'components/Form/Input'
 
 const ImportWalletForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
@@ -11,8 +10,9 @@ const ImportWalletForm = ({ handleSubmit }) => (
       placeholder='Your mnemonic here...'
       name='mnemonic'
       type='text'
-      component={Input}
       multiLine
+      fullWidth
+      component={FormInput}
     />
   </form>
 )

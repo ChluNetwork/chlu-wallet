@@ -10,12 +10,14 @@ import { updateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // components
+import WalletPaper from './Paper'
 import Button from '@material-ui/core/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
 // assets
 import chluLogo from 'images/svg/chlu-1.svg'
+import { Paper, Grid } from '@material-ui/core';
 
-class UnAutorized extends Component {
+class LoginPage extends Component {
   static propTypes = {
     wallet: shape({
       mnemonic: string,
@@ -27,7 +29,9 @@ class UnAutorized extends Component {
   }
 
   componentDidMount () {
+      console.log('ahha1')
     if (localStorage.getItem('mnemonic_key')) {
+      console.log('ahha')
       replace('/customer')
     }
     this.props.updateMnemonic()
@@ -57,30 +61,35 @@ class UnAutorized extends Component {
       mnemonicExistsModal: { isOpen }
     } = this.props
 
+    const logoStyle = {
+      display: 'block',
+      margin: 'auto',
+      maxWidth: '300px'
+    }
+
     return (
-      <div className='page-container wallet'>
-        <div className='container wallet-header'>
-          <img src={chluLogo} className='logo' alt='Chlu' /> Your Decentralized Reputation Wallet
-        </div>
-        <div className='section-content container-border-top container-border-bottom'>
-          <div className='container'>
-            <div className='title color-main'>Earn rewards for sending and receiving payments</div>
-            <div className='buttons'>
-              <Link to='wallet/import'>
-                <Button>Import Wallet</Button>
-              </Link>
-              <Button label='Create new wallet' onClick={this.onCreateWalletClick}>
-                Create new wallet
-              </Button>
-            </div>
-          </div>
-        </div>
+      <WalletPaper>
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <img src={chluLogo} style={logoStyle} alt='Chlu' />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Link to='wallet/import'>
+              <Button fullWidth variant='raised' color='primary'>Import Distributed Identity</Button>
+            </Link>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Button fullWidth variant='raised' color='secondary' onClick={this.onCreateWalletClick}>
+              Create new Identity
+            </Button>
+          </Grid>
+        </Grid>
         <MnemonicExistsModal
           isOpen={isOpen}
           handleCancel={this.onModalClose}
           handleContinue={this.onModalSubmit}
         />
-      </div>
+      </WalletPaper>
     )
   }
 }
@@ -95,4 +104,4 @@ const mapDispatchToProps = {
   updateMnemonic
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UnAutorized)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

@@ -10,6 +10,7 @@ import replace from 'helpers/replace'
 // libs
 import { submit } from 'redux-form'
 // components
+import WalletPaper from '../Paper'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
@@ -73,28 +74,17 @@ class ImportWallet extends Component {
     const { mnemonicExistsModal: { isOpen } } = this.props
 
     return (
-      <div className='page-container import'>
-        <div className='container import-header color-light font-weight-bold'>Import Wallet</div>
-        <div className='section-content'>
-          <div className='container'>
-            <div className='title color-main'>Enter your mnemonic to import your BTC wallet</div>
-            <ImportWalletForm onSubmit={this.handleSubmit} />
-            <div className='button'>
-              <Button
-                fullWidth
-                label='Import wallet'
-                className='submit-button'
-                onClick={this.onFormSubmit}
-              />
-            </div>
-          </div>
-        </div>
+      <WalletPaper>
+        <ImportWalletForm onSubmit={this.handleSubmit} />
+        <Button variant='raised' color='primary' fullWidth onClick={this.onFormSubmit}>
+          Import wallet
+        </Button>
         <MnemonicExistsModal
           isOpen={isOpen}
           handleCancel={this.onImportCancel}
           handleContinue={this.onImportContinue}
         />
-      </div>
+      </WalletPaper>
     )
   }
 }

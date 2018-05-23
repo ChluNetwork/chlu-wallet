@@ -7,7 +7,7 @@ import Wallet from './Wallet'
 export default function WalletRouter(props) {
   return <Switch>
     <Route path='/wallet/create' component={CreateWallet} />
-    <Route path='/wallet/import' components={ImportWallet} />
+    <Route path='/wallet/import' component={ImportWallet} />
     <Route path='/wallet' component={Wallet} />
   </Switch>
 }
