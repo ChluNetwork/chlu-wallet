@@ -30,7 +30,7 @@ class LoginPage extends Component {
 
   componentDidMount () {
     if (localStorage.getItem('mnemonic_key')) {
-      replace('/customer')
+      replace(loginDestination)
     }
     this.props.updateMnemonic()
   }
@@ -101,5 +101,7 @@ const mapDispatchToProps = {
   toggleMnemonicExists,
   updateMnemonic
 }
+
+export const loginDestination = '/claim'
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

@@ -7,6 +7,7 @@ import { setMnemonic } from 'store/modules/data/wallet'
 // helpers
 import get from 'lodash/get'
 import replace from 'helpers/replace'
+import { loginDestination } from '../Wallet'
 // libs
 import { submit } from 'redux-form'
 // components
@@ -53,7 +54,7 @@ class ImportWallet extends Component {
     if (importFromMnemonic) {
       toastr.success('success', 'Import mnemonic success')
       console.log('importFromMnemonic__', importFromMnemonic)
-      replace('/customer')
+      replace(loginDestination)
     } else {
       toastr.error('failed', 'Import mnemonic failed')
     }
@@ -61,7 +62,7 @@ class ImportWallet extends Component {
 
   onImportCancel = () => {
     this.props.toggleMnemonicExists()
-    replace('/customer')
+    replace(loginDestination)
   }
 
   onImportContinue = () => {

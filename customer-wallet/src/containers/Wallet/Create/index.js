@@ -6,6 +6,7 @@ import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
 import { setWalletCreated, setSaveMnemonic } from 'store/modules/components/CreateWallet'
 // helpers
 import replace from 'helpers/replace'
+import { loginDestination } from '../Wallet'
 // libs
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import fileDownload from 'js-file-download'
@@ -65,7 +66,7 @@ class CreateWallet extends Component {
   }
 
   moveToTheWallet = () => {
-    replace('/customer')
+    replace(loginDestination)
   }
 
   handleCopy = (data) => {
