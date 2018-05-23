@@ -2,8 +2,10 @@ import { ratingColor, blue, mainColor, backgroundColorDark, borderColorDark, lig
 
 export default {
   submitBtnStyle: {
-    backgroundColor: ratingColor,
-    labelColor: 'rgb(255, 255, 255)'
+    root: {
+      backgroundColor: ratingColor,
+      labelColor: 'rgb(255, 255, 255)'
+    }
   },
   switchPaymentBtnStyle: {
     backgroundColor: lightTextColor,
@@ -14,13 +16,19 @@ export default {
     backgroundColor: backgroundColorDark,
     style: { border: `1px solid ${borderColorDark}` }
   },
-  getCheckboxStyle: isActive => ({
-    iconStyle: { fill: isActive ? blue : mainColor }
-  }),
+  checkboxIconStyle: {
+    root: {
+      fill: mainColor
+    },
+    active: {
+      fill: blue
+    }
+  },
   textFieldsStyle: {
-    fullWidth: true,
-    underlineFocusStyle: { borderColor: mainColor },
-    floatingLabelStyle: { color: blue }
+    root: {
+      underlineFocusStyle: { borderColor: mainColor },
+      floatingLabelStyle: { color: blue }
+    }
   },
   VendorAddressInputStyle: { paddingRight: '45px' },
   ratingStyle:{ starColor: ratingColor }

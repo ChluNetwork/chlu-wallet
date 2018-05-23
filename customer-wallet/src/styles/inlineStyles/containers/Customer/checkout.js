@@ -13,8 +13,12 @@ export default {
     color: mainTextColor,
   },
   radioButtonStyle: {
-    style: { padding: '20px' },
-    iconStyle: { fill: borderColor }
+    root: { padding: '20px' },
+  },
+  radioButtonIconStyle: {
+    root: {
+      fill: borderColor
+    }
   },
   ratingStyle: { starColor: darkOrange }
 }
