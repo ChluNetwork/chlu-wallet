@@ -47,7 +47,7 @@ class Checkout extends Component {
                       <PaySection />
                       <div className='checkout-vendor__button'>
                         <StyledButton onClick={() => replace('/customer/wallet')} fullWidth>
-                          <span style={buttonLabelStyle}></span>Continue
+                          <span style={buttonLabelStyle}>Continue</span>
                         </StyledButton>
                       </div>
                   </div>
