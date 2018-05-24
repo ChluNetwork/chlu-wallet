@@ -10,10 +10,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ChluAppBar from './AppBar'
 // routes
 import ClaimReputation from '../ClaimReputation'
-import Customer from '../Customer'
-import Vendor from '../Vendor'
+import Settings from '../Settings'
 import NotFound from '../../components/NotFound'
-import Demo from '../Demonstrator/Demo'
 
 const AppLayout = ({
   children,
@@ -35,14 +33,7 @@ const AppLayout = ({
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <Switch>
             <Route path='/claim' component={ClaimReputation} />
-            <Route path='/customer' component={Customer} />
-            <Route path='/vendor' component={Vendor} />>
-            <Route path='/demonstrator'>
-              <Switch>
-                <Route path='/demonstrator/demo' component={Demo} />
-                <Redirect exact from='/demonstrator' to='/demonstrator/demo' />
-              </Switch>
-            </Route>
+            <Route path='/settings' component={Settings} />
             <Redirect exact from='/' to='/wallet' />
             <Route component={NotFound} status={404} />
           </Switch>
