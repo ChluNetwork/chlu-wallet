@@ -1,7 +1,8 @@
 import React from 'react'
 import { func, bool } from 'prop-types'
+import { connect } from 'react-redux'
 // components
-import { Link } from 'react-router-dom'
+import { push } from 'react-router-redux'
 import Drawer from '@material-ui/core/Drawer'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 // icons
@@ -10,7 +11,7 @@ import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 import PeopleIcon from '@material-ui/icons/People'
 import SettingsIcon from '@material-ui/icons/Settings'
 
-const DrawerComponent = ({ toggleDrawer, drawerOpen }) => {
+const DrawerComponent = ({ toggleDrawer, drawerOpen, push }) => {
 
   return (
     <Drawer
@@ -18,7 +19,7 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen }) => {
       open={drawerOpen}
     >
       <List component='nav'>
-        <ListItem button>
+        <ListItem button onClick={() => push('/claim')}>
           <ListItemIcon><StarIcon/></ListItemIcon>
           <ListItemText primary='My Reputation' />
         </ListItem>
@@ -30,7 +31,7 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen }) => {
           <ListItemIcon><PeopleIcon/></ListItemIcon>
           <ListItemText primary='Reputation Received' />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => push('/settings')}>
           <ListItemIcon><SettingsIcon/></ListItemIcon>
           <ListItemText primary='Settings' />
         </ListItem>
@@ -44,4 +45,13 @@ DrawerComponent.propTypes = {
   drawerOpen: bool
 }
 
-export default DrawerComponent
+function mapDispatchToProps(dispatch) {
+  return {
+    push: x => dispatch(push(x))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(DrawerComponent)
