@@ -1,27 +1,47 @@
 import React from 'react'
 import { object, string } from 'prop-types'
 // components
+import { CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core';
 import ReviewTitle from './ReviewTitle'
 import EditReview from './EditReview'
+import StarRatingComponent from 'react-star-rating-component'
 // helpers
 import { get } from 'lodash'
 // data
 import noProduct from 'images/no-product.png'
+// icons
+import ReviewIcon from '@material-ui/icons/Check'
+
+const starCount = 5
 
 const Review = props => {
   const {
     review,
     editing,
-    editable,
-    date
+    editable
   } = props
 
-   let status = (<div className='platform'>Unverified</div>)
-    if (review.error) {
-        status = (<div className='platform'>Invalid</div>)
-    } else {
-        status = (<div className='platform'>Verified </div>)
+  const hasError = Boolean(review.error)
+
+  return <div>
+    <CardHeader
+      avatar={<Avatar><ReviewIcon/></Avatar>}
+      title='Chlu Review'
+      subheader={<StarRatingComponent
+        name='rating'
+        value={review.rating}
+        starCount={starCount}
+        editing={false}
+      />}
+    />
+    <CardContent>
+      {review.review_text || '(No comment left)'}
+    </CardContent>
+    {editable && review && review.editable
+      ? <EditReview multihash={review.multihash} />
+      : null
     }
+  </div>
     
   return (
     <div className='review-item container-border-bottom'>
@@ -35,8 +55,7 @@ const Review = props => {
               {review ? 'Chlu Review' : 'Not a Chlu transaction'}
             </div>
             <div className='info-head__date color-light'>
-              <div className='date'>{date || 'Unknown Date'}</div>
-              {status}
+              <div className='date'></div>
             </div>
           </div>
         </div>
@@ -53,12 +72,6 @@ const Review = props => {
           }
         </div>
         <div className='edit-review'>
-          {editable && review && review.editable
-            ? <EditReview
-              multihash={review.multihash}
-            />
-            : null
-          }
         </div>
       </div>
     </div>
