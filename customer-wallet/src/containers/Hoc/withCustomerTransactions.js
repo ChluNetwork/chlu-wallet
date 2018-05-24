@@ -79,7 +79,7 @@ const withCustomerTransactions = (WrappedComponent) => {
 
   const mapStateToProps = store => ({
       customerTransactions: store.data.customerTransactions,
-      addresses: JSON.parse(store.data.wallet.addresses)
+      addresses: store.data.wallet.addresses
   })
 
   const mapDispatchToProps = {
