@@ -37,8 +37,7 @@
     "superagent": "^3.6.0"
   },
   "resolutions": {
-    "node-forge": "0.7.4",
-    "stable": "0.1.6"
+    "node-forge": "0.7.4"
   },
   "scripts": {
     "start": "react-scripts start",
