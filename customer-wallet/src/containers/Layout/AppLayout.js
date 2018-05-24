@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ChluAppBar from './AppBar'
 // routes
 import ClaimReputation from '../ClaimReputation'
+import Transactions from '../Transactions'
 import Settings from '../Settings'
 import NotFound from '../../components/NotFound'
 
@@ -33,6 +34,7 @@ const AppLayout = ({
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <Switch>
             <Route path='/claim' component={ClaimReputation} />
+            <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
             <Redirect exact from='/' to='/wallet' />
             <Route component={NotFound} status={404} />
