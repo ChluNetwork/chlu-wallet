@@ -10,7 +10,7 @@ const UPDATE_NEW_MNEMONIC = 'wallet/UPDATE_NEW_MNEMONIC'
 
 const initialState = {
   mnemonic: localStorage.getItem('mnemonic_key'),
-  addresses: localStorage.getItem('addresses'),
+  addresses: JSON.parse(localStorage.getItem('addresses')),
   createWallet: {
     mnemonic: null,
     addresses: []
