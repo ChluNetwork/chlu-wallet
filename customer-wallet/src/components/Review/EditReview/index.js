@@ -1,10 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import EditReviewForm from 'containers/Customer/Transactions/RecentTransactions/EditReviewForm'
+import EditReviewForm from 'containers/Transactions/EditReviewForm'
 import Button from '@material-ui/core/Button'
 // actions
 import { submitEditedReview , cancelEditReview, editReview } from 'store/modules/data/reviews'
+import { CardActions, CardContent } from '@material-ui/core';
 
 const EditReview = props => {
   const {
@@ -18,20 +19,24 @@ const EditReview = props => {
   } = props
   const review = _.find(Object.values(reviews), v => v.multihash === multihash)
   return <div>
-    {editing === multihash && <EditReviewForm
-      onSubmit={submit}
-      handleCancel={cancel}
-      initialValues={{
-        comment: review.review_text,
-        rating: review.rating
-      }}
-      isLoading={loading}
-    />}
-    {review.editable && editing !== multihash && <Button
-      label='Edit'
-      onClick={() => showEditForm(multihash)}
-      disabled={!!editing}
-    />}
+    {editing === multihash && <CardContent>
+        <EditReviewForm
+          onSubmit={submit}
+          handleCancel={cancel}
+          initialValues={{
+            comment: review.review_text,
+            rating: review.rating
+          }}
+          isLoading={loading}
+        />
+      </CardContent>}
+    {review.editable && editing !== multihash && <CardActions>
+        <Button
+          onClick={() => showEditForm(multihash)}
+          disabled={Boolean(editing)}
+        >Edit</Button>
+      </CardActions>
+    }
   </div>
 }
 

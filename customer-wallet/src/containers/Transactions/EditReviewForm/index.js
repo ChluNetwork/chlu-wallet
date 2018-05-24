@@ -7,7 +7,7 @@ import Input from 'components/Form/Input'
 import Button from '@material-ui/core/Button'
 
 const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoading, pristine, submitFailed }) => (
-  <form onSubmit={handleSubmit} className='edit-form color-main'>
+  <form onSubmit={handleSubmit}>
     <Field
       name='rating'
       component={StarRating}
@@ -19,16 +19,14 @@ const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoa
       component={Input}
       multiLine
     />
-    <div className='edit-form__buttons'>
+    <div>
       <Button
         type='submit'
         label={submitFailed ? 'Error' : (isLoading ? 'Loading...' : 'Save')}
-        className='button-item'
         disabled={isLoading || pristine || submitFailed}
       />
       <Button
         label='Cancel'
-        className='button-item'
         onClick={handleCancel}
         disabled={isLoading}
       />

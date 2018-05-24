@@ -7,10 +7,19 @@ import { compose } from 'redux'
 // helpers
 import get from 'lodash/get'
 // hoc
-import withCustomerTransactions from '../../../Hoc/withCustomerTransactions'
-import withFxRates from '../../../Hoc/withFxRates'
+import withCustomerTransactions from '../Hoc/withCustomerTransactions'
+import withFxRates from '../Hoc/withFxRates'
 // components
+import { Card, CardHeader, Avatar, withStyles } from '@material-ui/core';
 import TransactionInfo from './TransactionInfo'
+// icons
+import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+
+const styles = {
+  card: {
+    margin: '30px'
+  }
+}
 
 class RecentTransaction extends Component {
   static propTypes = {
@@ -42,7 +51,9 @@ class RecentTransaction extends Component {
 
   render() {
     const {
+      wallet,
       routeParams,
+      classes,
       customerTransactions,
       reviews,
       convertSatoshiToBTC,
@@ -51,42 +62,43 @@ class RecentTransaction extends Component {
       convertSatoshiToBits
     } = this.props
 
+    // TODO: fix the filtering based on route parameter
     const address = get(routeParams,'address', '')
-
-    const transaction = get(customerTransactions, 'data.txs', [])
+    let transactions = get(customerTransactions, 'data.txs', [])
+    let filteredTransactions = transactions
       .filter(({ addresses }) => addresses[addresses.length - 1] === address)
 
     return (
-      <div className='page-container color-main'>
-        {transaction.length
-          ? <div className='recent-transaction'>
-            <div className='section-head container'>
-              <div className='title font-weight-bold'>Recent Transaction</div>
-              <Link to='#' className='address'>{address}</Link>
-            </div>
-            <div className='section-content'>
-              <div className='container'>
-                <div className='transaction-info__wrapper'>
-                  {transaction.map((item, index) => (
-                    <TransactionInfo
-                      key={index}
-                      address={address}
-                      transaction={item}
-                      convertSatoshiToBits={convertSatoshiToBits}
-                      convertSatoshiToBTC={convertSatoshiToBTC}
-                      convertFromBtcToUsd={convertFromBtcToUsd}
-                      convertFromBitsToUsd={convertFromBitsToUsd}
-                      review={reviews.reviews[item.hash]}
-                      editing={reviews.editing}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+      <div>
+        <Card className={classes.card}>
+          <CardHeader
+            avatar={<Avatar><WalletIcon/></Avatar>}
+            title='Bitcoin Wallet (Testnet)'
+            subheader={wallet.addresses[0]}
+          />
+        </Card>
+        {transactions.length
+          ? <div>
+              {transactions.map((item, index) => (
+                <TransactionInfo
+                  key={index}
+                  address={item.addresses[0]}
+                  transaction={item}
+                  convertSatoshiToBits={convertSatoshiToBits}
+                  convertSatoshiToBTC={convertSatoshiToBTC}
+                  convertFromBtcToUsd={convertFromBtcToUsd}
+                  convertFromBitsToUsd={convertFromBitsToUsd}
+                  review={reviews.reviews[item.hash]}
+                  editing={reviews.editing}
+                />
+              ))}
           </div>
-          : <div className='container'>
-            There are no transactions with this address <span className='font-weight-bold'>({address})</span>
-          </div>
+          : <Card className={classes.card}>
+              <CardHeader
+                avatar={<Avatar>?</Avatar>}
+                title='No transactions to show'
+              />
+            </Card>
         }
       </div>
     )
@@ -94,6 +106,7 @@ class RecentTransaction extends Component {
 }
 
 const mapStateToProps = store => ({
+  wallet: store.data.wallet,
   transactionHistory: store.data.transactionHistory,
   reviews: store.data.reviews
 })
@@ -101,5 +114,6 @@ const mapStateToProps = store => ({
 export default compose(
   withFxRates,
   withCustomerTransactions,
+  withStyles(styles),
   connect(mapStateToProps)
 )(RecentTransaction)
