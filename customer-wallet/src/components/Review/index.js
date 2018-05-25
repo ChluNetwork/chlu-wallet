@@ -11,71 +11,47 @@ import { get } from 'lodash'
 import noProduct from 'images/no-product.png'
 // icons
 import ReviewIcon from '@material-ui/icons/Check'
+import ErrorIcon from '@material-ui/icons/ErrorOutline'
 
 const starCount = 5
 
 const Review = props => {
   const {
     review,
-    editing,
-    editable
+    editing
   } = props
 
   const hasError = Boolean(review.error)
 
-  return <div>
-    <CardHeader
-      avatar={<Avatar><ReviewIcon/></Avatar>}
-      title='Chlu Review'
-      subheader={<StarRatingComponent
-        name='rating'
-        value={review.rating}
-        starCount={starCount}
-        editing={false}
-      />}
+  if (hasError) {
+    return <CardHeader
+      avatar={<Avatar><ErrorIcon/></Avatar>}
+      title='Chlu Error'
+      subheader={review.error}
     />
-    <CardContent>
-      {review.review_text || '(No comment left)'}
-    </CardContent>
-    {editable && review && review.editable
-      ? <EditReview multihash={review.multihash} />
-      : null
-    }
-  </div>
-    
-  return (
-    <div className='review-item container-border-bottom'>
-      <div className='review-item__avatar'>
-        <img src={noProduct} alt='avatar' className='avatar'/>
-      </div>
-      <div className='review-item__info'>
-        <div className='info-head-wrapper'>
-          <div className='info-head'>
-            <div className='info-head__name'>
-              {review ? 'Chlu Review' : 'Not a Chlu transaction'}
-            </div>
-            <div className='info-head__date color-light'>
-              <div className='date'></div>
-            </div>
-          </div>
-        </div>
-        <div className='review-comments__list'>
-          {review && editing !== review.multihash
-            ? (review.error
-              ? <b>{review.error.message || 'Something went wrong'}</b>
-              : <ReviewTitle
-                rating={get(review, 'rating', 0)}
-                comment={get(review, 'review_text', '')}
-              />
-            )
-            : null
-          }
-        </div>
-        <div className='edit-review'>
-        </div>
-      </div>
+  } else {
+    return <div>
+      <CardHeader
+        avatar={<Avatar><ReviewIcon/></Avatar>}
+        title='Chlu Review'
+        subheader={editing === review.multihash
+          ? 'Editing in progress...'
+          : <StarRatingComponent
+            name='rating'
+            value={review.rating}
+            starCount={starCount}
+            editing={false}
+          />}
+      />
+      {editing !== review.multihash && <CardContent>
+        {review.review_text || '(No comment left)'}
+      </CardContent> }
+      {review && review.editable && (!editing || editing === review.multihash)
+        ? <EditReview multihash={review.multihash} />
+        : null
+      }
     </div>
-  )
+  }
 }
 
 Review.propTypes = {
