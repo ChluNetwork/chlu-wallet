@@ -77,7 +77,7 @@ class TransactionInfo extends Component {
             status = {
                 primary: 'Invalid',
                 icon: InvalidIcon,
-                secondary: review.error.message || review.error || 'Chlu data invalid'
+                secondary: 'Chlu data invalid'
             }
         } else if (confirmations < 6) {
             status = {
@@ -111,7 +111,6 @@ class TransactionInfo extends Component {
                 date={reviewDate}
                 review={review}
                 editing={editing}
-                editable={true}
             /> }
             <Divider/>
             <CardContent>
@@ -134,57 +133,7 @@ class TransactionInfo extends Component {
                 </List>
             </CardContent>
         </Card>
-
-/*
-        return (
-            <div className='transaction__info'>
-                <div className='field'>
-                    <div className='field__title'>Tx</div>
-                    <div className='field__data'>
-                        <a href={`${process.env.REACT_APP_BTC_EXPLORER_URL_TX}/${transaction.hash}`}>{transaction.hash}</a></div>
-                </div>
-                <div className='field field-address'>
-                    <div className='field__title'>To</div>
-                    <div className='field__data'>
-                        <a href={`${process.env.REACT_APP_BTC_EXPLORER_URL_ADDRESS}/${address}`}>{address}</a>
-                    </div>
-                </div>
-                <div className='field field-date'>
-                    <div className='field__title'>Date</div>
-                    <div className='field__data'>{date}</div>
-                </div>
-                <div className='field field-amount'>
-                    <div className='field__title '>Amount</div>
-                    <div className='field__data'>{priceBitsFormatted} bits</div>
-                </div>
-                <div className='field field-confirm'>
-                    <div className='field__title'>Confirmations</div>
-                    <div className={`field__data font-weight-bold ${confirmations < 6 ? 'yellow' : 'green'}`}>
-                        {confirmations}
-                    </div>
-                </div>
-                <div className='review container-border-top container-border-bottom'>
-                    {
-                        review ? (
-                            review.loading
-                            ? <CircularProgress style={{ display:'block', margin:'auto' }}/>
-                            : <Review
-                                  convertFromBitsToUsd={convertFromBitsToUsd}
-                                  convertSatoshiToBits={convertSatoshiToBits}
-                                  transaction={transaction}
-                                  date={reviewDate}
-                                  review={review}
-                                  editing={editing}
-                                  editable={true}
-                              />
-                        ) : <div className='field-not-chlu'>Not a Chlu transaction</div>
-                    }
-                </div>
-            </div>
-        )
-        */
     }
-
 }
 
 export default withStyles(styles)(TransactionInfo)
