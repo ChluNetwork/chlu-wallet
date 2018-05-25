@@ -10,7 +10,7 @@ const ImportWalletForm = ({ handleSubmit }) => (
       placeholder='Your mnemonic here...'
       name='mnemonic'
       type='text'
-      multiLine
+      multiline
       fullWidth
       component={FormInput}
     />
