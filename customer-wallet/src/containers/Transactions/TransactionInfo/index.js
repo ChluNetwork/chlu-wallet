@@ -17,8 +17,8 @@ import ExplorerIcon from '@material-ui/icons/Explore'
 import PaymentIcon from '@material-ui/icons/CallMade'
 import NotChluIcon from '@material-ui/icons/ErrorOutline'
 import LoadingIcon from '@material-ui/icons/Sync'
-import UnconfirmedIcon from '@material-ui/icons/Gavel'
-import ValidIcon from '@material-ui/icons/Done'
+import UnconfirmedIcon from '@material-ui/icons/Sync'
+import ValidIcon from '@material-ui/icons/CheckCircle'
 import InvalidIcon from '@material-ui/icons/ErrorOutline'
 
 const styles = {
@@ -71,19 +71,22 @@ class TransactionInfo extends Component {
         let status = {
             primary: 'Confirmed',
             icon: ValidIcon,
-            secondary: isChlu ? `Chlu data valid. ${confirmations} Blockchain confirmations` : 'Transaction confirmed'
+            color: 'green',
+            secondary: isChlu ? `Chlu data valid. ${confirmations} confirmations` : `${confirmations} confirmations`
         }
         if (isChlu && review && review.error) {
             status = {
                 primary: 'Invalid',
                 icon: InvalidIcon,
+                color: 'red',
                 secondary: 'Chlu data invalid'
             }
         } else if (confirmations < 6) {
             status = {
                 primary: 'Unconfirmed',
+                color: 'orange',
                 icon: UnconfirmedIcon,
-                secondary: `${confirmations}/6 Blockchain Confirmations`
+                secondary: `${confirmations}/6 confirmations`
             }
         }
 
@@ -116,7 +119,7 @@ class TransactionInfo extends Component {
             <CardContent>
                 <List dense disablePadding>
                     <ListItem>
-                        <ListItemIcon><status.icon /></ListItemIcon>
+                        <ListItemIcon><status.icon style={{ color: status.color }} /></ListItemIcon>
                         <ListItemText
                             primary={status.primary}
                             secondary={status.secondary}
