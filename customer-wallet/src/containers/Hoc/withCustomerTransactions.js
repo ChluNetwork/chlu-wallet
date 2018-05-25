@@ -63,17 +63,13 @@ const withCustomerTransactions = (WrappedComponent) => {
       const loading = get(customerTransactions, 'loading', false)
       const error = get(customerTransactions, 'error', null)
 
-      if (loading) {
-        return <CircularProgress />
-      } else if (error) {
-        return <div>Something went wrong!</div>
-      } else {
-        return <WrappedComponent
-          groupTransactionByAddress={this.groupTransactionByAddress}
-          customerTransactions={customerTransactions}
-          {...this.props}
-        />
-      }
+      return <WrappedComponent
+        groupTransactionByAddress={this.groupTransactionByAddress}
+        customerTransactions={customerTransactions || []}
+        loading={loading}
+        error={error}
+        {...this.props}
+      />
     }
   }
 

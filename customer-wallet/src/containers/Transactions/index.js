@@ -14,6 +14,8 @@ import { Card, CardHeader, Avatar, withStyles } from '@material-ui/core';
 import TransactionInfo from './TransactionInfo'
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import ErrorIcon from '@material-ui/icons/ErrorOutline'
+import LoadingIcon from '@material-ui/icons/Sync'
 
 const styles = {
   card: {
@@ -59,7 +61,9 @@ class RecentTransaction extends Component {
       convertSatoshiToBTC,
       convertFromBitsToUsd,
       convertFromBtcToUsd,
-      convertSatoshiToBits
+      convertSatoshiToBits,
+      loading,
+      error
     } = this.props
 
     // TODO: fix the filtering based on route parameter
@@ -93,6 +97,20 @@ class RecentTransaction extends Component {
                 />
               ))}
           </div>
+          : error
+          ? <Card className={classes.card}>
+              <CardHeader
+                avatar={<Avatar><ErrorIcon/></Avatar>}
+                title={error || 'Something went wrong'}
+              />
+            </Card>
+          : loading
+          ? <Card className={classes.card}>
+              <CardHeader
+                avatar={<Avatar><LoadingIcon/></Avatar>}
+                title='Fetching transactions...'
+              />
+            </Card>
           : <Card className={classes.card}>
               <CardHeader
                 avatar={<Avatar>?</Avatar>}
