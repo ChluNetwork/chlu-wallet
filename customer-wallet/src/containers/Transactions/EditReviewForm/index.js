@@ -12,24 +12,26 @@ const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoa
       name='rating'
       component={StarRating}
     />
+    <br/>
     <Field
       name='comment'
       placeholder='Comment'
       type='text'
       component={Input}
-      multiLine
+      multiline
+      fullWidth
     />
     <div>
       <Button
         type='submit'
-        label={submitFailed ? 'Error' : (isLoading ? 'Loading...' : 'Save')}
         disabled={isLoading || pristine || submitFailed}
-      />
+      >
+        {submitFailed ? 'Error' : (isLoading ? 'Loading...' : 'Save')}
+      </Button>
       <Button
-        label='Cancel'
         onClick={handleCancel}
         disabled={isLoading}
-      />
+      >Cancel</Button>
     </div>
   </form>
 )
