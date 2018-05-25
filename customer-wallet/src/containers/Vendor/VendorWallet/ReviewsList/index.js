@@ -4,7 +4,7 @@ import moment from 'moment'
 //components
 import Review from 'components/Review'
 
-const PaymentsList = ({ date, editable, transactions, reviews, convertSatoshiToBits, convertFromBitsToUsd }) => (
+const PaymentsList = ({ date, transactions, reviews, convertSatoshiToBits, convertFromBitsToUsd }) => (
   <div className='reviews-list'>
     <div className='reviews-list__date color-light'>{date}</div>
     {transactions.map((transaction, index) => {
@@ -16,7 +16,6 @@ const PaymentsList = ({ date, editable, transactions, reviews, convertSatoshiToB
         transaction={transaction}
         date={date}
         review={reviews[transaction.hash]}
-        editable={editable}
       />
     })}
   </div>
