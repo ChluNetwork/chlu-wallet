@@ -134,7 +134,11 @@ export default handleActions({
   [READ_REVIEWRECORD_ERROR]: (state, { payload: { error, txHash, multihash } }) => ({
     ...state,
     reviews: {
-      ...updateReviewRecord(get(state, 'reviews', {}), txHash, { error, loading: false, multihash })
+      ...updateReviewRecord(
+        get(state, 'reviews', {}),
+        txHash,
+        { error: error.message || error, loading: false, multihash }
+      )
     }
   }),
   [UPDATE_REVIEW_RECORD]: (state, { payload: { multihash, newMultihash, reviewRecord } }) => ({
