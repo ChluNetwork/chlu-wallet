@@ -39,7 +39,7 @@ export default handleActions({
     
     localStorage.setItem('mnemonic_key', payload)
     localStorage.setItem('addresses', JSON.stringify([address]))
-    return { ...state, mnemonic: payload, addresses: JSON.stringify([address]) }
+    return { ...state, mnemonic: payload, addresses: [address] }
   },
   [UPDATE_NEW_MNEMONIC]: (state) => ({
     ...state,
