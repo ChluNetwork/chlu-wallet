@@ -23,12 +23,7 @@ class MainLayout extends Component {
 
   blockchainClient = {
     importPrivateKey: new ImportPrivateKey(),
-    createChluTransaction: (() => {
-      const tr = new CreateChluTransaction(blockCypherKey)
-      tr.getImportedKey('alter ankle cart harvest ecology sign athlete congress desert scare planet love')
-
-      return tr
-    })()
+    createChluTransaction: new CreateChluTransaction(blockCypherKey)
   }
 
   getChildContext = () => ({ blockchainClient: this.blockchainClient })

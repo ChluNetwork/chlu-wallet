@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS, types } from 'helpers/ipfs'
 import { toastr } from 'react-redux-toastr'
+import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction';
 
 // ------------------------------------
 // Constants
@@ -29,29 +30,25 @@ export function submitPayment (data) {
   return async (dispatch, getState) => {
     dispatch(setPaymentLoading(true))
     try {
-      const {
-        toAddress,
-        activeAddress,
-        review,
-        amountSatoshi,
-        rating,
-        blockchainClient: {
-          createChluTransaction: tr
-        }
-      } = data
-      const popr = getState().data.checkout.data;
+      const state = getState()
+      const popr = state.data.checkout.data;
+      if (!state.data.wallet.addresses || !state.data.wallet.addresses[0]) {
+        throw new Error('Need Wallet')
+      }
+      const address = state.data.wallet.addresses[0]
+      const { review, rating } = data
       if (popr === null) {
         throw new Error('Need PoPR')
       }
       const reviewRecord = {
         popr,
         currency_symbol: 'satoshi',
-        amount: amountSatoshi,
-        customer_address: activeAddress,
-        vendor_address: toAddress,
+        amount: popr.amount,
+        customer_address: address,
+        vendor_address: popr.vendorAddress,
         review_text: review || '', // TODO: fix missing string field encoding different from empty string
         detailed_review: [],
-        rating: rating,
+        rating,
         chlu_version: 0
       }
       try {
@@ -61,9 +58,10 @@ export function submitPayment (data) {
           console.log('Storing review record (no publish)')
           const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
           console.log('Creating transaction')
-          console.log(amountSatoshi)
+          console.log(popr.amount)
           try {
-            const response = await tr.create(activeAddress, toAddress, amountSatoshi, null, multihash)
+            const tr = new CreateChluTransaction(process.env.REACT_APP_BLOCKCYPHER_TOKEN)
+            const response = await tr.create(address, popr.vendorAddress, popr.amount, null, multihash)
             console.log(response)
             try {
               console.log('Pushing transaction')
