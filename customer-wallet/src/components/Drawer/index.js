@@ -8,6 +8,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 // icons
 import StarIcon from '@material-ui/icons/Star';
 import BitcoinIcon from '@material-ui/icons/AccountBalanceWallet';
+import PaymentIcon from '@material-ui/icons/Send';
 import SettingsIcon from '@material-ui/icons/Settings'
 
 const DrawerComponent = ({ toggleDrawer, drawerOpen, push }) => {
@@ -25,6 +26,10 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, push }) => {
         <ListItem button onClick={() => push('/transactions')}>
           <ListItemIcon><BitcoinIcon/></ListItemIcon>
           <ListItemText primary='Transactions' />
+        </ListItem>
+        <ListItem button onClick={() => push('/pay')}>
+          <ListItemIcon><PaymentIcon/></ListItemIcon>
+          <ListItemText primary='Pay with Chlu' />
         </ListItem>
         <ListItem button onClick={() => push('/settings')}>
           <ListItemIcon><SettingsIcon/></ListItemIcon>

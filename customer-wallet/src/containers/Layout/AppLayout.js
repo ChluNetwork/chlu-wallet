@@ -13,6 +13,7 @@ import ClaimReputation from '../ClaimReputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import NotFound from '../../components/NotFound'
+import Payment from '../Payment'
 
 const AppLayout = ({
   children,
@@ -34,6 +35,7 @@ const AppLayout = ({
           <Drawer toggleDrawer={toggleDrawer} drawerOpen={drawerOpen} />
           <Switch>
             <Route path='/claim' component={ClaimReputation} />
+            <Route path='/pay' component={Payment} />
             <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
             <Redirect exact from='/' to='/wallet' />

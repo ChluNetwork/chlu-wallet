@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { func, bool, number, oneOfType, object, shape, string } from 'prop-types'
+import { func, bool, number, oneOfType, object, shape, string, arrayOf } from 'prop-types'
 import { compose } from 'recompose'
 // redux
 import { connect } from 'react-redux'
@@ -7,6 +7,7 @@ import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWal
 import { submitPayment } from 'store/modules/data/payment'
 import { formValueSelector } from 'redux-form'
 import { toggleComingSoonModal } from 'store/modules/ui/modal'
+import { getCheckout } from 'store/modules/data/checkout'
 // libs
 import { round, isEmpty } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -26,7 +27,7 @@ class CustomerWalletFormWrapper extends Component {
     loading: bool,
     rating: number,
     setRating: func,
-    wallet: shape({ addresses: string }),
+    wallet: shape({ addresses: arrayOf(string) }),
     rates: oneOfType([object, bool]),
     comingSoonModal: shape({ isOpen: bool }),
     toggleComingSoonModal: func,
@@ -40,8 +41,7 @@ class CustomerWalletFormWrapper extends Component {
   constructor(props) {
     super(props)
 
-    const addressesString = props.wallet.addresses
-    const addresses = JSON.parse(addressesString)
+    const addresses = props.wallet.addresses
 
     this.state = {
       activeAddress: addresses[0],
@@ -92,12 +92,13 @@ class CustomerWalletFormWrapper extends Component {
         loading: checkoutLoading,
         error: checkoutError
       },
-      convertFromUsdToBits
+      convertFromUsdToBits,
+      getCheckout: getPoPR
     } = this.props
     const emptyPopr = isEmpty(popr)
     if (emptyPopr || checkoutError) {
-      replace('/customer/checkout')
-      return null // Avoid rendering
+      getCheckout()
+      return 'Getting PoPR...' // TODO: improve UI here
     }
     const isDisabledSubmit = emptyPopr || checkoutLoading || checkoutError
     const loading = checkoutLoading || formLoading
@@ -115,7 +116,7 @@ class CustomerWalletFormWrapper extends Component {
           onStarClick={this.onStarClick}
           switchPaymentType={this.onSwitchPaymentType}
           handleChangeAddress={this.handleChangeAddress}
-          ownAddresses={JSON.parse(addresses)}
+          ownAddresses={addresses}
           activeAddress={activeAddress}
           initialValues={{
             toAddress: popr.vendorAddress,
@@ -152,7 +153,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   submitPayment: data => dispatch(submitPayment(data)),
   setRating: data => dispatch(setRatingForCustomerWallet(data)),
-  toggleComingSoonModal: () => dispatch(toggleComingSoonModal())
+  toggleComingSoonModal: () => dispatch(toggleComingSoonModal()),
+  getCheckout: () => dispatch(getCheckout())
 })
 
 export default compose(
