@@ -17,8 +17,6 @@ import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import withFxRates from 'containers/Hoc/withFxRates'
 // assets
 import { buttonsData } from '../assets/data'
-// helpers
-import replace from 'helpers/replace'
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {

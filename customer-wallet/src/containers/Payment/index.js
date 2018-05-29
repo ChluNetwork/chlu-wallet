@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent } from '@material-ui/core'
+import { Card, CardHeader, Divider, CardContent, CardActions } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Avatar, withStyles } from '@material-ui/core'
+import { Avatar, withStyles, Button } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
+import PaymentMethods from './PaymentMethods'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
 // redux
@@ -20,7 +21,6 @@ import PaymentDestinationIcon from '@material-ui/icons/ArrowForward'
 import MarketplaceIcon from '@material-ui/icons/Store'
 import LoadingIcon from '@material-ui/icons/Sync'
 import AmountIcon from '@material-ui/icons/Payment'
-import ReviewIcon from '@material-ui/icons/Star'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 
 const style = {
@@ -66,6 +66,7 @@ class Payment extends Component {
         const amountBtc = convertSatoshiToBTC(amountSatoshi)
         const amountUSD = convertFromBtcToUsd(amountBtc)
         const amountText = `${amountUSD} USD | ${amountBtc} BTC | ${amountBits} bits | ${amountSatoshi} satoshi`
+        const address = wallet.addresses[0]
 
         if (checkoutError) {
             return <Card className={classes.card}>
@@ -87,9 +88,11 @@ class Payment extends Component {
             return <Card className={classes.card}>
                 <CardHeader
                     avatar={<Avatar><WalletIcon/></Avatar>}
-                    title='Payment with Bitcoin (testnet)'
-                    subheader={wallet.addresses[0]}
+                    title='Payment'
+                    subheader='Choose a payment method'
                 />
+                <Divider/>
+                <PaymentMethods />
                 <Divider/>
                 <CardContent>
                     <List dense disablePadding>
@@ -98,8 +101,12 @@ class Payment extends Component {
                             <ListItemText primary='Amount Requested' secondary={amountText}/>
                         </ListItem>
                         <ListItem>
+                            <ListItemIcon><WalletIcon/></ListItemIcon>
+                            <ListItemText primary='Your tBTC Wallet' secondary={address}/>
+                        </ListItem>
+                        <ListItem>
                             <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-                            <ListItemText primary='Vendor Wallet Address' secondary={popr.vendorAddress}/>
+                            <ListItemText primary='Vendor Wallet' secondary={popr.vendorAddress}/>
                         </ListItem>
                         <ListItem>
                             <ListItemIcon><VendorIcon/></ListItemIcon>
