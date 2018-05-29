@@ -11,11 +11,15 @@ import { loginDestination } from '../Wallet'
 // libs
 import { submit } from 'redux-form'
 // components
-import WalletPaper from '../Paper'
+import WalletCard from '../Card'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
+import { CardContent, CardActions, CardHeader, Avatar, Divider } from '@material-ui/core';
+// icons
+import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import RestoreIcon from '@material-ui/icons/SettingsBackupRestore'
 
 class ImportWallet extends Component {
   static propTypes = {
@@ -75,17 +79,41 @@ class ImportWallet extends Component {
     const { mnemonicExistsModal: { isOpen } } = this.props
 
     return (
-      <WalletPaper>
-        <ImportWalletForm onSubmit={this.handleSubmit} />
-        <Button variant='raised' color='primary' fullWidth onClick={this.onFormSubmit}>
-          Import wallet
-        </Button>
+      <div>
+        <WalletCard>
+          <CardHeader
+            avatar={<Avatar><WalletIcon/></Avatar>}
+            title='Import an existing Wallet'
+            subheader='Access your existing funds from this device'
+          />
+          <CardContent>
+            <ImportWalletForm onSubmit={this.handleSubmit} />
+          </CardContent>
+          <CardActions>
+            <Button variant='raised' color='primary' onClick={this.onFormSubmit}>
+              Import wallet
+            </Button>
+          </CardActions>
+          <Divider/>
+        </WalletCard>
+        <WalletCard>
+          <CardHeader
+            avatar={<Avatar><RestoreIcon/></Avatar>}
+            title='Import an existing Distributed Identity (DID)'
+            subheader='Access your Chlu reputation and reviews from this device'
+          />
+          <CardActions>
+            <Button variant='raised' color='secondary'>
+              Import identity 
+            </Button>
+          </CardActions>
+        </WalletCard>
         <MnemonicExistsModal
           isOpen={isOpen}
           handleCancel={this.onImportCancel}
           handleContinue={this.onImportContinue}
         />
-      </WalletPaper>
+      </div>
     )
   }
 }
