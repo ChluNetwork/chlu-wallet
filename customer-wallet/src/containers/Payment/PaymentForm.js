@@ -28,7 +28,7 @@ function PaymentForm({ handleSubmit, setRating, rating, starCount, disabled }) {
                 name='review'
                 type='text'
                 component={Input}
-                placeholder='Your thoughts...'
+                placeholder='Review'
                 disabled={disabled}
                 fullWidth
                 multiline
