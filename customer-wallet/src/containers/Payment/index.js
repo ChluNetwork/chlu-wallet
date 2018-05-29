@@ -55,17 +55,15 @@ class Payment extends Component {
             },
             rating,
             setRating,
-            convertSatoshiToBits,
             convertSatoshiToBTC,
             convertFromBtcToUsd
         } = this.props
 
         const submitDisabled = !popr || checkoutLoading || checkoutError
         const amountSatoshi = popr.amount
-        const amountBits = convertSatoshiToBits(amountSatoshi)
         const amountBtc = convertSatoshiToBTC(amountSatoshi)
         const amountUSD = convertFromBtcToUsd(amountBtc)
-        const amountText = `${amountUSD} USD | ${amountBtc} BTC | ${amountBits} bits | ${amountSatoshi} satoshi`
+        const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
         const address = wallet.addresses[0]
 
         if (checkoutError) {
