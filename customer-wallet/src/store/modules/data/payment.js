@@ -42,7 +42,7 @@ export function submitPayment (data) {
       }
       const reviewRecord = {
         popr,
-        currency_symbol: 'satoshi',
+        currency_symbol: 'tBTC',
         amount: popr.amount,
         customer_address: address,
         vendor_address: popr.vendorAddress,
