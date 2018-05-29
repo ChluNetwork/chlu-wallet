@@ -29,7 +29,7 @@ const DrawerComponent = ({ toggleDrawer, drawerOpen, push }) => {
         </ListItem>
         <ListItem button onClick={() => push('/pay')}>
           <ListItemIcon><PaymentIcon/></ListItemIcon>
-          <ListItemText primary='Pay with Chlu' />
+          <ListItemText primary='Pay' />
         </ListItem>
         <ListItem button onClick={() => push('/settings')}>
           <ListItemIcon><SettingsIcon/></ListItemIcon>
