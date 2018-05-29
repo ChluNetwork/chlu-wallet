@@ -17,7 +17,7 @@ class Customer extends Component {
 
     componentDidMount() {
         if (!localStorage.getItem('mnemonic_key')) {
-            replace('/wallet')
+            replace('/setup')
         }
         if (!this.props.profile.data) {
             this.props.getProfile('customer')

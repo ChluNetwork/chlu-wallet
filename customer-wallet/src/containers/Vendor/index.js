@@ -10,7 +10,7 @@ class Vendor extends Component {
 
     componentDidMount() {
         if (!localStorage.getItem('mnemonic_key')) {
-            replace('/wallet')
+            replace('/setup')
         }
     }
 

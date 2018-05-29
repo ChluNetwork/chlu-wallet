@@ -38,7 +38,7 @@ const AppLayout = ({
             <Route path='/pay' component={Payment} />
             <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
-            <Redirect exact from='/' to='/wallet' />
+            <Redirect exact from='/' to='/setup' />
             <Route component={NotFound} status={404} />
           </Switch>
         </div>
