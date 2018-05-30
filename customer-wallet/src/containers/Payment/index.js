@@ -22,6 +22,8 @@ import MarketplaceIcon from '@material-ui/icons/Store'
 import LoadingIcon from '@material-ui/icons/Sync'
 import AmountIcon from '@material-ui/icons/Payment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
+// helpers
+import { getAddress } from 'helpers/wallet';
 
 const style = {
     card: {
@@ -64,7 +66,7 @@ class Payment extends Component {
         const amountBtc = convertSatoshiToBTC(amountSatoshi)
         const amountUSD = convertFromBtcToUsd(amountBtc)
         const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
-        const address = wallet.addresses[0]
+        const address = getAddress(wallet)
 
         if (checkoutError) {
             return <Card className={classes.card}>
@@ -130,7 +132,6 @@ class Payment extends Component {
 
 
 Payment.propTypes = {
-    handleSubmit: PropTypes.isRequired,
     loading: PropTypes.bool
 }
 

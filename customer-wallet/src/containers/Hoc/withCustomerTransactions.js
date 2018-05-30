@@ -8,13 +8,14 @@ import { get, groupBy } from 'lodash'
 import CircularProgress from '@material-ui/core/CircularProgress';
 // helpers
 import { calculateTotalSpentFromTransactions } from 'helpers/transactions'
+import { getAddress } from 'helpers/wallet';
 
 const apiEnd = process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3'
 
 const withCustomerTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
       static propTypes = {
-          addresses: array,
+          wallet: object,
           customerTransactions: object,
           getCustomerTransactions: func,
           updateCustomerTransactions: func
@@ -23,7 +24,7 @@ const withCustomerTransactions = (WrappedComponent) => {
     socket = new WebSocket(`wss://socket.blockcypher.com/v1/btc/${apiEnd}`)
 
       componentDidMount() {
-          const address = this.props.addresses[0]
+          const address = getAddress(this.props.wallet)
           this.props.getCustomerTransactions(address)
 
           this.socket.onmessage = (event) => {
@@ -75,7 +76,7 @@ const withCustomerTransactions = (WrappedComponent) => {
 
   const mapStateToProps = store => ({
       customerTransactions: store.data.customerTransactions,
-      addresses: store.data.wallet.addresses
+      wallet: store.data.wallet
   })
 
   const mapDispatchToProps = {

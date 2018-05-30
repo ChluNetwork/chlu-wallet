@@ -17,6 +17,8 @@ import ComingSoonModal from 'components/Modals/ComingSoonModal'
 import withFxRates from 'containers/Hoc/withFxRates'
 // assets
 import { buttonsData } from '../assets/data'
+// helpers
+import { getAddress } from 'helpers/wallet';
 
 class CustomerWalletFormWrapper extends Component {
   static propTypes = {
@@ -39,10 +41,8 @@ class CustomerWalletFormWrapper extends Component {
   constructor(props) {
     super(props)
 
-    const addresses = props.wallet.addresses
-
     this.state = {
-      activeAddress: addresses[0],
+      activeAddress: getAddress(props.wallet),
       paymentType: 'cryptocurrency'
     }
   }
