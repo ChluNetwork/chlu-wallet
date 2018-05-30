@@ -11,7 +11,6 @@ import ChluAppBar from './AppBar'
 import ClaimReputation from '../ClaimReputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
-import NotFound from '../../components/NotFound'
 import Payment from '../Payment'
 
 class AppLayout extends Component {

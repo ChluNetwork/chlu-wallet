@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent, CardActions } from '@material-ui/core'
+import { Card, CardHeader, Divider, CardContent } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Avatar, withStyles, Button } from '@material-ui/core'
+import { Avatar, withStyles } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
 import PaymentMethods from './PaymentMethods'
 // hoc
@@ -40,7 +40,6 @@ class Payment extends Component {
     }
 
     handleSubmit(data) {
-        //this.props.submitPayment()
         const review = data.review || ''
         const rating = this.props.rating
         this.props.submitPayment({ review, rating })

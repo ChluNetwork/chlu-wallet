@@ -1,14 +1,9 @@
 import React from 'react'
 import { object, string } from 'prop-types'
 // components
-import { CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core';
-import ReviewTitle from './ReviewTitle'
+import { CardContent, CardHeader, Avatar } from '@material-ui/core';
 import EditReview from './EditReview'
 import StarRatingComponent from 'react-star-rating-component'
-// helpers
-import { get } from 'lodash'
-// data
-import noProduct from 'images/no-product.png'
 // icons
 import ReviewIcon from '@material-ui/icons/Check'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'

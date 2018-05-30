@@ -5,7 +5,6 @@ import moment from 'moment'
 import { Card, CardHeader, CardContent, Divider } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import { withStyles, Avatar } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Review from 'components/Review'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'

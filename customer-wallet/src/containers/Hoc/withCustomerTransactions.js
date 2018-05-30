@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { object, func, array } from 'prop-types'
+import { object, func } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { getCustomerTransactions, updateCustomerTransactions } from 'store/modules/data/customerTransactions'
 // libs
 import { get, groupBy } from 'lodash'
-import CircularProgress from '@material-ui/core/CircularProgress';
 // helpers
 import { calculateTotalSpentFromTransactions } from 'helpers/transactions'
 import { getAddress } from 'helpers/wallet';

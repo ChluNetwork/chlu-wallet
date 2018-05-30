@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { shape, bool, any, object, func, number } from 'prop-types'
-import { Link } from 'react-router-dom'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -55,7 +54,6 @@ class RecentTransaction extends Component {
   render() {
     const {
       wallet,
-      routeParams,
       classes,
       customerTransactions,
       reviews,

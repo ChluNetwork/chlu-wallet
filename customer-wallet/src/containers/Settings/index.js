@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
-import { shape, bool, string, oneOfType } from 'prop-types'
+import { object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-// helpers
-import get from 'lodash/get'
-// libs
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { toastr } from 'react-redux-toastr'
-import fileDownload from 'js-file-download'
 // components
 import Button from '@material-ui/core/Button'
 import { Card, CardContent, Typography, CardActions, withStyles } from '@material-ui/core';
@@ -27,10 +21,7 @@ const cardStyle = {
 
 class Settings extends Component {
   static propTypes = {
-    wallet: shape({
-      mnemonic: string,
-      createWallet: shape({ mnemonic: oneOfType([bool, string]) })
-    })
+    wallet: object
   }
 
   handleDownload = () => downloadWallet(this.props.wallet)
