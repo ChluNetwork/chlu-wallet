@@ -49,7 +49,6 @@ const AppLayout = ({
 
 AppLayout.propTypes = {
   children: any,
-  classes: object.isRequired,
   toggleDrawer: func,
   drawerOpen: bool,
   changeUserType: func,
