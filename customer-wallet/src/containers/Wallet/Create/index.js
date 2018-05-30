@@ -2,22 +2,21 @@ import React, { Component } from 'react'
 import { shape, bool, func, string, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
-import { setWalletCreated, setSaveMnemonic } from 'store/modules/components/CreateWallet'
+import { setWalletSaved, createWallet, resetWallet } from 'store/modules/components/CreateWallet'
+import { setWallet } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 import { loginDestination } from '../Wallet'
-// libs
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import fileDownload from 'js-file-download'
+import { downloadWallet } from 'helpers/wallet'
 // components
 import WalletCard from '../Card'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
-import { Grid, CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core';
+import { CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core';
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import DownloadIcon from '@material-ui/icons/FileDownload'
+import { saveWalletToLocalStorage } from '../../../helpers/wallet';
 
 class CreateWallet extends Component {
   static propTypes = {
@@ -41,67 +40,46 @@ class CreateWallet extends Component {
     blockchainClient: object
   }
 
-  create () {
-  }
-
   componentWillUnmount () {
-    this.props.setWalletCreated(false)
-    this.props.setSaveMnemonic(false)
+    this.props.resetWallet()
   }
 
   createWallet = () => {
-    const { walletCreated, setWalletCreated, setMnemonic, setCreateMnemonic } = this.props
-    const { blockchainClient: { importPrivateKey } } = this.context
+    const { wallet, createWallet } = this.props
 
     // TODO: allow user to replace existing wallet, restore modal
     // TODO: use redux store to check if wallet is already there
 
-    if (walletCreated) {
+    if (wallet) {
       toastr.error('Wallet already present', 'You cannot create a new wallet until you delete the existing one')
     }
 
-    const mnemonic = importPrivateKey.generateNewMnemonic()
-    setCreateMnemonic(mnemonic)
-    setMnemonic(mnemonic)
-    console.log('create wallet with mnemonic: ', mnemonic)
-    setWalletCreated(true)
+    createWallet()
   }
 
   moveToTheWallet = () => {
-    const { mnemonicSaved } = this.props
+    const { walletSaved, wallet, setWallet } = this.props
 
-    if (!mnemonicSaved) {
+    if (!walletSaved) {
       toastr.warning(
         'Please save your wallet',
         'Once you have saved it you will be able to access the wallet'
       )
     } else {
+      setWallet(wallet)
+      saveWalletToLocalStorage(wallet)
       replace(loginDestination)
     }
 
   }
 
-  handleDownload = bitcoinMnemonic => () => {
-    const file = {
-      chluWallet: {
-        did: {
-          id: null,
-          privateKeyBase58: null,
-        },
-        testnet: true,
-        bitcoinMnemonic
-      }
-    }
-    fileDownload(JSON.stringify(file, null, 2), 'chlu_wallet.json')
-    this.props.setSaveMnemonic(true)
+  handleDownload = () => {
+    downloadWallet(this.props.wallet)
+    this.props.setWalletSaved(true)
   }
 
   render () {
-    const {
-      mnemonicSaved,
-      walletCreated,
-      wallet: { createWallet: { mnemonic } }
-    } = this.props
+    const { wallet } = this.props
 
     return <WalletCard>
       <CardHeader
@@ -115,11 +93,11 @@ class CreateWallet extends Component {
         <br/><b>If you lose all copies of this file, all your data will be lost</b>
       </CardContent>
       <CardActions>
-        <Button variant='raised' onClick={this.handleDownload(mnemonic)}>
+        <Button variant='raised' onClick={this.handleDownload} disabled={!wallet} >
           <DownloadIcon/> Download
         </Button>
-        <Button onClick={walletCreated ? this.moveToTheWallet : this.createWallet}>
-          {walletCreated ? 'Continue' : 'Create Wallet'}
+        <Button onClick={wallet ? this.moveToTheWallet : this.createWallet}>
+          {wallet ? 'Continue' : 'Create Wallet'}
         </Button>
       </CardActions>
     </WalletCard>
@@ -127,16 +105,15 @@ class CreateWallet extends Component {
 }
 
 const mapStateToProps = store => ({
-  wallet: store.data.wallet,
-  mnemonicSaved: store.components.createWallet.mnemonicSaved,
-  walletCreated: store.components.createWallet.walletCreated
+  walletSaved: store.components.createWallet.walletSaved,
+  wallet: store.components.createWallet.walletCreated
 })
 
 const mapDispatchToProps = {
-    setMnemonic,
-    setCreateMnemonic,
-    setWalletCreated,
-    setSaveMnemonic
+    createWallet,
+    setWallet,
+    setWalletSaved,
+    resetWallet
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWallet)

@@ -5,11 +5,10 @@ import { shape, bool, func, string, oneOfType } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleMnemonicExists } from 'store/modules/ui/modal'
-import { updateMnemonic } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 // components
-import { Grid, CardContent, CardActions } from '@material-ui/core';
+import { Grid, CardContent } from '@material-ui/core';
 import WalletCard from './Card'
 import Button from '@material-ui/core/Button'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
@@ -23,21 +22,13 @@ class LoginPage extends Component {
       createWallet: shape({ mnemonic: oneOfType([bool, string]) })
     }),
     mnemonicExistsModal: shape({ isOpen: bool }),
-    toggleMnemonicExists: func,
-    updateMnemonic: func
-  }
-
-  componentDidMount () {
-    if (localStorage.getItem('mnemonic_key')) {
-      replace(loginDestination)
-    }
-    this.props.updateMnemonic()
+    toggleMnemonicExists: func
   }
 
   onCreateWalletClick = () => {
-    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
+    const { wallet, toggleMnemonicExists } = this.props
 
-    if (mnemonic) {
+    if (wallet) {
       toggleMnemonicExists()
     } else {
       replace('/setup/create')
@@ -99,8 +90,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = {
-  toggleMnemonicExists,
-  updateMnemonic
+  toggleMnemonicExists
 }
 
 export const loginDestination = '/claim'
