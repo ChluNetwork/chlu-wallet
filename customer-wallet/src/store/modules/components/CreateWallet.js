@@ -1,32 +1,38 @@
 import { createAction, handleActions } from 'redux-actions'
+import { generateNewWallet } from 'helpers/wallet'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-const SET_WALLET_CREATED = 'createWalletState/SET_WALLET_CREATED'
-const SET_SAVE_MNEMONIC = 'createWalletState/SET_SAVE_MNEMONIC'
+const CREATE_WALLET = 'createWallet/CREATE_WALLET'
+const SET_WALLET_SAVED = 'createWallet/SET_WALLET_SAVED'
+const RESET_WALLET = 'createWallet/RESET_WALLET'
 
-const initialState = {
-  mnemonicSaved: false,
-  walletCreated: false
+function getInitialState() {
+  return {
+    walletSaved: false,
+    walletCreated: null
+  }
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setWalletCreated = createAction(SET_WALLET_CREATED)
-export const setSaveMnemonic = createAction(SET_SAVE_MNEMONIC)
+export const createWallet = createAction(CREATE_WALLET)
+export const setWalletSaved = createAction(SET_WALLET_SAVED)
+export const resetWallet = createAction(RESET_WALLET)
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [SET_WALLET_CREATED]: (state, { payload }) => ({
+  [CREATE_WALLET]: (state, { payload }) => ({
     ...state,
-    walletCreated: payload
+    walletCreated: generateNewWallet() 
   }),
-  [SET_SAVE_MNEMONIC]: (state, { payload }) => ({
+  [SET_WALLET_SAVED]: (state, { payload }) => ({
     ...state,
-    mnemonicSaved: payload
-  })
-}, initialState)
+    walletSaved: payload
+  }),
+  [RESET_WALLET]: state => getInitialState()
+}, getInitialState())

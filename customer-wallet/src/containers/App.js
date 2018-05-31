@@ -23,7 +23,7 @@ export default function App() {
         <ConnectedRouter history={history}>
           <MainLayout>
             <Switch>
-              <Route path='/wallet' component={Wallet} />
+              <Route path='/setup' component={Wallet} />
               <Route component={AppLayout} />
             </Switch>
           </MainLayout>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent, CardActions } from '@material-ui/core'
+import { Card, CardHeader, Divider, CardContent } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Avatar, withStyles, Button } from '@material-ui/core'
+import { Avatar, withStyles } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
 import PaymentMethods from './PaymentMethods'
 // hoc
@@ -22,6 +22,8 @@ import MarketplaceIcon from '@material-ui/icons/Store'
 import LoadingIcon from '@material-ui/icons/Sync'
 import AmountIcon from '@material-ui/icons/Payment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
+// helpers
+import { getAddress } from 'helpers/wallet';
 
 const style = {
     card: {
@@ -38,7 +40,6 @@ class Payment extends Component {
     }
 
     handleSubmit(data) {
-        //this.props.submitPayment()
         const review = data.review || ''
         const rating = this.props.rating
         this.props.submitPayment({ review, rating })
@@ -64,7 +65,7 @@ class Payment extends Component {
         const amountBtc = convertSatoshiToBTC(amountSatoshi)
         const amountUSD = convertFromBtcToUsd(amountBtc)
         const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
-        const address = wallet.addresses[0]
+        const address = getAddress(wallet)
 
         if (checkoutError) {
             return <Card className={classes.card}>
@@ -130,7 +131,6 @@ class Payment extends Component {
 
 
 Payment.propTypes = {
-    handleSubmit: PropTypes.isRequired,
     loading: PropTypes.bool
 }
 

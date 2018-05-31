@@ -1,25 +1,30 @@
 import React, { Component } from 'react'
-import { func, shape, bool, string, oneOfType, object } from 'prop-types'
+import { func, shape, bool, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { toggleMnemonicExists } from 'store/modules/ui/modal'
-import { setMnemonic } from 'store/modules/data/wallet'
+import { setWallet } from 'store/modules/data/wallet'
 // helpers
 import get from 'lodash/get'
 import replace from 'helpers/replace'
 import { loginDestination } from '../Wallet'
 // libs
 import { submit } from 'redux-form'
+import { importWallet } from 'helpers/wallet'
 // components
-import WalletPaper from '../Paper'
+import WalletCard from '../Card'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
 import ImportWalletForm from './ImportWalletForm'
 import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
+import { CardContent, CardActions, CardHeader, Avatar, Divider } from '@material-ui/core';
+// icons
+import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import RestoreIcon from '@material-ui/icons/SettingsBackupRestore'
 
 class ImportWallet extends Component {
   static propTypes = {
-    wallet: shape({ mnemonic: string }),
+    wallet: object,
     mnemonicExistsModal: shape({
       isOpen: bool,
       data: oneOfType([bool, object])
@@ -45,18 +50,15 @@ class ImportWallet extends Component {
     }
   }
 
-  importFromMnemonic = (newMnemonic) => {
-    const { blockchainClient: { importPrivateKey } } = this.context
-    const keyPath = "m/44'/1'/0'/0/0"
-    const importFromMnemonic = importPrivateKey.importFromMnemonic(newMnemonic, keyPath)
-    this.props.setMnemonic(newMnemonic)
-
-    if (importFromMnemonic) {
-      toastr.success('success', 'Import mnemonic success')
-      console.log('importFromMnemonic__', importFromMnemonic)
+  importWallet = str => {
+    try {
+      const wallet = importWallet(str)
+      this.props.setWallet(wallet)
+      toastr.success('Wallet imported', 'Your existing data has been imported')
       replace(loginDestination)
-    } else {
-      toastr.error('failed', 'Import mnemonic failed')
+    } catch (error) {
+      toastr.error('Could not import Wallet', 'Something went wrong')
+      console.log(error)
     }
   }
 
@@ -75,17 +77,41 @@ class ImportWallet extends Component {
     const { mnemonicExistsModal: { isOpen } } = this.props
 
     return (
-      <WalletPaper>
-        <ImportWalletForm onSubmit={this.handleSubmit} />
-        <Button variant='raised' color='primary' fullWidth onClick={this.onFormSubmit}>
-          Import wallet
-        </Button>
+      <div>
+        <WalletCard>
+          <CardHeader
+            avatar={<Avatar><WalletIcon/></Avatar>}
+            title='Import an existing Wallet'
+            subheader='Access your existing funds from this device'
+          />
+          <CardContent>
+            <ImportWalletForm onSubmit={this.handleSubmit} />
+          </CardContent>
+          <CardActions>
+            <Button variant='raised' color='primary' onClick={this.onFormSubmit}>
+              Import wallet
+            </Button>
+          </CardActions>
+          <Divider/>
+        </WalletCard>
+        <WalletCard>
+          <CardHeader
+            avatar={<Avatar><RestoreIcon/></Avatar>}
+            title='Import an existing Distributed Identity (DID)'
+            subheader='Access your Chlu reputation and reviews from this device'
+          />
+          <CardActions>
+            <Button variant='raised' color='secondary'>
+              Import identity 
+            </Button>
+          </CardActions>
+        </WalletCard>
         <MnemonicExistsModal
           isOpen={isOpen}
           handleCancel={this.onImportCancel}
           handleContinue={this.onImportContinue}
         />
-      </WalletPaper>
+      </div>
     )
   }
 }
@@ -98,7 +124,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = {
   submit,
   toggleMnemonicExists,
-  setMnemonic
+  setWallet
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWallet)

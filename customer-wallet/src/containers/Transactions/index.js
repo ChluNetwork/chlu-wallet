@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { shape, bool, any, object, func, number } from 'prop-types'
-import { Link } from 'react-router-dom'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 // helpers
 import get from 'lodash/get'
+import { getAddress } from 'helpers/wallet';
 // hoc
 import withCustomerTransactions from '../Hoc/withCustomerTransactions'
 import withFxRates from '../Hoc/withFxRates'
@@ -54,7 +54,6 @@ class RecentTransaction extends Component {
   render() {
     const {
       wallet,
-      routeParams,
       classes,
       customerTransactions,
       reviews,
@@ -66,11 +65,9 @@ class RecentTransaction extends Component {
       error
     } = this.props
 
-    // TODO: fix the filtering based on route parameter
-    const address = get(routeParams,'address', '')
-    let transactions = get(customerTransactions, 'data.txs', [])
-    let filteredTransactions = transactions
-      .filter(({ addresses }) => addresses[addresses.length - 1] === address)
+    // TODO: transaction filtering based on route parameter
+    const address = getAddress(wallet)
+    const transactions = get(customerTransactions, 'data.txs', [])
 
     return (
       <div>
@@ -78,7 +75,7 @@ class RecentTransaction extends Component {
           <CardHeader
             avatar={<Avatar><WalletIcon/></Avatar>}
             title='Bitcoin Wallet (Testnet)'
-            subheader={wallet.addresses[0]}
+            subheader={address}
           />
         </Card>
         {transactions.length

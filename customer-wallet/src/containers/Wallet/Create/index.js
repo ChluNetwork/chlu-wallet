@@ -2,19 +2,21 @@ import React, { Component } from 'react'
 import { shape, bool, func, string, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { setMnemonic, setCreateMnemonic } from 'store/modules/data/wallet'
-import { setWalletCreated, setSaveMnemonic } from 'store/modules/components/CreateWallet'
+import { setWalletSaved, createWallet, resetWallet } from 'store/modules/components/CreateWallet'
+import { setWallet } from 'store/modules/data/wallet'
 // helpers
 import replace from 'helpers/replace'
 import { loginDestination } from '../Wallet'
-// libs
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import fileDownload from 'js-file-download'
+import { downloadWallet } from 'helpers/wallet'
 // components
-import WalletPaper from '../Paper'
+import WalletCard from '../Card'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
-import { Grid } from '@material-ui/core';
+import { CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core';
+// icons
+import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import DownloadIcon from '@material-ui/icons/FileDownload'
+import { saveWalletToLocalStorage } from '../../../helpers/wallet';
 
 class CreateWallet extends Component {
   static propTypes = {
@@ -38,101 +40,80 @@ class CreateWallet extends Component {
     blockchainClient: object
   }
 
-  componentDidMount () {
-    const { blockchainClient: { importPrivateKey } } = this.context
-    const newMnemonic = importPrivateKey.generateNewMnemonic()
-    this.props.setCreateMnemonic(newMnemonic)
-    this.props.setMnemonic(newMnemonic)
-  }
-
   componentWillUnmount () {
-    this.props.setWalletCreated(false)
-    this.props.setSaveMnemonic(false)
+    this.props.resetWallet()
   }
 
   createWallet = () => {
-    const { wallet: { createWallet: { mnemonic } }, setMnemonic, mnemonicSaved } = this.props
+    const { wallet, createWallet } = this.props
 
-    if (!mnemonicSaved) {
-      toastr.warning(
-        'warning',
-        'Please save your mnemonic. Once you have saved it you will be able to access the wallet'
-      )
+    // TODO: allow user to replace existing wallet, restore modal
+    // TODO: use redux store to check if wallet is already there
+
+    if (wallet) {
+      toastr.error('Wallet already present', 'You cannot create a new wallet until you delete the existing one')
     }
 
-    setMnemonic(mnemonic)
-    console.log('create wallet with mnemonic: ', mnemonic)
-    this.props.setWalletCreated(true)
+    createWallet()
   }
 
   moveToTheWallet = () => {
-    replace(loginDestination)
-  }
+    const { walletSaved, wallet, setWallet } = this.props
 
-  handleCopy = (data) => {
-    if (data) {
-      toastr.success('success', 'Copying success')
-      this.props.setSaveMnemonic(true)
+    if (!walletSaved) {
+      toastr.warning(
+        'Please save your wallet',
+        'Once you have saved it you will be able to access the wallet'
+      )
     } else {
-      toastr.error('failed', 'Copying failed')
+      setWallet(wallet)
+      saveWalletToLocalStorage(wallet)
+      replace(loginDestination)
     }
+
   }
 
-  handleDownload = (mnemonic) => () => {
-    this.props.setSaveMnemonic(true)
-    fileDownload(mnemonic, 'mnemonic_key.txt')
+  handleDownload = () => {
+    downloadWallet(this.props.wallet)
+    this.props.setWalletSaved(true)
   }
 
   render () {
-    const {
-      mnemonicSaved,
-      walletCreated,
-      wallet: { createWallet: { mnemonic } }
-    } = this.props
+    const { wallet } = this.props
 
-    return <WalletPaper>
-      <Grid container spacing={24}>
-        <Grid item xs={12}>{mnemonic}</Grid>
-        <Grid item xs={12} md={6}>
-          <Button fullWidth variant='raised' color='primary' onClick={this.handleDownload(mnemonic)}>
-            Download Mnemonic
-          </Button>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-            <Button fullWidth variant='raised' color='secondary'>
-              Copy Mnemonic
-            </Button>
-          </CopyToClipboard>
-        </Grid>
-        <Grid item xs={12}>
-          {(mnemonicSaved && walletCreated)
-            ? <Button
-              label='Go to wallet'
-              fullWidth
-              onClick={this.moveToTheWallet}
-            >Go to wallet</Button>
-            : <Button
-              fullWidth
-              onClick={this.createWallet}
-            >Create wallet</Button>}
-        </Grid>
-      </Grid>
-    </WalletPaper>
+    return <WalletCard>
+      <CardHeader
+        avatar={<Avatar><WalletIcon/></Avatar>}
+        title='Create a new Wallet'
+        subheader='Distributed Identity (DID) and Bitcoin Wallet access keys have been created for you'
+      />
+      <CardContent>
+        Please save your identity and wallet keys before continuing.
+        <br/>You will be able to import these into another device to access your data.
+        <br/><b>If you lose all copies of this file, all your data will be lost</b>
+      </CardContent>
+      <CardActions>
+        <Button variant='raised' onClick={this.handleDownload} disabled={!wallet} >
+          <DownloadIcon/> Download
+        </Button>
+        <Button onClick={wallet ? this.moveToTheWallet : this.createWallet}>
+          {wallet ? 'Continue' : 'Create Wallet'}
+        </Button>
+      </CardActions>
+    </WalletCard>
   }
 }
 
 const mapStateToProps = store => ({
-  wallet: store.data.wallet,
-  mnemonicSaved: store.components.createWallet.mnemonicSaved,
-  walletCreated: store.components.createWallet.walletCreated
+  walletSaved: store.components.createWallet.walletSaved,
+  wallet: store.components.createWallet.walletCreated
 })
 
 const mapDispatchToProps = {
-    setMnemonic,
-    setCreateMnemonic,
-    setWalletCreated,
-    setSaveMnemonic
+    createWallet,
+    setWallet,
+    setWalletSaved,
+    resetWallet
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateWallet)

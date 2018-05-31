@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS, types } from 'helpers/ipfs'
 import { toastr } from 'react-redux-toastr'
 import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction';
+import { getAddress } from 'helpers/wallet';
 
 // ------------------------------------
 // Constants
@@ -32,10 +33,10 @@ export function submitPayment (data) {
     try {
       const state = getState()
       const popr = state.data.checkout.data;
-      if (!state.data.wallet.addresses || !state.data.wallet.addresses[0]) {
+      if (!state.data.wallet) {
         throw new Error('Need Wallet')
       }
-      const address = state.data.wallet.addresses[0]
+      const address = getAddress(state.data.wallet)
       const { review, rating } = data
       if (popr === null) {
         throw new Error('Need PoPR')

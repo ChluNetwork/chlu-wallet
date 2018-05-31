@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { shape, bool, string, oneOfType } from 'prop-types'
+import { object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-// helpers
-import get from 'lodash/get'
-// libs
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { toastr } from 'react-redux-toastr'
-import fileDownload from 'js-file-download'
 // components
 import Button from '@material-ui/core/Button'
 import { Card, CardContent, Typography, CardActions, withStyles } from '@material-ui/core';
+// redux
 import { compose } from 'recompose';
+// helpers
+import { downloadWallet, getAddress } from '../../helpers/wallet';
+// icons
+import DownloadIcon from '@material-ui/icons/FileDownload'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const cardStyle = {
   card: {
@@ -21,33 +21,31 @@ const cardStyle = {
 
 class Settings extends Component {
   static propTypes = {
-    wallet: shape({
-      mnemonic: string,
-      createWallet: shape({ mnemonic: oneOfType([bool, string]) })
-    })
+    wallet: object
   }
 
-  handleCopy = (data) => data ? toastr.success('Copied', 'Your mnemonic has been copied to the clipboard') : toastr.error('failed', 'Copying failed')
-  handleDownload = (mnemonic) => () => fileDownload(mnemonic, 'mnemonic_key.txt')
+  handleDownload = () => downloadWallet(this.props.wallet)
 
   render () {
     const { wallet, classes } = this.props
-    const mnemonic = get(wallet, 'mnemonic')
+    const address = getAddress(wallet)
 
     return <Card className={classes.card}>
       <CardContent>
         <Typography variant='headline' component='h2'>
-          Your Mnemonic
+          Your Wallet
         </Typography>
         <Typography component='p'>
-          {mnemonic}
+          {address}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' onClick={this.handleDownload(mnemonic)}>Download</Button>
-        <CopyToClipboard text={mnemonic} onCopy={this.handleCopy}>
-          <Button size='small'>Copy</Button>
-        </CopyToClipboard>
+        <Button variant='raised' onClick={this.handleDownload}>
+          <DownloadIcon/> Download
+        </Button>
+        <Button variant='raised' color='secondary'>
+          <DeleteIcon/> Delete
+        </Button>
       </CardActions>
     </Card>
   }
