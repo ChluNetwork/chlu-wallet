@@ -21,6 +21,7 @@ class AppLayout extends Component {
       wallet
     } = this.props
     const { loading, error } = profile
+    const emptyWallet = !wallet || !wallet.did
 
     return (
       <div>
@@ -30,7 +31,7 @@ class AppLayout extends Component {
             <ChluAppBar />
             <Sidebar />
             <Switch>
-              {!wallet && <Redirect to='/setup'/>}
+              {emptyWallet && <Redirect to='/setup'/>}
               <Route path='/claim' component={ClaimReputation} />
               <Route path='/pay' component={Payment} />
               <Route path='/transactions' component={Transactions} />

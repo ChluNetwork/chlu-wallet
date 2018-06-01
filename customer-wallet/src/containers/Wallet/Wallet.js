@@ -28,7 +28,8 @@ class LoginPage extends Component {
   onCreateWalletClick = () => {
     const { wallet, toggleMnemonicExists } = this.props
 
-    if (wallet) {
+    if (wallet && wallet.did) {
+      // TODO: review this
       toggleMnemonicExists()
     } else {
       replace('/setup/create')

@@ -6,8 +6,9 @@ import Wallet from './Wallet'
 import { connect } from 'react-redux';
 
 function WalletRouter({ wallet }) {
+  const emptyWallet = !wallet || !wallet.did
   return <Switch>
-    {wallet && <Redirect to='/claim'/>}
+    {!emptyWallet && <Redirect to='/claim'/>}
     <Route path='/setup/create' component={CreateWallet} />
     <Route path='/setup/import' component={ImportWallet} />
     <Route path='/setup' component={Wallet} />
