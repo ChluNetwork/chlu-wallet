@@ -4,13 +4,15 @@ import { generateNewWallet } from 'helpers/wallet'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const CREATE_WALLET = 'createWallet/CREATE_WALLET'
+const CREATING_WALLET = 'createWallet/CREATING_WALLET'
+const CREATED_WALLET = 'createWallet/CREATED_WALLET'
 const SET_WALLET_SAVED = 'createWallet/SET_WALLET_SAVED'
 const RESET_WALLET = 'createWallet/RESET_WALLET'
 
 function getInitialState() {
   return {
     walletSaved: false,
+    loading: false,
     walletCreated: null
   }
 }
@@ -18,17 +20,31 @@ function getInitialState() {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const createWallet = createAction(CREATE_WALLET)
 export const setWalletSaved = createAction(SET_WALLET_SAVED)
 export const resetWallet = createAction(RESET_WALLET)
+const creatingWallet = createAction(CREATING_WALLET)
+const createdWallet = createAction(CREATED_WALLET)
+
+export function createWallet() {
+  return async dispatch => {
+    dispatch(creatingWallet())
+    const wallet = await generateNewWallet()
+    dispatch(createdWallet(wallet))
+  }
+}
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [CREATE_WALLET]: (state, { payload }) => ({
+  [CREATING_WALLET]: state => ({
     ...state,
-    walletCreated: generateNewWallet() 
+    loading: true
+  }),
+  [CREATED_WALLET]: (state, { payload }) => ({
+    ...state,
+    loading: false,
+    walletCreated: payload
   }),
   [SET_WALLET_SAVED]: (state, { payload }) => ({
     ...state,

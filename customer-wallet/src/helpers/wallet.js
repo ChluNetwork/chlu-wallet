@@ -1,21 +1,20 @@
 import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import fileDownload from 'js-file-download'
+import ChluDID from 'chlu-did/src' // TODO: precompiled sources??
 
-export function generateNewWallet() {
+export async function generateNewWallet() {
     const importer = new ImportPrivateKey()
     const mnemonic = importer.generateNewMnemonic()
-    // TODO: generate a DID
+    const chluDid = new ChluDID()
+    const did = await chluDid.generateDID()
     return {
-        did: {
-            id: null,
-            privateKeyBase58: null,
-        },
+        did,
         testnet: true,
         bitcoinMnemonic: mnemonic
     }
 }
 
-export function saveWalletDIDToIPFS(wallet) {
+export async function saveWalletDIDToIPFS(wallet) {
 
 }
 
@@ -33,7 +32,7 @@ export function downloadWallet(wallet) {
 
 export function importWallet(str) {
     const wallet = JSON.parse(str)
-    // TODO: validate fields
+    // TODO: validate fields, handle errors
     return wallet
 }
 

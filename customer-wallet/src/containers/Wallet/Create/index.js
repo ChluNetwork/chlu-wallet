@@ -33,7 +33,8 @@ class CreateWallet extends Component {
     setSaveMnemonic: func,
     setWalletCreated: func,
     mnemonicSaved: bool,
-    walletCreated: bool
+    walletCreated: bool,
+    loading: bool
   }
 
   static contextTypes = {
@@ -79,7 +80,7 @@ class CreateWallet extends Component {
   }
 
   render () {
-    const { wallet } = this.props
+    const { wallet, loading } = this.props
 
     return <WalletCard>
       <CardHeader
@@ -96,8 +97,14 @@ class CreateWallet extends Component {
         <Button variant='raised' onClick={this.handleDownload} disabled={!wallet} >
           <DownloadIcon/> Download
         </Button>
-        <Button onClick={wallet ? this.moveToTheWallet : this.createWallet}>
-          {wallet ? 'Continue' : 'Create Wallet'}
+        <Button onClick={wallet ? this.moveToTheWallet : this.createWallet} disabled={loading}>
+          {
+            wallet
+            ? 'Continue'
+            : (loading
+              ? 'Loading'
+              : 'Create Wallet')
+          }
         </Button>
       </CardActions>
     </WalletCard>
@@ -106,6 +113,7 @@ class CreateWallet extends Component {
 
 const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
+  loading: store.components.createWallet.loading,
   wallet: store.components.createWallet.walletCreated
 })
 
