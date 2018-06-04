@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import { setWalletSaved, createWallet, resetWallet } from 'store/modules/components/CreateWallet'
 import { setWallet } from 'store/modules/data/wallet'
 // helpers
-import replace from 'helpers/replace'
-import { loginDestination } from '../Wallet'
 import { downloadWallet } from 'helpers/wallet'
 // components
 import WalletCard from '../Card'
@@ -37,10 +35,6 @@ class CreateWallet extends Component {
     loading: bool
   }
 
-  static contextTypes = {
-    blockchainClient: object
-  }
-
   componentWillUnmount () {
     this.props.resetWallet()
   }
@@ -69,7 +63,6 @@ class CreateWallet extends Component {
     } else {
       setWallet(wallet)
       saveWalletToLocalStorage(wallet)
-      replace(loginDestination)
     }
 
   }
