@@ -1,5 +1,10 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getWalletFromLocalStorage, deleteWalletFromLocalStorage, getAddress } from 'helpers/wallet'
+import {
+  getWalletFromLocalStorage,
+  deleteWalletFromLocalStorage,
+  saveWalletToLocalStorage,
+  getAddress
+} from 'helpers/wallet'
 
 // ------------------------------------
 // Constants
@@ -25,10 +30,10 @@ function load() {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setWallet = createAction(SET_WALLET)
 export const closeDeleteModal = createAction(CLOSE_DELETE_MODAL)
 export const openDeleteModal = createAction(OPEN_DELETE_MODAL)
 const deleteReduxWallet = createAction(DELETE_WALLET)
+const setReduxWallet = createAction(SET_WALLET)
 // ------------------------------------
 // Thunks
 // ------------------------------------
@@ -36,6 +41,13 @@ export function deleteWallet() {
   return dispatch => {
     deleteWalletFromLocalStorage()
     dispatch(deleteReduxWallet())
+  }
+}
+
+export function setWallet(wallet) {
+  return dispatch => {
+    saveWalletToLocalStorage(wallet)
+    dispatch(setReduxWallet(wallet))
   }
 }
 // ------------------------------------

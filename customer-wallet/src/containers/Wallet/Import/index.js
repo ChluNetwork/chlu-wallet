@@ -2,25 +2,21 @@ import React, { Component } from 'react'
 import { func, shape, bool, oneOfType, object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { toggleMnemonicExists } from 'store/modules/ui/modal'
 import { setWallet } from 'store/modules/data/wallet'
 // helpers
-import get from 'lodash/get'
 import replace from 'helpers/replace'
 import { loginDestination } from '../Wallet'
 // libs
-import { submit } from 'redux-form'
 import { importWallet } from 'helpers/wallet'
+import { Link } from 'react-router-dom'
 // components
+import FileReaderInput from 'react-file-reader-input'
 import WalletCard from '../Card'
 import Button from '@material-ui/core/Button'
 import { toastr } from 'react-redux-toastr'
-import ImportWalletForm from './ImportWalletForm'
-import MnemonicExistsModal from 'components/Modals/MnemonicExistsModal'
-import { CardContent, CardActions, CardHeader, Avatar, Divider } from '@material-ui/core';
+import { CardActions, CardHeader, Avatar, Divider, CardContent } from '@material-ui/core';
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import RestoreIcon from '@material-ui/icons/SettingsBackupRestore'
 
 class ImportWallet extends Component {
   static propTypes = {
@@ -29,28 +25,14 @@ class ImportWallet extends Component {
       isOpen: bool,
       data: oneOfType([bool, object])
     }),
-    toggleMnemonicExists: func,
-    setMnemonic: func,
-    submit: func
+    toggleMnemonicExists: func
   }
 
   static contextTypes = {
     blockchainClient: object
   }
 
-  onFormSubmit = () => this.props.submit('import-wallet-form')
-
-  handleSubmit = ({ mnemonic: newMnemonic }) => {
-    const { wallet: { mnemonic }, toggleMnemonicExists } = this.props
-
-    if (mnemonic) {
-      toggleMnemonicExists({ newMnemonic: newMnemonic })
-    } else {
-      this.importFromMnemonic(newMnemonic)
-    }
-  }
-
-  importWallet = str => {
+  importWallet(str) {
     try {
       const wallet = importWallet(str)
       this.props.setWallet(wallet)
@@ -62,68 +44,48 @@ class ImportWallet extends Component {
     }
   }
 
-  onImportCancel = () => {
-    this.props.toggleMnemonicExists()
-    replace(loginDestination)
-  }
-
-  onImportContinue = () => {
-    const { toggleMnemonicExists, mnemonicExistsModal } = this.props
-    this.importFromMnemonic(get(mnemonicExistsModal, 'data.newMnemonic'))
-    toggleMnemonicExists()
+  fileChanged(event, results) {
+    if (results.length > 0) {
+      // docs: https://github.com/ngokevin/react-file-reader-input#usage
+      this.importWallet(results[0][0].target.result)
+    }
   }
 
   render () {
-    const { mnemonicExistsModal: { isOpen } } = this.props
-
     return (
       <div>
         <WalletCard>
           <CardHeader
             avatar={<Avatar><WalletIcon/></Avatar>}
-            title='Import an existing Wallet'
-            subheader='Access your existing funds from this device'
+            title='Import a Chlu Wallet'
+            subheader='Access your existing funds and Identity from this device'
           />
           <CardContent>
-            <ImportWalletForm onSubmit={this.handleSubmit} />
+            Don't have a wallet yet? <Link to='/setup/create'>Create a new one</Link>
           </CardContent>
           <CardActions>
-            <Button variant='raised' color='primary' onClick={this.onFormSubmit}>
-              Import wallet
-            </Button>
+            <FileReaderInput
+              as='text'
+              onChange={this.fileChanged.bind(this)}
+              accept='application/json'
+            >
+              <Button variant='raised' color='primary'>
+                Import from File
+              </Button>
+            </FileReaderInput>
           </CardActions>
           <Divider/>
         </WalletCard>
-        <WalletCard>
-          <CardHeader
-            avatar={<Avatar><RestoreIcon/></Avatar>}
-            title='Import an existing Distributed Identity (DID)'
-            subheader='Access your Chlu reputation and reviews from this device'
-          />
-          <CardActions>
-            <Button variant='raised' color='secondary'>
-              Import identity 
-            </Button>
-          </CardActions>
-        </WalletCard>
-        <MnemonicExistsModal
-          isOpen={isOpen}
-          handleCancel={this.onImportCancel}
-          handleContinue={this.onImportContinue}
-        />
       </div>
     )
   }
 }
 
 const mapStateToProps = store => ({
-  mnemonicExistsModal: store.ui.modal.mnemonicExistsModal,
   wallet: store.data.wallet
 })
 
 const mapDispatchToProps = {
-  submit,
-  toggleMnemonicExists,
   setWallet
 }
 
