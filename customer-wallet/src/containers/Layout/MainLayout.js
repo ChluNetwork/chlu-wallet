@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { any, object } from 'prop-types'
+import { any } from 'prop-types'
 // libs
 import ReduxToastr from 'react-redux-toastr'
 // toastr
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 // styles
-import './style.css'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 class MainLayout extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ class MainLayout extends Component {
     const { children } = this.props
 
     return (
-      <div>
+      <CssBaseline>
         {children}
         <ReduxToastr
           timeOut={5000}
@@ -26,7 +26,7 @@ class MainLayout extends Component {
           transitionOut='fadeOut'
           newestOnTop
         />
-      </div>
+      </CssBaseline>
     )
   }
 }
