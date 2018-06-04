@@ -1,22 +1,22 @@
 import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import fileDownload from 'js-file-download'
+import ChluDID from 'chlu-did/src' // TODO: precompiled sources??
 
-export function generateNewWallet() {
+export async function generateNewWallet() {
     const importer = new ImportPrivateKey()
     const mnemonic = importer.generateNewMnemonic()
-    // TODO: generate a DID
+    const chluDid = new ChluDID()
+    const did = await chluDid.generateDID()
     return {
-        did: {
-            id: null,
-            privateKeyBase58: null,
-        },
+        did,
         testnet: true,
         bitcoinMnemonic: mnemonic
     }
 }
 
-export function saveWalletDIDToIPFS(wallet) {
-
+export async function saveWalletDIDToIPFS(wallet) {
+    // TODO: implementation
+    // code is already in chlu-did-service and chlu-service-node
 }
 
 export function saveWalletToLocalStorage(wallet) {
@@ -27,17 +27,37 @@ export function getWalletFromLocalStorage() {
     return JSON.parse(localStorage.getItem('wallet') || 'null')
 }
 
+export function deleteWalletFromLocalStorage() {
+    localStorage.removeItem('wallet')
+}
+
 export function downloadWallet(wallet) {
     fileDownload(JSON.stringify(wallet, null, 2), 'chlu_wallet.json')
 }
 
 export function importWallet(str) {
-    const wallet = JSON.parse(str)
-    // TODO: validate fields
-    return wallet
+    try {
+        const wallet = JSON.parse(str)
+        if (!wallet.did) {
+            throw new Error('Missing DID')
+        }
+        if (!wallet.bitcoinMnemonic) {
+            throw new Error('Missing Bitcoin Mnemonic')
+        }
+        if (!wallet.testnet) {
+            throw new Error('The Wallet has to be for Testnet')
+        }
+        return wallet
+    } catch (error) {
+        console.log(error)
+        throw new Error('Imported file is not a valid Wallet: ' + error.message)
+    }
 }
 
 export function getAddress(wallet) {
+    if (!wallet || !wallet.bitcoinMnemonic) {
+        return null
+    }
     const keyPath = "m/44'/1'/0'/0/0"
     const importer = new ImportPrivateKey()
     const kp = importer.importFromMnemonic(wallet.bitcoinMnemonic, keyPath)

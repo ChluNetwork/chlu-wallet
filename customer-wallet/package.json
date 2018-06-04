@@ -8,6 +8,7 @@
     "@material-ui/icons": "^1.0.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "chlu-did": "ChluNetwork/chlu-did",
     "chlu-ipfs-support": "https://github.com/ChluNetwork/chlu-ipfs-support.git",
     "chlu-wallet-support-js": "https://github.com/ChluNetwork/chlu-wallet-support-js.git",
     "classnames": "^2.2.5",
