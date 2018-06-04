@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { shape, bool, func, string, oneOfType, object } from 'prop-types'
+import { shape, bool, func, string, oneOfType } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setWalletSaved, createWallet, resetWallet } from 'store/modules/components/CreateWallet'
