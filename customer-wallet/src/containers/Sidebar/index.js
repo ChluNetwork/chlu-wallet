@@ -36,7 +36,7 @@ const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
         </ListItem>
         <ListItem button onClick={() => nav('/pay')}>
           <ListItemIcon><PaymentIcon/></ListItemIcon>
-          <ListItemText primary='Pay' />
+          <ListItemText primary='Pay & Review' />
         </ListItem>
         <ListItem button onClick={() => nav('/settings')}>
           <ListItemIcon><SettingsIcon/></ListItemIcon>
