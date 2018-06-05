@@ -131,19 +131,31 @@ class Reviews extends Component {
             }
         })
     }
+
+    renderReviews(reviews, classes) {
+        return <Grid container spacing={16} className={classes.root}>
+            {reviews.map((review, index) => (
+                 <Grid key={index} item xs={12} lg={6} > 
+                     <Review review={review} index={index + 1} />
+                 </Grid>
+             ))}
+        </Grid>
+    }
     
     render() {
-        const reviews = this.transformYelpData()
+        const upworkReviews = this.transformUpworkData()
+        const yelpReviews = this.transformYelpData()
+        const tripAdvisorReviews = this.transformTripAdvisorData()
         const { classes } = this.props
-        console.log(reviews[0])
-        return (            
-            <Grid container spacing={16} className={classes.root}>
-                {reviews.map((review, index) => (
-                    <Grid key={index} item xs={12} lg={6} > 
-                        <Review review={review} index={index + 1} />
-                    </Grid>
-                ))}
-            </Grid>
+        return (
+            <div>
+                <h4>UpWork</h4>
+                {this.renderReviews(upworkReviews, classes)}
+                <h4>Yelp</h4>
+                {this.renderReviews(yelpReviews, classes)}
+                <h4>Trip Advisor</h4>
+                {this.renderReviews(tripAdvisorReviews, classes)}
+            </div>
         )
     }
 }
