@@ -49,9 +49,9 @@ class Reviews extends Component {
                     text: review.description
                 },
                 rating: {
-                    min: 0,
+                    min: 1,
                     value: review.ratingValue,
-                    max: 4,
+                    max: 5,
                 },
                 verifiable: false,
                 proof: null
@@ -86,9 +86,9 @@ class Reviews extends Component {
                     text: review.text
                 },
                 rating: {
-                    min: 0,
+                    min: 1,
                     value: review.score,
-                    max: 4,
+                    max: 5,
                 }
             }
         })
@@ -101,7 +101,7 @@ class Reviews extends Component {
                     rating: {
                         min: 0,
                         value: detail.score,
-                        max: 4,
+                        max: 5,
                     },
                     review: detail.description,
                     category: detail.label
@@ -123,9 +123,9 @@ class Reviews extends Component {
                     text: review.feedback.comment
                 },
                 rating: {
-                    min: 0,
+                    min: 1,
                     value: review.feedback.score,
-                    max: 4,
+                    max: 5,
                 },
                 detailedReview
             }
@@ -133,7 +133,7 @@ class Reviews extends Component {
     }
     
     render() {
-        const reviews = this.transformUpworkData()
+        const reviews = this.transformYelpData()
         const { classes } = this.props
         console.log(reviews[0])
         return (            

@@ -13,54 +13,78 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import LinkIcon from '@material-ui/icons/Link'
 
+import { isArray } from 'lodash'
 
 class Review extends Component {
-
+  
   datePublished(datePublished) {
     if (datePublished) {
       return (
-          <ListItem>
-              <ListItemIcon><DateRangeIcon /></ListItemIcon>
-              <ListItemText
-                  primary={datePublished}
-              />
-          </ListItem>
+        <ListItem>
+            <ListItemIcon><DateRangeIcon /></ListItemIcon>
+            <ListItemText
+                primary={datePublished}
+            />
+        </ListItem>
+      )
+    }
+  }
+  
+  url(url) {
+    if(url) {
+      return (
+        <ListItem>
+            <ListItemIcon><LinkIcon /></ListItemIcon>
+            <ListItemText
+                primary={<a href={url}>{url}</a>}
+            />
+        </ListItem>
       )
     }
   }
 
-  url(url) {
-    if(url) {
-      return (
-          <ListItem>
-          <ListItemIcon><LinkIcon /></ListItemIcon>
+  detailedReview(detailedReview) {
+    if ( isArray(detailedReview) ) {
+      return detailedReview.map((dr) => (      
+        <ListItem>
           <ListItemText
-        primary={<a href={url}>{url}</a>}
+              primary={
+                <div>
+                  <div>{dr.category}</div>
+                  <div>
+                    <StarRatingComponent
+              name='rating'
+              starCount={dr.rating.max}
+              value={dr.rating.value}
+                    />
+                  </div>
+                </div>}
+              secondary={dr.review}
           />
-          </ListItem>
-      )
+        </ListItem>
+      ))
     }
   }
   
   render() {
     const { review, index } = this.props
     return (
-        <Card>
-        <CardHeader
-      avatar={<Avatar aria-label='review-author'>
-              {index}
+      <Card>
+          <CardHeader
+              avatar={<Avatar aria-label='review-author'>
+                                          {index}
               </Avatar>
-             }
-      title={<StarRatingComponent
+                     }
+              title={<StarRatingComponent
              name='rating'
              starCount={review.rating.max}
              value={review.rating.value}
-             />
-            }
-      subheader={review.author.name}
-        />
+                   />
+                    }
+              subheader={review.author.name}
+          />
               <CardContent>
-                  <List dense disablePadding>
+                  <List disablePadding>
                       <ListItem>
                           <ListItemText
                               primary={review.review.title}
@@ -69,9 +93,10 @@ class Review extends Component {
                       </ListItem>
                       {this.datePublished(review.review.date_published)}
                       {this.url(review.review.url)}
+                      {this.detailedReview(review.detailedReview)}
                   </List>
               </CardContent>
-        </Card>
+      </Card>
     )
   }  
 }
