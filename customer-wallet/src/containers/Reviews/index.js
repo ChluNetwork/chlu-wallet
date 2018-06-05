@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles'
+
 import yelpData from './test-data/yelp.json'
 import tripAdvisorData from './test-data/tripadvisor.json'
+import upworkData from './test-data/upwork.json'
 
-import map from 'lodash'
+import Review from './components/Review'
+
+import { map } from 'lodash'
+
+const styles = {
+    root: {
+        padding: '20px',
+        flexGrow: 1
+    },
+}
 
 class Reviews extends Component {
 
     transformYelpData() {
-        map(yelpData, (review) => {
+        return map(yelpData, (review) => {
             return {
                 subject: {
                     name: review.name,
@@ -47,7 +60,7 @@ class Reviews extends Component {
     }
 
     transformTripAdvisor() {
-        map(tripAdvisorData, (review) => {
+        return map(tripAdvisorData, (review) => {
             return {
                 subject: {
                     name: review.name,
@@ -82,7 +95,7 @@ class Reviews extends Component {
     }
 
     transformUpwork() {
-        map(tripAdvisorData, (review) => {
+        return map(upworkData, (review) => {
             let detailedReview = map(review.feedback.scoreDetails, (detail) => {
                 return {
                     rating: {
@@ -116,16 +129,23 @@ class Reviews extends Component {
                 },
                 detailedReview
             }
-        })        
+        })
     }
     
     render() {
-        return (
-            <div>
-                
-            </div>
+        const reviews = this.transformYelpData()
+        const { classes } = this.props
+        console.log(reviews[0])
+        return (            
+            <Grid container spacing={16} className={classes.root}>
+                {reviews.map((review, index) => (
+                    <Grid key={index} item xs={12} lg={6} > 
+                        <Review review={review} index={index + 1} />
+                    </Grid>
+                ))}
+            </Grid>
         )
-  }
+    }
 }
 
-export default Reviews
+export default withStyles(styles)(Reviews);
