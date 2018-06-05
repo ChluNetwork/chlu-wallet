@@ -59,7 +59,7 @@ class Reviews extends Component {
         })
     }
 
-    transformTripAdvisor() {
+    transformTripAdvisorData() {
         return map(tripAdvisorData, (review) => {
             return {
                 subject: {
@@ -94,7 +94,7 @@ class Reviews extends Component {
         })
     }
 
-    transformUpwork() {
+    transformUpworkData() {
         return map(upworkData, (review) => {
             let detailedReview = map(review.feedback.scoreDetails, (detail) => {
                 return {
@@ -133,7 +133,7 @@ class Reviews extends Component {
     }
     
     render() {
-        const reviews = this.transformYelpData()
+        const reviews = this.transformUpworkData()
         const { classes } = this.props
         console.log(reviews[0])
         return (            

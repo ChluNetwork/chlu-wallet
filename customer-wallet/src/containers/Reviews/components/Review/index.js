@@ -12,10 +12,35 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import LinkIcon from '@material-ui/icons/Link'
-import TextIcon from '@material-ui/icons/ShortText'
 
 
 class Review extends Component {
+
+  datePublished(datePublished) {
+    if (datePublished) {
+      return (
+          <ListItem>
+              <ListItemIcon><DateRangeIcon /></ListItemIcon>
+              <ListItemText
+                  primary={datePublished}
+              />
+          </ListItem>
+      )
+    }
+  }
+
+  url(url) {
+    if(url) {
+      return (
+          <ListItem>
+          <ListItemIcon><LinkIcon /></ListItemIcon>
+          <ListItemText
+        primary={<a href={url}>{url}</a>}
+          />
+          </ListItem>
+      )
+    }
+  }
   
   render() {
     const { review, index } = this.props
@@ -41,19 +66,9 @@ class Review extends Component {
                               primary={review.review.title}
                               secondary={review.review.text}
                           />
-                      </ListItem>                      
-                      <ListItem>
-                          <ListItemIcon><DateRangeIcon /></ListItemIcon>
-                          <ListItemText
-                              primary={review.review.date_published}
-                          />
                       </ListItem>
-                      <ListItem>
-                          <ListItemIcon><LinkIcon /></ListItemIcon>
-                          <ListItemText
-                              primary={<a href={review.review.url}>{review.review.url}</a>}
-                          />
-                      </ListItem>
+                      {this.datePublished(review.review.date_published)}
+                      {this.url(review.review.url)}
                   </List>
               </CardContent>
         </Card>
