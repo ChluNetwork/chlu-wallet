@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { func, shape, bool, oneOfType, object } from 'prop-types'
+import { object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { setWallet } from 'store/modules/data/wallet'
-// helpers
-import replace from 'helpers/replace'
-import { loginDestination } from '../Wallet'
 // libs
 import { importWallet } from 'helpers/wallet'
 import { Link } from 'react-router-dom'
@@ -20,16 +17,7 @@ import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 
 class ImportWallet extends Component {
   static propTypes = {
-    wallet: object,
-    mnemonicExistsModal: shape({
-      isOpen: bool,
-      data: oneOfType([bool, object])
-    }),
-    toggleMnemonicExists: func
-  }
-
-  static contextTypes = {
-    blockchainClient: object
+    wallet: object
   }
 
   importWallet(str) {
@@ -37,7 +25,6 @@ class ImportWallet extends Component {
       const wallet = importWallet(str)
       this.props.setWallet(wallet)
       toastr.success('Wallet imported', 'Your existing data has been imported')
-      replace(loginDestination)
     } catch (error) {
       toastr.error('Could not import Wallet', 'Something went wrong')
       console.log(error)
