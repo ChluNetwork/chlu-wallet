@@ -43,9 +43,9 @@ class Review extends Component {
     }
   }
 
-  detailedReview(detailedReview) {
-    if ( isArray(detailedReview) ) {
-      return detailedReview.map((dr) => (      
+  detailedReview(detailed_review) {
+    if ( isArray(detailed_review) ) {
+      return detailed_review.map((dr) => (      
         <ListItem>
           <ListItemText
               primary={
@@ -93,7 +93,7 @@ class Review extends Component {
                       </ListItem>
                       {this.datePublished(review.review.date_published)}
                       {this.url(review.review.url)}
-                      {this.detailedReview(review.detailedReview)}
+                      {this.detailedReview(review.detailed_review)}
                   </List>
               </CardContent>
       </Card>
