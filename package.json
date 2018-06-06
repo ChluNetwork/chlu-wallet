@@ -10,7 +10,7 @@
     "babel-polyfill": "^6.26.0",
     "chlu-did": "ChluNetwork/chlu-did",
     "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support",
-    "chlu-wallet-support-js": "ChluNetwork/chlu-wallet-support-js#fixes",
+    "chlu-wallet-support-js": "ChluNetwork/chlu-wallet-support-js",
     "classnames": "^2.2.5",
     "history": "^4.7.2",
     "js-file-download": "^0.4.1",
@@ -39,7 +39,8 @@
     "superagent": "^3.6.0"
   },
   "resolutions": {
-    "node-forge": "0.7.4"
+    "node-forge": "0.7.5",
+    "blockcypher": "ChluNetwork/node-client#fixes"
   },
   "scripts": {
     "start": "react-scripts start",

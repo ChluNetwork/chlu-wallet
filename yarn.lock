@@ -1389,15 +1389,9 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-blockcypher@ChluNetwork/node-client:
+blockcypher@ChluNetwork/node-client, blockcypher@ChluNetwork/node-client#fixes, "blockcypher@git+https://github.com/ChluNetwork/node-client.git":
   version "0.2.0"
-  resolved "https://codeload.github.com/ChluNetwork/node-client/tar.gz/95b44914d4c771a7c42c15b858ffac97fc8ee071"
-  dependencies:
-    superagent "^3.8.2"
-
-"blockcypher@git+https://github.com/ChluNetwork/node-client.git":
-  version "0.2.0"
-  resolved "git+https://github.com/ChluNetwork/node-client.git#95b44914d4c771a7c42c15b858ffac97fc8ee071"
+  resolved "https://codeload.github.com/ChluNetwork/node-client/tar.gz/3f50c83981a96a63dffe5011196eff38e103cb86"
   dependencies:
     superagent "^3.8.2"
 
@@ -1988,19 +1982,6 @@ chlu-ipfs-support@ChluNetwork/chlu-ipfs-support:
 chlu-wallet-support-js@ChluNetwork/chlu-wallet-support-js:
   version "0.0.1"
   resolved "https://codeload.github.com/ChluNetwork/chlu-wallet-support-js/tar.gz/30a06015cc5ecf672b4d36b9130fbaecdb6ad474"
-  dependencies:
-    bip39 "^2.4.0"
-    bitcoinjs-lib "^3.1.1"
-    blockcypher "git+https://github.com/ChluNetwork/node-client.git"
-    coinselect "^3.1.11"
-    dotenv "4.0.0"
-    es6-promisify "^5.0.0"
-    jest-cli "^21.2.1"
-    nock "^9.0.18"
-
-chlu-wallet-support-js@ChluNetwork/chlu-wallet-support-js#fixes:
-  version "0.0.1"
-  resolved "https://codeload.github.com/ChluNetwork/chlu-wallet-support-js/tar.gz/0f3a0e92cd6782ddc4d8f8bf54a641e3638e458a"
   dependencies:
     bip39 "^2.4.0"
     bitcoinjs-lib "^3.1.1"
@@ -4120,7 +4101,7 @@ fsevents@^1.0.0, fsevents@^1.1.3:
     nan "^2.3.0"
     node-pre-gyp "^0.6.39"
 
-fsevents@^1.2.3:
+fsevents@^1.1.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
   dependencies:
@@ -5062,7 +5043,7 @@ ipfs-multipart@~0.1.0:
     content "^3.0.0"
     dicer "^0.2.5"
 
-ipfs-pubsub-1on1@~0.0.4:
+ipfs-pubsub-1on1@~0.0.3:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/ipfs-pubsub-1on1/-/ipfs-pubsub-1on1-0.0.4.tgz#aee0052f6b85e2d953a8137497471437c6e6dab6"
   dependencies:
@@ -7925,9 +7906,9 @@ node-fetch@^1.0.1:
     encoding "^0.1.11"
     is-stream "^1.0.1"
 
-node-forge@0.6.33, node-forge@0.7.4, node-forge@^0.7.1, node-forge@^0.7.4, node-forge@^0.7.5:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.4.tgz#8e6e9f563a1e32213aa7508cded22aa791dbf986"
+node-forge@0.6.33, node-forge@0.7.5, node-forge@^0.7.1, node-forge@^0.7.4, node-forge@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
 
 node-gyp-build@^3.0.0:
   version "3.3.0"
@@ -8364,7 +8345,7 @@ orbit-db@orbitdb/orbit-db#master:
   version "0.19.7"
   resolved "https://codeload.github.com/orbitdb/orbit-db/tar.gz/a516d6d38a38140bda3325cc1281f343620d8a75"
   dependencies:
-    ipfs-pubsub-1on1 "~0.0.4"
+    ipfs-pubsub-1on1 "~0.0.3"
     logplease "^1.2.14"
     multihashes "^0.4.12"
     orbit-db-cache "~0.2.2"
@@ -10353,7 +10334,7 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-safer-buffer@^2.1.0:
+safer-buffer@^2.0.2, safer-buffer@^2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
@@ -10675,26 +10656,7 @@ socket.io-adapter@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-1.1.1.tgz#2a805e8a14d6372124dd9159ad4502f8cb07f06b"
 
-socket.io-client@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.1.1.tgz#dcb38103436ab4578ddb026638ae2f21b623671f"
-  dependencies:
-    backo2 "1.0.2"
-    base64-arraybuffer "0.1.5"
-    component-bind "1.0.0"
-    component-emitter "1.2.1"
-    debug "~3.1.0"
-    engine.io-client "~3.2.0"
-    has-binary2 "~1.0.2"
-    has-cors "1.1.0"
-    indexof "0.0.1"
-    object-component "0.0.3"
-    parseqs "0.0.5"
-    parseuri "0.0.5"
-    socket.io-parser "~3.2.0"
-    to-array "0.1.4"
-
-socket.io-client@^2.0.4, socket.io-client@^2.1.0:
+socket.io-client@2.1.0, socket.io-client@^2.0.4, socket.io-client@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-2.1.0.tgz#0d0b21d460dc4ed36e57085136f2be0137ff20ff"
   dependencies:
@@ -10910,13 +10872,14 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
 
 sshpk@^1.7.0:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.14.1.tgz#130f5975eddad963f1d56f92b9ac6c51fa9f83eb"
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.14.2.tgz#c6fc61648a3d9c4e764fd3fcdf4ea105e492ba98"
   dependencies:
     asn1 "~0.2.3"
     assert-plus "^1.0.0"
     dashdash "^1.12.0"
     getpass "^0.1.1"
+    safer-buffer "^2.0.2"
   optionalDependencies:
     bcrypt-pbkdf "^1.0.0"
     ecc-jsbn "~0.1.1"
