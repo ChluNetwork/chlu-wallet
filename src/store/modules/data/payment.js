@@ -32,11 +32,12 @@ export function submitPayment (data) {
     dispatch(setPaymentLoading(true))
     try {
       const state = getState()
+      const wallet = state.data.wallet
       const popr = state.data.checkout.data;
-      if (!state.data.wallet) {
+      if (!wallet) {
         throw new Error('Need Wallet')
       }
-      const address = getAddress(state.data.wallet)
+      const address = getAddress(wallet)
       const { review, rating } = data
       if (popr === null) {
         throw new Error('Need PoPR')
@@ -62,6 +63,7 @@ export function submitPayment (data) {
           console.log(popr.amount)
           try {
             const tr = new CreateChluTransaction(process.env.REACT_APP_BLOCKCYPHER_TOKEN)
+            tr.getImportedKey(wallet.bitcoinMnemonic)
             const response = await tr.create(address, popr.vendorAddress, popr.amount, null, multihash)
             console.log(response)
             try {
