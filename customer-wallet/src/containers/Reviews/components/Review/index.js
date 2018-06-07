@@ -52,11 +52,7 @@ class Review extends Component {
                 <div>
                   <div>{dr.category}</div>
                   <div>
-                    <StarRatingComponent
-              name='rating'
-              starCount={dr.rating.max}
-              value={dr.rating.value}
-                    />
+                    <StarRatingComponent name='rating' starCount={dr.rating.max} value={dr.rating.value} />
                   </div>
                 </div>}
               secondary={dr.review}
@@ -71,31 +67,23 @@ class Review extends Component {
     return (
       <Card>
           <CardHeader
-              avatar={<Avatar aria-label='review-author'>
-                                          {index}
-              </Avatar>
-                     }
-              title={<StarRatingComponent
-             name='rating'
-             starCount={review.rating.max}
-             value={review.rating.value}
-                   />
-                    }
+              avatar={<Avatar aria-label='review-author'> {index} </Avatar>}
+              title={<StarRatingComponent name='rating' starCount={review.rating.max} value={review.rating.value} />}
               subheader={review.author.name}
           />
-              <CardContent>
-                  <List disablePadding>
-                      <ListItem>
-                          <ListItemText
-                              primary={review.review.title}
-                              secondary={review.review.text}
-                          />
-                      </ListItem>
-                      {this.datePublished(review.review.date_published)}
-                      {this.url(review.review.url)}
-                      {this.detailedReview(review.detailed_review)}
-                  </List>
-              </CardContent>
+          <CardContent>
+            <List disablePadding>
+              <ListItem>
+                <ListItemText
+                    primary={review.review.title}
+                    secondary={review.review.text}
+                />
+              </ListItem>
+              {this.datePublished(review.review.date_published)}
+              {this.url(review.review.url)}
+              {this.detailedReview(review.detailed_review)}
+            </List>
+          </CardContent>
       </Card>
     )
   }  
