@@ -1945,9 +1945,9 @@ chloride@^2.2.8:
   optionalDependencies:
     sodium-native "^2.1.6"
 
-"chlu-did@https://github.com/ChluNetwork/chlu-did.git":
+chlu-did@ChluNetwork/chlu-did:
   version "1.0.0"
-  resolved "https://github.com/ChluNetwork/chlu-did.git#fb253f8fc0f62ceb5f0296f295637e76514b5111"
+  resolved "https://codeload.github.com/ChluNetwork/chlu-did/tar.gz/fb253f8fc0f62ceb5f0296f295637e76514b5111"
   dependencies:
     brorand "^1.1.0"
     bs58 "4.0.1"
