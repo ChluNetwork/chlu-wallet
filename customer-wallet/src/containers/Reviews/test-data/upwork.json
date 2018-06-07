@@ -1,0 +1,458 @@
+[
+  {
+    "startedOn": "2018-02-01T00:00:00.000Z",
+    "endedOn": "2018-02-01T00:00:00.000Z",
+    "totalCharges": {
+      "currencyCode": "USD",
+      "amount": 120
+    },
+    "totalHours": 0,
+    "hourlyRate": {
+      "currencyCode": "USD",
+      "amount": 0
+    },
+    "type": 1,
+    "title": "Update an iOS app to swift4",
+    "feedback": {
+      "score": 5,
+      "comment": "From a previous iOS developer I had a time estimate of 1-2 days for migrating the project to Swift4. I created a fixed-price project based on this and on a low-hourly rate - as this is a private project with limited budget. Amongst all the offers from low hourly rates, he had the highest hourly rate - however at the time of awarding the project I did not notice that. To my surprise, the project was finished within hours of awarding although the due date was 1 week later. If you are in a time hurry, this freelancer is a good choice - the high hourly rate will compensate in terms of time. I can recommend this freelancer for iOS related work.",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of work deliverables"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "ability to complete tasks on time"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills, frequent progress updates, responsiveness"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, suggestions for improvement"
+        }
+      ]
+    },
+    "linkedPortfolio": null,
+    "description": "Worked for an employer from Germany in a ",
+    "clientId": "283449",
+    "isPrivate": false,
+    "agencyName": null,
+    "status": null,
+    "initialAmount": {
+      "currencyCode": "USD",
+      "amount": 120
+    },
+    "hoursPerWeek": 0,
+    "openingRid": "212495750",
+    "skills": null,
+    "totalEarnings": null,
+    "blendedChargeRate": null,
+    "blendedEarnRate": null,
+    "feedbackGiven": {
+      "score": 5,
+      "comment": "Good Work!",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of task complexities"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "understanding of complexities and trade-offs"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills and responsiveness, feedback and guidance"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, open to suggestions for improvement"
+        }
+      ]
+    },
+    "id": "19605308",
+    "isEdc": false,
+    "ciphertext": "~014d9975a7df9a5cb3",
+    "isPtc": false,
+    "isOpeningVisible": true,
+    "accessType": 1,
+    "openingHidden": false
+  },
+  {
+    "startedOn": "2018-02-01T00:00:00.000Z",
+    "endedOn": "2018-02-01T00:00:00.000Z",
+    "totalCharges": {
+      "currencyCode": "USD",
+      "amount": 20
+    },
+    "totalHours": 0,
+    "hourlyRate": {
+      "currencyCode": "USD",
+      "amount": 0
+    },
+    "type": 1,
+    "title": "Looking for iPhone programmer to fix a couple bugs in iOS app",
+    "feedback": {
+      "score": 5,
+      "comment": "Once again he has helped me tremendously. Great fast work. I'd highly recommend!",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of work deliverables"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "ability to complete tasks on time"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills, frequent progress updates, responsiveness"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, suggestions for improvement"
+        }
+      ]
+    },
+    "linkedPortfolio": null,
+    "description": "Worked for an employer from United States in a ",
+    "clientId": "315885",
+    "isPrivate": false,
+    "agencyName": null,
+    "status": null,
+    "initialAmount": {
+      "currencyCode": "USD",
+      "amount": 20
+    },
+    "hoursPerWeek": 0,
+    "openingRid": "212313320",
+    "skills": null,
+    "totalEarnings": null,
+    "blendedChargeRate": null,
+    "blendedEarnRate": null,
+    "feedbackGiven": {
+      "score": 5,
+      "comment": "Thanks",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of task complexities"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "understanding of complexities and trade-offs"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills and responsiveness, feedback and guidance"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, open to suggestions for improvement"
+        }
+      ]
+    },
+    "id": "19479261",
+    "isEdc": false,
+    "ciphertext": "~011d9f980db6ce7a98",
+    "isPtc": false,
+    "isOpeningVisible": true,
+    "accessType": 1,
+    "openingHidden": false
+  },
+  {
+    "startedOn": "2018-01-01T00:00:00.000Z",
+    "endedOn": "2018-01-01T00:00:00.000Z",
+    "totalCharges": {
+      "currencyCode": "USD",
+      "amount": 20
+    },
+    "totalHours": 0,
+    "hourlyRate": {
+      "currencyCode": "USD",
+      "amount": 0
+    },
+    "type": 1,
+    "title": "Looking for iPhone programmer to fix a couple bugs in iOS app",
+    "feedback": {
+      "score": 5,
+      "comment": "He worked fast and efficiently on what needed to be fixed on my app. Great communication skills. And works through problems with ease. Even helped me out on other issues I found later on. Glad to work with him again.",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of work deliverables"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "ability to complete tasks on time"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills, frequent progress updates, responsiveness"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, suggestions for improvement"
+        }
+      ]
+    },
+    "linkedPortfolio": null,
+    "description": "Worked for an employer from United States in a ",
+    "clientId": "315885",
+    "isPrivate": false,
+    "agencyName": null,
+    "status": null,
+    "initialAmount": {
+      "currencyCode": "USD",
+      "amount": 20
+    },
+    "hoursPerWeek": 0,
+    "openingRid": "212305123",
+    "skills": null,
+    "totalEarnings": null,
+    "blendedChargeRate": null,
+    "blendedEarnRate": null,
+    "feedbackGiven": {
+      "score": 5,
+      "comment": "Good job! I want to work with him again. Thanks",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of task complexities"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "understanding of complexities and trade-offs"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills and responsiveness, feedback and guidance"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, open to suggestions for improvement"
+        }
+      ]
+    },
+    "id": "19472898",
+    "isEdc": false,
+    "ciphertext": "~01aff5c62805904c08",
+    "isPtc": false,
+    "isOpeningVisible": true,
+    "accessType": 1,
+    "openingHidden": false
+  },
+  {
+    "startedOn": "2018-01-01T00:00:00.000Z",
+    "endedOn": "2018-01-01T00:00:00.000Z",
+    "totalCharges": {
+      "currencyCode": "USD",
+      "amount": 100
+    },
+    "totalHours": 0,
+    "hourlyRate": {
+      "currencyCode": "USD",
+      "amount": 0
+    },
+    "type": 1,
+    "title": "Looking for iPhone programmer to fix a couple bugs in iOS app",
+    "feedback": {
+      "score": 5,
+      "comment": "He was great! He worked quickly and perfectly. Finished my project very quickly with no hassle at all. Great to work with. I would highly recommend!",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of work deliverables"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "ability to complete tasks on time"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills, frequent progress updates, responsiveness"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, suggestions for improvement"
+        }
+      ]
+    },
+    "linkedPortfolio": null,
+    "description": "Worked for an employer from United States in a ",
+    "clientId": "315885",
+    "isPrivate": false,
+    "agencyName": null,
+    "status": null,
+    "initialAmount": {
+      "currencyCode": "USD",
+      "amount": 100
+    },
+    "hoursPerWeek": 0,
+    "openingRid": "212238096",
+    "skills": null,
+    "totalEarnings": null,
+    "blendedChargeRate": null,
+    "blendedEarnRate": null,
+    "feedbackGiven": {
+      "score": 5,
+      "comment": "Good!",
+      "commentIsPublic": true,
+      "response": null,
+      "scoreDetails": [
+        {
+          "score": 5,
+          "label": "Skills",
+          "description": "competency and skills for the job, understanding of task complexities"
+        },
+        {
+          "score": 5,
+          "label": "Quality",
+          "description": "quality of specifications/instructions"
+        },
+        {
+          "score": 5,
+          "label": "Availability",
+          "description": "online presence on a consistent schedule"
+        },
+        {
+          "score": 5,
+          "label": "Deadlines",
+          "description": "understanding of complexities and trade-offs"
+        },
+        {
+          "score": 5,
+          "label": "Communication",
+          "description": "communication skills and responsiveness, feedback and guidance"
+        },
+        {
+          "score": 5,
+          "label": "Cooperation",
+          "description": "cooperation and flexibility, open to suggestions for improvement"
+        }
+      ]
+    },
+    "id": "19447263",
+    "isEdc": false,
+    "ciphertext": "~017fcc97927ce35fc0",
+    "isPtc": false,
+    "isOpeningVisible": true,
+    "accessType": 1,
+    "openingHidden": false
+  }
+]

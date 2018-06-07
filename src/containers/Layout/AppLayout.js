@@ -12,6 +12,7 @@ import ClaimReputation from '../ClaimReputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
+import Reviews from '../Reviews'
 
 class AppLayout extends Component {
 
@@ -36,6 +37,7 @@ class AppLayout extends Component {
               <Route path='/pay' component={Payment} />
               <Route path='/transactions' component={Transactions} />
               <Route path='/settings' component={Settings} />
+              <Route path='/reviews' component={Reviews} />
               <Redirect to='/claim'/>
             </Switch>
           </div>
