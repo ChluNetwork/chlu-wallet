@@ -4,7 +4,9 @@ import { updateReviewRecordAction } from 'store/modules/data/reviews'
 export async function getChluIPFS(type) {
     const options = {
         type,
-        network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental
+        network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental,
+        bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
+        blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN
     }
     if (!window.chluIpfs) {
         if (!type) {
@@ -13,7 +15,7 @@ export async function getChluIPFS(type) {
         window.chluIpfs = new ChluIPFS(options)
         await window.chluIpfs.start()
         // Turn Review Record updates into redux actions
-        window.chluIpfs.instance.events.on('updated ReviewRecord', (multihash, updatedMultihash, reviewRecord) => {
+        window.chluIpfs.instance.events.on('reviewrecord/updated', (multihash, updatedMultihash, reviewRecord) => {
           window.reduxStore.dispatch(updateReviewRecordAction({
             multihash, 
             updatedMultihash,
