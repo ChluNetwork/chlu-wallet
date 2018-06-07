@@ -2,14 +2,13 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
-// material-ui components
-import withStyles from "material-ui/styles/withStyles";
+// components
 import Card from "material-ui/Card";
-
-// core components
-import Button from "components/CustomButtons/Button.jsx";
-
-import wizardStyle from "assets/jss/material-dashboard-pro-react/components/wizardStyle.jsx";
+// custom components
+import Button from 'components/HomePage/Button'
+// styles
+import { withStyles } from '@material-ui/core'
+import wizardStyle from 'styles/material-dashboard-pro-react/components/wizardStyle.jsx'
 
 class Wizard extends React.Component {
   constructor(props) {

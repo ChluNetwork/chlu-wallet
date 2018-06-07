@@ -15,18 +15,20 @@ import {
     Payment
 } from "@material-ui/icons";
 // custom components
-import RegularCard from "components/Cards/RegularCard.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
-import Timeline from "components/Timeline/Timeline.jsx";
+import RegularCard from "components/HomePage/RegularCard";
+import InfoArea from "components/HomePage/InfoArea";
+import Timeline from "components/HomePage/Timeline";
+//import Wizard from "components/HomePage/Wizard";
 // sub views
-import Step1 from "./WizardSteps/Step1.jsx";
-import Step2 from "./WizardSteps/Step2.jsx";
-import Step3 from "./WizardSteps/Step3.jsx";
-import Wizard from "components/Wizard/Wizard.jsx";
+/*
+import Step1 from "./WizardSteps/Step1";
+import Step2 from "./WizardSteps/Step2";
+import Step3 from "./WizardSteps/Step3";
+*/
 // content
-import { stories } from "variables/general.jsx";
+import { stories } from "fixtures/stories";
 // style
-import homePageStyle from "assets/jss/material-dashboard-pro-react/views/homePageStyle.jsx";
+import homePageStyle from 'styles/material-dashboard-pro-react/views/homePageStyle.jsx'
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -56,7 +58,7 @@ class HomePage extends React.Component {
     console.log("submitting register form");
   }
 
-  render() {
+render() {
     const { classes } = this.props;
     return (
       <div className={classes.content}>
@@ -128,6 +130,7 @@ class HomePage extends React.Component {
                     </Grid>
                     <Grid container spacing='24'>
                       <Grid item xs={12} sm={12}>
+                        {/*
                         <Wizard
                           validate
                           steps={[
@@ -138,6 +141,7 @@ class HomePage extends React.Component {
                           title="Let's Get Started"
                           subtitle="Follow The Three Easy Steps Below To Begin"
                         />
+                        */} 
                       </Grid>
                     </Grid>
 

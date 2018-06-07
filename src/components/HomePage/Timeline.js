@@ -1,14 +1,12 @@
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
-
-// material-ui components
-import withStyles from "material-ui/styles/withStyles";
-
-// core components
-import Badge from "components/Badge/Badge.jsx";
-
-import timelineStyle from "assets/jss/material-dashboard-pro-react/components/timelineStyle.jsx";
+// custom components
+// TODO: import from other project
+import Badge from "components/HomePage/Badge";
+// styles 
+import { withStyles } from '@material-ui/core';
+import timelineStyle from 'styles/material-dashboard-pro-react/components/timelineStyle.jsx'
 
 function Timeline({ ...props }) {
   const { classes, stories, simple } = props;

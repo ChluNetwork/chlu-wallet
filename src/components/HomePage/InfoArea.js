@@ -1,10 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-// material-ui components
-import withStyles from "material-ui/styles/withStyles";
-
-import infoStyle from "assets/jss/material-dashboard-pro-react/components/infoStyle";
+// styles
+import { withStyles } from '@material-ui/core'
+import infoStyle from 'styles/material-dashboard-pro-react/components/infoStyle.jsx'
 
 function InfoArea({ ...props }) {
   const { classes, title, description, iconColor } = props;

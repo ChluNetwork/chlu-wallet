@@ -9,6 +9,7 @@ import createStore from 'store/createStore'
 import MainLayout from './Layout/MainLayout'
 import AppLayout from './Layout/AppLayout'
 import Wallet from './Wallet'
+import HomePage from './HomePage'
 
 const history = createHistory()
 // keep track of history for helpers/replace.js to work
@@ -23,6 +24,7 @@ export default function App() {
         <ConnectedRouter history={history}>
           <MainLayout>
             <Switch>
+              <Route path='/homepage' component={HomePage} />
               <Route path='/setup' component={Wallet} />
               <Route component={AppLayout} />
             </Switch>
