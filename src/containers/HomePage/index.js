@@ -133,7 +133,7 @@ render() {
                           validate
                           steps={[
                             { stepName: '1: Create Your Wallet', stepComponent: Step1, stepId: 'get started' },
-                            { stepName: '2: Save Your DID', stepComponent: Step2, stepId: 'about' },
+                            { stepName: '2: Save Your D.I.D.', stepComponent: Step2, stepId: 'about' },
                             { stepName: '3: Claim Your Reputation', stepComponent: Step3, stepId: 'reviews' },
                           ]}
                           title="Let's Get Started"

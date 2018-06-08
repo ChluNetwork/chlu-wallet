@@ -18,10 +18,13 @@ import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regular
 import { withStyles } from '@material-ui/core'
 
 const style = {
-  infoText: {
+  profileText: {
     fontWeight: '300',
-    margin: '10px 0 30px',
+    margin: '10px 0 0 0',
     textAlign: 'center'
+  },
+  itemGrid: {
+    backgroundColor: 'rgba(200, 200, 200, .2)'
   },
   card: {
     display: 'inline-block',
@@ -64,31 +67,31 @@ class Step3 extends React.Component {
     return (
     <div>
       <Grid container justify='center'>
-        <Grid item xs={12} sm={12} md={9} style={{ backgroundColor: '#ffffcc' }}>
+        <Grid item xs={12} sm={12} md={9} className={classes.itemGrid}>
           <br></br>
           <h4 className={classes.infoText}>Do You Manage An Online Profile That Receives Ratings & Reviews?</h4>
         </Grid>
       </Grid>
       <Grid container justify='center'>
-        <Grid item xs={12} sm={12} md={3} style={{ backgroundColor: '#ffffcc' }}>
+        <Grid item xs={12} sm={12} md={3} className={classes.itemGrid}>
           <InfoArea
             title='Select Profile Type'
-            description='What Profile Type of Yours Gets Reviews Online - Individual, Business or Specific Product'
+            description='Select Your Profile Type That Currently Receives Reviews - Individual, Business or Specific Product'
             icon={AccountBox}
             iconColor='rose'
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={3} style={{ backgroundColor: '#ffffcc' }}>
+        <Grid item xs={12} sm={12} md={3} className={classes.itemGrid}>
           <InfoArea
-            title='Profile Platforms'
+            title='Profile Websites'
             description='Enter Your Email & Password On the Sites Where That Profile Exists'
             icon={Web}
             iconColor='primary'
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={3} style={{ backgroundColor: '#ffffcc' }}>
+        <Grid item xs={12} sm={12} md={3} className={classes.itemGrid}>
           <InfoArea
-            title='Get Portable Ratings & Reviews'
+            title='Get Portable Reputation'
             description='We Merge, Normalize & Decentrally Store Your Ratings & Reviews So You Can Take them to Any Website'
             icon={StarHalf}
             iconColor='info'
@@ -112,12 +115,12 @@ class Step3 extends React.Component {
                     <span>
                     <form onSubmit={this.testSubmit}>
                       <Grid container justify='center'>
-                        <Grid item xs={12} sm={2}>
+                        <Grid item xs={12} sm={12} md={2}>
                           <FormLabel className={classes.labelHorizontal}>
                             Linkedin Email
                           </FormLabel>
                         </Grid>
-                        <Grid item xs={12} sm={10}>
+                        <Grid item xs={12} sm={12} md={10}>
                           <Grid container justify='center'>
                             <Grid item xs={12} sm={12} md={4}>
                               <CustomInput
@@ -131,7 +134,7 @@ class Step3 extends React.Component {
                                 helpText='We never store your LinkedIn email'
                               />
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={12} md={2}>
                               <FormLabel className={classes.labelHorizontal}>
                                 Linkedin Password
                               </FormLabel>
@@ -154,12 +157,12 @@ class Step3 extends React.Component {
                         </Grid>
                       </Grid>
                       <Grid container justify='center'>
-                        <Grid item xs={12} sm={2}>
+                        <Grid item xs={12} sm={12} md={2}>
                           <FormLabel className={classes.labelHorizontal}>
                             UpWork Email
                           </FormLabel>
                         </Grid>
-                        <Grid item xs={12} sm={10}>
+                        <Grid item xs={12} sm={12} md={10}>
                           <Grid container justify='center'>
                             <Grid item xs={12} sm={12} md={4}>
                               <CustomInput
@@ -173,7 +176,7 @@ class Step3 extends React.Component {
                                 helpText='We never store your UpWork email'
                               />
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={12} md={2}>
                               <FormLabel className={classes.labelHorizontal}>
                                 UpWork Password
                               </FormLabel>
@@ -194,12 +197,12 @@ class Step3 extends React.Component {
                         </Grid>
                       </Grid>
                       <Grid container justify='center'>
-                        <Grid item xs={12} sm={2}>
+                        <Grid item xs={12} sm={12} md={2}>
                           <FormLabel className={classes.labelHorizontal}>
                             Fiverr Email
                           </FormLabel>
                         </Grid>
-                        <Grid item xs={12} sm={10}>
+                        <Grid item xs={12} sm={12} md={10}>
                           <Grid container justify='center'>
                             <Grid item xs={12} sm={12} md={4}>
                               <CustomInput
@@ -213,7 +216,7 @@ class Step3 extends React.Component {
                                 helpText='We never store your Fiverr email'
                               />
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={12} md={2}>
                               <FormLabel className={classes.labelHorizontal}>
                                 Fiverr Password
                               </FormLabel>
@@ -234,12 +237,12 @@ class Step3 extends React.Component {
                         </Grid>
                       </Grid>
                       <Grid container justify='center'>
-                        <Grid item xs={12} sm={2}>
+                        <Grid item xs={12} sm={12} md={2}>
                           <FormLabel className={classes.labelHorizontal}>
                             Flexhire Email
                           </FormLabel>
                         </Grid>
-                        <Grid item xs={12} sm={10}>
+                        <Grid item xs={12} sm={12} md={10}>
                           <Grid container justify='center'>
                             <Grid item xs={12} sm={12} md={4}>
                               <CustomInput
@@ -253,7 +256,7 @@ class Step3 extends React.Component {
                                 helpText='We never store your Flexhire email'
                               />
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={12} md={2}>
                               <FormLabel className={classes.labelHorizontal}>
                                 Flexhire Password
                               </FormLabel>
