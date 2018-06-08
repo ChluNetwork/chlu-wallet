@@ -46,6 +46,10 @@ const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
             <ListItemIcon><StarIcon/></ListItemIcon>
             <ListItemText primary='Reviews Widget Demo' />
         </ListItem>
+        <ListItem button onClick={() => nav('/homepage')}>
+            <ListItemIcon><StarIcon/></ListItemIcon>
+            <ListItemText primary='HomePage Demo' />
+        </ListItem>
       </List>
     </Drawer>
   )
