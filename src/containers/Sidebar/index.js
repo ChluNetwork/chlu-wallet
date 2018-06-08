@@ -26,7 +26,7 @@ const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
       open={drawerOpen}
     >
       <List component='nav'>
-        <ListItem button onClick={() => nav('/claim')}>
+        <ListItem button onClick={() => nav('/reputation')}>
           <ListItemIcon><StarIcon/></ListItemIcon>
           <ListItemText primary='My Reputation' />
         </ListItem>

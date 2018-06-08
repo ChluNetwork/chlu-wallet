@@ -2,6 +2,8 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 // components
 import {
     withStyles,
@@ -17,8 +19,11 @@ import {
     ListItemText
  } from "@material-ui/core";
 // icons
-import Dashboard from "@material-ui/icons/Dashboard";
 import Menu from "@material-ui/icons/Menu";
+import TransactionsIcon from '@material-ui/icons/AccountBalanceWallet';
+import PayIcon from '@material-ui/icons/Send';
+import SettingsIcon from '@material-ui/icons/Settings'
+import LoginIcon from '@material-ui/icons/Fingerprint'
 // style
 import logo from "images/chlu.svg";
 import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
@@ -42,19 +47,43 @@ class HomePageHeader extends React.Component {
   }
 
   render() {
-    const { classes, color } = this.props;
+    const { classes, color, wallet } = this.props;
     const appBarClasses = cx({
       [" " + classes[color]]: color
     });
-    var list = (
+    const loggedInList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/claim"} className={classes.navLink}>
+          <NavLink to={"/pay"} className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
-            <Dashboard />
+              <PayIcon/>
             </ListItemIcon>
             <ListItemText
-              primary={"Dashboard"}
+              primary={"Pay & Review"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/transactions"} className={classes.navLink}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <TransactionsIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Transactions"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/settings"} className={classes.navLink}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <SettingsIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Settings"}
               disableTypography={true}
               className={classes.listItemText}
               />
@@ -62,6 +91,24 @@ class HomePageHeader extends React.Component {
         </ListItem>
       </List>
     );
+    const loggedOutList = (
+      <List className={classes.list}>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/setup/import"} className={classes.navLink}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <LoginIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Login"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
+      </List>
+    )
+    const emptyWallet = !wallet || !wallet.did
+    const list = emptyWallet ? loggedOutList : loggedInList
     return (
       <AppBar position="static" className={classes.appBar + appBarClasses}>
         <Toolbar className={classes.container}>
@@ -116,4 +163,11 @@ HomePageHeader.propTypes = {
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
 };
 
-export default withStyles(pagesHeaderStyle)(HomePageHeader);
+const mapStateToProps = state => ({
+  wallet: state.data.wallet
+})
+
+export default compose(
+  withStyles(pagesHeaderStyle),
+  connect(mapStateToProps)
+)(HomePageHeader);

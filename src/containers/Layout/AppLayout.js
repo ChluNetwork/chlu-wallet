@@ -8,7 +8,7 @@ import Sidebar from 'containers/Sidebar'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ChluAppBar from './AppBar'
 // routes
-import ClaimReputation from '../ClaimReputation'
+import Reputation from '../Reputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
@@ -32,13 +32,13 @@ class AppLayout extends Component {
             <ChluAppBar />
             <Sidebar />
             <Switch>
-              {emptyWallet && <Redirect to='/setup'/>}
-              <Route path='/claim' component={ClaimReputation} />
+              {emptyWallet && <Redirect to='/homepage'/>}
+              <Route path='/reputation' component={Reputation} />
               <Route path='/pay' component={Payment} />
               <Route path='/transactions' component={Transactions} />
               <Route path='/settings' component={Settings} />
               <Route path='/reviews' component={Reviews} />
-              <Redirect to='/claim'/>
+              <Redirect to='/reputation'/>
             </Switch>
           </div>
         }
