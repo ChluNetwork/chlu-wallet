@@ -12,6 +12,7 @@ import StarIcon from '@material-ui/icons/Star';
 import BitcoinIcon from '@material-ui/icons/AccountBalanceWallet';
 import PaymentIcon from '@material-ui/icons/Send';
 import SettingsIcon from '@material-ui/icons/Settings'
+import HomeIcon from '@material-ui/icons/Home'
 
 const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
 
@@ -26,6 +27,10 @@ const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
       open={drawerOpen}
     >
       <List component='nav'>
+        <ListItem button onClick={() => nav('/homepage')}>
+            <ListItemIcon><HomeIcon/></ListItemIcon>
+            <ListItemText primary='Home' />
+        </ListItem>
         <ListItem button onClick={() => nav('/reputation')}>
           <ListItemIcon><StarIcon/></ListItemIcon>
           <ListItemText primary='My Reputation' />
@@ -45,10 +50,6 @@ const Sidebar = ({ toggleDrawer, drawerOpen, push }) => {
         <ListItem button onClick={() => nav('/reviews')}>
             <ListItemIcon><StarIcon/></ListItemIcon>
             <ListItemText primary='Reviews Widget Demo' />
-        </ListItem>
-        <ListItem button onClick={() => nav('/homepage')}>
-            <ListItemIcon><StarIcon/></ListItemIcon>
-            <ListItemText primary='HomePage Demo' />
         </ListItem>
       </List>
     </Drawer>

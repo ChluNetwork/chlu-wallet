@@ -24,11 +24,12 @@ import TransactionsIcon from '@material-ui/icons/AccountBalanceWallet';
 import PayIcon from '@material-ui/icons/Send';
 import SettingsIcon from '@material-ui/icons/Settings'
 import LoginIcon from '@material-ui/icons/Fingerprint'
+import ReputationIcon from '@material-ui/icons/Star'
 // style
 import logo from "images/chlu.svg";
 import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
-class HomePageHeader extends React.Component {
+class ChluLayoutHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,6 +54,18 @@ class HomePageHeader extends React.Component {
     });
     const loggedInList = (
       <List className={classes.list}>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/reputation"} className={classes.navLink}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <ReputationIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"My Reputation"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
         <ListItem className={classes.listItem}>
           <NavLink to={"/pay"} className={classes.navLink}>
             <ListItemIcon className={classes.listItemIcon}>
@@ -158,7 +171,7 @@ class HomePageHeader extends React.Component {
   }
 }
 
-HomePageHeader.propTypes = {
+ChluLayoutHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
 };
@@ -170,4 +183,4 @@ const mapStateToProps = state => ({
 export default compose(
   withStyles(pagesHeaderStyle),
   connect(mapStateToProps)
-)(HomePageHeader);
+)(ChluLayoutHeader);

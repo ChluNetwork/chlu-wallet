@@ -3,23 +3,30 @@ import { object } from 'prop-types'
 import { Route, Switch, Redirect } from 'react-router'
 // redux
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
 // components
-import Sidebar from 'containers/Sidebar'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ChluAppBar from './AppBar'
 // routes
 import Reputation from '../Reputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
 import Reviews from '../Reviews'
+// style
+import { withStyles } from '@material-ui/core';
+const style = {
+  container: {
+    marginTop: '100px'
+  }
+}
 
 class AppLayout extends Component {
 
   render() {
     const {
       profile,
-      wallet
+      wallet,
+      classes
     } = this.props
     const { loading, error } = profile
     const emptyWallet = !wallet || !wallet.did
@@ -28,9 +35,7 @@ class AppLayout extends Component {
       <div>
         {loading ? <CircularProgress/> : error
           ? 'Something went wrong'
-          : <div>
-            <ChluAppBar />
-            <Sidebar />
+          : <div className={classes.container}>
             <Switch>
               {emptyWallet && <Redirect to='/homepage'/>}
               <Route path='/reputation' component={Reputation} />
@@ -57,4 +62,7 @@ const mapStateToProps = state => ({
   wallet: state.data.wallet
 })
 
-export default connect(mapStateToProps)(AppLayout)
+export default compose(
+  withStyles(style),
+  connect(mapStateToProps)
+)(AppLayout)
