@@ -3,7 +3,7 @@ import cx from "classnames";
 import PropTypes from "prop-types";
 // custom components
 // TODO: import from other project
-import Badge from "components/HomePage/Badge";
+import Badge from "components/MaterialDashboardPro/Badge";
 // styles 
 import { withStyles } from '@material-ui/core';
 import timelineStyle from 'styles/material-dashboard-pro-react/components/timelineStyle.jsx'

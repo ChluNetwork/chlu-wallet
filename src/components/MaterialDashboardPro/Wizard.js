@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 // components
 import Card from "@material-ui/core/Card";
 // custom components
-import Button from 'components/HomePage/Button'
+import Button from 'components/MaterialDashboardPro/Button'
 // styles
 import { withStyles } from '@material-ui/core'
 import wizardStyle from 'styles/material-dashboard-pro-react/components/wizardStyle.jsx'

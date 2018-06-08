@@ -9,10 +9,10 @@ import Web from '@material-ui/icons/Web';
 import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
 // custom components
-import CustomInput from 'components/HomePage/CustomInput';
-import RegularCard from 'components/HomePage/RegularCard'
-import NavPills from 'components/HomePage/NavPills'
-import InfoArea from 'components/HomePage/InfoArea'
+import CustomInput from 'components/MaterialDashboardPro/CustomInput';
+import RegularCard from 'components/MaterialDashboardPro/RegularCard'
+import NavPills from 'components/MaterialDashboardPro/NavPills'
+import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
 import { withStyles } from '@material-ui/core'

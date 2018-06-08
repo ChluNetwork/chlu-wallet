@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // custom components
 import HomePageHeader from "./HomePageHeader";
 import HomePage from './HomePage'
-import Footer from "components/HomePage/Footer";
+import Footer from "components/MaterialDashboardPro/Footer";
 // style
 import { withStyles } from "@material-ui/core";
 import pagesStyle from "styles/material-dashboard-pro-react/layouts/pagesStyle.jsx";

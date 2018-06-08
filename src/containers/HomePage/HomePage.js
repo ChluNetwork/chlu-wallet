@@ -15,10 +15,10 @@ import {
     Payment
 } from '@material-ui/icons';
 // custom components
-import RegularCard from 'components/HomePage/RegularCard';
-import InfoArea from 'components/HomePage/InfoArea';
-import Timeline from 'components/HomePage/Timeline';
-import Wizard from 'components/HomePage/Wizard';
+import RegularCard from 'components/MaterialDashboardPro/RegularCard';
+import InfoArea from 'components/MaterialDashboardPro/InfoArea';
+import Timeline from 'components/MaterialDashboardPro/Timeline';
+import Wizard from 'components/MaterialDashboardPro/Wizard';
 // sub views
 import Step1 from './WizardSteps/Step1';
 import Step2 from './WizardSteps/Step2';

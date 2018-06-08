@@ -8,7 +8,7 @@ import {
   FormControlLabel
 } from '@material-ui/core'
 // custom components
-import CustomInput from 'components/HomePage/CustomInput';
+import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 // icons
 import Face from '@material-ui/icons/Face';
 import Email from '@material-ui/icons/Email';

@@ -2,9 +2,9 @@ import React from 'react';
 // components
 import { withStyles, Grid, InputAdornment } from '@material-ui/core'
 // custom components
-import PictureUpload from 'components/HomePage/PictureUpload';
-import CustomInput from 'components/HomePage/CustomInput';
-import Button from 'components/HomePage/Button';
+import PictureUpload from 'components/MaterialDashboardPro/PictureUpload';
+import CustomInput from 'components/MaterialDashboardPro/CustomInput';
+import Button from 'components/MaterialDashboardPro/Button';
 // icons
 import Face from '@material-ui/icons/Face';
 import RecordVoiceOver from '@material-ui/icons/RecordVoiceOver';
