@@ -3,7 +3,7 @@ import cx from "classnames";
 import PropTypes from "prop-types";
 
 // components
-import Card from "material-ui/Card";
+import Card from "@material-ui/core/Card";
 // custom components
 import Button from 'components/HomePage/Button'
 // styles

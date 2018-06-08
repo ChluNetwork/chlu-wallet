@@ -13,21 +13,20 @@ import {
     CallMerge,
     Web,
     Payment
-} from "@material-ui/icons";
+} from '@material-ui/icons';
 // custom components
-import RegularCard from "components/HomePage/RegularCard";
-import InfoArea from "components/HomePage/InfoArea";
-import Timeline from "components/HomePage/Timeline";
-//import Wizard from "components/HomePage/Wizard";
+import RegularCard from 'components/HomePage/RegularCard';
+import InfoArea from 'components/HomePage/InfoArea';
+import Timeline from 'components/HomePage/Timeline';
+import Wizard from 'components/HomePage/Wizard';
 // sub views
-/*
-import Step1 from "./WizardSteps/Step1";
-import Step2 from "./WizardSteps/Step2";
-import Step3 from "./WizardSteps/Step3";
-*/
+import Step1 from './WizardSteps/Step1';
+import Step2 from './WizardSteps/Step2';
+import Step3 from './WizardSteps/Step3';
 // content
-import { stories } from "fixtures/stories";
+import { stories } from 'fixtures/stories';
 // style
+import "styles/material-dashboard-pro-react.css?v=1.1.1";
 import homePageStyle from 'styles/material-dashboard-pro-react/views/homePageStyle.jsx'
 
 class HomePage extends React.Component {
@@ -55,7 +54,7 @@ class HomePage extends React.Component {
   }
 
   testSubmit(event) {
-    console.log("submitting register form");
+    console.log('submitting register form');
   }
 
 render() {
@@ -63,7 +62,7 @@ render() {
     return (
       <div className={classes.content}>
         <div className={classes.container}>
-          <Grid container spacing='24'>
+          <Grid container justify='center'>
             <Grid item xs={12} sm={12} md={6}>
               <h2 className={classes.title}>Manage Your Reputation</h2>
               <h5 className={classes.description}>
@@ -71,37 +70,37 @@ render() {
               </h5>
             </Grid>
           </Grid>
-          <Grid container spacing='24'>
+          <Grid container justify='center'>
             <Grid item xs={12} sm={12} md={12}>
               <RegularCard
-                cardTitle=""
-                titleAlign="center"
+                cardTitle=''
+                titleAlign='center'
                 customCardTitleClasses={classes.cardTitle}
                 customCardClasses={classes.cardClasses}
                 content={
                   <div>
-                    <Grid container spacing='24'>
+                    <Grid container justify='center'>
                       <Grid item xs={12} sm={12} md={5}>
                         <div className={classes.center}>
                           <h3>For Online Review Writers</h3>
                         </div>
                         <InfoArea
-                          title="Pay"
-                          description="Use Your Chlu Wallet to Pay With Crypto."
+                          title='Pay'
+                          description='Use Your Chlu Wallet to Pay With Crypto.'
                           icon={Payment}
-                          iconColor="rose"
+                          iconColor='rose'
                         />
                         <InfoArea
-                          title="Review"
-                          description="Use Your Chlu Wallet to Write Verified Reviews for Online Products & Services."
+                          title='Review'
+                          description='Use Your Chlu Wallet to Write Verified Reviews for Online Products & Services.'
                           icon={ThumbsUpDown}
-                          iconColor="primary"
+                          iconColor='primary'
                         />
                         <InfoArea
-                          title="Earn Chlu"
-                          description="Earn Redeemable Chlu Tokens for Writing Verified Reviews."
+                          title='Earn Chlu'
+                          description='Earn Redeemable Chlu Tokens for Writing Verified Reviews.'
                           icon={MonetizationOn}
-                          iconColor="info"
+                          iconColor='info'
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={5}>
@@ -109,48 +108,45 @@ render() {
                           <h3>For Online Review Recipients</h3>
                         </div>
                         <InfoArea
-                          title="Own"
-                          description="Take ownership of all your ratings and reviews."
+                          title='Own'
+                          description='Take ownership of all your ratings and reviews.'
                           icon={Lock}
-                          iconColor="rose"
+                          iconColor='rose'
                         />
                         <InfoArea
-                          title="Merge"
-                          description="Merge your ratings and reviews from multiple websites."
+                          title='Merge'
+                          description='Merge your ratings and reviews from multiple websites.'
                           icon={CallMerge}
-                          iconColor="primary"
+                          iconColor='primary'
                         />
                         <InfoArea
-                          title="Port"
-                          description="Take your merged ratings and reviews to any website."
+                          title='Port'
+                          description='Take your merged ratings and reviews to any website.'
                           icon={Web}
-                          iconColor="info"
+                          iconColor='info'
                         />
                       </Grid>
                     </Grid>
-                    <Grid container spacing='24'>
+                    <Grid container justify='center'>
                       <Grid item xs={12} sm={12}>
-                        {/*
                         <Wizard
                           validate
                           steps={[
-                            { stepName: "1: Create Your Wallet", stepComponent: Step1, stepId: "get started" },
-                            { stepName: "2: Save Your DID", stepComponent: Step2, stepId: "about" },
-                            { stepName: "3: Claim Your Reputation", stepComponent: Step3, stepId: "reviews" },
+                            { stepName: '1: Create Your Wallet', stepComponent: Step1, stepId: 'get started' },
+                            { stepName: '2: Save Your DID', stepComponent: Step2, stepId: 'about' },
+                            { stepName: '3: Claim Your Reputation', stepComponent: Step3, stepId: 'reviews' },
                           ]}
                           title="Let's Get Started"
-                          subtitle="Follow The Three Easy Steps Below To Begin"
+                          subtitle='Follow The Three Easy Steps Below To Begin'
                         />
-                        */} 
                       </Grid>
                     </Grid>
-
                   </div>
                 }
               />
             </Grid>
           </Grid>
-          <Grid container spacing='24'>
+          <Grid container justify='center'>
             <Grid item xs={12} sm={12} md={12}>
               <h2 className={classes.learnMore}>Learn More - The Problem With Ratings & Reviews Today</h2>
             </Grid>

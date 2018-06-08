@@ -1,39 +1,35 @@
-import React from "react";
-
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
-import Checkbox from "material-ui/Checkbox";
-import FormControlLabel from "material-ui/Form/FormControlLabel";
-import Check from "@material-ui/icons/Check";
-
-// material-ui components
-import withStyles from "material-ui/styles/withStyles";
-import InputAdornment from "material-ui/Input/InputAdornment";
-
-// core components
-import GridContainer from "components/Grid/GridContainer.jsx";
-import ItemGrid from "components/Grid/ItemGrid.jsx";
-import PictureUpload from "components/CustomUpload/PictureUpload.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-
-import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.jsx";
-import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
+import React from 'react';
+// components
+import {
+  withStyles,
+  InputAdornment,
+  Grid,
+  Checkbox,
+  FormControlLabel
+} from '@material-ui/core'
+// custom components
+import CustomInput from 'components/HomePage/CustomInput';
+// icons
+import Face from '@material-ui/icons/Face';
+import Email from '@material-ui/icons/Email';
+import Check from '@material-ui/icons/Check';
+// style
+import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
+import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
 
 const style = {
   infoText: {
-    fontWeight: "300",
-    margin: "10px 0 30px",
-    textAlign: "center"
+    fontWeight: '300',
+    margin: '10px 0 30px',
+    textAlign: 'center'
   },
   inputAdornmentIcon: {
-    color: "#555"
+    color: '#555'
   },
   choice: {
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px"
+    textAlign: 'center',
+    cursor: 'pointer',
+    marginTop: '20px'
   },
   ...customSelectStyle,
   ...customCheckboxRadioSwitch
@@ -53,7 +49,7 @@ class Step1 extends React.Component {
   }
   // function that returns true if value is email, false otherwise
   verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var emailRex = /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRex.test(value)) {
       return true;
     }
@@ -68,18 +64,18 @@ class Step1 extends React.Component {
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case "email":
+      case 'email':
         if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
+          this.setState({ [stateName + 'State']: 'success' });
         } else {
-          this.setState({ [stateName + "State"]: "error" });
+          this.setState({ [stateName + 'State']: 'error' });
         }
         break;
-      case "length":
+      case 'length':
         if (this.verifyLength(event.target.value, stateNameEqualTo)) {
-          this.setState({ [stateName + "State"]: "success" });
+          this.setState({ [stateName + 'State']: 'success' });
         } else {
-          this.setState({ [stateName + "State"]: "error" });
+          this.setState({ [stateName + 'State']: 'error' });
         }
         break;
       default:
@@ -91,46 +87,46 @@ class Step1 extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-    <GridContainer justify="center">
-      <ItemGrid xs={12} sm={12} md={6}>
-        <form action="/myreputation" className={classes.form} onSubmit={this.testSubmit}>
+    <Grid container justify='center'>
+      <Grid item xs={12} sm={12} md={6}>
+        <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>
         <CustomInput
-          success={this.state.usernameState === "success"}
-          error={this.state.usernameState === "error"}
+          success={this.state.usernameState === 'success'}
+          error={this.state.usernameState === 'error'}
           labelText={
             <span>
               User Name <small>(required)</small>
             </span>
           }
-          id="username"
+          id='username'
           formControlProps={{
             fullWidth: true
           }}
           inputProps={{
-            onChange: event => this.change(event, "username", "length", 3),
+            onChange: event => this.change(event, 'username', 'length', 3),
             endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
+              <InputAdornment position='end' className={classes.inputAdornment}>
                 <Face className={classes.inputAdornmentIcon} />
               </InputAdornment>
             )
           }}
         />
         <CustomInput
-          success={this.state.emailState === "success"}
-          error={this.state.emailState === "error"}
+          success={this.state.emailState === 'success'}
+          error={this.state.emailState === 'error'}
           labelText={
             <span>
               Email <small>(required)</small>
             </span>
           }
-          id="email"
+          id='email'
           formControlProps={{
             fullWidth: true
           }}
           inputProps={{
-            onChange: event => this.change(event, "email", "length", 3),
+            onChange: event => this.change(event, 'email', 'length', 3),
             endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
+              <InputAdornment position='end' className={classes.inputAdornment}>
                 <Email className={classes.inputAdornmentIcon} />
               </InputAdornment>
             )
@@ -156,14 +152,14 @@ class Step1 extends React.Component {
             }
             label={
               <span>
-                I agree to the{" "}
-                <a href="#pablo">terms and conditions</a>.
+                I agree to the{' '}
+                <a href='#pablo'>terms and conditions</a>.
               </span>
             }
           />
         </form>
-      </ItemGrid>
-    </GridContainer>
+      </Grid>
+    </Grid>
     );
   }
 }
