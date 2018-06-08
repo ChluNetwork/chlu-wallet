@@ -68,7 +68,7 @@ class NavPills extends React.Component {
                 root: pillsClasses,
                 labelContainer: classes.labelContainer,
                 label: classes.label,
-                textColorInherit: classes[color]
+                textColorInherit: this.state.active === key ? classes[color] : null
               }}
             />
           );
