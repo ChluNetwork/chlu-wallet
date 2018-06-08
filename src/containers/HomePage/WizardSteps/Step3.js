@@ -110,8 +110,8 @@ class Step3 extends React.Component {
               tabContent: (
                 <RegularCard
                   cardTitle={[
-                    <p style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
-                    <p style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
+                    <p key={0} style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
+                    <p key={1} style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
                   ]}
                   content={
                     <span>
