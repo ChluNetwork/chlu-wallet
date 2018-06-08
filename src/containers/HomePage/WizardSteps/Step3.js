@@ -109,8 +109,10 @@ class Step3 extends React.Component {
               tabIcon: Person,
               tabContent: (
                 <RegularCard
-                  cardTitle="To begin, simply enter your email & password for any of the sites below on which you have an active profile.
-                  We extract, merge and decentrally store your reputation in a portable format so you own and control it."
+                  cardTitle={[
+                    <p style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
+                    <p style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
+                  ]}
                   content={
                     <span>
                     <form onSubmit={this.testSubmit}>
@@ -475,11 +477,10 @@ class Step3 extends React.Component {
       </Grid>
       <Grid container justify='flex-end'>
         <Grid item xs={12} sm={12} md={12} className={classes.infoText}>
-          <h7>Chlu guarantees that no information submitted from this form is ever stored on our system</h7>
-          <br></br>
-          <h7>By submitting this form you acknowledge you are entitled to invoke your <a href='https://gdpr-info.eu/recitals/no-63/'>data access rights</a> and
-          <a href='https://www.i-scoop.eu/gdprarticle/gdpr-article-20-right-data-portability/"> data portability rights</a> under European <a href="https://www.eugdpr.org/'>GDPR</a> legislation.
-          </h7>
+          <p>Chlu guarantees that no information submitted from this form is ever stored on our system</p>
+          <p>By submitting this form you acknowledge you are entitled to invoke your <a href='https://gdpr-info.eu/recitals/no-63/'>data access rights</a> and
+          <a href='https://www.i-scoop.eu/gdprarticle/gdpr-article-20-right-data-portability/'> data portability rights</a> under European <a href='https://www.eugdpr.org/'>GDPR</a> legislation.
+          </p>
         </Grid>
       </Grid>
     </div>
