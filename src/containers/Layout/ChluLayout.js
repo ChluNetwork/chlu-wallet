@@ -17,7 +17,7 @@ class HomePageLayout extends React.Component {
         <HomePageHeader />
         <div className={classes.wrapper} ref='wrapper'>
           <div className={classes.fullPage}>
-            <div style={{ zIndex:'4', position:'relative' }}>{children}</div>
+            <div style={{ zIndex:'4', position:'relative', paddingTop:'100px' }}>{children}</div>
             <Footer white />
             <div
               className={classes.fullPageBackground}

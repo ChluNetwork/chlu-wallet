@@ -1,7 +1,9 @@
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { push } from 'react-router-redux'
+import { withRouter } from 'react-router'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 // components
@@ -48,14 +50,14 @@ class ChluLayoutHeader extends React.Component {
   }
 
   render() {
-    const { classes, color, wallet } = this.props;
+    const { classes, color, wallet, push } = this.props;
     const appBarClasses = cx({
       [" " + classes[color]]: color
     });
     const loggedInList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/reputation"} className={classes.navLink}>
+          <NavLink to={"/reputation"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <ReputationIcon/>
             </ListItemIcon>
@@ -67,7 +69,7 @@ class ChluLayoutHeader extends React.Component {
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/pay"} className={classes.navLink}>
+          <NavLink to={"/pay"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <PayIcon/>
             </ListItemIcon>
@@ -79,7 +81,7 @@ class ChluLayoutHeader extends React.Component {
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/transactions"} className={classes.navLink}>
+          <NavLink to={"/transactions"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <TransactionsIcon/>
             </ListItemIcon>
@@ -91,7 +93,7 @@ class ChluLayoutHeader extends React.Component {
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/settings"} className={classes.navLink}>
+          <NavLink to={"/settings"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <SettingsIcon/>
             </ListItemIcon>
@@ -107,7 +109,7 @@ class ChluLayoutHeader extends React.Component {
     const loggedOutList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/setup/import"} className={classes.navLink}>
+          <NavLink to={"/setup/import"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <LoginIcon/>
             </ListItemIcon>
@@ -123,14 +125,13 @@ class ChluLayoutHeader extends React.Component {
     const emptyWallet = !wallet || !wallet.did
     const list = emptyWallet ? loggedOutList : loggedInList
     return (
-      <AppBar position="static" className={classes.appBar + appBarClasses}>
+      <AppBar position='static' className={classes.appBar + appBarClasses}>
         <Toolbar className={classes.container}>
           <div className={classes.flex}>
-
-            <a href="/">
+            <Link to='/'>
               <img src={logo} alt="logo" className={classes.logo} />
-            </a>
-            <Button href="/" className={classes.title}>
+            </Link>
+            <Button onClick={() => push('/')} className={classes.title}>
               Your Reputation Wallet
             </Button>
           </div>
@@ -180,7 +181,12 @@ const mapStateToProps = state => ({
   wallet: state.data.wallet
 })
 
+const mapDispatchToProps = dispatch => ({
+  push
+})
+
 export default compose(
+  withRouter, // prevent NavLinks not realising the route has changed
   withStyles(pagesHeaderStyle),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(ChluLayoutHeader);
