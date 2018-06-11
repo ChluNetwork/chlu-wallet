@@ -3,13 +3,9 @@ import React from 'react'
 import createHistory from 'history/createHashHistory'
 import { ConnectedRouter } from 'react-router-redux'
 import { Provider } from 'react-redux'
-import { Route, Switch } from 'react-router'
 import createStore from 'store/createStore'
 // containers
 import MainLayout from './Layout/MainLayout'
-import AppLayout from './Layout/AppLayout'
-import Wallet from './Wallet'
-import HomePage from './HomePage'
 
 const history = createHistory()
 // keep track of history for helpers/replace.js to work
@@ -22,13 +18,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <MainLayout>
-            <Switch>
-              <Route path='/homepage' component={HomePage} />
-              <Route path='/setup' component={Wallet} />
-              <Route component={AppLayout} />
-            </Switch>
-          </MainLayout>
+          <MainLayout/>
         </ConnectedRouter>
       </Provider>
     )
