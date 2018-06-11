@@ -54,10 +54,11 @@ class Wizard extends React.Component {
     window.addEventListener("resize", this.updateWidth.bind(this));
   }
   componentWillUnmount() {
+    // TODO: investigate why this does not work
     window.removeEventListener("resize", this.updateWidth.bind(this), true);
   }
   updateWidth() {
-    this.refreshAnimation(this.state.currentStep);
+    if (this.wizard.current) this.refreshAnimation(this.state.currentStep);
   }
   navigationStepChange(key) {
     if (this.props.steps) {
