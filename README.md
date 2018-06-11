@@ -112,3 +112,8 @@ project, check out the libraries used by the demo:
 - [chlu-wallet-support-js](https://github.com/ChluNetwork/chlu-wallet-support-js)
 
 The libraries are still in development
+
+### License
+
+Code in `styles/material-dashboard-pro-react`, `styles/material-dashboard-pro-react.css` and `components/MaterialDashboardPro`
+is from [Material Dashboard Pro](https://www.creative-tim.com/product/material-dashboard-pro) and is owned by [Creative Tim](https://www.creative-tim.com).
