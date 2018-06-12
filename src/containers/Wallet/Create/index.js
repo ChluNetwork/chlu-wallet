@@ -14,7 +14,7 @@ import { CardContent, CardHeader, Avatar, CardActions } from '@material-ui/core'
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import DownloadIcon from '@material-ui/icons/FileDownload'
-import { saveWalletToLocalStorage } from '../../../helpers/wallet';
+import { saveWalletToLocalStorage } from 'helpers/wallet';
 
 class CreateWallet extends Component {
   static propTypes = {
