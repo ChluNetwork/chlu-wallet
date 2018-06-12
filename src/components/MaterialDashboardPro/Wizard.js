@@ -33,7 +33,7 @@ class Wizard extends React.Component {
       }
     }
     this.state = {
-      currentStep: 0,
+      currentStep: this.props.currentStep || 0,
       color: this.props.color,
       nextButton: this.props.steps.length > 1 ? true : false,
       previousButton: false,
@@ -50,7 +50,7 @@ class Wizard extends React.Component {
     this.finishButtonClick = this.finishButtonClick.bind(this);
   }
   componentDidMount() {
-    this.refreshAnimation(0);
+    this.refreshAnimation(this.state.currentStep);
     window.addEventListener("resize", this.updateWidth.bind(this));
   }
   componentWillUnmount() {
