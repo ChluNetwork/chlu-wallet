@@ -56,4 +56,10 @@ function calculateTotalSpent (transaction, address) {
 }
 
 
-export { updateTransactions, updateReviewRecord, getTxHashByMultihash, calculateTotalSpent, calculateTotalSpentFromTransactions }
+export {
+  updateTransactions,
+  updateReviewRecord,
+  getTxHashByMultihash,
+  calculateTotalSpent,
+  calculateTotalSpentFromTransactions
+}
