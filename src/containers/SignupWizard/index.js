@@ -26,7 +26,6 @@ function SignupWizard(props) {
     }
 
     function validate(step) {
-        console.log(step)
         const { wallet } = props
         if (step === 1 && !(areWalletKeysSaved() || (wallet && wallet.did))) {
             toastr.warning(
