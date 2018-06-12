@@ -17,7 +17,7 @@ function SignupWizard(props) {
     function downloadWallet() {
         const { wallet, walletCreated } = props
         downloadWalletFile(wallet || walletCreated)
-        props.setWalletSaved()
+        props.setWalletSaved(true)
     }
 
     function areWalletKeysSaved() {
@@ -26,8 +26,9 @@ function SignupWizard(props) {
     }
 
     function validate(step) {
+        console.log(step)
         const { wallet } = props
-        if (step === 1 && !areWalletKeysSaved() && !wallet) {
+        if (step === 1 && !(areWalletKeysSaved() || (wallet && wallet.did))) {
             toastr.warning(
                 'Please save your wallet',
                 'Once you have saved it you will be able to access the wallet'
@@ -38,9 +39,9 @@ function SignupWizard(props) {
     }
 
     function onChangeStep(from, to) {
-        const { walletCreated, createWallet, resetWallet, wallet } = props
+        const { walletCreated, createWallet, resetWallet, setWallet, wallet } = props
         if (to === 1 && !walletCreated) createWallet()
-        if (to === 2 && !wallet) {
+        if (to === 2 && !(wallet && wallet.did)) {
             // set and save full wallet
             setWallet(walletCreated)
             saveWalletToLocalStorage(walletCreated)
@@ -90,6 +91,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = {
   createWallet,
+  setWallet,
   resetWallet,
   setWalletSaved
 }
