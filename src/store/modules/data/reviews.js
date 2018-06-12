@@ -38,11 +38,11 @@ export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
 // Thunks
 // ------------------------------------
 
-export function readReviewRecord (type, txHash, multihash) {
+export function readReviewRecord (txHash, multihash) {
   return async dispatch => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
     try {
-      const chluIpfs = await getChluIPFS(type)
+      const chluIpfs = await getChluIPFS()
       const reviewRecord = await chluIpfs.readReviewRecord(multihash, {
         getLatestVersion: true,
         checkForUpdates: true

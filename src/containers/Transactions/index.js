@@ -23,11 +23,6 @@ const styles = {
 
 class Transactions extends Component {
   static propTypes = {
-    customerTransactions: shape({
-      loading: bool,
-      error: any,
-      data: object
-    }),
     reviews: shape({
       loading: bool,
       error: any,

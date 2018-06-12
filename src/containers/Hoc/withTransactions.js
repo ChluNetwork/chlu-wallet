@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { object, func } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { getCustomerTransactions, updateCustomerTransactions } from 'store/modules/data/customerTransactions'
+import { getTransactions, updateTransactions } from 'store/modules/data/transactions'
 // libs
 import { get, groupBy } from 'lodash'
 // helpers
@@ -15,20 +15,20 @@ const withTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
       static propTypes = {
           wallet: object,
-          customerTransactions: object,
-          getCustomerTransactions: func,
-          updateCustomerTransactions: func
+          transactions: object,
+          getTransactions: func,
+          updateTransactions: func
       }
 
     socket = new WebSocket(`wss://socket.blockcypher.com/v1/btc/${apiEnd}`)
 
       componentDidMount() {
           const address = getAddress(this.props.wallet)
-          this.props.getCustomerTransactions(address)
+          this.props.getTransactions(address)
 
           this.socket.onmessage = (event) => {
               const data = JSON.parse(get(event, 'data', '{}'))
-              this.props.updateCustomerTransactions(data)
+              this.props.updateTransactions(data)
           }
 
           this.socket.onopen = () => {
@@ -59,14 +59,15 @@ const withTransactions = (WrappedComponent) => {
     }
 
     render () {
-      const { customerTransactions } = this.props
-      const loading = get(customerTransactions, 'loading', false)
-      const error = get(customerTransactions, 'error', null)
-      const transactions = get(customerTransactions, 'data.txs', [])
+      const { bitcoinTransactions } = this.props
+      const loading = get(bitcoinTransactions, 'loading', false)
+      const error = get(bitcoinTransactions, 'error', null)
+      const transactionsParsed = get(bitcoinTransactions, 'data.txs', [])
+      console.log(transactionsParsed)
 
       return <WrappedComponent
         groupTransactionByAddress={this.groupTransactionByAddress}
-        transactions={transactions}
+        transactions={transactionsParsed}
         loading={loading}
         error={error}
         {...this.props}
@@ -75,13 +76,13 @@ const withTransactions = (WrappedComponent) => {
   }
 
   const mapStateToProps = store => ({
-      customerTransactions: store.data.customerTransactions,
+      bitcoinTransactions: store.data.transactions,
       wallet: store.data.wallet
   })
 
   const mapDispatchToProps = {
-    getCustomerTransactions,
-    updateCustomerTransactions
+    getTransactions,
+    updateTransactions
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(AsyncTransactionHistory)
