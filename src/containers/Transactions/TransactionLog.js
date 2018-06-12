@@ -17,7 +17,7 @@ const styles = {
   }
 }
 
-function TransactionLog({ classes, loading, error, transactions, reviews, ...props }) {
+function TransactionLog({ classes, loading, error, transactions, address, reviews, ...props }) {
   if (error) {
     return <Card className={classes.card}>
       <CardHeader
@@ -44,7 +44,7 @@ function TransactionLog({ classes, loading, error, transactions, reviews, ...pro
       {transactions.map((item, index) => (
         <TransactionInfo
           key={index}
-          address={item.addresses[0]}
+          address={address}
           transaction={item}
           convertSatoshiToBits={props.convertSatoshiToBits}
           convertSatoshiToBTC={props.convertSatoshiToBTC}

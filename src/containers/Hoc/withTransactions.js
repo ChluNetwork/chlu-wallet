@@ -59,15 +59,15 @@ const withTransactions = (WrappedComponent) => {
     }
 
     render () {
-      const { bitcoinTransactions } = this.props
+      const { bitcoinTransactions, wallet } = this.props
       const loading = get(bitcoinTransactions, 'loading', false)
       const error = get(bitcoinTransactions, 'error', null)
       const transactionsParsed = get(bitcoinTransactions, 'data.txs', [])
-      console.log(transactionsParsed)
 
       return <WrappedComponent
         groupTransactionByAddress={this.groupTransactionByAddress}
         transactions={transactionsParsed}
+        address={getAddress(wallet)}
         loading={loading}
         error={error}
         {...this.props}
