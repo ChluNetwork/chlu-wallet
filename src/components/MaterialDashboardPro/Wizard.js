@@ -65,16 +65,14 @@ class Wizard extends React.Component {
       var validationState = true;
       if (key > this.state.currentStep) {
         for (var i = this.state.currentStep; i < key; i++) {
-          if (
-            this[this.props.steps[i].stepId].isValidated !== undefined &&
-            this[this.props.steps[i].stepId].isValidated() === false
-          ) {
+          if (this.props.validate && !this.props.validate(i)) {
             validationState = false;
             break;
           }
         }
       }
       if (validationState) {
+        if (typeof this.props.onChangeStep === 'function') this.props.onChangeStep(this.state.currentStep, key)
         this.setState({
           currentStep: key,
           nextButton: this.props.steps.length > key + 1 ? true : false,
@@ -86,18 +84,9 @@ class Wizard extends React.Component {
     }
   }
   nextButtonClick() {
-    if (
-      (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
-          undefined &&
-          this[
-            this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
-      this.props.validate === undefined
-    ) {
+    if (!this.props.validate || this.props.validate(this.state.currentStep)) {
       var key = this.state.currentStep + 1;
+      if (typeof this.props.onChangeStep === 'function') this.props.onChangeStep(this.state.currentStep, key)
       this.setState({
         currentStep: key,
         nextButton: this.props.steps.length > key + 1 ? true : false,
@@ -110,6 +99,7 @@ class Wizard extends React.Component {
   previousButtonClick() {
     var key = this.state.currentStep - 1;
     if (key >= 0) {
+      if (typeof this.props.onChangeStep === 'function') this.props.onChangeStep(this.state.currentStep, key)
       this.setState({
         currentStep: key,
         nextButton: this.props.steps.length > key + 1 ? true : false,
@@ -120,15 +110,7 @@ class Wizard extends React.Component {
     }
   }
   finishButtonClick() {
-    if (
-      this.props.validate &&
-      ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
-        undefined &&
-        this[this.props.steps[this.state.currentStep].stepId].isValidated()) ||
-        this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-          undefined) &&
-      this.props.finishButtonClick !== undefined
-    ) {
+    if (this.props.validate && this.props.validate(this.state.currentStep) && this.props.finishButtonClick !== undefined) {
       this.props.finishButtonClick();
     }
   }
@@ -219,9 +201,9 @@ class Wizard extends React.Component {
               });
               return (
                 <div className={stepContentClasses} key={key}>
-                  {/* <prop.stepComponent innerRef={prop.stepId}/> */}
                   <prop.stepComponent
                     innerRef={node => (this[prop.stepId] = node)}
+                    {...this.props.steps[this.state.currentStep].stepProps}
                   />
                 </div>
               );
@@ -241,7 +223,7 @@ class Wizard extends React.Component {
             <div className={classes.right}>
               {this.state.nextButton ? (
                 <Button
-                  color="rose"
+                  color='rose'
                   customClass={this.props.nextButtonClasses}
                   onClick={() => this.nextButtonClick()}
                 >
@@ -250,7 +232,7 @@ class Wizard extends React.Component {
               ) : null}
               {this.state.finishButton ? (
                 <Button
-                  color="rose"
+                  color='rose'
                   customClass={this.finishButtonClasses}
                   onClick={() => this.finishButtonClick()}
                 >
@@ -304,7 +286,7 @@ Wizard.propTypes = {
   finishButtonClasses: PropTypes.string,
   finishButtonText: PropTypes.string,
   finishButtonClick: PropTypes.func,
-  validate: PropTypes.bool
+  validate: PropTypes.func
 };
 
 export default withStyles(wizardStyle)(Wizard);

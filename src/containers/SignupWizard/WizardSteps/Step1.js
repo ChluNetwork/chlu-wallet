@@ -9,9 +9,11 @@ import {
 } from '@material-ui/core'
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
+import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // icons
 import Face from '@material-ui/icons/Face';
 import Email from '@material-ui/icons/Email';
+import DoneIcon from '@material-ui/icons/Done'
 import Check from '@material-ui/icons/Check';
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
@@ -85,82 +87,95 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    return (
-    <Grid container justify='center'>
-      <Grid item xs={12} sm={12} md={6}>
-        <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>
-        <CustomInput
-          success={this.state.usernameState === 'success'}
-          error={this.state.usernameState === 'error'}
-          labelText={
-            <span>
-              User Name <small>(required)</small>
-            </span>
-          }
-          id='username'
-          formControlProps={{
-            fullWidth: true
-          }}
-          inputProps={{
-            onChange: event => this.change(event, 'username', 'length', 3),
-            endAdornment: (
-              <InputAdornment position='end' className={classes.inputAdornment}>
-                <Face className={classes.inputAdornmentIcon} />
-              </InputAdornment>
-            )
-          }}
-        />
-        <CustomInput
-          success={this.state.emailState === 'success'}
-          error={this.state.emailState === 'error'}
-          labelText={
-            <span>
-              Email <small>(required)</small>
-            </span>
-          }
-          id='email'
-          formControlProps={{
-            fullWidth: true
-          }}
-          inputProps={{
-            onChange: event => this.change(event, 'email', 'length', 3),
-            endAdornment: (
-              <InputAdornment position='end' className={classes.inputAdornment}>
-                <Email className={classes.inputAdornmentIcon} />
-              </InputAdornment>
-            )
-          }}
-        />
-          <FormControlLabel
-            classes={{
-              root: classes.checkboxLabelControl,
-              label: classes.checkboxLabel
-            }}
-            control={
-              <Checkbox
-                tabIndex={-1}
-                onClick={() => this.handleToggle(1)}
-                checkedIcon={
-                  <Check className={classes.checkedIcon} />
-                }
-                icon={<Check className={classes.uncheckedIcon} />}
-                classes={{
-                  checked: classes.checked
-                }}
-              />
-            }
-            label={
-              <span>
-                I agree to the{' '}
-                <a href='#pablo'>terms and conditions</a>.
-              </span>
-            }
+    const { classes, wallet } = this.props;
+    if (wallet && wallet.did) {
+      return <Grid container justify='center'>
+        <Grid item xs={4}>
+          <InfoArea
+            icon={DoneIcon}
+            iconColor='success'
+            title='All done'
+            description='Your wallet is ready to go'
           />
-        </form>
+        </Grid>
       </Grid>
-    </Grid>
-    );
+    } else {
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={12} sm={12} md={6}>
+            <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>
+            <CustomInput
+              success={this.state.usernameState === 'success'}
+              error={this.state.usernameState === 'error'}
+              labelText={
+                <span>
+                  User Name <small>(required)</small>
+                </span>
+              }
+              id='username'
+              formControlProps={{
+                fullWidth: true
+              }}
+              inputProps={{
+                onChange: event => this.change(event, 'username', 'length', 3),
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Face className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+            <CustomInput
+              success={this.state.emailState === 'success'}
+              error={this.state.emailState === 'error'}
+              labelText={
+                <span>
+                  Email <small>(required)</small>
+                </span>
+              }
+              id='email'
+              formControlProps={{
+                fullWidth: true
+              }}
+              inputProps={{
+                onChange: event => this.change(event, 'email', 'length', 3),
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Email className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+              <FormControlLabel
+                classes={{
+                  root: classes.checkboxLabelControl,
+                  label: classes.checkboxLabel
+                }}
+                control={
+                  <Checkbox
+                    tabIndex={-1}
+                    onClick={() => this.handleToggle(1)}
+                    checkedIcon={
+                      <Check className={classes.checkedIcon} />
+                    }
+                    icon={<Check className={classes.uncheckedIcon} />}
+                    classes={{
+                      checked: classes.checked
+                    }}
+                  />
+                }
+                label={
+                  <span>
+                    I agree to the{' '}
+                    <a href='#pablo'>terms and conditions</a>.
+                  </span>
+                }
+              />
+            </form>
+          </Grid>
+        </Grid>
+      )
+    }
   }
 }
 
