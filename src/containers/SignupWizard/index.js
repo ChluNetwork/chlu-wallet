@@ -5,7 +5,7 @@ import Step2 from './WizardSteps/Step2'
 import Step3 from './WizardSteps/Step3'
 // redux
 import { connect } from 'react-redux'
-import { createWallet, resetWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
+import { createWallet, resetWallet, setWalletSaved, finishClicked } from 'store/modules/components/CreateWallet'
 import { setWallet } from 'store/modules/data/wallet'
 import { toastr } from 'react-redux-toastr'
 // helpers
@@ -57,36 +57,37 @@ function SignupWizard(props) {
     const { wallet } = props
 
     return <Wizard
-        validate={validate}
-        onChangeStep={onChangeStep}
-        currentStep={wallet && wallet.did ? 2 : 0}
-        steps={[
-            {
-                stepName: '1: Create Your Wallet',
-                stepComponent: Step1,
-                stepId: 'get started',
-                stepProps: {
-                    ...props
-                }
-            },
-            {
-                stepName: '2: Save Your D.I.D.',
-                stepComponent: Step2,
-                stepId: 'about',
-                stepProps: {
-                    ...props,
-                    downloadWallet
-                }
-            },
-            {
-                stepName: '3: Claim Your Reputation',
-                stepComponent: Step3,
-                stepId: 'reviews'
-            },
-        ]}
-        title="Let's Get Started"
-        subtitle='Follow The Three Easy Steps Below To Begin'
-    />
+               validate={validate}
+               onChangeStep={onChangeStep}
+               finishButtonClick={props.finishClicked}
+               
+               steps={[
+                 {
+                   stepName: '1: Create Your Wallet',
+                   stepComponent: Step1,
+                   stepId: 'get started',
+                   stepProps: {
+                     ...props
+                   }
+                 },
+                 {
+                   stepName: '2: Save Your D.I.D.',
+                   stepComponent: Step2,
+                   stepId: 'about',
+                   stepProps: {
+                     ...props,
+                     downloadWallet
+                   }
+                 },
+                 {
+                   stepName: '3: Claim Your Reputation',
+                   stepComponent: Step3,
+                   stepId: 'reviews'
+                 },
+               ]}
+               title="Let's Get Started"
+               subtitle='Follow The Three Easy Steps Below To Begin'
+           />
 }
 
 const mapStateToProps = store => ({
@@ -97,10 +98,11 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = {
-  createWallet,
-  setWallet,
-  resetWallet,
-  setWalletSaved
+    finishClicked,
+    createWallet,
+    setWallet,
+    resetWallet,
+    setWalletSaved
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupWizard)
