@@ -11,12 +11,17 @@ import { toastr } from 'react-redux-toastr'
 // helpers
 import { saveWalletToLocalStorage } from 'helpers/wallet';
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
+import { pick } from 'lodash'
 
 function SignupWizard(props) {
 
     function downloadWallet() {
         const { wallet, walletCreated } = props
-        downloadWalletFile(wallet || walletCreated)
+        if (wallet && wallet.did) {
+            downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
+        } else {
+            downloadWalletFile(walletCreated)
+        }
         props.setWalletSaved(true)
     }
 
@@ -26,7 +31,6 @@ function SignupWizard(props) {
     }
 
     function validate(step) {
-        console.log(step)
         const { wallet } = props
         if (step === 1 && !(areWalletKeysSaved() || (wallet && wallet.did))) {
             toastr.warning(
