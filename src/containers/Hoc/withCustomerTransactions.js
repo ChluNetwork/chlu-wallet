@@ -62,10 +62,12 @@ const withCustomerTransactions = (WrappedComponent) => {
       const { customerTransactions } = this.props
       const loading = get(customerTransactions, 'loading', false)
       const error = get(customerTransactions, 'error', null)
+      const transactions = get(customerTransactions, 'data.txs', [])
 
       return <WrappedComponent
         groupTransactionByAddress={this.groupTransactionByAddress}
         customerTransactions={customerTransactions || []}
+        transactions={transactions}
         loading={loading}
         error={error}
         {...this.props}

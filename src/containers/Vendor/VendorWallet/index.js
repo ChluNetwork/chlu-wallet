@@ -45,8 +45,7 @@ class VendorWallet extends Component {
       convertFromBtcToBits,
       convertFromBitsToUsd,
       vendorTransaction: { data },
-      reviews: { reviews },
-      profile: { data: profileData }
+      reviews: { reviews }
     } = this.props
 
     const transactions = get(data, 'txs', [])
@@ -61,47 +60,21 @@ class VendorWallet extends Component {
     const totalBitsFormatted = formatCurrency(totalBits)
     const totalUsdFormatted = formatCurrency(totalUsd)
 
-
     return (
-      <div className='page-container vendor-wallet color-main'>
-        <div className='section-head '>
-          <div className='container'>
-           <div className='section-name color-light'>
-             <div className='name'>Vendor Wallet</div>
-             <div className='avatar'>
-               <Avatar size={40}>
-                 {get(profileData, 'name', 'c')[0].toUpperCase()}
-               </Avatar>
-             </div>
-           </div>
-           <div className='total-crypto'>
-             <div className='total-crypto__item big'>{totalBitsFormatted} bits</div>
-             <div className='total-crypto__item'>${totalUsdFormatted} USD</div>
-            </div>
-          </div>
-        </div>
-        <div className='section-content'>
-          <div className='container'>
-            {Object.keys(combineTransactions).map((key, index) =>
-              <ReviewsList
-                key={index}
-                date={key}
-                transactions={combineTransactions[key]}
-                reviews={reviews}
-                convertSatoshiToBits={convertSatoshiToBits}
-                convertFromBitsToUsd={convertFromBitsToUsd}
-              />)}
-          </div>
-        </div>
+      <div>
+        {Object.keys(combineTransactions).map((key, index) =>
+          <ReviewsList
+            key={index}
+            date={key}
+            transactions={combineTransactions[key]}
+            reviews={reviews}
+            convertSatoshiToBits={convertSatoshiToBits}
+            convertFromBitsToUsd={convertFromBitsToUsd}
+          />)}
       </div>
     )
   }
 }
-
-const mapStateToProps = state => ({
-  profile: state.data.profile,
-  reviews: state.data.reviews
-})
 
 export default compose(
   WithChluIPFS(types.vendor),

@@ -8,12 +8,6 @@ import Profile from './Profile'
 
 class Vendor extends Component {
 
-    componentDidMount() {
-        if (!localStorage.getItem('mnemonic_key')) {
-            replace('/setup')
-        }
-    }
-
     render() {
         return <Switch>
             <Route path='/vendor/profile' component={Profile} />

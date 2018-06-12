@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { getVendorTransactions, updateVendorTransactions } from 'store/modules/data/vendorTransactions'
 // helpers
 import { get } from 'lodash'
-import CircularProgress from '@material-ui/core/CircularProgress';
 // assets
 import { address } from '../Vendor/assets/data'
 //
@@ -42,21 +41,24 @@ const withVendorTransactions = (WrappedComponent) => {
     }
 
     render () {
-      const { vendorTransaction } = this.props
+      const { vendorTransactions } = this.props
+      const loading = get(vendorTransactions, 'loading', false)
+      const error = get(vendorTransactions, 'error', null)
+      const transactions = get(vendorTransactions, 'data.txs', [])
 
-      return (
-        vendorTransaction.loading ? <CircularProgress /> : vendorTransaction.error
-        ? 'Something went wrong'
-        : <WrappedComponent
-            vendorTransaction={vendorTransaction}
-            {...this.props}
-          />
-      )
+      return <WrappedComponent
+        groupTransactionByAddress={this.groupTransactionByAddress}
+        vendorTransaction={vendorTransactions|| []}
+        transactions={transactions}
+        loading={loading}
+        error={error}
+        {...this.props}
+      />
     }
   }
 
   const mapStateToProps = store => ({
-    vendorTransaction: store.data.vendorTransaction
+    vendorTransactions: store.data.vendorTransaction
   })
 
   const mapDispatchToProps = {

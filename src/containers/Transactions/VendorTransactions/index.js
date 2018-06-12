@@ -1,15 +1,11 @@
 import React from 'react'
 import { string, func, array } from 'prop-types'
-// libs
-import moment from 'moment'
 // components
 import TransactionInfo from 'components/Transactions/TransactionInfo'
 
 const VendorTransactions = ({ date, transactions, reviews, ...props }) => (
-  <div className='reviews-list'>
-    <div className='reviews-list__date color-light'>{date}</div>
+  <div>
     {transactions.map((transaction, index) => {
-      const date = moment(transaction.received).calendar()
       return <TransactionInfo
         key={index}
         address={transaction.addresses[0]}

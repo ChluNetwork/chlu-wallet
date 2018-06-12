@@ -7,15 +7,14 @@ import { compose } from 'redux'
 import get from 'lodash/get'
 import { getAddress } from 'helpers/wallet';
 // hoc
-import withCustomerTransactions from '../Hoc/withCustomerTransactions'
-import withFxRates from '../Hoc/withFxRates'
+import withFxRates from 'containers/Hoc/withFxRates'
+import withCustomerTransactions from 'containers/Hoc/withCustomerTransactions'
+import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
 // components
 import { Card, CardHeader, Avatar, withStyles } from '@material-ui/core';
-import TransactionInfo from './TransactionInfo'
+import TransactionLog from './TransactionLog'
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import ErrorIcon from '@material-ui/icons/ErrorOutline'
-import LoadingIcon from '@material-ui/icons/Sync'
 
 const styles = {
   card: {
@@ -23,7 +22,7 @@ const styles = {
   }
 }
 
-class RecentTransaction extends Component {
+class Transactions extends Component {
   static propTypes = {
     customerTransactions: shape({
       loading: bool,
@@ -43,31 +42,42 @@ class RecentTransaction extends Component {
     convertFromBtcToUsd: func,
     convertFromBitsToUsd: func,
     convertSatoshiToBits: func,
-    convertFromUsdToBtc: func
+    convertFromUsdToBtc: func,
+    vendor: bool
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      Transactions: null
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (Boolean(this.props.vendor) !== Boolean(newProps.vendor)) {
+      this.refreshTransactions(newProps.vendor)
+    }
   }
 
   componentDidMount() {
-    const { isEditFormOpen } = this.props
-    isEditFormOpen && this.hideEditForm()
+    this.refreshTransactions(this.props.vendor)
+  }
+
+  refreshTransactions(vendor = false) {
+    this.setState({
+      Transactions: vendor ? withVendorTransactions(TransactionLog) : withCustomerTransactions(TransactionLog)
+    })
   }
 
   render() {
     const {
       wallet,
-      classes,
-      customerTransactions,
-      reviews,
-      convertSatoshiToBTC,
-      convertFromBitsToUsd,
-      convertFromBtcToUsd,
-      convertSatoshiToBits,
-      loading,
-      error
+      classes
     } = this.props
 
     // TODO: transaction filtering based on route parameter
     const address = getAddress(wallet)
-    const transactions = get(customerTransactions, 'data.txs', [])
+    const Transactions = this.state.Transactions
 
     return (
       <div>
@@ -78,43 +88,7 @@ class RecentTransaction extends Component {
             subheader={address}
           />
         </Card>
-        {transactions.length
-          ? <div>
-              {transactions.map((item, index) => (
-                <TransactionInfo
-                  key={index}
-                  address={item.addresses[0]}
-                  transaction={item}
-                  convertSatoshiToBits={convertSatoshiToBits}
-                  convertSatoshiToBTC={convertSatoshiToBTC}
-                  convertFromBtcToUsd={convertFromBtcToUsd}
-                  convertFromBitsToUsd={convertFromBitsToUsd}
-                  review={reviews.reviews[item.hash]}
-                  editing={reviews.editing}
-                />
-              ))}
-          </div>
-          : error
-          ? <Card className={classes.card}>
-              <CardHeader
-                avatar={<Avatar><ErrorIcon/></Avatar>}
-                title={error || 'Something went wrong'}
-              />
-            </Card>
-          : loading
-          ? <Card className={classes.card}>
-              <CardHeader
-                avatar={<Avatar><LoadingIcon/></Avatar>}
-                title='Fetching transactions...'
-              />
-            </Card>
-          : <Card className={classes.card}>
-              <CardHeader
-                avatar={<Avatar>?</Avatar>}
-                title='No transactions to show'
-              />
-            </Card>
-        }
+        {Transactions ? <Transactions/> : <TransactionLog loading={true}/>}
       </div>
     )
   }
@@ -128,7 +102,6 @@ const mapStateToProps = store => ({
 
 export default compose(
   withFxRates,
-  withCustomerTransactions,
   withStyles(styles),
   connect(mapStateToProps)
-)(RecentTransaction)
+)(Transactions)
