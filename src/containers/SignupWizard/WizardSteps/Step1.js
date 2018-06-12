@@ -164,4 +164,4 @@ class Step1 extends React.Component {
   }
 }
 
-export default withStyles(style)(Step1);
+export default withStyles(style)(Step1)

@@ -11,6 +11,10 @@ import RecordVoiceOver from '@material-ui/icons/RecordVoiceOver';
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
+// redux
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import { createWallet, resetWallet } from 'store/modules/components/CreateWallet'
 
 const style = {
   infoText: {
@@ -154,4 +158,17 @@ class Step2 extends React.Component {
   }
 }
 
-export default withStyles(style)(Step2);
+const mapStateToProps = store => ({
+  loading: store.components.createWallet.loading,
+  wallet: store.components.createWallet.walletCreated
+})
+
+const mapDispatchToProps = {
+    createWallet,
+    resetWallet
+}
+
+export default compose(
+  withStyles(style),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Step2)
