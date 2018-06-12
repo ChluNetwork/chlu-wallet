@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core'
 import infoStyle from 'styles/material-dashboard-pro-react/components/infoStyle.jsx'
 
 function InfoArea({ ...props }) {
-  const { classes, title, description, iconColor } = props;
+  const { classes, title, description, iconColor, children } = props;
   return (
     <div className={classes.infoArea}>
       <div className={classes.iconWrapper + " " + classes[iconColor]}>
@@ -15,6 +15,7 @@ function InfoArea({ ...props }) {
       <div className={classes.descriptionWrapper}>
         <h4 className={classes.title}>{title}</h4>
         <p className={classes.description}>{description}</p>
+        {children}
       </div>
     </div>
   );
