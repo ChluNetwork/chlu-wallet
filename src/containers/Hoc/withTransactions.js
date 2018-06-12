@@ -11,7 +11,7 @@ import { getAddress } from 'helpers/wallet';
 
 const apiEnd = process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3'
 
-const withCustomerTransactions = (WrappedComponent) => {
+const withTransactions = (WrappedComponent) => {
   class AsyncTransactionHistory extends Component {
       static propTypes = {
           wallet: object,
@@ -66,7 +66,6 @@ const withCustomerTransactions = (WrappedComponent) => {
 
       return <WrappedComponent
         groupTransactionByAddress={this.groupTransactionByAddress}
-        customerTransactions={customerTransactions || []}
         transactions={transactions}
         loading={loading}
         error={error}
@@ -88,4 +87,4 @@ const withCustomerTransactions = (WrappedComponent) => {
   return connect(mapStateToProps, mapDispatchToProps)(AsyncTransactionHistory)
 }
 
-export default withCustomerTransactions
+export default withTransactions

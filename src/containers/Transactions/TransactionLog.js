@@ -40,7 +40,6 @@ function TransactionLog({ classes, loading, error, transactions, reviews, ...pro
       />
     </Card>
   } else {
-    console.log(transactions)
     return <div>
       {transactions.map((item, index) => (
         <TransactionInfo

@@ -8,8 +8,7 @@ import get from 'lodash/get'
 import { getAddress } from 'helpers/wallet';
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'
-import withCustomerTransactions from 'containers/Hoc/withCustomerTransactions'
-import withVendorTransactions from 'containers/Hoc/withVendorTransactions'
+import withTransactions from 'containers/Hoc/withTransactions'
 // components
 import { Card, CardHeader, Avatar, withStyles } from '@material-ui/core';
 import TransactionLog from './TransactionLog'
@@ -53,19 +52,13 @@ class Transactions extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (Boolean(this.props.vendor) !== Boolean(newProps.vendor)) {
-      this.refreshTransactions(newProps.vendor)
-    }
-  }
-
   componentDidMount() {
     this.refreshTransactions(this.props.vendor)
   }
 
   refreshTransactions(vendor = false) {
     this.setState({
-      Transactions: vendor ? withVendorTransactions(TransactionLog) : withCustomerTransactions(TransactionLog)
+      Transactions: withTransactions(TransactionLog)
     })
   }
 

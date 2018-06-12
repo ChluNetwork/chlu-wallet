@@ -40,9 +40,7 @@ class MainLayout extends Component {
             {emptyWallet && <Redirect to='/'/>}
             <Route path='/reputation' component={Reputation} />
             <Route path='/pay' component={Payment} />
-            <Route path='/transactions/customer' render={() => <Transactions/>} />
-            <Route path='/transactions/vendor' render={() => <Transactions vendor/>} />
-            <Redirect exact from='/transactions' to='/transactions/customer'/>
+            <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
             <Route path='/reviews' component={Reviews} />
             <Redirect to='/'/>
