@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 // components
 import {
     withStyles,
     Grid
-} from '@material-ui/core';
+} from '@material-ui/core'
 // icons
 import {
     MonetizationOn,
@@ -13,20 +13,16 @@ import {
     CallMerge,
     Web,
     Payment
-} from '@material-ui/icons';
+} from '@material-ui/icons'
 // custom components
-import RegularCard from 'components/MaterialDashboardPro/RegularCard';
-import InfoArea from 'components/MaterialDashboardPro/InfoArea';
-import Timeline from 'components/MaterialDashboardPro/Timeline';
-import Wizard from 'components/MaterialDashboardPro/Wizard';
-// sub views
-import Step1 from './WizardSteps/Step1';
-import Step2 from './WizardSteps/Step2';
-import Step3 from './WizardSteps/Step3';
+import RegularCard from 'components/MaterialDashboardPro/RegularCard'
+import InfoArea from 'components/MaterialDashboardPro/InfoArea'
+import Timeline from 'components/MaterialDashboardPro/Timeline'
+import SignupWizard from 'containers/SignupWizard'
 // content
-import { stories } from 'fixtures/stories';
+import { stories } from 'fixtures/stories'
 // style
-import "styles/material-dashboard-pro-react.css?v=1.1.1";
+import "styles/material-dashboard-pro-react.css?v=1.1.1"
 import homePageStyle from 'styles/material-dashboard-pro-react/views/homePageStyle.jsx'
 
 class HomePage extends React.Component {
@@ -129,16 +125,7 @@ render() {
                     </Grid>
                     <Grid container justify='center'>
                       <Grid item xs={12} sm={12}>
-                        <Wizard
-                          validate
-                          steps={[
-                            { stepName: '1: Create Your Wallet', stepComponent: Step1, stepId: 'get started' },
-                            { stepName: '2: Save Your D.I.D.', stepComponent: Step2, stepId: 'about' },
-                            { stepName: '3: Claim Your Reputation', stepComponent: Step3, stepId: 'reviews' },
-                          ]}
-                          title="Let's Get Started"
-                          subtitle='Follow The Three Easy Steps Below To Begin'
-                        />
+                        <SignupWizard/>
                       </Grid>
                     </Grid>
                   </div>
