@@ -17,9 +17,9 @@ function getInitialState() {
 }
 
 export const crawlerError = createAction(CRAWLER_ERROR)
-export const startCrawler = createAction(CRAWLER_START)
+const startCrawler = createAction(CRAWLER_START)
 const startCrawlerIPFS = createAction(CRAWLER_START_IPFS)
-export const finishCrawler = createAction(CRAWLER_FINISH)
+const finishCrawler = createAction(CRAWLER_FINISH)
 
 export function startYelpCrawler(yelpUrl) {
     return async (dispatch, getState) => {
