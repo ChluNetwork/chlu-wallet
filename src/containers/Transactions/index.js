@@ -4,7 +4,6 @@ import { shape, bool, any, object, func, number } from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 // helpers
-import get from 'lodash/get'
 import { getAddress } from 'helpers/wallet';
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates'

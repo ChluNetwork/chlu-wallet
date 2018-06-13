@@ -1,10 +1,10 @@
-var apifyExecution;
-var apifyResults;
+var apifyExecution
+var apifyResults
 
 export function getUpWorkReviews() {
   var url = ("#mce-URL").val();
   console.log(url);
-  if ((typeof url === 'undefined') || url.length == 0) {
+  if ((typeof url === 'undefined') || url.length === 0) {
     return false;
   }
   var actorUrl = 'https://api.apify.com/v2/acts/PWaorZyrfNgetFoHp/run-sync?token=9qcDHSZabd8uG3F5DQoB2gyYc';
@@ -31,7 +31,7 @@ function syncActor(url, postData) {
 export function getTripAdvisorReviews() {
   var url = ("#mce-URL").val();
   console.log(url);
-  if ((typeof url === 'undefined') || url.length == 0) {
+  if ((typeof url === 'undefined') || url.length === 0) {
     return false;
   }
   //var crawlerUrl = 'https://api.apify.com/v1/ZzSb2nF9DzKbWKHkK/crawlers/shWyEM5aAptXrCGLC/execute?token=FKjYAr2TDHGvgA6f4R6LrtZ5r';
@@ -39,7 +39,7 @@ export function getTripAdvisorReviews() {
   var postData = {
     'customData': JSON.stringify({
       'mode': 'recheck',
-      'url_list': [{'URL': url, 'cutoff_date': '1970-01-01'}]
+      'url_list': [ { 'URL': url, 'cutoff_date': '1970-01-01' } ]
     })
   };
   startCrawler(crawlerUrl, postData);
@@ -47,14 +47,14 @@ export function getTripAdvisorReviews() {
 
 export function getYelpReviews(url) {
   console.log(url);
-  if ((typeof url === 'undefined') || url.length == 0) {
+  if ((typeof url === 'undefined') || url.length === 0) {
     return false;
   }
   var crawlerUrl = 'https://api.apify.com/v1/ZzSb2nF9DzKbWKHkK/crawlers/x9RP3rua6zcc7oPHK/execute?token=Hgr6dCi2Lx5q4Gu4mGQ9FCM5Q';
   var postData = {
     'customData': JSON.stringify({
       'mode': 'recheck',
-      'url_list': [{'URL': url, 'cutoff_date': '1970-01-01'}]
+      'url_list': [ { 'URL': url, 'cutoff_date': '1970-01-01' } ]
     })
   };
   return startCrawler(crawlerUrl, postData);
@@ -83,7 +83,7 @@ export function keepPolling(apifyExecution) {
       console.log('setting timeout');
       setTimeout(function(){
         console.log('calling ' + apifyExecution.detailsUrl);
-        fetch(apifyExecution.detailsUrl, {method: 'GET'})
+        fetch(apifyExecution.detailsUrl, { method: 'GET' })
           .then(function(response) { return response.json(); })
           .then(function(data) {
             const apifyExecution = data;
@@ -95,7 +95,7 @@ export function keepPolling(apifyExecution) {
       }, 10000);
     } else {
       console.log('completed...');
-      fetch(apifyExecution.resultsUrl, {method: 'GET'})
+      fetch(apifyExecution.resultsUrl, { method: 'GET' })
         .then(function(response) { return response.json(); })
         .then(function(data) {
           console.log('RESULTS')

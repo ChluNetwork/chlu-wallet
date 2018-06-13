@@ -54,8 +54,6 @@ function SignupWizard(props) {
         }
     }
 
-    const { wallet } = props
-
     return <Wizard
                validate={validate}
                onChangeStep={onChangeStep}
