@@ -1,4 +1,4 @@
-import { getChluIPFS } from 'helpers/ipfs'
+import { getChluIPFS, types } from 'helpers/ipfs'
 
 const gatewayUrl = 'https://ipfs.io/ipfs/'
 
@@ -73,5 +73,24 @@ export async function storeReputation(didDocument, reviews) {
     } else {
         await db.set(didMultihash, reputationMultihash)
         console.log('Reputation (' + reviews.length + ' reviews) for DID', didDocument.id, 'saved successfully')
+    }
+}
+
+export async function readReputation(didId) {
+    const chluIpfs = await getChluIPFS(types.customer)
+    // ChluIPFS does not have DID/Reputation code implemented yet so we go manual
+    const db = await openDB()
+    const ipfs = chluIpfs.instance.ipfs
+    const didDocumentMultihash = await db.get(didId)
+    if (!didDocumentMultihash) throw new Error('DID not found')
+    const reputationMultihash = await db.get(didDocumentMultihash)
+    if (!reputationMultihash) throw new Error('Reputation not found')
+    const reputationDagNode = await ipfs.object.get(reputationMultihash)
+    try {
+      const stringReputation = reputationDagNode.data.toString('utf-8')
+      return JSON.parse(stringReputation)
+    } catch (error) {
+      console.log(error)
+      throw new Error('Could not parse Reputation at ' + reputationMultihash)
     }
 }
