@@ -72,8 +72,7 @@ export function startCrawler(crawlerUrl, postData) {
       return response.json();
     })
     .then(function(data) {
-      apifyExecution = data;
-      return keepPolling(apifyExecution);
+      return keepPolling(data);
     });
 }
 
@@ -87,8 +86,8 @@ export function keepPolling(apifyExecution) {
         fetch(apifyExecution.detailsUrl, {method: 'GET'})
           .then(function(response) { return response.json(); })
           .then(function(data) {
-            apifyExecution = data;
-            keepPolling()
+            const apifyExecution = data;
+            keepPolling(apifyExecution)
               .then(resolve)
               .catch(reject);
           })
@@ -99,19 +98,27 @@ export function keepPolling(apifyExecution) {
       fetch(apifyExecution.resultsUrl, {method: 'GET'})
         .then(function(response) { return response.json(); })
         .then(function(data) {
-          apifyExecution = data;
-          apifyResults = data;
-          var reviews = getCrawlerResults();
-          resolve(reviews)
+          console.log('RESULTS')
+          console.log(data)
+          try {
+            const reviews = getCrawlerResults(data)
+            console.log(reviews)
+            resolve(reviews)
+          } catch (error) {
+            reject(error)
+          }
         })
         .catch(reject);
     }
   })
 }
 
-export function getCrawlerResults(){
+export function getCrawlerResults(apifyResults){
   var reviews = [];
   for(var i in apifyResults) {
+    if (apifyResults[i].errorInfo && apifyResults[i].loadErrorCode) {
+      throw new Error(apifyResults[i].errorInfo)
+    }
     for(var r in apifyResults[i].pageFunctionResult) {
       reviews.push((apifyResults[0].pageFunctionResult[r]));
     }
