@@ -38,7 +38,7 @@ export function createWallet() {
 
 export function finishClicked() {
   return async dispatch => {
-    dispatch(submit('businessCrawlerForm'))
+    dispatch(submit('individualsCrawlerForm'))
   }
 }
 
