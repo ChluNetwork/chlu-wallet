@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { Grid } from '@material-ui/core'
+import { Grid, LinearProgress } from '@material-ui/core'
 
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
@@ -45,31 +45,40 @@ const submit = (values, dispatch, props) => {
 class ProductOwnersCrawlerForm extends React.Component {
   
   render () {
-    const { handleSubmit } = this.props
-    return (<span>
-      <form onSubmit={handleSubmit}>
-        <Grid container justify='center'>
+    const { handleSubmit, crawlerRunning } = this.props
 
-          {<RenderEmailPasswordCombo emailName='amazon-email'
-                                     emailLabel='Amazon email'
-                                     emailHelp='We never store your Amazon email'
-                                     passwordName='amazon-password'
-                                     passwordLabel='Amazon password'
-                                     passwordHelp='We never store your Amazon password' />
-          }
-
-          {<RenderEmailPasswordCombo emailName='taobao-email'
-                                     emailLabel='Taobao email'
-                                     emailHelp='We never store your Taobao email'
-                                     passwordName='taobao-password'
-                                     passwordLabel='Taobao password'
-                                     passwordHelp='We never store your Taobao password' />
-          }
-
-        </Grid>      
-      </form>
-    </span>
-    )
+    if (crawlerRunning) {
+      return <Grid container justify='center'>
+        <Grid item xs={12} md={12} >
+          <LinearProgress size={100} />
+        </Grid>
+      </Grid>
+    } else {    
+      return (<span>
+        <form onSubmit={handleSubmit}>
+          <Grid container justify='center'>
+            
+            {<RenderEmailPasswordCombo emailName='amazon-email'
+                                       emailLabel='Amazon email'
+                                       emailHelp='We never store your Amazon email'
+                                       passwordName='amazon-password'
+                                       passwordLabel='Amazon password'
+                                       passwordHelp='We never store your Amazon password' />
+            }
+            
+            {<RenderEmailPasswordCombo emailName='taobao-email'
+                                       emailLabel='Taobao email'
+                                       emailHelp='We never store your Taobao email'
+                                       passwordName='taobao-password'
+                                       passwordLabel='Taobao password'
+                                       passwordHelp='We never store your Taobao password' />
+            }
+            
+          </Grid>      
+        </form>
+      </span>
+      )
+    }
   }
 }
 
