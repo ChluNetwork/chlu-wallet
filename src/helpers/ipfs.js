@@ -1,5 +1,6 @@
 import ChluIPFS from 'chlu-ipfs-support'
 import { updateReviewRecordAction } from 'store/modules/data/reviews'
+import { openDB } from 'helpers/reputation/ipfs'
 
 export async function getChluIPFS(type) {
     const options = {
@@ -14,6 +15,8 @@ export async function getChluIPFS(type) {
         }
         window.chluIpfs = new ChluIPFS(options)
         await window.chluIpfs.start()
+        // preload reputation db
+        await openDB()
         // Turn Review Record updates into redux actions
         window.chluIpfs.instance.events.on('reviewrecord/updated', (multihash, updatedMultihash, reviewRecord) => {
           window.reduxStore.dispatch(updateReviewRecordAction({

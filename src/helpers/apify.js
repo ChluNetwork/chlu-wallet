@@ -45,8 +45,7 @@ export function getTripAdvisorReviews() {
   startCrawler(crawlerUrl, postData);
 }
 
-export function getYelpReviews() {
-  var url = ("#mce-URL").val();
+export function getYelpReviews(url) {
   console.log(url);
   if ((typeof url === 'undefined') || url.length == 0) {
     return false;
@@ -58,11 +57,11 @@ export function getYelpReviews() {
       'url_list': [{'URL': url, 'cutoff_date': '1970-01-01'}]
     })
   };
-  startCrawler(crawlerUrl, postData);
+  return startCrawler(crawlerUrl, postData);
 }
 
 export function startCrawler(crawlerUrl, postData) {  
-  fetch(crawlerUrl, {
+  return fetch(crawlerUrl, {
     method: 'POST',
     body: JSON.stringify(postData),
     headers: {
@@ -73,41 +72,53 @@ export function startCrawler(crawlerUrl, postData) {
       return response.json();
     })
     .then(function(data) {
-      apifyExecution = data;
-      keepPolling();
+      return keepPolling(data);
     });
-  return false;
 }
 
-export function keepPolling() {
-  console.log(apifyExecution);
-  if (apifyExecution.status !== 'SUCCEEDED' && apifyExecution.finishedAt === null) {
-    console.log('setting timeout');
-    setTimeout(function(){
-      console.log('calling ' + apifyExecution.detailsUrl);
-      fetch(apifyExecution.detailsUrl, {method: 'GET'})
+export function keepPolling(apifyExecution) {
+  return new Promise((resolve, reject) => {
+    console.log(apifyExecution);
+    if (apifyExecution.status !== 'SUCCEEDED' && apifyExecution.finishedAt === null) {
+      console.log('setting timeout');
+      setTimeout(function(){
+        console.log('calling ' + apifyExecution.detailsUrl);
+        fetch(apifyExecution.detailsUrl, {method: 'GET'})
+          .then(function(response) { return response.json(); })
+          .then(function(data) {
+            const apifyExecution = data;
+            keepPolling(apifyExecution)
+              .then(resolve)
+              .catch(reject);
+          })
+          .catch(reject);
+      }, 10000);
+    } else {
+      console.log('completed...');
+      fetch(apifyExecution.resultsUrl, {method: 'GET'})
         .then(function(response) { return response.json(); })
         .then(function(data) {
-          apifyExecution = data;
-          keepPolling();
-        });
-    }, 10000);
-  } else {
-    console.log('completed...');
-    fetch(apifyExecution.resultsUrl, {method: 'GET'})
-      .then(function(response) { return response.json(); })
-      .then(function(data) {
-        apifyExecution = data;
-        apifyResults = data;
-        var reviews = getCrawlerResults();
-        storeResults(reviews);
-      });
-  }
+          console.log('RESULTS')
+          console.log(data)
+          try {
+            const reviews = getCrawlerResults(data)
+            console.log(reviews)
+            resolve(reviews)
+          } catch (error) {
+            reject(error)
+          }
+        })
+        .catch(reject);
+    }
+  })
 }
 
-export function getCrawlerResults(){
+export function getCrawlerResults(apifyResults){
   var reviews = [];
   for(var i in apifyResults) {
+    if (apifyResults[i].errorInfo && apifyResults[i].loadErrorCode) {
+      throw new Error(apifyResults[i].errorInfo)
+    }
     for(var r in apifyResults[i].pageFunctionResult) {
       reviews.push((apifyResults[0].pageFunctionResult[r]));
     }
