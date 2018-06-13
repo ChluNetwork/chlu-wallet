@@ -9,11 +9,12 @@ import Review from 'components/Review'
 // helpers
 import { formatCurrency } from 'helpers/currencyFormat'
 import { calculateTotalSpent } from 'helpers/transactions'
-import { get } from 'lodash'
+import { get, flatten } from 'lodash'
 // icons
 import BlockchainIcon from '@material-ui/icons/Search'
 import ExplorerIcon from '@material-ui/icons/Explore'
-import PaymentIcon from '@material-ui/icons/CallMade'
+import SentIcon from '@material-ui/icons/CallMade'
+import ReceivedIcon from '@material-ui/icons/CallReceived'
 import NotChluIcon from '@material-ui/icons/ErrorOutline'
 import LoadingIcon from '@material-ui/icons/Sync'
 import UnconfirmedIcon from '@material-ui/icons/Sync'
@@ -53,17 +54,29 @@ class TransactionInfo extends Component {
             editing
         } = this.props
 
-        const amount = calculateTotalSpent(transaction, address)
+        // Tx
+        const date = moment(transaction.received).calendar()
+        const inputAddresses = flatten(transaction.inputs.map(i => i.addresses))
+        const allOutputAddresses = flatten(transaction.outputs.map(o => o.addresses))
+        const outputAddresses = allOutputAddresses.filter(i => i && inputAddresses.indexOf(i) < 0)
+        console.log(inputAddresses, outputAddresses)
+        const fromAddress = inputAddresses[0]
+        const toAddress = outputAddresses[0]
+        console.log(toAddress, address)
+        const isReceived = toAddress === address
+        // Bitcoin stuff
+        const amount = calculateTotalSpent(transaction, isReceived ? fromAddress : toAddress)
         const priceBits = convertSatoshiToBits(amount)
         const confirmations = get(transaction, 'confirmations', 0)
         const priceBitsFormatted = formatCurrency(priceBits)
-        const date = moment(transaction.received).calendar()
+        // Chlu review stuff
         const isChlu = Boolean(review)
         const reviewIsLoading = isChlu && review.loading
         const reviewIsReady = isChlu && !review.loading
         const reviewMultihash = isChlu ? review.multihash : null
         const reviewIsUpdate = Boolean(review && review.last_version_multihash)
         const reviewDate = reviewIsUpdate ? null : date
+        // Links
         const chainExplorerLink = `${process.env.REACT_APP_BTC_EXPLORER_URL_TX}/${transaction.hash}`
         const chluExplorerLink = isChlu ? `https://explorer.chlu.io/#/v/${reviewMultihash}` : null
         
@@ -89,11 +102,13 @@ class TransactionInfo extends Component {
             }
         }
 
+        const PaymentIcon = isReceived ? ReceivedIcon : SentIcon
+
         return <Card className={classes.card}>
             <CardHeader
                 avatar={<Avatar><PaymentIcon/></Avatar>}
-                title={`Sent ${priceBitsFormatted} bits ${date}`}
-                subheader={`To ${transaction.addresses[1]}`}
+                title={`${isReceived ? 'Received' : 'Sent'} ${priceBitsFormatted} bits ${date}`}
+                subheader={`${isReceived ? 'From' : 'To'} ${isReceived ? fromAddress : toAddress}`}
             />
             <Divider/>
             { !isChlu && <CardHeader

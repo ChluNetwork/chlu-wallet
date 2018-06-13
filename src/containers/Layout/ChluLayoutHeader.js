@@ -109,7 +109,7 @@ class ChluLayoutHeader extends React.Component {
     const loggedOutList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/setup/import"} className={classes.navLink} activeClassName={classes.navLinkActive}>
+          <NavLink to={"/login"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <LoginIcon/>
             </ListItemIcon>

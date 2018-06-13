@@ -12,7 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import ChluLayout from './ChluLayout'
 // routes
 import HomePage from '../HomePage'
-import Wallet from '../Wallet'
+import LoginPage from '../Wallet/Import'
 import Reputation from '../Reputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
@@ -36,7 +36,7 @@ class MainLayout extends Component {
         <ChluLayout>
           <Switch>
             <Route exact path='/' component={HomePage} />
-            <Route path='/setup' component={Wallet} />
+            <Route path='/login' component={LoginPage} />
             {emptyWallet && <Redirect to='/'/>}
             <Route path='/reputation' component={Reputation} />
             <Route path='/pay' component={Payment} />

@@ -48,7 +48,7 @@ class ImportWallet extends Component {
             subheader='Access your existing funds and Identity from this device'
           />
           <CardContent>
-            Don't have a wallet yet? <Link to='/setup/create'>Create a new one</Link>
+            Don't have a wallet yet? <Link to='/'>Create a new one</Link>
           </CardContent>
           <CardActions>
             <FileReaderInput

@@ -54,9 +54,12 @@ function SignupWizard(props) {
         }
     }
 
+    const { wallet } = props
+
     return <Wizard
         validate={validate}
         onChangeStep={onChangeStep}
+        currentStep={wallet && wallet.did ? 2 : 0}
         steps={[
             {
                 stepName: '1: Create Your Wallet',
