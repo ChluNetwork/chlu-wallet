@@ -27,6 +27,11 @@ import PayIcon from '@material-ui/icons/Send';
 import SettingsIcon from '@material-ui/icons/Settings'
 import LoginIcon from '@material-ui/icons/Fingerprint'
 import ReputationIcon from '@material-ui/icons/Star'
+import ThumbsUpDown from '@material-ui/icons/ThumbsUpDown'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+
+import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
+
 // style
 import logo from "images/chlu.svg";
 import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
@@ -39,6 +44,12 @@ class ChluLayoutHeader extends React.Component {
     };
   }
 
+  testSubmit(event) {
+    event.preventDefault();
+    alert('LOAD THE MODAL');
+  }
+
+
   handleDrawerToggle = () => {
     this.setState({ open: !this.state.open });
   };
@@ -50,31 +61,43 @@ class ChluLayoutHeader extends React.Component {
   }
 
   render() {
-    const { classes, color, wallet, push } = this.props;
+    const { wallet, classes, isModalOpen, closeDeleteModal, openDeleteModal, color, push } = this.props
     const appBarClasses = cx({
       [" " + classes[color]]: color
     });
     const loggedInList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/reputation"} className={classes.navLink} activeClassName={classes.navLinkActive}>
+          <NavLink to={"/pay"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
-              <ReputationIcon/>
+              <PayIcon/>
             </ListItemIcon>
             <ListItemText
-              primary={"My Reputation"}
+              primary={"Pay, Review, Earn Chlu"}
               disableTypography={true}
               className={classes.listItemText}
               />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/pay"} className={classes.navLink} activeClassName={classes.navLinkActive}>
+          <NavLink to={"/reputation"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
-              <PayIcon/>
+              <ReputationIcon/>
             </ListItemIcon>
             <ListItemText
-              primary={"Pay & Review"}
+              primary={"Reviews About Me"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/wrote"} className={classes.navLink} activeClassName={classes.navLinkActive}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <ThumbsUpDown/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Reviews I Wrote"}
               disableTypography={true}
               className={classes.listItemText}
               />
@@ -86,7 +109,7 @@ class ChluLayoutHeader extends React.Component {
               <TransactionsIcon/>
             </ListItemIcon>
             <ListItemText
-              primary={"Transactions"}
+              primary={"All Transactions"}
               disableTypography={true}
               className={classes.listItemText}
               />
@@ -104,7 +127,20 @@ class ChluLayoutHeader extends React.Component {
               />
           </NavLink>
         </ListItem>
+        <ListItem className={classes.listItem}>
+          <NavLink to={"/logout"} className={classes.navLink} activeClassName={classes.navLinkActive} onClick={(openDeleteModal) => push('/')}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <ExitToAppIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Logout"}
+              disableTypography={true}
+              className={classes.listItemText}
+              />
+          </NavLink>
+        </ListItem>
       </List>
+
     );
     const loggedOutList = (
       <List className={classes.list}>
@@ -178,12 +214,17 @@ ChluLayoutHeader.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  wallet: state.data.wallet
+  wallet: state.data.wallet,
+  isModalOpen: state.data.wallet.isDeleteModalOpen
 })
 
-const mapDispatchToProps = dispatch => ({
+
+const mapDispatchToProps = {
+  deleteWallet,
+  closeDeleteModal,
+  openDeleteModal,
   push
-})
+}
 
 export default compose(
   withRouter, // prevent NavLinks not realising the route has changed
