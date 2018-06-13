@@ -1,5 +1,9 @@
 import { getChluIPFS } from 'helpers/ipfs'
 
+const gatewayUrl = 'https://ipfs.io/ipfs/'
+
+export const viewerUrl = gatewayUrl + 'Qmb1wmJes6m1koDcbNevbUzMJKeUJfgTLhCsB6zTgnNftu'
+
 // Uses did.chlu.io (chlu-reputation-service-node) to do the heavy lifting
 export function storeReputationThroughDIDService(did, reviews) {
   return new Promise(function (resolve, reject) {
@@ -29,16 +33,34 @@ export function storeReputationThroughDIDService(did, reviews) {
   });
 }
 
+export async function openDB() {
+  if (window.reputationDb) return window.reputationDb
+  const chluIpfs = await getChluIPFS()
+  const orbitDb = chluIpfs.instance.orbitDb.orbitDb
+  window.reputationDb = await orbitDb.kvstore('chlu-reputation-experimental-2', {
+    write: ['*']
+  })
+  await window.reputationDb.load()
+  return window.reputationDb
+}
+
 // store reputation using full IPFS node
 export async function storeReputation(didDocument, reviews) {
     const chluIpfs = await getChluIPFS()
     // ChluIPFS does not have DID/Reputation code implemented yet so we go manual
+    const db = await openDB()
     const ipfs = chluIpfs.instance.ipfs
-    const orbitDb = chluIpfs.instance.orbitDb.orbitDb
-    const db = await orbitDb.kvstore('chlu-reputation-experimental-2')
-    console.log('Saving Reputation (' + reviews.length + ' reviews) for DID', didDocument.id)
+    console.log('Saving DID document for DID', didDocument.id)
     const dagNode = await ipfs.object.put(Buffer.from(JSON.stringify(didDocument)))
     const didMultihash = dagNode.toJSON().multihash
+    const existingDid = await db.get(didDocument.id)
+    if (existingDid === didMultihash) {
+      console.log('DID document for DID', didDocument.id, 'was already there', didMultihash)
+    } else {
+      await db.set(didDocument.id, didMultihash)
+      console.log('Saved DID document for DID', didDocument.id, didMultihash)
+    }
+    console.log('Saving Reputation (' + reviews.length + ' reviews) for DID', didDocument.id)
     const reputation = {
         reviews,
         did: { '/': didMultihash }

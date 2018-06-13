@@ -28,8 +28,8 @@ export function startYelpCrawler(yelpUrl) {
         try {
             const results = await getYelpReviews(yelpUrl)
             dispatch(startCrawlerIPFS())
-            //await storeReputation(state.data.wallet.did.publicDidDocument, results)
-            dispatch(finishCrawler(results))
+            await storeReputation(state.data.wallet.did.publicDidDocument, results)
+            dispatch(finishCrawler())
         } catch (error) {
             console.log(error)
             dispatch(crawlerError(error.message || error))
