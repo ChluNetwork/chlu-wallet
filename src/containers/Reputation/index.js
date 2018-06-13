@@ -13,9 +13,7 @@ class Reputation extends Component {
 
     render() {
         return <div style={{ color:'white' }}>
-            This is supposed to be the page where you see your reputation
-            <br/>Review widget demo:
-            <br/><Reviews/>    
+            <Reviews/>    
         </div>
     }
 }
