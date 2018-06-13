@@ -13,6 +13,7 @@ import { saveWalletToLocalStorage } from 'helpers/wallet';
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { pick } from 'lodash'
 
+
 function SignupWizard(props) {
 
     function downloadWallet() {
@@ -54,38 +55,38 @@ function SignupWizard(props) {
         }
     }
 
-    return <Wizard
-               validate={validate}
-               onChangeStep={onChangeStep}
-               finishButtonClick={props.finishClicked}
-               
-               steps={[
-                 {
-                   stepName: '1: Create Your Wallet',
-                   stepComponent: Step1,
-                   stepId: 'get started',
-                   stepProps: {
-                     ...props
-                   }
-                 },
-                 {
-                   stepName: '2: Save Your D.I.D.',
-                   stepComponent: Step2,
-                   stepId: 'about',
-                   stepProps: {
-                     ...props,
-                     downloadWallet
-                   }
-                 },
-                 {
-                   stepName: '3: Claim Your Reputation',
-                   stepComponent: Step3,
-                   stepId: 'reviews'
-                 },
-               ]}
-               title="Let's Get Started"
-               subtitle='Follow The Three Easy Steps Below To Begin'
-           />
+  return <Wizard
+             validate={validate}
+             onChangeStep={onChangeStep}
+             finishButtonClick={props.finishClicked}
+             
+             steps={[
+               {
+                 stepName: '1: Create Your Wallet',
+                 stepComponent: Step1,
+                 stepId: 'get started',
+                 stepProps: {
+                   ...props
+                 }
+               },
+               {
+                 stepName: '2: Save Your D.I.D.',
+                 stepComponent: Step2,
+                 stepId: 'about',
+                 stepProps: {
+                   ...props,
+                   downloadWallet
+                 }
+               },
+               {
+                 stepName: '3: Claim Your Reputation',
+                 stepComponent: Step3,
+                 stepId: 'reviews'
+               },
+             ]}
+             title="Let's Get Started"
+             subtitle='Follow The Three Easy Steps Below To Begin'
+         />
 }
 
 const mapStateToProps = store => ({

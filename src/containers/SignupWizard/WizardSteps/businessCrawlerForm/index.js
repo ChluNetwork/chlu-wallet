@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { Grid } from '@material-ui/core'
+import { LinearProgress, Grid } from '@material-ui/core'
 
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
@@ -46,28 +46,37 @@ const submit = (values, dispatch, props) => {
 class BusinessCrawlerForm extends React.Component {
   
   render () {
-    const { handleSubmit } = this.props
-    return (<span>
-    <form onSubmit={handleSubmit}>
-      <Grid container justify='center'>
-        
-        {<RenderEmailPasswordCombo emailName='yelp-email'
-                                   emailLabel='Yelp email'
-                                   emailHelp='We never store your Yelp email'
-                                   passwordName='yelp-password'
-                                   passwordLabel='Yelp password'
-                                   passwordHelp='We never store your Yelp password' />
-        }
-        {<RenderEmailPasswordCombo emailName='tripadvisor-email' emailLabel='Tripadvisor email'
-                                   emailHelp='We never store your Tripadvisor email'
-                                   passwordName='tripadvisor-password' passwordLabel='Tripadvisor password'
-                                   passwordHelp='We never store your Tripadvisor password' />
-        }
-        
-      </Grid>      
-      </form>
-    </span>
-    )
+    const { handleSubmit, crawlerRunning } = this.props
+
+    if (crawlerRunning) {
+      return <Grid container justify='center'>
+        <Grid item xs={12} md={12} >
+          <LinearProgress size={100} />
+        </Grid>
+      </Grid>
+    } else {
+      return (<span>
+        <form onSubmit={handleSubmit}>
+          <Grid container justify='center'>
+            
+            {<RenderEmailPasswordCombo emailName='yelp-email'
+                                       emailLabel='Yelp email'
+                                       emailHelp='We never store your Yelp email'
+                                       passwordName='yelp-password'
+                                       passwordLabel='Yelp password'
+                                       passwordHelp='We never store your Yelp password' />
+            }
+            {<RenderEmailPasswordCombo emailName='tripadvisor-email' emailLabel='Tripadvisor email'
+                                       emailHelp='We never store your Tripadvisor email'
+                                       passwordName='tripadvisor-password' passwordLabel='Tripadvisor password'
+                                       passwordHelp='We never store your Tripadvisor password' />
+            }
+            
+          </Grid>      
+        </form>
+      </span>
+      )
+    }
   }
 }
 
