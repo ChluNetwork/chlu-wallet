@@ -1,6 +1,9 @@
 import { createAction, handleActions } from 'redux-actions'
 import { generateNewWallet } from 'helpers/wallet'
 
+// redux form
+import { submit } from 'redux-form'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -33,10 +36,20 @@ export function createWallet() {
   }
 }
 
+export function finishClicked() {
+  return async dispatch => {
+    dispatch(submit('businessCrawlerForm'))
+  }
+}
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
+  [CREATING_WALLET]: state => ({
+    ...state,
+    loading: true
+  }),
   [CREATING_WALLET]: state => ({
     ...state,
     loading: true
