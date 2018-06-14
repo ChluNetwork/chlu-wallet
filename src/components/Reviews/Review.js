@@ -44,21 +44,23 @@ class Review extends Component {
   }
 
   detailedReview(detailed_review) {
-    if ( isArray(detailed_review) ) {
-      return detailed_review.map((dr) => (      
-        <ListItem>
-          <ListItemText
-              primary={
-                <div>
-                  <div>{dr.category}</div>
+    if (isArray(detailed_review)) {
+      return detailed_review
+        .filter(dr => Boolean(dr && dr.rating))
+        .map(dr => (      
+          <ListItem>
+            <ListItemText
+                primary={
                   <div>
-                    <StarRatingComponent name='rating' starCount={dr.rating.max} value={dr.rating.value} />
-                  </div>
-                </div>}
-              secondary={dr.review}
-          />
-        </ListItem>
-      ))
+                    <div>{dr.category}</div>
+                    <div>
+                      <StarRatingComponent name='rating' starCount={dr.rating.max} value={dr.rating.value} />
+                    </div>
+                  </div>}
+                secondary={dr.review}
+            />
+          </ListItem>
+        ))
     }
   }
   
@@ -66,24 +68,30 @@ class Review extends Component {
     const { review, index } = this.props
     return (
       <Card>
-          <CardHeader
-              avatar={<Avatar aria-label='review-author'> {index} </Avatar>}
-              title={<StarRatingComponent name='rating' starCount={review.rating.max} value={review.rating.value} />}
-              subheader={review.author.name}
-          />
-          <CardContent>
-            <List disablePadding>
-              <ListItem>
-                <ListItemText
-                    primary={review.review.title}
-                    secondary={review.review.text}
-                />
-              </ListItem>
-              {this.datePublished(review.review.date_published)}
-              {this.url(review.review.url)}
-              {this.detailedReview(review.detailed_review)}
-            </List>
-          </CardContent>
+        <CardHeader
+          avatar={<Avatar aria-label='review-author'> {index} </Avatar>}
+          title={
+            <StarRatingComponent
+              name='rating'
+              starCount={review.rating ? review.rating.max : 5}
+              value={review.rating? review.rating.value : 0}
+            />
+          }
+          subheader={review.author ? review.author.name : 'Unknown Author'}
+        />
+        {review.review && <CardContent>
+          <List disablePadding>
+            <ListItem>
+              <ListItemText
+                  primary={review.review.title}
+                  secondary={review.review.text}
+              />
+            </ListItem>
+            {this.datePublished(review.review.date_published)}
+            {this.url(review.review.url)}
+            {this.detailedReview(review.detailed_review)}
+          </List>
+        </CardContent>}
       </Card>
     )
   }  
