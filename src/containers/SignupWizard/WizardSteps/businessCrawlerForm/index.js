@@ -38,7 +38,6 @@ const style = {
 };
 
 const submit = (values, dispatch, props) => {
-  console.log(values)
   dispatch(startCrawler('yelp', values['yelp-email']))
 }
 

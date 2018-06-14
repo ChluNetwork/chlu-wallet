@@ -59,10 +59,8 @@ class TransactionInfo extends Component {
         const inputAddresses = flatten(transaction.inputs.map(i => i.addresses))
         const allOutputAddresses = flatten(transaction.outputs.map(o => o.addresses))
         const outputAddresses = allOutputAddresses.filter(i => i && inputAddresses.indexOf(i) < 0)
-        console.log(inputAddresses, outputAddresses)
         const fromAddress = inputAddresses[0]
         const toAddress = outputAddresses[0]
-        console.log(toAddress, address)
         const isReceived = toAddress === address
         // Bitcoin stuff
         const amount = calculateTotalSpent(transaction, isReceived ? fromAddress : toAddress)
