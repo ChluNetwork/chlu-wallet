@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getYelpReviews } from 'helpers/apify'
+import { getYelpReviews, getUpWorkReviews } from 'helpers/apify'
 import { storeReputation } from 'helpers/reputation/ipfs'
+import { transformYelpData, transformUpworkData } from 'helpers/reputation/reviews';
 
 // Constants
 const CRAWLER_START = 'crawler/START'
@@ -17,16 +18,27 @@ function getInitialState() {
 }
 
 export const crawlerError = createAction(CRAWLER_ERROR)
-const startCrawler = createAction(CRAWLER_START)
+const startCrawlerAction = createAction(CRAWLER_START)
 const startCrawlerIPFS = createAction(CRAWLER_START_IPFS)
 const finishCrawler = createAction(CRAWLER_FINISH)
 
-export function startYelpCrawler(yelpUrl) {
+const crawlerMap = {
+    yelp: getYelpReviews,
+    upwork: getUpWorkReviews
+}
+
+const transformMap = {
+    yelp: transformYelpData,
+    upwork: transformUpworkData
+}
+
+export function startCrawler(type, url) {
     return async (dispatch, getState) => {
         const state = getState()
-        dispatch(startCrawler())
+        dispatch(startCrawlerAction())
         try {
-            const results = await getYelpReviews(yelpUrl)
+            const apifyResults = await crawlerMap[type](url)
+            const results = transformMap[type](apifyResults)
             dispatch(startCrawlerIPFS())
             await storeReputation(state.data.wallet.did.publicDidDocument, results)
             dispatch(finishCrawler())
