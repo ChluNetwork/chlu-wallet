@@ -31,6 +31,8 @@ import ThumbsUpDown from '@material-ui/icons/ThumbsUpDown'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
+import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
+
 
 // style
 import logo from "images/chlu.svg";
@@ -44,9 +46,9 @@ class ChluLayoutHeader extends React.Component {
     };
   }
 
-  testSubmit(event) {
-    event.preventDefault();
-    alert('LOAD THE MODAL');
+  deleteWallet = () => {
+    this.props.deleteWallet()
+    this.props.push('/')
   }
 
 
@@ -128,7 +130,7 @@ class ChluLayoutHeader extends React.Component {
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to={"/logout"} className={classes.navLink} activeClassName={classes.navLinkActive} onClick={(openDeleteModal) => push('/')}>
+          <NavLink to={"/logout"} className={classes.navLink} activeClassName={classes.navLinkActive} onClick={openDeleteModal}>
             <ListItemIcon className={classes.listItemIcon}>
               <ExitToAppIcon/>
             </ListItemIcon>
@@ -139,6 +141,12 @@ class ChluLayoutHeader extends React.Component {
               />
           </NavLink>
         </ListItem>
+        <ConfirmActionModal
+          isOpen={isModalOpen}
+          confirm={this.deleteWallet.bind(this)}
+          cancel={closeDeleteModal}
+          text='To log back in you need to know your wallet credentials: 1) your Decentralized Identifier (DID) or username; 2) your wallet private key. If you have not done so already, you can download the wallet credentials from the Settings tab before logging out to ensure you do not lose your funds and identity!'
+        />
       </List>
 
     );
