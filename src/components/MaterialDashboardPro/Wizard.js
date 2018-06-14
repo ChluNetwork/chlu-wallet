@@ -110,8 +110,6 @@ class Wizard extends React.Component {
     }
   }
     finishButtonClick() {
-        console.log('finish button clicked')
-        console.log(this.props)
       if (this.props.validate &&
           this.props.validate(this.state.currentStep) &&
           this.props.finishButtonClick !== undefined) {
@@ -164,7 +162,6 @@ class Wizard extends React.Component {
   }
   render() {
     const { classes, title, subtitle, color, steps } = this.props;
-    console.log(this.props)
     return (
       <div className={classes.wizardContainer} ref={this.wizard}>
         <Card className={classes.card}>
