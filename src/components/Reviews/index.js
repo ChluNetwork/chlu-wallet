@@ -15,15 +15,19 @@ const styles = {
 class Reviews extends Component {
   
   render() {
-    const { classes, reviews } = this.props
+    const { classes, reviews, loading } = this.props
 
-    return <Grid container spacing={16} className={classes.root}>
-      {reviews.map((review, index) => (
-          <Grid key={index} item xs={12} > 
-            <Review review={review} />
+    if (loading) {
+      return 'Loading'
+    } else {
+      return <Grid container spacing={16} className={classes.root}>
+        {reviews.map((review, index) => {
+          return <Grid key={index} item xs={12} > 
+            <Review review={review} key={reviews.length + index}/>
           </Grid>
-        ))}
-    </Grid>
+        })}
+      </Grid>
+    }
   }
 }
 
