@@ -51,9 +51,9 @@ const style = {
 class Step3 extends React.Component {
 
   render() {
-    const { classes, reputation, push } = this.props;
+    const { classes, reputation, reputationLoading: loading, push } = this.props;
 
-    if (reputation.loading) {
+    if (loading) {
       return <Grid container justify='center'>
         <Grid item xs={4}>
           <InfoArea
@@ -64,7 +64,7 @@ class Step3 extends React.Component {
           />
         </Grid>
       </Grid>
-    } else if (Array.isArray(get(reputation, 'reputation.reviews', null))) {
+    } else if (Array.isArray(get(reputation, 'reviews', null))) {
       return <Grid container justify='center'>
         <Grid item xs={4}>
           <InfoArea

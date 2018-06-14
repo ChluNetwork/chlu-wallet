@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 class Reputation extends Component {
 
   componentDidMount() {
-    this.props.readMyReputation()
+    if (!this.props.loading) this.props.readMyReputation()
   }
 
   render() {
