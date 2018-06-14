@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { readReputation } from 'helpers/reputation/ipfs'
 import { get } from 'lodash'
+import { DELETE_WALLET } from './wallet';
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -12,7 +13,7 @@ function getInitialState() {
   return {
     loading: false,
     error: null,
-    reviews: null
+    reputation: null
   }
 }
 
@@ -64,4 +65,5 @@ export default handleActions({
     loading: false,
     error 
   }),
+  [DELETE_WALLET]: state => getInitialState()
 }, getInitialState())
