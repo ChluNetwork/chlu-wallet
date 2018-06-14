@@ -1,8 +1,4 @@
-var apifyExecution
-var apifyResults
-
-export function getUpWorkReviews() {
-  var url = ("#mce-URL").val();
+export function getUpWorkReviews(url) {
   console.log(url);
   if ((typeof url === 'undefined') || url.length === 0) {
     return false;
@@ -10,22 +6,17 @@ export function getUpWorkReviews() {
   var actorUrl = 'https://api.apify.com/v2/acts/PWaorZyrfNgetFoHp/run-sync?token=9qcDHSZabd8uG3F5DQoB2gyYc';
   //var postData = { "url": "https://www.upwork.com/freelancers/~01572ad80a5f95b2b3" };
   var postData = { "url": url };
-  syncActor(actorUrl, postData);
+  return syncActor(actorUrl, postData);
 }
 
 function syncActor(url, postData) {
-  fetch(url, {
+  return fetch(url, {
     method: 'POST',
     body: JSON.stringify(postData),
     headers: {
       'content-type': 'application/json'
     },
   }).then(function(response) { return response.json(); })
-    .then(function(data) {
-      apifyExecution = data;
-      apifyResults = data;
-      storeResults(data);
-    });
 }
 
 export function getTripAdvisorReviews() {
