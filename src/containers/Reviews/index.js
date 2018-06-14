@@ -11,15 +11,16 @@ import Review from './components/Review'
 
 import { map } from 'lodash'
 
-const styles = {
+const styles = theme => ({
   root: {
-    padding: '20px',
-    flexGrow: 1
-  },
-}
+    flexGrow: 1,
+    textAlign: 'center'
+  }
+});
+
 
 class Reviews extends Component {
-  
+
   transformYelpData() {
     return map(yelpData, (review) => {
       return {
@@ -69,7 +70,7 @@ class Reviews extends Component {
           categories: [review.type, review.subtype],
           location: null,
           url: review.url,
-          platform_url: review.restaurant_url,                    
+          platform_url: review.restaurant_url,
         },
         platform: {
           name: 'TripAdvisor',
@@ -133,22 +134,22 @@ class Reviews extends Component {
   }
 
   renderReviews(reviews, classes) {
-    return <Grid container spacing={16} className={classes.root}>
+    return <Grid container justify="center" spacing={16} className={classes.root}>
             {reviews.map((review, index) => (
-               <Grid key={index} item xs={12} lg={6} > 
+               <Grid key={index} item xs={11} lg={11} >
                  <Review review={review} index={index + 1} />
                </Grid>
              ))}
     </Grid>
   }
-  
+
   render() {
     const upworkReviews = this.transformUpworkData()
     const yelpReviews = this.transformYelpData()
     const tripAdvisorReviews = this.transformTripAdvisorData()
     const { classes } = this.props
     return (
-      <div>
+      <div className={classes.root}>
         <h4>UpWork</h4>
         {this.renderReviews(upworkReviews, classes)}
         <h4>Yelp</h4>

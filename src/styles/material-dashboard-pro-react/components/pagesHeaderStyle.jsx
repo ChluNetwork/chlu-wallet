@@ -121,7 +121,7 @@ const pagesHeaderStyle = theme => ({
     lineHeight: "20px",
     position: "relative",
     display: "block",
-    padding: "10px 15px",
+    padding: "10px 5px",
     textDecoration: "none",
     "&:hover,&:focus": {
       color: "#FFFFFF",
@@ -141,6 +141,7 @@ const pagesHeaderStyle = theme => ({
   },
   listItemText: {
     flex: "none",
+    fontSize: "12px",
     padding: "0",
     minWidth: "0",
     margin: 0,

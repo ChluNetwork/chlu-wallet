@@ -71,7 +71,7 @@ class Settings extends Component {
           <DownloadIcon/> Download
         </Button>
         <Button variant='raised' color='secondary' onClick={openDeleteModal}>
-          <DeleteIcon/> Log Out 
+          <DeleteIcon/> Log Out
         </Button>
       </CardActions>
       <ConfirmActionModal
