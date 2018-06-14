@@ -1,8 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { generateNewWallet } from 'helpers/wallet'
-
-// redux form
-import { submit } from 'redux-form'
+import { SET_WALLET } from 'store/modules/data/wallet'
 
 // ------------------------------------
 // Constants
@@ -36,12 +34,6 @@ export function createWallet() {
   }
 }
 
-export function finishClicked() {
-  return async dispatch => {
-    dispatch(submit('individualsCrawlerForm'))
-  }
-}
-
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -63,5 +55,6 @@ export default handleActions({
     ...state,
     walletSaved: payload
   }),
-  [RESET_WALLET]: state => getInitialState()
+  [RESET_WALLET]: state => getInitialState(),
+  [SET_WALLET]: state => getInitialState()
 }, getInitialState())

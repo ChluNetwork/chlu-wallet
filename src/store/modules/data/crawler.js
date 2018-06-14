@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { getYelpReviews, getUpWorkReviews } from 'helpers/apify'
 import { storeReputation } from 'helpers/reputation/ipfs'
 import { transformYelpData, transformUpworkData } from 'helpers/reputation/reviews';
+import { readMyReputation } from './reputation'
 
 // Constants
 const CRAWLER_START = 'crawler/START'
@@ -42,6 +43,7 @@ export function startCrawler(type, url) {
             dispatch(startCrawlerIPFS())
             await storeReputation(state.data.wallet.did.publicDidDocument, results)
             dispatch(finishCrawler())
+            dispatch(readMyReputation())
         } catch (error) {
             console.log(error)
             dispatch(crawlerError(error.message || error))
