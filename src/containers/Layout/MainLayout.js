@@ -17,7 +17,6 @@ import Reputation from '../Reputation'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
-import Reviews from '../Reviews'
 
 class MainLayout extends Component {
   static propTypes = {
@@ -42,7 +41,6 @@ class MainLayout extends Component {
             <Route path='/pay' component={Payment} />
             <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
-            <Route path='/reviews' component={Reviews} />
             <Redirect to='/'/>
           </Switch>
         </ChluLayout>
