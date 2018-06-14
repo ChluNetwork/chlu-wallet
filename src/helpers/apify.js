@@ -16,7 +16,11 @@ function syncActor(url, postData) {
     headers: {
       'content-type': 'application/json'
     },
-  }).then(function(response) { return response.json(); })
+  }).then(function(response) {
+    const data = response.json();
+    if (data.error) throw new Error(data.error.message || data.error)
+    return data
+  })
 }
 
 export function getTripAdvisorReviews() {
