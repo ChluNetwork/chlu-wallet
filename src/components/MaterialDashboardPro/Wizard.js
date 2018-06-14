@@ -35,10 +35,10 @@ class Wizard extends React.Component {
     this.state = {
       currentStep: this.props.currentStep || 0,
       color: this.props.color,
-      nextButton: this.props.steps.length > 1 ? true : false,
+      nextButton: this.props.steps.length - this.props.currentStep > 1,
       previousButton: false,
-      finishButton: this.props.steps.length === 1 ? true : false,
-      width: width,
+      finishButton: this.props.steps.length ===  this.props.currentStep + 1,
+      width,
       movingTabStyle: {
         transition: "transform 0s"
       }
