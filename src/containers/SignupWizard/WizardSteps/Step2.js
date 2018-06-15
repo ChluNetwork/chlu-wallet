@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { withStyles, Grid, InputAdornment } from '@material-ui/core'
+import { withStyles, Grid, InputAdornment, CircularProgress } from '@material-ui/core'
 // custom components
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
@@ -8,7 +8,6 @@ import Button from 'components/MaterialDashboardPro/Button'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // icon
 import Face from '@material-ui/icons/Face'
-import LoadingIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 import DownloadIcon from '@material-ui/icons/FileDownload'
 import RecordVoiceOver from '@material-ui/icons/RecordVoiceOver'
@@ -106,7 +105,7 @@ class Step2 extends React.Component {
       return <Grid container justify='center'>
         <Grid item xs={4}>
           <InfoArea
-            icon={LoadingIcon}
+            icon={CircularProgress}
             iconColor='warning'
             title='Creating Wallet'
             description='Please wait until your wallet is ready'

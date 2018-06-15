@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 // components
-import { Grid, Card, CardHeader, Avatar } from '@material-ui/core'
+import { Grid, Card, CardHeader, Avatar, CircularProgress } from '@material-ui/core'
 import Review from './Review'
 // icons
-import LoadingIcon from '@material-ui/icons/Sync'
 import ErrorIcon from '@material-ui/icons/Error'
 // styles
 import { withStyles } from '@material-ui/core/styles'
@@ -24,7 +23,7 @@ class Reviews extends Component {
       {loading && <Grid item xs={12}>
         <Card>
           <CardHeader
-            avatar={<Avatar><LoadingIcon/></Avatar>}
+            avatar={<CircularProgress/>}
             title='Fetching reviews...'
           />
         </Card>
@@ -33,7 +32,7 @@ class Reviews extends Component {
         return <Grid key={index} item xs={12} > 
           {review.loading && <Card>
             <CardHeader
-              avatar={<Avatar><LoadingIcon/></Avatar>}
+              avatar={<CircularProgress/>}
               title='Fetching Review from IPFS...'
             />
           </Card>}

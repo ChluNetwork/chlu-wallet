@@ -5,11 +5,10 @@ import { compose } from 'redux'
 // hoc
 import withFxRates from 'containers/Hoc/withFxRates';
 // components
-import { Card, CardHeader, Avatar, withStyles } from '@material-ui/core';
+import { Card, CardHeader, Avatar, withStyles, CircularProgress } from '@material-ui/core';
 import TransactionInfo from './TransactionInfo'
 // icons
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
-import LoadingIcon from '@material-ui/icons/Sync'
 
 const styles = {
   card: {
@@ -28,7 +27,7 @@ function TransactionLog({ classes, loading, error, transactions, address, review
   } else if (loading) {
     return  <Card className={classes.card}>
       <CardHeader
-        avatar={<Avatar><LoadingIcon/></Avatar>}
+        avatar={<CircularProgress/>}
         title='Fetching transactions...'
       />
     </Card>

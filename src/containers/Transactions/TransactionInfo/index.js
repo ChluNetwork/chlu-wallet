@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { string, object, func } from 'prop-types'
 import moment from 'moment'
 // components
-import { Card, CardHeader, CardContent, Divider } from '@material-ui/core'
+import { Card, CardHeader, CardContent, Divider, CircularProgress } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import { withStyles, Avatar } from '@material-ui/core'
 import Review from 'components/Review'
@@ -16,7 +16,6 @@ import ExplorerIcon from '@material-ui/icons/Explore'
 import SentIcon from '@material-ui/icons/CallMade'
 import ReceivedIcon from '@material-ui/icons/CallReceived'
 import NotChluIcon from '@material-ui/icons/ErrorOutline'
-import LoadingIcon from '@material-ui/icons/Sync'
 import UnconfirmedIcon from '@material-ui/icons/Sync'
 import ValidIcon from '@material-ui/icons/CheckCircle'
 import InvalidIcon from '@material-ui/icons/ErrorOutline'
@@ -115,7 +114,7 @@ class TransactionInfo extends Component {
                 subheader={`This Transaction does not contain valid Chlu data`}
             />}
             { reviewIsLoading && <CardHeader
-                avatar={<Avatar><LoadingIcon/></Avatar>}
+                avatar={<CircularProgress/>}
                 title={`Fetching Review data from IPFS...`}
                 subheader={`This might take some time`}
             />}
