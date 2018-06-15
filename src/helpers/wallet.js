@@ -1,6 +1,7 @@
 import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import fileDownload from 'js-file-download'
 import ChluDID from 'chlu-did/src' // TODO: precompiled sources??
+import { pick } from 'lodash'
 
 export async function generateNewWallet() {
     const importer = new ImportPrivateKey()
@@ -32,7 +33,12 @@ export function deleteWalletFromLocalStorage() {
 }
 
 export function downloadWallet(wallet) {
-    fileDownload(JSON.stringify(wallet, null, 2), 'chlu_wallet.json')
+    const obj = pick(wallet, [
+        'did',
+        'bitcoinMnemonic',
+        'testnet'
+    ])
+    fileDownload(JSON.stringify(obj, null, 2), 'chlu_wallet.json')
 }
 
 export function importWallet(str) {
