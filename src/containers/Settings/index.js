@@ -4,18 +4,14 @@ import { get } from 'lodash'
 // components
 import { Button, Card, CardContent, CardActions, CardHeader } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
-import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
-import { push } from 'react-router-redux'
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
 // icons
 import DownloadIcon from '@material-ui/icons/FileDownload'
-import DeleteIcon from '@material-ui/icons/Delete'
 import UserIcon from '@material-ui/icons/Person'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountBalanceWallet'
