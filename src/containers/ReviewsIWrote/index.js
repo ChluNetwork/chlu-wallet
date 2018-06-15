@@ -27,8 +27,8 @@ class ReviewsIWrote extends Component {
           name: 'You'
         },
         platform: {
-          name: 'chlu',
-          url: 'chlu.io'
+          name: 'Chlu Wallet',
+          url: 'https://chlu.io'
         },
         review: {
           text: r.review_text
