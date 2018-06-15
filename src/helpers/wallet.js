@@ -21,7 +21,7 @@ export async function saveWalletDIDToIPFS(wallet) {
 }
 
 export function saveWalletToLocalStorage(wallet) {
-    localStorage.setIte('wallet', JSON.stringify(wallet))
+    localStorage.setItem('wallet', JSON.stringify(wallet))
 }
 
 export function getWalletFromLocalStorage() {
