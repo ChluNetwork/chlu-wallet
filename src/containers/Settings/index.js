@@ -66,7 +66,7 @@ class Settings extends Component {
             <ListItem button>
                 <ListItemIcon><WalletIcon/></ListItemIcon>
                 <ListItemText
-                    primary='Bitcoin Wallet (testnet)'
+                    primary='Your Bitcoin Address (testnet)'
                     secondary={`${address} - Click to copy to clipboard`}
                 />
             </ListItem>

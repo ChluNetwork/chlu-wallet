@@ -71,7 +71,7 @@ class Transactions extends Component {
         <Card className={classes.card}>
           <CardHeader
             avatar={<Avatar><WalletIcon/></Avatar>}
-            title='Bitcoin Wallet (Testnet)'
+            title='Your Bitcoin Address (Testnet)'
             subheader={address}
           />
         </Card>
