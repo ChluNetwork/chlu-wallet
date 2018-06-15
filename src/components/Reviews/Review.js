@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom"
+
 import StarRatingComponent from 'react-star-rating-component'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -13,7 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import LinkIcon from '@material-ui/icons/Link'
 
-import { isArray } from 'lodash'
+import { isArray, isNil, get } from 'lodash'
 
 class Review extends Component {
   
@@ -63,6 +65,22 @@ class Review extends Component {
         ))
     }
   }
+
+  platform(review) {
+    if (review.platform && review.platform.name && review.platform.url) {
+      return <span> Review Origin: <Link to={review.platform.url}>{review.platform.name} </Link> </span>
+    } else {
+      return 'Review Origin: unknown'
+    }
+  }
+
+  reviewUrl(review) {
+    if (review.url) {
+      return <span> Review link: <Link to={review.review.url}>{review.review.url} </Link> </span>
+    } else {
+      return 'Review link: No url available'
+    }
+  }
   
   render() {
     const { review, index } = this.props
@@ -77,19 +95,34 @@ class Review extends Component {
               value={review.rating? review.rating.value : 0}
             />
           }
-          subheader={review.author ? review.author.name : 'Unknown Author'}
+          subheader={isNil(get(review, 'author.name')) ? 'Anonymous' : review.author.name }
         />
         {review.review && <CardContent>
           <List disablePadding>
             <ListItem>
               <ListItemText
-                  primary={review.review.title}
-                  secondary={review.review.text}
+                  primary={review.review.title || 'No title provided'}
+                  secondary={review.review.text || 'No review provided'}
               />
             </ListItem>
             {this.datePublished(review.review.date_published)}
             {this.url(review.review.url)}
             {this.detailedReview(review.detailed_review)}
+            <ListItem>
+              <ListItemText
+                  primary={this.platform(review)}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                  primary={`Verifiable: ${(isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes' )}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                  primary={this.reviewUrl(review)}
+              />
+            </ListItem>
           </List>
         </CardContent>}
       </Card>
