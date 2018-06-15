@@ -17,9 +17,11 @@ class ReviewsIWrote extends Component {
     const address = getAddress(wallet)
 
     let transformedReviews = Object.values(reviews)
-      .filter(r => r && !r.loading && !r.error && r.customer_address === address)
+      .filter(r => r && (r.error || r.loading || r.customer_address === address))
     console.log(transformedReviews)
     transformedReviews = transformedReviews.map(r => ({
+        error: r.error || null,
+        loading: r.loading || null,
         subject: {
           name: 'Vendor'
         },
