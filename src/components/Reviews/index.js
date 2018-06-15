@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Grid, Card, CardHeader, Avatar, CircularProgress } from '@material-ui/core'
 import Review from './Review'
 // icons
-import ErrorIcon from '@material-ui/icons/Error'
+import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // styles
 import { withStyles } from '@material-ui/core/styles'
 
@@ -25,6 +25,15 @@ class Reviews extends Component {
           <CardHeader
             avatar={<CircularProgress/>}
             title='Fetching reviews...'
+          />
+        </Card>
+      </Grid>}
+      {!loading && reviews.length === 0 && <Grid item xs={12}>
+        <Card>
+          <CardHeader
+            avatar={<ErrorIcon/>}
+            title='There is nothing here'
+            subheader='Have you imported your reputation?'
           />
         </Card>
       </Grid>}

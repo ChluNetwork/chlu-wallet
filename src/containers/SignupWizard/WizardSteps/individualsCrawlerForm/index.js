@@ -9,6 +9,13 @@ import { withStyles } from '@material-ui/core'
 // redux
 import { connect } from 'react-redux'
 import { startCrawler } from 'store/modules/data/crawler';
+import { push } from 'react-router-redux'
+import { compose } from 'recompose'
+import { toastr } from 'react-redux-toastr'
+import { setWalletToCreatedWallet } from 'store/modules/data/wallet'
+
+// helpers
+import { get } from 'lodash'
 
 // redux form
 import { reduxForm } from 'redux-form'
@@ -37,8 +44,16 @@ const style = {
   ...regularFormsStyle
 };
 
-const submit = (values, dispatch, props) => {
-  dispatch(startCrawler('upwork', values['upwork-email']))
+const submit = async (values, dispatch, props) => {
+  if (values['upwork-email']) {
+    await dispatch(startCrawler('upwork', values['upwork-email']))
+  }
+  if (!get(props.wallet, 'did.publicDidDocument.id', null)) {
+    // set and save full wallet
+    dispatch(setWalletToCreatedWallet())
+    toastr.success('Logged in', 'Your Wallet is ready to go!')
+    dispatch(push('/reputation'))
+  }
 }
 
 
@@ -99,15 +114,16 @@ class IndividualsCrawlerForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  crawlerRunning: store.data.crawler.running
+  crawlerRunning: store.data.crawler.running,
+  wallet: store.data.wallet
 })
-
-const mapDispatchToProps = {
-}
 
 const IndividualsCrawlerReduxForm = reduxForm({
   form: 'individualsCrawlerForm',
   onSubmit: submit
 })(IndividualsCrawlerForm)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(IndividualsCrawlerReduxForm))
+export default compose(
+  withStyles(style),
+  connect(mapStateToProps)
+)(IndividualsCrawlerReduxForm)

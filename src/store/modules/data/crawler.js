@@ -3,6 +3,7 @@ import { getYelpReviews, getUpWorkReviews } from 'helpers/apify'
 import { storeReputation } from 'helpers/reputation/ipfs'
 import { transformYelpData, transformUpworkData } from 'helpers/reputation/reviews';
 import { readMyReputation } from './reputation'
+import { get } from 'lodash'
 
 // Constants
 const CRAWLER_START = 'crawler/START'
@@ -41,7 +42,10 @@ export function startCrawler(type, url) {
             const apifyResults = await crawlerMap[type](url)
             const results = transformMap[type](apifyResults)
             dispatch(startCrawlerIPFS())
-            await storeReputation(state.data.wallet.did.publicDidDocument, results)
+            const signedInpublicDidDocument = get(state, 'data.wallet.did.publicDidDocument', null)
+            const signedOutPublicDidDocument = get(state, 'components.createWallet.walletCreated.did.publicDidDocument', null)
+            const publicDidDocument = signedInpublicDidDocument || signedOutPublicDidDocument
+            await storeReputation(publicDidDocument, results)
             dispatch(finishCrawler())
             dispatch(readMyReputation())
         } catch (error) {

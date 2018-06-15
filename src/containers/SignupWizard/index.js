@@ -12,7 +12,6 @@ import { toastr } from 'react-redux-toastr'
 import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
 // helpers
-import { saveWalletToLocalStorage } from 'helpers/wallet';
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick } from 'lodash'
 
@@ -50,11 +49,12 @@ class SignupWizard extends Component {
   }
 
   validate(step) {
-    const { wallet } = this.props
+    const { wallet, crawlerRunning } = this.props
+    if (crawlerRunning) return false
     if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
-        'Please save your wallet',
-        'Once you have saved it you will be able to access the wallet'
+        'Please save your Wallet Keys',
+        'Once you have saved the file you will be able to continue'
       )
       return false
     }
@@ -64,12 +64,6 @@ class SignupWizard extends Component {
   onChangeStep(from, to) {
     const { walletCreated, createWallet, setWallet, wallet } = this.props
     if (to === 1 && !walletCreated) createWallet()
-    if (to === 2 && !(wallet && wallet.did)) {
-      // set and save full wallet
-      setWallet(walletCreated)
-      saveWalletToLocalStorage(walletCreated)
-      toastr.success('Wallet Created', 'Your Wallet is ready to go!')
-    }
   }
 
   finishClicked() {
@@ -82,7 +76,7 @@ class SignupWizard extends Component {
   }
 
   render() {
-    const { wallet } = this.props
+    const { wallet, crawlerRunning } = this.props
     const initialStep = wallet.did ? 2 : 0
 
     return <Wizard
@@ -90,6 +84,8 @@ class SignupWizard extends Component {
       currentStep={initialStep}
       onChangeStep={this.onChangeStep.bind(this)}
       finishButtonClick={this.finishClicked.bind(this)}
+      nextButtonDisabled={crawlerRunning}
+      previousButtonDisabled={crawlerRunning}
         
       steps={[
         {
@@ -130,7 +126,8 @@ const mapStateToProps = store => ({
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
   reputation: store.data.reputation.reputation,
-  reputationLoading: store.data.reputation.loading
+  reputationLoading: store.data.reputation.loading,
+  crawlerRunning: store.data.crawler.running
 })
 
 const mapDispatchToProps = {
