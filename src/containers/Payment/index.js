@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent } from '@material-ui/core'
+import { Card, CardHeader, Divider, CardContent, CircularProgress } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
@@ -19,7 +19,6 @@ import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import VendorIcon from '@material-ui/icons/Shop'
 import PaymentDestinationIcon from '@material-ui/icons/ArrowForward'
 import MarketplaceIcon from '@material-ui/icons/Store'
-import LoadingIcon from '@material-ui/icons/Sync'
 import AmountIcon from '@material-ui/icons/Payment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
@@ -78,7 +77,7 @@ class Payment extends Component {
         } else if (checkoutLoading) {
             return <Card className={classes.card}>
                 <CardHeader
-                    avatar={<Avatar><LoadingIcon/></Avatar>}
+                    avatar={<CircularProgress/>}
                     title='Fetching Payment Request...'
                     subheader='Please wait'
                 />

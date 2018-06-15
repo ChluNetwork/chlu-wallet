@@ -14,6 +14,7 @@ import ChluLayout from './ChluLayout'
 import HomePage from '../HomePage'
 import LoginPage from '../Wallet/Import'
 import Reputation from '../Reputation'
+import ReviewsIWrote from '../ReviewsIWrote'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
@@ -38,6 +39,7 @@ class MainLayout extends Component {
             <Route path='/login' component={LoginPage} />
             {emptyWallet && <Redirect to='/'/>}
             <Route path='/reputation' component={Reputation} />
+            <Route path='/wrote' component={ReviewsIWrote} />
             <Route path='/pay' component={Payment} />
             <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />

@@ -1,11 +1,10 @@
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
+// routing
 import { Link, NavLink } from "react-router-dom";
 import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
 // components
 import {
     withStyles,
@@ -20,6 +19,7 @@ import {
     ListItemIcon,
     ListItemText
  } from "@material-ui/core";
+import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
 // icons
 import Menu from "@material-ui/icons/Menu";
 import TransactionsIcon from '@material-ui/icons/AccountBalanceWallet';
@@ -29,11 +29,10 @@ import LoginIcon from '@material-ui/icons/Fingerprint'
 import ReputationIcon from '@material-ui/icons/Star'
 import ThumbsUpDown from '@material-ui/icons/ThumbsUpDown'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-
+// redux
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
-import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
-
-
 // style
 import logo from "images/chlu.svg";
 import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
@@ -48,7 +47,11 @@ class ChluLayoutHeader extends React.Component {
 
   deleteWallet = () => {
     this.props.deleteWallet()
-    this.props.push('/')
+    // if the user logs out on the homepage the wizard will be in an
+    // inconsistent state. To avoid heavily refactoring it now, this
+    // workaround reloads the app instead
+    // TODO: replace this workaround with a real fix
+    window.location.reload()
   }
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { Grid } from '@material-ui/core'
+import { Grid, CircularProgress } from '@material-ui/core'
 // icons
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import Person from '@material-ui/icons/Person';
@@ -8,7 +8,6 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import Web from '@material-ui/icons/Web';
 import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
-import LoadingIcon from '@material-ui/icons/Sync'
 import DoneIcon from '@material-ui/icons/Done'
 import ReputationIcon from '@material-ui/icons/Star'
 // custom components
@@ -57,7 +56,7 @@ class Step3 extends React.Component {
       return <Grid container justify='center'>
         <Grid item xs={4}>
           <InfoArea
-            icon={LoadingIcon}
+            icon={CircularProgress}
             iconColor='warning'
             title='Checking your Reputation'
             description='Please wait while we check your Decentralised Reputation'
