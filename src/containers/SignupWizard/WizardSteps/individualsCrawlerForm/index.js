@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core'
 
 // redux
 import { connect } from 'react-redux'
-import { startYelpCrawler } from 'store/modules/data/crawler';
+import { startCrawler } from 'store/modules/data/crawler';
 
 // redux form
 import { reduxForm } from 'redux-form'
@@ -38,9 +38,7 @@ const style = {
 };
 
 const submit = (values, dispatch, props) => {
-  // print the form values to the console
-  console.log(values)
-  dispatch(startYelpCrawler(values['upwork-email']))
+  dispatch(startCrawler('upwork', values['upwork-email']))
 }
 
 

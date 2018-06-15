@@ -1,107 +1,145 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Wizard from 'components/MaterialDashboardPro/Wizard'
 import Step1 from './WizardSteps/Step1'
 import Step2 from './WizardSteps/Step2'
 import Step3 from './WizardSteps/Step3'
 // redux
 import { connect } from 'react-redux'
-import { createWallet, resetWallet, setWalletSaved, finishClicked } from 'store/modules/components/CreateWallet'
+import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
+import { readMyReputation } from 'store/modules/data/reputation'
 import { setWallet } from 'store/modules/data/wallet'
 import { toastr } from 'react-redux-toastr'
+import { push } from 'react-router-redux'
+import { submit } from 'redux-form'
 // helpers
 import { saveWalletToLocalStorage } from 'helpers/wallet';
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
-import { pick } from 'lodash'
+import { get, pick } from 'lodash'
 
+class SignupWizard extends Component {
 
-function SignupWizard(props) {
+  componentDidMount() {
+    this.refreshReputation()
+  }
 
-    function downloadWallet() {
-        const { wallet, walletCreated } = props
-        if (wallet && wallet.did) {
-            downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
-        } else {
-            downloadWalletFile(walletCreated)
-        }
-        props.setWalletSaved(true)
+  componentWillReceiveProps(newProps) {
+    const newDidID = get(newProps, 'wallet.did.didDocument.id', null)
+    const oldDidID = get(this.props, 'wallet.did.didDocument.id', null)
+    if (newDidID !== oldDidID) {
+      this.refreshReputation()
     }
+  }
 
-    function areWalletKeysSaved() {
-        const { walletSaved } = props
-        return walletSaved
+  refreshReputation() {
+    if (!this.props.reputationLoading) this.props.readMyReputation()
+  }
+
+  downloadWallet() {
+    const { wallet, walletCreated, setWalletSaved } = this.props
+    if (wallet && wallet.did) {
+      downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
+    } else {
+      downloadWalletFile(walletCreated)
     }
+    setWalletSaved(true)
+  }
 
-    function validate(step) {
-        const { wallet } = props
-        if (step === 1 && !(areWalletKeysSaved() || (wallet && wallet.did))) {
-            toastr.warning(
-                'Please save your wallet',
-                'Once you have saved it you will be able to access the wallet'
-            )
-            return false
-        }
-        return true
+  areWalletKeysSaved() {
+    const { walletSaved } = this.props
+    return walletSaved
+  }
+
+  validate(step) {
+    const { wallet } = this.props
+    if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
+      toastr.warning(
+        'Please save your wallet',
+        'Once you have saved it you will be able to access the wallet'
+      )
+      return false
     }
+    return true
+  }
 
-    function onChangeStep(from, to) {
-        const { walletCreated, createWallet, resetWallet, setWallet, wallet } = props
-        if (to === 1 && !walletCreated) createWallet()
-        if (to === 2 && !(wallet && wallet.did)) {
-            // set and save full wallet
-            setWallet(walletCreated)
-            saveWalletToLocalStorage(walletCreated)
-            resetWallet() // deletes temp wallet
-            toastr.success('Wallet Created', 'Your Wallet is ready to go!')
-        }
+  onChangeStep(from, to) {
+    const { walletCreated, createWallet, setWallet, wallet } = this.props
+    if (to === 1 && !walletCreated) createWallet()
+    if (to === 2 && !(wallet && wallet.did)) {
+      // set and save full wallet
+      setWallet(walletCreated)
+      saveWalletToLocalStorage(walletCreated)
+      toastr.success('Wallet Created', 'Your Wallet is ready to go!')
     }
+  }
 
-  return <Wizard
-             validate={validate}
-             onChangeStep={onChangeStep}
-             finishButtonClick={props.finishClicked}
-             
-             steps={[
-               {
-                 stepName: '1: Create Your Wallet',
-                 stepComponent: Step1,
-                 stepId: 'get started',
-                 stepProps: {
-                   ...props
-                 }
-               },
-               {
-                 stepName: '2: Save Your D.I.D.',
-                 stepComponent: Step2,
-                 stepId: 'about',
-                 stepProps: {
-                   ...props,
-                   downloadWallet
-                 }
-               },
-               {
-                 stepName: '3: Claim Your Reputation',
-                 stepComponent: Step3,
-                 stepId: 'reviews'
-               },
-             ]}
-             title="Let's Get Started"
-             subtitle='Follow The Three Easy Steps Below To Begin'
-         />
+  finishClicked() {
+    if (Array.isArray(get(this.props.reputation, 'reviews', null))) {
+      // Reputation is there
+      this.props.push('/reputation')
+    } else {
+      this.props.submit('individualsCrawlerForm')
+    }
+  }
+
+  render() {
+    const { wallet } = this.props
+    const initialStep = wallet.did ? 2 : 0
+
+    return <Wizard
+      validate={this.validate.bind(this)}
+      currentStep={initialStep}
+      onChangeStep={this.onChangeStep.bind(this)}
+      finishButtonClick={this.finishClicked.bind(this)}
+        
+      steps={[
+        {
+          stepName: '1: Create Your Wallet',
+          stepComponent: Step1,
+          stepId: 'get started',
+          stepProps: {
+            ...this.props
+          }
+        },
+        {
+          stepName: '2: Save Your D.I.D.',
+          stepComponent: Step2,
+          stepId: 'about',
+          stepProps: {
+            ...this.props,
+            downloadWallet: this.downloadWallet.bind(this)
+          }
+        },
+        {
+          stepName: '3: Claim Your Reputation',
+          stepComponent: Step3,
+          stepId: 'reviews',
+          stepProps: {
+            ...this.props
+          }
+        },
+      ]}
+      title="Let's Get Started"
+      subtitle='Follow The Three Easy Steps Below To Begin'
+    />
+  }
 }
 
 const mapStateToProps = store => ({
   loading: store.components.createWallet.loading,
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
-  wallet: store.data.wallet
+  wallet: store.data.wallet,
+  reputation: store.data.reputation.reputation,
+  reputationLoading: store.data.reputation.loading
 })
 
 const mapDispatchToProps = {
-    finishClicked,
-    createWallet,
-    setWallet,
-    resetWallet,
-    setWalletSaved
+  createWallet,
+  setWallet,
+  setWalletSaved,
+  readMyReputation,
+  push,
+  submit
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupWizard)

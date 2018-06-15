@@ -9,8 +9,8 @@ import {
 // ------------------------------------
 // Constants
 // ------------------------------------
-const SET_WALLET = 'wallet/SET'
-const DELETE_WALLET = 'wallet/DELETE'
+export const SET_WALLET = 'wallet/SET'
+export const DELETE_WALLET = 'wallet/DELETE'
 const OPEN_DELETE_MODAL = 'wallet/OPEN_DELETE_MODAL'
 const CLOSE_DELETE_MODAL = 'wallet/CLOSE_DELETE_MODAL'
 

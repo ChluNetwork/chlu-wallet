@@ -49,10 +49,6 @@ class HomePage extends React.Component {
     });
   }
 
-  testSubmit(event) {
-    console.log('submitting register form');
-  }
-
 render() {
     const { classes } = this.props;
     return (
