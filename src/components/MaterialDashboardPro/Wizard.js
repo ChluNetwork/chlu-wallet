@@ -217,6 +217,7 @@ class Wizard extends React.Component {
                 <Button
                   customClass={this.props.previousButtonClasses}
                   onClick={() => this.previousButtonClick()}
+                  disabled={this.props.previousButtonDisabled}
                 >
                   {this.props.previousButtonText}
                 </Button>
@@ -228,6 +229,7 @@ class Wizard extends React.Component {
                   color='rose'
                   customClass={this.props.nextButtonClasses}
                   onClick={() => this.nextButtonClick()}
+                  disabled={this.props.nextButtonDisabled}
                 >
                   {this.props.nextButtonText}
                 </Button>
@@ -237,6 +239,7 @@ class Wizard extends React.Component {
                   color='rose'
                   customClass={this.finishButtonClasses}
                   onClick={() => this.finishButtonClick()}
+                  disabled={this.props.nextButtonDisabled}
                 >
                   {this.props.finishButtonText}
                 </Button>

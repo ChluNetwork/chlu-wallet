@@ -50,6 +50,12 @@ export function setWallet(wallet) {
     dispatch(setReduxWallet(wallet))
   }
 }
+
+export function setWalletToCreatedWallet() {
+  return (dispatch, getState) => {
+    dispatch(setWallet(getState().components.createWallet.walletCreated))
+  }
+}
 // ------------------------------------
 // Reducer
 // ------------------------------------
