@@ -48,7 +48,11 @@ class ChluLayoutHeader extends React.Component {
 
   deleteWallet = () => {
     this.props.deleteWallet()
-    this.props.push('/')
+    // if the user logs out on the homepage the wizard will be in an
+    // inconsistent state. To avoid heavily refactoring it now, this
+    // workaround reloads the app instead
+    // TODO: replace this workaround with a real fix
+    window.location.reload()
   }
 
 
