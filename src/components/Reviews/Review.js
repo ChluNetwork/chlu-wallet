@@ -68,7 +68,9 @@ class Review extends Component {
 
   platform(review) {
     if (review.platform && review.platform.name && review.platform.url) {
-      return <span> Review Origin: <Link to={review.platform.url}>{review.platform.name} </Link> </span>
+      return <span>
+            Review Origin: <a href={this.addHttp(review.platform.url)} target='_blank'>{review.platform.name} </a>
+      </span>
     } else {
       return 'Review Origin: unknown'
     }
@@ -76,10 +78,19 @@ class Review extends Component {
 
   reviewUrl(review) {
     if (review.url) {
-      return <span> Review link: <Link to={review.review.url}>{review.review.url} </Link> </span>
+      return <span>
+        Review link: <a href={this.addHttp(review.review.url)} target='_blank'>{this.addHttp(review.review.url)} </a>
+      </span>
     } else {
       return 'Review link: No url available'
     }
+  }
+
+  addHttp(url) {
+    if (!/^(?:f|ht)tps?:\/\//.test(url)) {
+      url = "http://" + url;
+    }
+    return url;
   }
   
   render() {
