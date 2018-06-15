@@ -5,6 +5,7 @@ import { get } from 'lodash'
 import { Button, Card, CardContent, CardActions, CardHeader } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
+import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
@@ -18,6 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import UserIcon from '@material-ui/icons/Person'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountBalanceWallet'
+import KeyIcon from '@material-ui/icons/Lock'
 
 const cardStyle = {
   card: {
@@ -32,15 +34,11 @@ class Settings extends Component {
 
   handleDownload = () => downloadWallet(this.props.wallet)
 
-  deleteWallet = () => {
-    this.props.deleteWallet()
-    this.props.push('/')
-  }
-
   render () {
-    const { wallet, classes, isModalOpen, closeDeleteModal, openDeleteModal } = this.props
+    const { wallet, classes } = this.props
     const address = getAddress(wallet)
     const didId = get(wallet, 'did.publicDidDocument.id', '')
+    const didPrivateKey = get(wallet, 'did.privateKeyBase58', '')
 
     return <Card className={classes.card}>
       <CardHeader
@@ -50,53 +48,49 @@ class Settings extends Component {
       />
       <CardContent>
         <List dense disablePadding>
-            <ListItem>
+          <ReactCopyToClipBoard text={didId}>
+            <ListItem button>
                 <ListItemIcon><UserIcon/></ListItemIcon>
                 <ListItemText
                     primary='Distributed Identity (DID)'
-                    secondary={didId}
+                    secondary={`${didId} - Click to copy to clipboard`}
                 />
             </ListItem>
-            <ListItem>
+          </ReactCopyToClipBoard>
+          <ReactCopyToClipBoard text={didPrivateKey}>
+            <ListItem button>
+                <ListItemIcon><KeyIcon/></ListItemIcon>
+                <ListItemText
+                    primary='DID Private Key'
+                    secondary='Click to copy to clipboard'
+                />
+            </ListItem>
+          </ReactCopyToClipBoard>
+          <ReactCopyToClipBoard text={address}>
+            <ListItem button>
                 <ListItemIcon><WalletIcon/></ListItemIcon>
                 <ListItemText
                     primary='Bitcoin Wallet (testnet)'
-                    secondary={address}
+                    secondary={`${address} - Click to copy to clipboard`}
                 />
             </ListItem>
+          </ReactCopyToClipBoard>
         </List>
       </CardContent>
       <CardActions>
         <Button variant='raised' onClick={this.handleDownload}>
-          <DownloadIcon/> Download
-        </Button>
-        <Button variant='raised' color='secondary' onClick={openDeleteModal}>
-          <DeleteIcon/> Log Out
+          <DownloadIcon/> Download Wallet
         </Button>
       </CardActions>
-      <ConfirmActionModal
-        isOpen={isModalOpen}
-        confirm={this.deleteWallet.bind(this)}
-        cancel={closeDeleteModal}
-        text='Download the wallet before logging out or you will lose your funds and identity!'
-      />
     </Card>
   }
 }
 
 const mapStateToProps = store => ({
-  wallet: store.data.wallet,
-  isModalOpen: store.data.wallet.isDeleteModalOpen
+  wallet: store.data.wallet
 })
 
-const mapDispatchToProps = {
-  deleteWallet,
-  closeDeleteModal,
-  openDeleteModal,
-  push
-}
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   withStyles(cardStyle)
 )(Settings)
