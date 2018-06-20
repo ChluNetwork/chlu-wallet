@@ -6,6 +6,8 @@ import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
 import Button from 'components/MaterialDashboardPro/Button'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
+import RegularCard from 'components/MaterialDashboardPro/RegularCard';
+
 // icon
 import Face from '@material-ui/icons/Face'
 import DoneIcon from '@material-ui/icons/Done'
@@ -115,17 +117,13 @@ class Step2 extends React.Component {
     } else {
       return (
         <Grid container justify='center'>
-          <Grid item xs={12} sm={12} md={8}>
-            <div>
-              <h4>Your Decentralized Identifier</h4>
-            </div>
-            <div>
-              <h6>{walletCreated.did.publicDidDocument.id}</h6>
-            </div>
+          <Grid item xs={12} sm={12} md={12}>
+              <h4>Your Decentralized Identifier (D.I.D.): <b>{walletCreated.did.publicDidDocument.id}</b></h4>
+              <a href="#DID">What is a D.I.D?</a>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={12}>
             <Button color='success' onClick={downloadWallet}>
-              <DownloadIcon/> Download Your Private Keys
+              <DownloadIcon/> Download Your Credentials
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -143,7 +141,7 @@ class Step2 extends React.Component {
               error={this.state.firstnameState === 'error'}
               labelText={
                 <span>
-                  First Name <small>(required)</small>
+                  First Name <small>(optional)</small>
                 </span>
               }
               id='firstname'
@@ -164,7 +162,7 @@ class Step2 extends React.Component {
               error={this.state.lastnameState === 'error'}
               labelText={
                 <span>
-                  Last Name <small>(required)</small>
+                  Last Name <small>(optional)</small>
                 </span>
               }
               id='lastname'
@@ -175,7 +173,7 @@ class Step2 extends React.Component {
                 onChange: event => this.change(event, 'lastname', 'length', 3),
                 endAdornment: (
                   <InputAdornment position='end' className={classes.inputAdornment}>
-                    <RecordVoiceOver className={classes.inputAdornmentIcon} />
+                    <Face className={classes.inputAdornmentIcon} />
                   </InputAdornment>
                 )
               }}

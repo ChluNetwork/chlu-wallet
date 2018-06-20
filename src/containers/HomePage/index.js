@@ -12,7 +12,8 @@ import {
     Lock,
     CallMerge,
     Web,
-    Payment
+    Payment,
+    Done
 } from '@material-ui/icons'
 // custom components
 import RegularCard from 'components/MaterialDashboardPro/RegularCard'
@@ -137,6 +138,39 @@ render() {
               <RegularCard plainCard content={<Timeline stories={stories} />} />
             </Grid>
           </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <RegularCard
+              cardTitle='About Decentralized Identifiers (DIDs)'
+              titleAlign='center'
+              customCardTitleClasses={classes.cardTitle}
+              customCardClasses={classes.cardClasses}
+              content={
+                <div>
+                  <Grid container justify='center'>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <div className={classes.center}>
+                          <h5>
+                            <a name="DID"></a> Historically, digital identification of individuals has required centralized identity management systems - your bank, Facebook or Google login etc. Blockchain and decentralized technology enables a new method of identification that does not require central authorities.
+                            Decentralized Identifiers or DIDs can be thought of as the missing "Identity Layer" of the internet.
+                          </h5>
+                          <h5>
+                            A <a href="https://w3c-ccg.github.io/did-spec">DID</a> is a cryptographically secure, globally resolvable and open standard that puts an individual’s identity back under their control.
+                            You manage your DID with an associated private and public key.
+                          </h5>
+                          <h5>
+                            When you create your Chlu wallet, we generate a new DID for you and store it on a unique permanent link on <a href="https://en.wikipedia.org/wiki/InterPlanetary_File_System">IPFS</a>. You can use this link and your private key to sign-up and log-in to DID supporting services on the internet.
+                          </h5>
+                          <h5>
+                            Decentralized Reputation links the ratings and reviews of an individual, business or product with their associated DID to enable them to manage and port their reputation online.
+                          </h5>
+                      </div>
+                    </Grid>
+                  </Grid>
+                </div>
+              }
+              >
+            </RegularCard>
+          </Grid>
         </div>
       </div>
     );
@@ -147,4 +181,3 @@ HomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 export default withStyles(homePageStyle)(HomePage);
-
