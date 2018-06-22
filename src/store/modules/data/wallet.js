@@ -3,8 +3,11 @@ import {
   getWalletFromLocalStorage,
   deleteWalletFromLocalStorage,
   saveWalletToLocalStorage,
-  getAddress
+  getAddress,
+  importDID,
+  deleteDID
 } from 'helpers/wallet'
+import { } from '../../../helpers/wallet';
 
 // ------------------------------------
 // Constants
@@ -38,22 +41,25 @@ const setReduxWallet = createAction(SET_WALLET)
 // Thunks
 // ------------------------------------
 export function deleteWallet() {
-  return dispatch => {
+  return async dispatch => {
     deleteWalletFromLocalStorage()
+    await deleteDID()
     dispatch(deleteReduxWallet())
   }
 }
 
 export function setWallet(wallet) {
-  return dispatch => {
+  return async dispatch => {
     saveWalletToLocalStorage(wallet)
+    await importDID(wallet.did)
     dispatch(setReduxWallet(wallet))
   }
 }
 
 export function setWalletToCreatedWallet() {
-  return (dispatch, getState) => {
-    dispatch(setWallet(getState().components.createWallet.walletCreated))
+  return async (dispatch, getState) => {
+    const createdWallet = getState().components.createWallet.walletCreated
+    await dispatch(setWallet(createdWallet))
   }
 }
 // ------------------------------------

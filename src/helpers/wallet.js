@@ -2,6 +2,7 @@ import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import fileDownload from 'js-file-download'
 import ChluDID from 'chlu-did/src' // TODO: precompiled sources??
 import { pick } from 'lodash'
+import { getChluIPFS } from 'helpers/ipfs'
 
 export async function generateNewWallet() {
     const importer = new ImportPrivateKey()
@@ -58,6 +59,19 @@ export function importWallet(str) {
         console.log(error)
         throw new Error('Imported file is not a valid Wallet: ' + error.message)
     }
+}
+
+export async function importDID(did) {
+    console.log('import', did.publicDidDocument.id)
+    const chluIpfs = await getChluIPFS()
+    await chluIpfs.instance.did.import(did)
+}
+
+export async function deleteDID() {
+    const chluIpfs = await getChluIPFS()
+    // replace DID with a new one
+    const did = await chluIpfs.instance.did.chluDid.generateDID()
+    await chluIpfs.instance.did.import(did, false) // don't publish it
 }
 
 export function getAddress(wallet) {

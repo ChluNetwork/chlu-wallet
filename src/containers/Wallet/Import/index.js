@@ -4,7 +4,7 @@ import { object } from 'prop-types'
 import { connect } from 'react-redux'
 import { setWallet } from 'store/modules/data/wallet'
 // libs
-import { importWallet } from 'helpers/wallet'
+import { importWallet, importDID } from 'helpers/wallet'
 import { Link } from 'react-router-dom'
 // components
 import FileReaderInput from 'react-file-reader-input'
@@ -20,9 +20,10 @@ class ImportWallet extends Component {
     wallet: object
   }
 
-  importWallet(str) {
+  async importWallet(str) {
     try {
       const wallet = importWallet(str)
+      await importDID(wallet.did)
       this.props.setWallet(wallet)
       toastr.success('Wallet imported', 'Your existing data has been imported')
     } catch (error) {
