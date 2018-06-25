@@ -46,19 +46,20 @@ export async function openDB() {
 
 // store reputation using full IPFS node
 export async function storeReputation(didId, reviews) {
-    const chluIpfs = await getChluIPFS()
-    // ChluIPFS does not have DID/Reputation code implemented yet so we go manual
-    const db = await openDB()
-    const ipfs = chluIpfs.instance.ipfs
-    const reputationDagNode = await ipfs.object.put(Buffer.from(JSON.stringify(reputation)))
-    const reputationMultihash = reputationDagNode.toJSON().multihash
-    const existing = await db.get(didId)
-    if (existing === reputationMultihash) {
-        console.log('Reputation (' + reviews.length + ' reviews) for DID', didId, 'was already in the DB')
-    } else {
-        await db.set(didId, reputationMultihash)
-        console.log('Reputation (' + reviews.length + ' reviews) for DID', didId, 'saved successfully')
-    }
+  const chluIpfs = await getChluIPFS()
+  // ChluIPFS does not have DID/Reputation code implemented yet so we go manual
+  const db = await openDB()
+  const ipfs = chluIpfs.instance.ipfs
+  const reputation = { didId, reviews }
+  const reputationDagNode = await ipfs.object.put(Buffer.from(JSON.stringify(reputation)))
+  const reputationMultihash = reputationDagNode.toJSON().multihash
+  const existing = await db.get(didId)
+  if (existing === reputationMultihash) {
+      console.log('Reputation (' + reviews.length + ' reviews) for DID', didId, 'was already in the DB')
+  } else {
+      await db.set(didId, reputationMultihash)
+      console.log('Reputation (' + reviews.length + ' reviews) for DID', didId, 'saved successfully')
+  }
 }
 
 export async function readReputation(didId) {
@@ -74,7 +75,7 @@ export async function readReputation(didId) {
   try {
     const stringReputation = reputationDagNode.data.toString('utf-8')
     const reputation = JSON.parse(stringReputation)
-    console.log('Reading reputation for', didId, 'with did document at', didDocumentMultihash, 'found reputation', reputation)
+    console.log('Reading reputation for', didId, 'found reputation', reputation)
     return reputation
   } catch (error) {
     console.log(error)

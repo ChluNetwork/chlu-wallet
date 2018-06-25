@@ -55,7 +55,7 @@ export function getYelpReviews(url) {
   return startCrawler(crawlerUrl, postData);
 }
 
-export function startCrawler(crawlerUrl, postData) {  
+function startCrawler(crawlerUrl, postData) {  
   return fetch(crawlerUrl, {
     method: 'POST',
     body: JSON.stringify(postData),
@@ -71,7 +71,7 @@ export function startCrawler(crawlerUrl, postData) {
     });
 }
 
-export function keepPolling(apifyExecution) {
+function keepPolling(apifyExecution) {
   return new Promise((resolve, reject) => {
     console.log(apifyExecution);
     if (apifyExecution.status !== 'SUCCEEDED' && apifyExecution.finishedAt === null) {
@@ -108,7 +108,7 @@ export function keepPolling(apifyExecution) {
   })
 }
 
-export function getCrawlerResults(apifyResults){
+function getCrawlerResults(apifyResults){
   var reviews = [];
   for(var i in apifyResults) {
     if (apifyResults[i].errorInfo && apifyResults[i].loadErrorCode) {
@@ -119,48 +119,4 @@ export function getCrawlerResults(apifyResults){
     }
   }
   return reviews;
-}
-
-export function storeResults(reviews){
-  return localStorage.setItem('crawlerResults', JSON.stringify(reviews));
-}
-
-/////////////// IPFS
-
-export function storeLocalStorageReputation() {
-  var did = JSON.parse(localStorage.getItem('did'));
-  var reviews = JSON.parse(localStorage.getItem('crawlerResults'));
-  if (did && reviews) {
-    return storeReputation(did, reviews);
-  } else {
-    throw new Error('missing data');
-  }
-}
-
-export function storeReputation(did, reviews) {
-  return new Promise(function (resolve, reject) {
-    console.log('storeReputation', did, reviews);
-    //var url = 'http://localhost:3001/reputation';
-    var url = 'https://did.chlu.io/service/reputation';
-    var req = {
-      didDocument: did,
-      reviews: reviews
-    };
-    // https://stackoverflow.com/questions/39519246/make-xmlhttprequest-post-using-json#39519299
-    var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
-    xmlhttp.open("POST", url);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.onreadystatechange = function () {
-      if(xmlhttp.readyState === 4) {
-        if (xmlhttp.status === 200) {
-          console.log('XMLHTTPREQUEST OK');
-          resolve({ did: req.didDocument });
-        } else {
-          console.log('XMLHTTPREQUEST FAILED', xmlhttp.status);
-          reject(xmlhttp.responseText);
-        }
-      }
-    };
-    xmlhttp.send(JSON.stringify(req));
-  });
 }

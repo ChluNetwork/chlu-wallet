@@ -62,7 +62,6 @@ export function importWallet(str) {
 }
 
 export async function importDID(did) {
-    console.log('import', did.publicDidDocument.id)
     const chluIpfs = await getChluIPFS()
     await chluIpfs.instance.did.import(did)
 }
