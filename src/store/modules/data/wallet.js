@@ -7,7 +7,6 @@ import {
   importDID,
   deleteDID
 } from 'helpers/wallet'
-import { } from '../../../helpers/wallet';
 
 // ------------------------------------
 // Constants
