@@ -42,10 +42,10 @@ export function startCrawler(type, url) {
             const apifyResults = await crawlerMap[type](url)
             const results = transformMap[type](apifyResults)
             dispatch(startCrawlerIPFS())
-            const signedInpublicDidDocument = get(state, 'data.wallet.did.publicDidDocument', null)
+            const signedInPublicDidDocument = get(state, 'data.wallet.did.publicDidDocument', null)
             const signedOutPublicDidDocument = get(state, 'components.createWallet.walletCreated.did.publicDidDocument', null)
-            const publicDidDocument = signedInpublicDidDocument || signedOutPublicDidDocument
-            await storeReputation(publicDidDocument, results)
+            const publicDidDocument = signedInPublicDidDocument || signedOutPublicDidDocument
+            await storeReputation(publicDidDocument.id, results)
             dispatch(finishCrawler())
             dispatch(readMyReputation())
         } catch (error) {

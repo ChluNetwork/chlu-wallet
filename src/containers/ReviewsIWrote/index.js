@@ -18,7 +18,6 @@ class ReviewsIWrote extends Component {
 
     let transformedReviews = Object.values(reviews)
       .filter(r => r && (r.error || r.loading || r.customer_address === address))
-    console.log(transformedReviews)
     transformedReviews = transformedReviews.map(r => ({
         error: r.error || null,
         loading: r.loading || null,
@@ -43,7 +42,6 @@ class ReviewsIWrote extends Component {
         verifiable: true,
         proof: true
       }))
-    console.log(transformedReviews)
 
     return <Reviews reviews={transformedReviews} loading={loading} />
   }
