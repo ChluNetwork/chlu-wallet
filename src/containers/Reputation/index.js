@@ -16,7 +16,7 @@ class Reputation extends Component {
     return <div>
       <Reviews
         loading={loading}
-        reviews={reputation ? reputation.reviews : []}
+        reviews={reputation || []}
       />  
     </div>
   }

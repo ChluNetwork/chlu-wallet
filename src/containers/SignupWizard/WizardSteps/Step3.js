@@ -19,7 +19,7 @@ import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
 import { withStyles } from '@material-ui/core'
 // helpers
-import { get } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import IndividualsCrawlerForm from './individualsCrawlerForm'
 import BusinessCrawlerForm from './businessCrawlerForm'
@@ -63,7 +63,7 @@ class Step3 extends React.Component {
           />
         </Grid>
       </Grid>
-    } else if (Array.isArray(get(reputation, 'reviews', null))) {
+    } else if (!isEmpty(reputation)) {
       return <Grid container justify='center'>
         <Grid item xs={4}>
           <InfoArea

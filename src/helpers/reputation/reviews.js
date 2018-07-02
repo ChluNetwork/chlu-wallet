@@ -86,26 +86,27 @@ export function transformUpworkData(upworkData) {
           value: detail.score,
           max: 5,
         },
-        review: detail.description,
-        category: detail.label
+        review_text: detail.description,
+        category: detail.label,
+        attribute: ''
       }
     })
     return {
       subject: {
-        name: review.agencyName,
-        categories: review.skills,
+        name: review.agencyName || '', // TODO: for freelancers name stays null
+        categories: review.skills || [],
       },
       platform: {
         name: 'Upwork',
         url: 'upwork.com',
       },
       author: {
-        name: review.clientId,
+        name: String(review.clientId),
       },
       review: {
-        text: get(review, 'feedback.comment', null)
+        text: get(review, 'feedback.comment', null),
       },
-      rating: {
+      rating_details: {
         min: 1,
         value: get(review, 'feedback.score', null),
         max: 5,

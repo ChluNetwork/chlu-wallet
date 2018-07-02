@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom"
 
 import StarRatingComponent from 'react-star-rating-component'
 import Card from '@material-ui/core/Card'

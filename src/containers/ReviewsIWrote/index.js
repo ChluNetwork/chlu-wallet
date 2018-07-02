@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { get, flatten } from 'lodash'
+import { get } from 'lodash'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'recompose'

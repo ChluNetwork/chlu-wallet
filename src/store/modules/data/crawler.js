@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getYelpReviews, getUpWorkReviews } from 'helpers/apify'
-import { storeReputation } from 'helpers/reputation/ipfs'
+import { getChluIPFS, importUnverifiedReviews } from 'helpers/ipfs'
 import { transformYelpData, transformUpworkData } from 'helpers/reputation/reviews';
 import { readMyReputation } from './reputation'
 import { get } from 'lodash'
@@ -42,10 +42,12 @@ export function startCrawler(type, url) {
             const apifyResults = await crawlerMap[type](url)
             const results = transformMap[type](apifyResults)
             dispatch(startCrawlerIPFS())
-            const signedInPublicDidDocument = get(state, 'data.wallet.did.publicDidDocument', null)
-            const signedOutPublicDidDocument = get(state, 'components.createWallet.walletCreated.did.publicDidDocument', null)
-            const publicDidDocument = signedInPublicDidDocument || signedOutPublicDidDocument
-            await storeReputation(publicDidDocument.id, results)
+            const signedInDid = get(state, 'data.wallet.did', null)
+            const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
+            const did = signedInDid || signedOutDid
+            const chluIpfs = await getChluIPFS()
+            await chluIpfs.importDID(did)
+            await importUnverifiedReviews(results)
             dispatch(finishCrawler())
             dispatch(readMyReputation())
         } catch (error) {
