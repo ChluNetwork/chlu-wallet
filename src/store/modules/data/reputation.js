@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { readReputation } from 'helpers/reputation/ipfs'
+import { readReviews } from 'helpers/ipfs'
 import { get } from 'lodash'
 import { DELETE_WALLET } from './wallet';
 // ------------------------------------
@@ -35,8 +35,9 @@ export function readMyReputation () {
     if (didId) {
       dispatch(readReputationLoading())
       try {
-        const reputation = await readReputation(didId)
-        dispatch(readReputationSuccess(reputation))
+        // TODO: improve this and use a loading system per-review
+        const reviews = await readReviews(didId)
+        dispatch(readReputationSuccess(reviews))
       } catch (error) {
         console.log(error)
         dispatch(readReputationError(error.message || error))

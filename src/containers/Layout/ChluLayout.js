@@ -10,14 +10,6 @@ import { withStyles } from "@material-ui/core";
 import pagesStyle from "styles/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 import bgImage from "images/chlu_background.png";
 
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: 'center'
-  }
-});
-
 class HomePageLayout extends React.Component {
   render() {
     const { classes, children } = this.props;

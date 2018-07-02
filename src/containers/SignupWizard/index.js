@@ -13,7 +13,7 @@ import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
-import { get, pick } from 'lodash'
+import { get, pick, isEmpty } from 'lodash'
 
 class SignupWizard extends Component {
 
@@ -62,12 +62,12 @@ class SignupWizard extends Component {
   }
 
   onChangeStep(from, to) {
-    const { walletCreated, createWallet, setWallet, wallet } = this.props
+    const { walletCreated, createWallet } = this.props
     if (to === 1 && !walletCreated) createWallet()
   }
 
   finishClicked() {
-    if (Array.isArray(get(this.props.reputation, 'reviews', null))) {
+    if (!isEmpty(this.props.reputation)) {
       // Reputation is there
       this.props.push('/reputation')
     } else {
