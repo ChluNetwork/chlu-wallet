@@ -101,6 +101,9 @@ Use mnemonic `alter ankle cart harvest ecology sign athlete congress desert scar
 
 That wallet has some BTC on testnet, so feel free to use a bit of it ;)
 
+Here is a file you can use to login as that user. Download it as json as use it to login in the
+wallet: https://ipfs.io/ipfs/QmUEaLad9udhbkm3G2qRUGUhxGtiRtbArHssE65VoqhdP5
+
 ### Vendor demo address
 
 Use the address `ms4TpM57RWHnEq5PRFtfJ8bcdiXoUE3tfv` to send payments to. It has some reviews already there.
