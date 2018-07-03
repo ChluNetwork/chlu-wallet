@@ -48,9 +48,23 @@ export function submitPayment (data) {
         amount: popr.amount,
         customer_address: address,
         vendor_address: popr.vendorAddress,
-        review_text: review || '', // TODO: fix missing string field encoding different from empty string
+        review: {
+          text: review || ''
+        },
+        author: {
+          name: wallet.did.publicDidDocument.id
+        },
+        subject: {
+          did: popr.vendor_did
+        },
         detailed_review: [],
-        rating,
+        rating_detail: {
+          min: 0,
+          max: 5,
+          value: rating
+        },
+        verifiable: true,
+        proof: null, // TODO: need to use this eventually
         chlu_version: 0
       }
       try {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { object, string } from 'prop-types'
+import { get } from 'lodash'
 // components
 import { CardContent, CardHeader, Avatar } from '@material-ui/core';
 import EditReview from './EditReview'
@@ -33,13 +34,13 @@ const Review = props => {
           ? 'Editing in progress...'
           : <StarRatingComponent
             name='rating'
-            value={review.rating}
-            starCount={starCount}
+            value={get(review, 'rating_details.rating', 0)}
+            starCount={get(review, 'rating_details.max', starCount)}
             editing={false}
           />}
       />
       {editing !== review.multihash && <CardContent>
-        {review.review_text || '(No comment left)'}
+        {get(review, 'review.text', '(No comment left)')}
       </CardContent> }
       {review && review.editable && (!editing || editing === review.multihash)
         ? <EditReview multihash={review.multihash} />

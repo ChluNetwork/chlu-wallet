@@ -69,8 +69,7 @@ export async function importDID(did) {
 export async function deleteDID() {
     const chluIpfs = await getChluIPFS()
     // replace DID with a new one
-    const did = await chluIpfs.instance.did.chluDid.generateDID()
-    await chluIpfs.instance.did.import(did, false) // don't publish it
+    await chluIpfs.generateNewDID(false, false)
 }
 
 export function getAddress(wallet) {

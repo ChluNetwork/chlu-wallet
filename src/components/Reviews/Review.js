@@ -101,8 +101,8 @@ class Review extends Component {
           title={
             <StarRatingComponent
               name='rating'
-              starCount={review.rating ? review.rating.max : 5}
-              value={review.rating? review.rating.value : 0}
+              starCount={review.rating_details ? review.rating_details.max : 5}
+              value={review.rating_details? review.rating_details.value : 0}
             />
           }
           subheader={isNil(get(review, 'author.name')) ? 'Anonymous' : review.author.name }

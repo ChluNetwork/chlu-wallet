@@ -16,32 +16,8 @@ class ReviewsIWrote extends Component {
     const { wallet, reviews, loading, error } = this.props
     const address = getAddress(wallet)
 
-    let transformedReviews = Object.values(reviews)
+    const transformedReviews = Object.values(reviews)
       .filter(r => r && (r.error || r.loading || r.customer_address === address))
-    transformedReviews = transformedReviews.map(r => ({
-        error: r.error || null,
-        loading: r.loading || null,
-        subject: {
-          name: 'Vendor'
-        },
-        author: {
-          name: 'You'
-        },
-        platform: {
-          name: 'Chlu Wallet',
-          url: 'https://chlu.io'
-        },
-        review: {
-          text: r.review_text
-        },
-        rating: {
-          min: 1,
-          value: r.rating,
-          max: 5
-        },
-        verifiable: true,
-        proof: true
-      }))
 
     return <Reviews reviews={transformedReviews} loading={loading} />
   }
