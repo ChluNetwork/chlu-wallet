@@ -35,7 +35,13 @@ const starCount = 5
 class Payment extends Component {
 
   componentDidMount() {
-    this.props.getCheckout()
+    this.props.getCheckout(this.props.match.params.multihash)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.multihash !== this.props.match.params.multihash) {
+      this.props.getCheckout(nextProps.match.params.multihash)
+    }
   }
 
   handleSubmit(data) {
@@ -141,12 +147,19 @@ function mapStateToProps(state) {
   }
 }
 
+<<<<<<< HEAD
 function mapDispatchToProps(dispatch) {
   return {
     getCheckout: () => dispatch(getCheckout()),
     submitPayment: data => dispatch(submitPayment(data)),
     setRating: data => dispatch(setRatingForCustomerWallet(data))
   }
+=======
+const mapDispatchToProps = {
+    getCheckout,
+    submitPayment,
+    setRating: setRatingForCustomerWallet
+>>>>>>> can now pay custom PoPR by link with multihash
 }
 
 export default compose(
