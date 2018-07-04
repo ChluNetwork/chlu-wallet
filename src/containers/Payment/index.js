@@ -147,19 +147,10 @@ function mapStateToProps(state) {
   }
 }
 
-<<<<<<< HEAD
-function mapDispatchToProps(dispatch) {
-  return {
-    getCheckout: () => dispatch(getCheckout()),
-    submitPayment: data => dispatch(submitPayment(data)),
-    setRating: data => dispatch(setRatingForCustomerWallet(data))
-  }
-=======
 const mapDispatchToProps = {
-    getCheckout,
-    submitPayment,
-    setRating: setRatingForCustomerWallet
->>>>>>> can now pay custom PoPR by link with multihash
+  getCheckout,
+  submitPayment,
+  setRating: setRatingForCustomerWallet
 }
 
 export default compose(
