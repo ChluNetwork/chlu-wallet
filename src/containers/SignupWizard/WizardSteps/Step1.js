@@ -46,28 +46,13 @@ class Step1 extends React.Component {
       lastname: "",
       lastnameState: "",
       email: "",
-      emailState: "",
-      checked: []
+      emailState: ""
     };
-    this.handleToggle = this.handleToggle.bind(this);
   }
 
-  handleToggle(value) {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checked: newChecked
-    });
+  toggleAcceptTerms() {
+    this.props.setAcceptTermsAndConditions(!this.props.acceptedTerms)
   }
-
 
   // function that returns true if value is email, false otherwise
   verifyEmail(value) {
@@ -174,7 +159,8 @@ class Step1 extends React.Component {
                 control={
                   <Checkbox
                     tabIndex={-1}
-                    onClick={() => this.handleToggle(1)}
+                    checked={this.props.acceptedTerms}
+                    onClick={this.toggleAcceptTerms.bind(this)}
                     checkedIcon={
                       <Check className={classes.checkedIcon} />
                     }

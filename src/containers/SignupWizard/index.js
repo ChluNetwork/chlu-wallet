@@ -6,6 +6,7 @@ import Step3 from './WizardSteps/Step3'
 // redux
 import { connect } from 'react-redux'
 import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
+import { setAcceptTermsAndConditions } from 'store/modules/components/SignupWizard'
 import { readMyReputation } from 'store/modules/data/reputation'
 import { setWallet } from 'store/modules/data/wallet'
 import { toastr } from 'react-redux-toastr'
@@ -49,8 +50,15 @@ class SignupWizard extends Component {
   }
 
   validate(step) {
-    const { wallet, crawlerRunning } = this.props
+    const { wallet, crawlerRunning, acceptedTerms } = this.props
     if (crawlerRunning) return false
+    if (step === 0 && !acceptedTerms && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
+      toastr.warning(
+        'Terms and Conditions',
+        'Please read and accept the Terms and Conditions before continuing'
+      )
+      return false
+    }
     if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Please save your Wallet Keys',
@@ -127,7 +135,8 @@ const mapStateToProps = store => ({
   wallet: store.data.wallet,
   reputation: store.data.reputation.reputation,
   reputationLoading: store.data.reputation.loading,
-  crawlerRunning: store.data.crawler.running
+  crawlerRunning: store.data.crawler.running,
+  acceptedTerms: store.components.signupWizard.acceptedTerms
 })
 
 const mapDispatchToProps = {
@@ -135,6 +144,7 @@ const mapDispatchToProps = {
   setWallet,
   setWalletSaved,
   readMyReputation,
+  setAcceptTermsAndConditions,
   push,
   submit
 }

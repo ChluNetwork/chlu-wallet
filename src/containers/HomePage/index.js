@@ -12,8 +12,7 @@ import {
     Lock,
     CallMerge,
     Web,
-    Payment,
-    Done
+    Payment
 } from '@material-ui/icons'
 // custom components
 import RegularCard from 'components/MaterialDashboardPro/RegularCard'

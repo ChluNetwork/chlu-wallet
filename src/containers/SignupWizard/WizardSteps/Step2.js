@@ -6,13 +6,10 @@ import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
 import Button from 'components/MaterialDashboardPro/Button'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
-import RegularCard from 'components/MaterialDashboardPro/RegularCard';
-
 // icon
 import Face from '@material-ui/icons/Face'
 import DoneIcon from '@material-ui/icons/Done'
 import DownloadIcon from '@material-ui/icons/FileDownload'
-import RecordVoiceOver from '@material-ui/icons/RecordVoiceOver'
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx'
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx'
