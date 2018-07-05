@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS } from 'helpers/ipfs'
 import { updateReviewRecord, getTxHashByMultihash } from '../../../helpers/transactions'
-import { get, find } from 'lodash'
+import { get, set, find, cloneDeep } from 'lodash'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -69,16 +69,11 @@ export function submitEditedReview(fields) {
       const chluIpfs = await getChluIPFS()
       const multihash = editing
       const review = find(reviews, r => r.multihash === multihash)
-      const updatedReview = Object.assign({}, review, {
-        rating: fields.rating,
-        review_text: fields.comment
-      })
-      const updatedMultihash = await chluIpfs.storeReviewRecord(
-        updatedReview,
-        {
-          previousVersionMultihash: multihash
-        }
-      )
+      const updatedReview = cloneDeep(review)
+      set(updatedReview, 'previous_version_multihash', multihash)
+      set(updatedReview, 'rating_details.value', fields.rating)
+      set(updatedReview, 'review.text', fields.comment)
+      const updatedMultihash = await chluIpfs.storeReviewRecord(updatedReview)
       dispatch(editReviewSuccess({ multihash, updatedMultihash }))
     } catch (error) {
       dispatch(editReviewError(error))

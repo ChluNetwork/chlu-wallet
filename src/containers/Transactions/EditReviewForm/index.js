@@ -6,7 +6,7 @@ import StarRating from 'components/Form/StarRating'
 import Input from 'components/Form/Input'
 import Button from '@material-ui/core/Button'
 
-const EditReviewForm = ({ handleSubmit, handleCancel, onStarClick, rating, isLoading, pristine, submitFailed }) => (
+const EditReviewForm = ({ handleSubmit, handleCancel, isLoading, pristine, submitFailed }) => (
   <form onSubmit={handleSubmit}>
     <Field
       name='rating'
