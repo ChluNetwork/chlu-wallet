@@ -26,6 +26,8 @@ const Review = props => {
       subheader={review.error}
     />
   } else {
+    const maxStars = get(review, 'rating_details.max', starCount)
+    const max = maxStars > 0 ? maxStars : starCount
     return <div>
       <CardHeader
         avatar={<Avatar><ReviewIcon/></Avatar>}
@@ -34,8 +36,8 @@ const Review = props => {
           ? 'Editing in progress...'
           : <StarRatingComponent
             name='rating'
-            value={get(review, 'rating_details.rating', 0)}
-            starCount={get(review, 'rating_details.max', starCount)}
+            value={get(review, 'rating_details.value', 0)}
+            starCount={max}
             editing={false}
           />}
       />

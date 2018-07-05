@@ -16,6 +16,7 @@ import LinkIcon from '@material-ui/icons/Link'
 
 import { isArray, isNil, get } from 'lodash'
 
+const starCount = 5
 class Review extends Component {
   
   datePublished(datePublished) {
@@ -94,6 +95,8 @@ class Review extends Component {
   
   render() {
     const { review, index } = this.props
+    const maxStars = get(review, 'rating_details.max', starCount)
+    const max = maxStars > 0 ? maxStars : starCount
     return (
       <Card>
         <CardHeader
@@ -101,8 +104,8 @@ class Review extends Component {
           title={
             <StarRatingComponent
               name='rating'
-              starCount={review.rating_details ? review.rating_details.max : 5}
-              value={review.rating_details? review.rating_details.value : 0}
+              starCount={max}
+              value={get(review, 'rating_details.value', 0)}
             />
           }
           subheader={isNil(get(review, 'author.name')) ? 'Anonymous' : review.author.name }

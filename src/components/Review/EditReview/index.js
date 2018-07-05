@@ -1,5 +1,5 @@
 import React from 'react'
-import _ from 'lodash'
+import { get, find } from 'lodash'
 import { connect } from 'react-redux'
 import EditReviewForm from 'containers/Transactions/EditReviewForm'
 import Button from '@material-ui/core/Button'
@@ -17,15 +17,15 @@ const EditReview = props => {
     submit,
     cancel
   } = props
-  const review = _.find(Object.values(reviews), v => v.multihash === multihash)
+  const review = find(Object.values(reviews), v => v.multihash === multihash)
   return <div>
     {editing === multihash && <CardContent>
         <EditReviewForm
           onSubmit={submit}
           handleCancel={cancel}
           initialValues={{
-            comment: review.review_text,
-            rating: review.rating
+            comment: get(review, 'review.text'),
+            rating: get(review, 'rating_details.value')
           }}
           isLoading={loading}
         />
