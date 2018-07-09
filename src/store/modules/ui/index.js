@@ -5,6 +5,5 @@ import drawer from './drawer'
 
 export default combineReducers({
   modal,
-  drawer,
-  profile
+  drawer
 })
