@@ -47,7 +47,7 @@ export function submitPayment (data) {
         currency_symbol: 'tBTC',
         amount: popr.amount,
         customer_address: address,
-        vendor_address: popr.vendorAddress,
+        vendor_address: popr.vendor_address,
         review: {
           text: review || ''
         },
@@ -57,6 +57,10 @@ export function submitPayment (data) {
         subject: {
           did: popr.vendor_did
         },
+        platform: {
+          name: 'Chlu Wallet (testnet)',
+          url: 'https://wallet.chlu.io'
+        },
         detailed_review: [],
         rating_detail: {
           min: 0,
@@ -64,7 +68,7 @@ export function submitPayment (data) {
           value: rating
         },
         verifiable: true,
-        proof: null, // TODO: need to use this eventually
+        verification: null, // TODO: need to use this eventually
         chlu_version: 0
       }
       try {
@@ -78,7 +82,7 @@ export function submitPayment (data) {
           try {
             const tr = new CreateChluTransaction(process.env.REACT_APP_BLOCKCYPHER_TOKEN)
             tr.getImportedKey(wallet.bitcoinMnemonic)
-            const response = await tr.create(address, popr.vendorAddress, popr.amount, null, multihash)
+            const response = await tr.create(address, popr.vendor_address, popr.amount, null, multihash)
             console.log(response)
             try {
               console.log('Pushing transaction')
