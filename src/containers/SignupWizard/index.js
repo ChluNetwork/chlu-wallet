@@ -210,7 +210,7 @@ const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
-  reputation: store.data.reputation.reputation,
+  reviews: store.data.reputation.reviews,
   reputationLoading: store.data.reputation.loading,
   crawlerRunning: store.data.crawler.running,
   acceptedTerms: store.components.signupWizard.acceptedTerms

@@ -17,7 +17,8 @@ const styles = {
 class Reviews extends Component {
   
   render() {
-    const { classes, reviews, loading } = this.props
+    const { classes, reviews, loading, editing, error } = this.props
+    console.log(reviews)
 
     return <Grid container spacing={16} className={classes.root}>
       {loading && <Grid item xs={12}>

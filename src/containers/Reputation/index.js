@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { isEmpty } from 'lodash'
 // components
 import Reviews from 'components/Reviews'
 // redux
@@ -12,18 +13,20 @@ class Reputation extends Component {
   }
 
   render() {
-    const { reputation, loading } = this.props
+    const { reviews, loading } = this.props
+    const reviewList = isEmpty(reviews) ? [] : Object.values(reviews)
+    console.log(reviewList)
     return <div>
       <Reviews
         loading={loading}
-        reviews={reputation || []}
+        reviews={reviewList}
       />  
     </div>
   }
 }
 
 const mapStateToProps = state => ({
-  reputation: state.data.reputation.reputation,
+  reviews: state.data.reputation.reviews,
   loading: state.data.loading
 })
 

@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS } from 'helpers/ipfs'
-import { updateReviewRecord, getTxHashByMultihash } from '../../../helpers/transactions'
+import { getChluIPFS, types } from 'helpers/ipfs'
+import { updateReviewRecord, getTxHashByMultihash } from 'helpers/transactions'
 import { get, set, find, cloneDeep } from 'lodash'
 // ------------------------------------
 // Constants
