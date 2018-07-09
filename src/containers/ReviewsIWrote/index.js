@@ -13,19 +13,20 @@ import { getAddress } from 'helpers/wallet'
 class ReviewsIWrote extends Component {
 
   render() {
-    const { wallet, reviews, loading, error } = this.props
+    const { wallet, reviews, editing, loading, error } = this.props
     const address = getAddress(wallet)
 
     const transformedReviews = Object.values(reviews)
       .filter(r => r && (r.error || r.loading || r.customer_address === address))
 
-    return <Reviews reviews={transformedReviews} loading={loading} />
+    return <Reviews reviews={transformedReviews} loading={loading} error={error} editing={editing} />
   }
 
 }
 
 const mapStateToProps = state => ({
   reviews: state.data.reviews.reviews,
+  editing: state.data.reviews.editing,
   loading: state.data.transactions.loading,
   error: state.data.transactions.error,
   transactions: get(state, 'data.transactions.data.txs', []),

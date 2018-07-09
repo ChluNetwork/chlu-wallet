@@ -110,7 +110,7 @@ class Payment extends Component {
                         </ListItem>
                         <ListItem>
                             <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-                            <ListItemText primary='Vendor Wallet' secondary={popr.vendorAddress}/>
+                            <ListItemText primary='Vendor Wallet' secondary={popr.vendor_address}/>
                         </ListItem>
                         <ListItem>
                             <ListItemIcon><VendorIcon/></ListItemIcon>
