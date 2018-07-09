@@ -32,6 +32,7 @@ export async function readReviews(didId) {
   const multihashes = await chluIpfs.getReviewsByDID(didId)
   const reviews = []
   for (const multihash of multihashes) {
+    // TODO: show them as loading and dispatch redux actions to resolve them
     reviews.push(await chluIpfs.readReviewRecord(multihash))
   }
   return reviews
