@@ -16,6 +16,7 @@ import LinkIcon from '@material-ui/icons/Link'
 import CommentIcon from '@material-ui/icons/Comment'
 import PlatformIcon from '@material-ui/icons/Store'
 import VerifiableIcon from '@material-ui/icons/VerifiedUser'
+import TokenIcon from '@material-ui/icons/PlusOne'
 
 import EditReview from 'components/Reviews/EditReview'
 
@@ -141,6 +142,13 @@ class Review extends Component {
                   primary={this.reviewUrl(review)}
               />
             </ListItem>
+            { review.editable && <ListItem>
+              <ListItemIcon><TokenIcon/></ListItemIcon>
+              <ListItemText
+                primary='Chlu Token'
+                secondary='This Review is eligible for a Chlu Token'
+              />
+            </ListItem> }
           </List>
         </CardContent>}
       </Card>
