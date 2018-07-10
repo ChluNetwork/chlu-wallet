@@ -13,6 +13,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 
 import DateRangeIcon from '@material-ui/icons/DateRange'
 import LinkIcon from '@material-ui/icons/Link'
+import CommentIcon from '@material-ui/icons/Comment'
+import PlatformIcon from '@material-ui/icons/Store'
+import VerifiableIcon from '@material-ui/icons/VerifiedUser'
+
+import EditReview from 'components/Reviews/EditReview'
 
 import { isArray, isNil, get } from 'lodash'
 

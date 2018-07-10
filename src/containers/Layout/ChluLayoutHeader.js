@@ -34,8 +34,8 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
 // style
+import ChluLayoutHeaderStyle from 'styles/ChluLayoutHeader'
 import ChluLogo from "./ChluLogo";
-import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
 class ChluLayoutHeader extends React.Component {
   constructor(props) {
@@ -189,7 +189,7 @@ class ChluLayoutHeader extends React.Component {
           <div className={classes.flex}>
             <ChluLogo classes={classes} />
           </div>
-          <Hidden smDown implementation='css'>
+          <Hidden mdDown implementation='css'>
             {list}
           </Hidden>
           <Hidden mdUp>
@@ -201,24 +201,20 @@ class ChluLayoutHeader extends React.Component {
             >
               <Menu />
             </IconButton>
-          </Hidden>
-          <Hidden mdUp implementation='css'>
-            <Hidden mdUp>
-              <Drawer
-                variant='temporary'
-                anchor={"right"}
-                open={this.state.open}
-                classes={{
-                  paper: classes.drawerPaper
-                }}
-                onClose={this.handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true // Better open performance on mobile.
-                }}
-              >
-                {list}
-              </Drawer>
-            </Hidden>
+            <Drawer
+              variant='temporary'
+              anchor='right'
+              open={this.state.open}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              onClose={this.handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true // Better open performance on mobile.
+              }}
+            >
+              {list}
+            </Drawer>
           </Hidden>
         </Toolbar>
       </AppBar>
@@ -246,6 +242,6 @@ const mapDispatchToProps = {
 
 export default compose(
   withRouter, // prevent NavLinks not realising the route has changed
-  withStyles(pagesHeaderStyle),
+  withStyles(ChluLayoutHeaderStyle),
   connect(mapStateToProps, mapDispatchToProps)
 )(ChluLayoutHeader);
