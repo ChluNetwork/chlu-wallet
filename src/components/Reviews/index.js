@@ -34,7 +34,7 @@ class Reviews extends Component {
           <CardHeader
             avatar={<ErrorIcon/>}
             title='There is nothing here'
-            subheader='Have you imported your reputation?'
+            subheader='No reviews to display'
           />
         </Card>
       </Grid>}
