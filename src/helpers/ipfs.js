@@ -3,8 +3,10 @@ import { updateReviewRecordAction } from 'store/modules/data/reviews'
 import { readMyReputation } from 'store/modules/data/reputation';
 
 export async function getChluIPFS() {
+  const isProduction = process.env.NODE_ENV === 'production'
+  const defaultNetwork = isProduction ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental
   const options = {
-    network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental,
+    network: process.env.REACT_APP_CHLU_NETWORK || defaultNetwork,
     bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
     blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN
   }
