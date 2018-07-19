@@ -82,6 +82,7 @@ export function submitPayment (data) {
           try {
             const tr = new CreateChluTransaction(process.env.REACT_APP_BLOCKCYPHER_TOKEN)
             tr.getImportedKey(wallet.bitcoinMnemonic)
+            console.log(address, popr.vendor_address, popr.amount, null, multihash)
             const response = await tr.create(address, popr.vendor_address, popr.amount, null, multihash)
             console.log(response)
             try {
@@ -94,13 +95,14 @@ export function submitPayment (data) {
                 })
                 toastr.success('success', 'Payment success')
                 dispatch(setPaymentSuccess())
+                return true
               } catch (exception) {
                 console.log('Error saving review record')
                 console.log(exception)
                 toastr.error("Unable to save review",
                              "Your payment went through, but the review wasn't saved. The review will be saved when you access the wallet again later.")
                 dispatch(setPaymentError(exception.message || exception))
-                return
+                return false
               }
             } catch (exception) {
               console.log('Error pushing transaction')
@@ -108,7 +110,7 @@ export function submitPayment (data) {
               toastr.error("Check Wallet Balance",
                            "There was an error making the payment. Please check your wallet's balance")
               dispatch(setPaymentError(exception.message || exception))
-              return
+              return false
             }
           } catch (exception) {
             console.log('Error creating transaction')
@@ -116,7 +118,7 @@ export function submitPayment (data) {
             toastr.error("Check Wallet Balance",
                          "There was an error making the payment. Please check your wallet's balance")
             dispatch(setPaymentError(exception.message || exception))
-            return
+            return false
           }
         } catch (exception) {
           console.log('Error creating the review')
@@ -124,7 +126,7 @@ export function submitPayment (data) {
           toastr.error("Review Error",
                        "There was an error creating the review. Your funds were not spent. Please check your network and try again")
           dispatch(setPaymentError(exception.message || exception))
-          return
+          return false
         }
       } catch (exception) {
         console.log('IPFS unreachable')
@@ -132,14 +134,14 @@ export function submitPayment (data) {
         toastr.error("Network Error",
                      "IPFS is unreachable, please check your network connection and try again")
         dispatch(setPaymentError(exception.message || exception))
-        return
+        return false
       }      
     } catch (exception) {
       console.log(exception)
       toastr.error("Unknown Error",
                    "There was an error making the payment. Please try again later.")
       dispatch(setPaymentError(exception.message || exception))
-      return
+      return false
     }
   }
 }
