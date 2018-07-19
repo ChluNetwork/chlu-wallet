@@ -47,7 +47,7 @@ export function getCheckout (poprMultihash) {
         console.log(`Requesting PoPR to ${url} for vendor ${vendorId}`)
         popr = await requestPopr(url, vendorId, {
           // TODO: fix the placeholder price
-          amount: 25 * 10000,
+          amount: 7 * 10000,
           currency_symbol: 'tBTC'
         })
         popr.multihash = null
