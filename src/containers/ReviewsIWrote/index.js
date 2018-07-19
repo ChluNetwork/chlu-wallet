@@ -17,7 +17,13 @@ class ReviewsIWrote extends Component {
     const address = getAddress(wallet)
 
     const transformedReviews = Object.values(reviews)
-      .filter(r => r && (r.error || r.loading || r.customer_address === address))
+      .filter(r => {
+        if (!r) return false
+        const noData = r.error || r.loading
+        const paidByMe = r.customer_address === address
+        const issuedByMe = r.issuer && r.issuer === get(wallet, 'did.publicDidDocument.id', null)
+        return noData || (issuedByMe && paidByMe)
+      })
 
     return <Reviews reviews={transformedReviews} loading={loading} error={error} editing={editing} />
   }
