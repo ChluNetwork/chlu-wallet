@@ -19,6 +19,7 @@
     "multihashes": "^0.4.13",
     "npm-run-all": "^4.1.2",
     "prop-types": "^15.5.10",
+    "query-string": "^6.1.0",
     "react": "^16.3.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.3.2",

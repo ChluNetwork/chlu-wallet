@@ -11,6 +11,7 @@ import withFxRates from 'containers/Hoc/withFxRates'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
+import { Redirect } from 'react-router'
 import { getCheckout } from 'store/modules/data/checkout'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { submitPayment } from 'store/modules/data/payment'
@@ -23,6 +24,7 @@ import AmountIcon from '@material-ui/icons/Payment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
 import { getAddress } from 'helpers/wallet';
+import queryString from 'query-string'
 
 const style = {
   card: {
@@ -44,15 +46,21 @@ class Payment extends Component {
     }
   }
 
-  handleSubmit(data) {
+  async handleSubmit(data) {
     const review = data.review || ''
     const rating = this.props.rating
-    this.props.submitPayment({ review, rating })
+    const success = await this.props.submitPayment({ review, rating })
+    const redirectUrl = queryString.parse(this.props.location.search).redirect
+    if (success && redirectUrl) {
+      window.location = redirectUrl
+    }
   }
 
   render() {
     const {
             classes,
+            location,
+            match,
             wallet,
             checkout: {
                 data: popr,
@@ -72,14 +80,23 @@ class Payment extends Component {
     const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
     const address = getAddress(wallet)
 
+    const redirectUrl = queryString.parse(location.search).redirect
+    const multihash = match.params.multihash
+    const defaultRedirect = encodeURIComponent('#/wrote')
+
+    if (!redirectUrl) {
+        // Apply default redirect
+        return <Redirect to={`/pay${multihash ? '/' + multihash : ''}?redirect=${defaultRedirect}`} />
+    }
+
     if (checkoutError) {
-      return <Card className={classes.card}>
-                <CardHeader
-                    avatar={<Avatar><ErrorIcon/></Avatar>}
-                    title='Something went wrong'
-                    subheader={checkoutError.message || checkoutError || 'Unknown error'}
-                />
-            </Card>
+        return <Card className={classes.card}>
+            <CardHeader
+                avatar={<Avatar><ErrorIcon/></Avatar>}
+                title='Something went wrong'
+                subheader={checkoutError.message || checkoutError || 'Unknown error'}
+            />
+        </Card>
     } else if (checkoutLoading) {
       return <Card className={classes.card}>
                 <CardHeader
