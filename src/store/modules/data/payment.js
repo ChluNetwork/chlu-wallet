@@ -7,7 +7,7 @@ import { getAddress } from 'helpers/wallet';
 // ------------------------------------
 // Constants
 // ------------------------------------
-const SET_PAYMENT_SUCCESS = 'payment/SET_PAYMENT_SUCCESS'
+export const SET_PAYMENT_SUCCESS = 'payment/SET_PAYMENT_SUCCESS'
 const SET_PAYMENT_ERROR = 'payment/SET_PAYMENT_ERROR'
 const SET_PAYMENT_LOADING = 'payment/SET_PAYMENT_LOADING'
 
@@ -39,6 +39,7 @@ export function submitPayment (data) {
       }
       const address = getAddress(wallet)
       const { review, rating } = data
+      console.log('RATING', rating)
       if (popr === null) {
         throw new Error('Need PoPR')
       }
@@ -62,7 +63,7 @@ export function submitPayment (data) {
           url: 'https://wallet.chlu.io'
         },
         detailed_review: [],
-        rating_detail: {
+        rating_details: {
           min: 0,
           max: 5,
           value: rating
@@ -71,6 +72,7 @@ export function submitPayment (data) {
         verification: null, // TODO: need to use this eventually
         chlu_version: 0
       }
+      console.log(reviewRecord)
       try {
         console.log('Getting ChluIPFS')
         const chluIpfs = await getChluIPFS()
@@ -90,6 +92,7 @@ export function submitPayment (data) {
               const tx = await tr.pushTransaction(response)
               console.log('Publishing review record')
               try {
+                console.log(reviewRecord)
                 await chluIpfs.storeReviewRecord(reviewRecord, {
                   bitcoinTransactionHash: tx.hash
                 })

@@ -62,7 +62,7 @@ class Review extends Component {
                   <div>
                     <div>{dr.category}</div>
                     <div>
-                      <StarRatingComponent name='rating' starCount={dr.rating.max} value={dr.rating.value} />
+                      <StarRatingComponent name='rating' editing={false} starCount={dr.rating.max} value={dr.rating.value} />
                     </div>
                   </div>}
                 secondary={dr.review}
@@ -112,6 +112,7 @@ class Review extends Component {
               name='rating'
               starCount={max}
               value={get(review, 'rating_details.value', 0)}
+              editing={false}
             />
           }
           subheader={isNil(get(review, 'author.name')) ? 'Anonymous' : review.author.name }
