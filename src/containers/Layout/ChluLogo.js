@@ -23,7 +23,7 @@ class ChluLogo extends React.Component {
         viewBox="0 0 100 100"
         style={style}
       >
-        {this.circle(0, this.props.size, this.props.size / 8)}
+        {this.circle(0, this.props.size, this.props.size / 5)}
         {this.circle(1, this.props.size * 5 / 8, this.props.size / 8 * 4 / 8, true)}
         {this.circle(2, this.props.size * 2 / 8, this.props.size / 8 * 2 / 8)}
       </svg>

@@ -176,9 +176,10 @@ class ChluLayoutHeader extends React.Component {
         <Toolbar className={classes.container}>
           <div className={classes.flex}>
             <Link to='/'>
-              <ChluLogo />
+            <div className={classes.logo}>
+              <ChluLogo /> hlu</div>
             </Link>
-            <Button onClick={() => push('/')} className={classes.title}>
+            <Button onClick={() => push('/')} className={classes.logotag}>
               Your Reputation Wallet
             </Button>
           </div>

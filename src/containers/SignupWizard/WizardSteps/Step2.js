@@ -126,7 +126,7 @@ class Step2 extends React.Component {
           <Grid item xs={12} sm={12}>
             <hr></hr>
             <h4 className={classes.infoText}>
-              If You Would Like to Earn More Chlu Tokens, Become a Verified Reviewer By Adding Your Personal Information Below:
+              To be whitelisted to participate in the <a href='www.google.com'>upcoming Chlu Token Sale</a>, you need to provide the following KYC data below:
             </h4>
           </Grid>
           <Grid item xs={12} sm={4}>
