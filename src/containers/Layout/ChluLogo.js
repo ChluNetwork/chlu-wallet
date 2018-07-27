@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const DASH_GAP_FACTOR = 2.7; // Smaller values yield less space between dots.
 const ARC_ANGLE = 0.35; // Smaller values yield more solid line, less dots.
@@ -11,24 +13,31 @@ class ChluLogo extends React.Component {
   }
 
   render() {
-    let style = {
-      height: this.props.size,
-      width: this.props.size,
+    let svgStyle = {
+      height: this.props.logoSize,
+      width: this.props.logoSize,
       overflow: "visible"
-      // filter: "drop-shadow(0 0 1px rgba(255,255,255,0.6))"
-    }
+    };
 
     return (
-      <svg
-        onMouseEnter={this.handleMouseOver}
-        viewBox="0 0 100 100"
-        style={style}
-      >
-        {this.circle(0, this.props.size, this.props.size / 5, false, true)}
-        {this.circle(1, this.props.size * 5 / 8, this.props.size / 8 * 4 / 8, true)}
-        {this.circle(2, this.props.size * 2 / 8, this.props.size / 8 * 2 / 8)}
-      </svg>
-    )
+      <Link onMouseEnter={this.handleMouseOver} to='/'>
+        <div className={this.props.classes.logo}>
+          <svg
+            viewBox="0 0 100 100"
+            style={svgStyle}
+          >
+            {this.circle(0, this.props.logoSize, this.props.logoSize / 5, false, true)}
+            {this.circle(1, this.props.logoSize * 5 / 8, this.props.logoSize / 8 * 4 / 8, true)}
+            {this.circle(2, this.props.logoSize * 2 / 8, this.props.logoSize / 8 * 2 / 8)}
+          </svg>
+          hlu
+        </div>
+
+        <Button className={this.props.classes.logotag}>
+          Your Reputation Wallet
+        </Button>
+      </Link>
+    );
   }
 
   circle(i, r, w, invert, noDashedArc) {
@@ -62,7 +71,7 @@ class ChluLogo extends React.Component {
           d={d2}
         />
       </g>
-    )
+    );
   }
 
   defineArc(radius, startAngle, endAngle) {
@@ -115,7 +124,7 @@ class ChluLogo extends React.Component {
 }
 
 ChluLogo.defaultProps = {
-  size: 60,
+  logoSize: 60,
   color: "#fff"
 };
 

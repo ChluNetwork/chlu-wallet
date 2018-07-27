@@ -175,13 +175,7 @@ class ChluLayoutHeader extends React.Component {
       <AppBar position='static' className={classes.appBar + appBarClasses}>
         <Toolbar className={classes.container}>
           <div className={classes.flex}>
-            <Link to='/'>
-            <div className={classes.logo}>
-              <ChluLogo /> hlu</div>
-            </Link>
-            <Button onClick={() => push('/')} className={classes.logotag}>
-              Your Reputation Wallet
-            </Button>
+            <ChluLogo classes={classes} />
           </div>
           <Hidden smDown implementation="css">
             {list}
