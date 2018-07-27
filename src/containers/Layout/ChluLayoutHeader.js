@@ -34,7 +34,7 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
 // style
-import logo from "images/chlu.svg";
+import ChluLogo from "./ChluLogo";
 import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
 class ChluLayoutHeader extends React.Component {
@@ -176,7 +176,7 @@ class ChluLayoutHeader extends React.Component {
         <Toolbar className={classes.container}>
           <div className={classes.flex}>
             <Link to='/'>
-              <img src={logo} alt="logo" className={classes.logo} />
+              <ChluLogo />
             </Link>
             <Button onClick={() => push('/')} className={classes.title}>
               Your Reputation Wallet
