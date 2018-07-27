@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const DASH_GAP_FACTOR = 2.7;
+const DASH_GAP_FACTOR = 2.7; // Smaller values yield less space between dots.
+const ARC_ANGLE = 0.35; // Smaller values yield more solid line, less dots.
 
 class ChluLogo extends React.Component {
   constructor(props, context) {
@@ -23,16 +24,16 @@ class ChluLogo extends React.Component {
         viewBox="0 0 100 100"
         style={style}
       >
-        {this.circle(0, this.props.size, this.props.size / 5)}
+        {this.circle(0, this.props.size, this.props.size / 5, false, true)}
         {this.circle(1, this.props.size * 5 / 8, this.props.size / 8 * 4 / 8, true)}
         {this.circle(2, this.props.size * 2 / 8, this.props.size / 8 * 2 / 8)}
       </svg>
     )
   }
 
-  circle(i, r, w, invert) {
-    let d = this.defineArc(r, Math.PI * 0.35, Math.PI * 1.65);
-    let d2 = this.defineArc(r, Math.PI * 1.65, Math.PI * 0.35);
+  circle(i, r, w, invert, noDashedArc) {
+    let d = this.defineArc(r, Math.PI * ARC_ANGLE, Math.PI * (2 - ARC_ANGLE));
+    let d2 = this.defineArc(r, Math.PI * (2 - ARC_ANGLE), Math.PI * ARC_ANGLE);
     let style = invert ? { transform: "rotate(180deg)", transformOrigin: "center center" } : undefined;
 
     let w2 = w * 3 / 4;
@@ -49,6 +50,7 @@ class ChluLogo extends React.Component {
           d={d}
         />
         <path
+          opacity={noDashedArc ? 0 : 1}
           style={style}
           x={0}
           y={0}
