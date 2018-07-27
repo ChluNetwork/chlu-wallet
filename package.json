@@ -4,8 +4,8 @@
   "homepage": ".",
   "dependencies": {
     "@material-ui/codemod": "^1.0.0",
-    "@material-ui/core": "^1.0.0",
-    "@material-ui/icons": "^1.0.0",
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chlu-did": "ChluNetwork/chlu-did#67bb48067b0d82d2583999afd3a321174ef10a04",

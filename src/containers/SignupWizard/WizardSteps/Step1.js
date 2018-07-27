@@ -7,6 +7,7 @@ import {
   Checkbox,
   FormControlLabel
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
@@ -173,7 +174,7 @@ class Step1 extends React.Component {
                 label={
                   <span>
                     I agree to the{' '}
-                    <a href='#pablo'>terms and conditions</a>.
+                    <Link to='/terms'>terms and conditions</Link>.
                   </span>
                 }
               />

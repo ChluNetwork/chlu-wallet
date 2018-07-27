@@ -18,6 +18,7 @@ import ReviewsIWrote from '../ReviewsIWrote'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
 import Payment from '../Payment'
+import Terms from '../Terms'
 
 class MainLayout extends Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class MainLayout extends Component {
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route path='/login' component={LoginPage} />
+            <Route path='/terms' component={Terms} />
             {emptyWallet && <Redirect to='/'/>}
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />
