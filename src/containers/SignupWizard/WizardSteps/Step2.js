@@ -18,7 +18,7 @@ const style = {
   infoText: {
     fontWeight: '300',
     margin: '10px 0 30px',
-    textAlign: 'center'
+    textAlign: 'left'
   },
   inputAdornmentIcon: {
     color: '#555'
@@ -126,7 +126,12 @@ class Step2 extends React.Component {
           <Grid item xs={12} sm={12}>
             <hr></hr>
             <h4 className={classes.infoText}>
-              To be whitelisted to participate in the <a href='www.google.com'>upcoming Chlu Token Sale</a>, you need to provide the following KYC data below:
+              At Chlu, we are focused on solving the epedemic of fake reviews online.
+              We are creating a global network of trusted reviewers, who are rewarded for creating verified reviews by earning Chlu token.
+              Anyone can create a review with Chlu, but <b>only trusted reviewers can earn Chlu token</b>.
+            </h4>
+            <h4 className={classes.infoText}>
+              To apply to become a trusted reviewer, which will also enable you to be whitelisted to participate in the <a href='www.google.com'>upcoming Chlu Token Sale</a>, you need to provide the following KYC data below:
             </h4>
           </Grid>
           <Grid item xs={12} sm={4}>
