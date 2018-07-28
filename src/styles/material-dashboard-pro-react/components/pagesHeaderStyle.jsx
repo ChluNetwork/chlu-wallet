@@ -66,6 +66,7 @@ const pagesHeaderStyle = theme => ({
     borderRadius: "3px",
     textTransform: "none",
     color: "#FFFFFF",
+    letterSpacing: "2px",
     "&:hover,&:focus": {
       background: "transparent",
       color: "#FFFFFF"

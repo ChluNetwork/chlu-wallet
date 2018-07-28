@@ -124,7 +124,7 @@ class ChluLogo extends React.Component {
 }
 
 ChluLogo.defaultProps = {
-  logoSize: 60,
+  logoSize: 50,
   color: "#fff"
 };
 
