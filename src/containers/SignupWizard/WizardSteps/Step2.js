@@ -28,6 +28,9 @@ const style = {
     cursor: 'pointer',
     marginTop: '20px'
   },
+  description: {
+    textAlign: 'center'
+  },
   ...customSelectStyle,
   ...customCheckboxRadioSwitch
 };
@@ -114,28 +117,35 @@ class Step2 extends React.Component {
     } else {
       return (
         <Grid container justify='center'>
-          <Grid item xs={12} sm={12} md={12}>
-              <h4>Your Decentralized Identifier (D.I.D.): <b>{walletCreated.did.publicDidDocument.id}</b></h4>
-              <a href="#DID">What is a D.I.D?</a>
+          <Grid item xs={12} sm={12} md={9} justify='center'>
+              <h5>Your Chlu Wallet is now created. You must download and save your public and private keys to continue.</h5>
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} md={3} justify='center'>
             <Button color='success' onClick={downloadWallet}>
-              <DownloadIcon/> Download Your Credentials
+              <DownloadIcon/> Save My Keys
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
             <hr></hr>
-            <h4 className={classes.infoText}>
+            <h3>Apply To Become a Trusted Reviewer</h3>
+            <h5 className={classes.infoText}>
               At Chlu, we are focused on solving the epedemic of fake reviews online.
               We are creating a global network of trusted reviewers, who are rewarded for creating verified reviews by earning Chlu token.
-              Anyone can create a review with Chlu, but <b>only trusted reviewers can earn Chlu token</b>.
-            </h4>
-            <h4 className={classes.infoText}>
-              To apply to become a trusted reviewer, which will also enable you to be whitelisted to participate in the <a href='www.google.com'>upcoming Chlu Token Sale</a>, you need to provide the following KYC data below:
-            </h4>
+              Anyone can create a review with Chlu, but <em>only trusted reviewers can earn Chlu token</em>.
+              There are three requirements to earn Chlu token by writing a review:
+              <ul>
+                <li>The reviewer must be a trusted reviewer with provided KYC data</li>
+                <li>There must be verified proof of payment - the Chlu protocol uses blockchain technology for this</li>
+                <li>The review must be found useful by others</li>
+              </ul>
+            </h5>
+            <h5 className={classes.infoText}>
+              To apply to become a trusted reviewer, which will also enable you to be whitelisted to participate in the <a href='www.google.com'>future Chlu Token Sale</a>, you need to provide the following KYC data below:
+            </h5>
           </Grid>
           <Grid item xs={12} sm={4}>
             <PictureUpload/>
+            <div className={classes.description}>Upload Passport Photo</div>
           </Grid>
           <Grid item xs={12} sm={8}>
             <CustomInput

@@ -94,10 +94,10 @@ class SignupWizard extends Component {
       finishButtonClick={this.finishClicked.bind(this)}
       nextButtonDisabled={crawlerRunning}
       previousButtonDisabled={crawlerRunning}
-        
+
       steps={[
         {
-          stepName: '1: Create Your Wallet',
+          stepName: '1: Create Your Account',
           stepComponent: Step1,
           stepId: 'get started',
           stepProps: {
@@ -105,7 +105,7 @@ class SignupWizard extends Component {
           }
         },
         {
-          stepName: '2: Save Your D.I.D.',
+          stepName: '2: Become A Trusted Reviewer',
           stepComponent: Step2,
           stepId: 'about',
           stepProps: {
@@ -114,7 +114,7 @@ class SignupWizard extends Component {
           }
         },
         {
-          stepName: '3: Claim Your Reputation',
+          stepName: '3: Import Existing Reviews',
           stepComponent: Step3,
           stepId: 'reviews',
           stepProps: {

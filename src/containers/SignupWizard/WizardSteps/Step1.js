@@ -5,17 +5,22 @@ import {
   InputAdornment,
   Grid,
   Checkbox,
+  Radio,
   FormControlLabel
 } from '@material-ui/core'
+
 import { Link } from 'react-router-dom'
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
+import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
+
 // icons
 import Face from '@material-ui/icons/Face';
 import Email from '@material-ui/icons/Email';
 import DoneIcon from '@material-ui/icons/Done'
 import Check from '@material-ui/icons/Check';
+import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
@@ -34,6 +39,9 @@ const style = {
     cursor: 'pointer',
     marginTop: '20px'
   },
+  description: {
+    textAlign: 'center'
+  },
   ...customSelectStyle,
   ...customCheckboxRadioSwitch
 };
@@ -49,7 +57,32 @@ class Step1 extends React.Component {
       email: "",
       emailState: ""
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
   }
+  handleChange(event) {
+    this.setState({ selectedValue: event.target.value });
+  }
+  handleChangeEnabled(event) {
+    this.setState({ selectedEnabled: event.target.value });
+  }
+  handleToggle(value) {
+    const { checked } = this.state;
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checked: newChecked
+    });
+  }
+
+
 
   toggleAcceptTerms() {
     this.props.setAcceptTermsAndConditions(!this.props.acceptedTerms)
@@ -110,27 +143,77 @@ class Step1 extends React.Component {
         <Grid container justify='center'>
           <Grid item xs={12} sm={12} md={6}>
             <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>
-            <CustomInput
-              success={this.state.usernameState === 'success'}
-              error={this.state.usernameState === 'error'}
-              labelText={
-                <span>
-                  User Name <small>(required)</small>
-                </span>
+
+            <div>
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={this.state.selectedValue === "a"}
+                  onChange={this.handleChange}
+                  value="a"
+                  name="radio button demo"
+                  aria-label="A"
+                  icon={
+                    <FiberManualRecord
+                      className={classes.radioUnchecked}
+                    />
+                  }
+                  checkedIcon={
+                    <FiberManualRecord
+                      className={classes.radioChecked}
+                    />
+                  }
+                  classes={{
+                    checked: classes.radio
+                  }}
+                />
               }
-              id='username'
-              formControlProps={{
-                fullWidth: true
+              classes={{
+                label: classes.label
               }}
-              inputProps={{
-                onChange: event => this.change(event, 'username', 'length', 3),
-                endAdornment: (
-                  <InputAdornment position='end' className={classes.inputAdornment}>
-                    <Face className={classes.inputAdornmentIcon} />
-                  </InputAdornment>
-                )
-              }}
+              label="Create A User Account. Used to Pay, Review & Earn Chlu"
             />
+          </div>
+          <div
+            className={
+              classes.checkboxAndRadio +
+              " " +
+              classes.checkboxAndRadioHorizontal
+            }
+          >
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={this.state.selectedValue === "b"}
+                  onChange={this.handleChange}
+                  value="b"
+                  name="radio button demo"
+                  aria-label="B"
+                  icon={
+                    <FiberManualRecord
+                      className={classes.radioUnchecked}
+                    />
+                  }
+                  checkedIcon={
+                    <FiberManualRecord
+                      className={classes.radioChecked}
+                    />
+                  }
+                  classes={{
+                    checked: classes.radio
+                  }}
+                />
+              }
+              classes={{
+                label: classes.label
+              }}
+              label="Create A Business Account. For Those Who Receive Online Reviews"
+            />
+          </div>
+
+
+            <PictureUpload/>
+            <div className={classes.description}>Upload Passport Photo</div>
             <CustomInput
               success={this.state.emailState === 'success'}
               error={this.state.emailState === 'error'}
@@ -152,6 +235,72 @@ class Step1 extends React.Component {
                 )
               }}
             />
+            <CustomInput
+              success={this.state.usernameState === 'success'}
+              error={this.state.usernameState === 'error'}
+              labelText={
+                <span>
+                  User Name <small>(required)</small>
+                </span>
+              }
+              id='username'
+              formControlProps={{
+                fullWidth: true
+              }}
+              inputProps={{
+                onChange: event => this.change(event, 'username', 'length', 3),
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Face className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+              <CustomInput
+                success={this.state.firstnameState === 'success'}
+                error={this.state.firstnameState === 'error'}
+                labelText={
+                  <span>
+                    First Name <small>(optional)</small>
+                  </span>
+                }
+                id='firstname'
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  onChange: event => this.change(event, 'firstname', 'length', 3),
+                  endAdornment: (
+                    <InputAdornment position='end' className={classes.inputAdornment}>
+                      <Face className={classes.inputAdornmentIcon} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+              <CustomInput
+                success={this.state.lastnameState === 'success'}
+                error={this.state.lastnameState === 'error'}
+                labelText={
+                  <span>
+                    Last Name <small>(optional)</small>
+                  </span>
+                }
+                id='lastname'
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  onChange: event => this.change(event, 'lastname', 'length', 3),
+                  endAdornment: (
+                    <InputAdornment position='end' className={classes.inputAdornment}>
+                      <Face className={classes.inputAdornmentIcon} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+
+
+
               <FormControlLabel
                 classes={{
                   root: classes.checkboxLabelControl,
