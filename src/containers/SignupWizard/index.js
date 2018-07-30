@@ -97,7 +97,7 @@ class SignupWizard extends Component {
 
       steps={[
         {
-          stepName: '1: Create Your Account',
+          stepName: 'Step 1: Create Your Account',
           stepComponent: Step1,
           stepId: 'get started',
           stepProps: {
@@ -105,7 +105,7 @@ class SignupWizard extends Component {
           }
         },
         {
-          stepName: '2: Become A Trusted Reviewer',
+          stepName: 'Step 2: Become A Trusted Reviewer',
           stepComponent: Step2,
           stepId: 'about',
           stepProps: {
@@ -114,7 +114,7 @@ class SignupWizard extends Component {
           }
         },
         {
-          stepName: '3: Import Existing Reviews',
+          stepName: 'Step 3: Import Existing Reviews',
           stepComponent: Step3,
           stepId: 'reviews',
           stepProps: {
