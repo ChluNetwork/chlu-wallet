@@ -207,7 +207,7 @@ class Step1 extends React.Component {
               classes={{
                 label: classes.label
               }}
-              label="Create A Business Account. For Those Who Receive Online Reviews"
+              label="Create A Business Account. Own, Merge and Port Your Online Reviews"
             />
           </div>
 
