@@ -4,6 +4,9 @@ import { any } from 'prop-types'
 import ReduxToastr from 'react-redux-toastr'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import {Helmet} from "react-helmet";
+
+
 // toastr
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import { compose } from 'recompose'
@@ -34,6 +37,17 @@ class MainLayout extends Component {
 
     return (
       <CssBaseline>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Chlu - Pay, Review, Earn Chlu</title>
+          <link rel="shortcut icon" href="/favicon.ico"/>
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"/>
+          <meta name="msapplication-TileColor" content="#da532c"/>
+          <meta name="theme-color" content="#ffffff"/>
+      </Helmet>
         <ChluLayout>
           <Switch>
             <Route exact path='/' component={HomePage} />
