@@ -61,7 +61,8 @@ class Step1 extends React.Component {
       lastnameState: "",
       email: "",
       emailState: "",
-      simpleSelect: ""
+      simpleSelect: "",
+      selectedValue: "user"
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
@@ -135,7 +136,7 @@ class Step1 extends React.Component {
   }
 
   renderUser() {
-    if (this.state.selectedValue !== "a") return undefined;
+    if (this.state.selectedValue !== "user") return undefined;
 
     const { classes } = this.props;
 
@@ -242,7 +243,7 @@ class Step1 extends React.Component {
   }
 
   renderBusiness() {
-    if (this.state.selectedValue !== "b") return undefined;
+    if (this.state.selectedValue !== "business") return undefined;
 
     const { classes } = this.props;
 
@@ -377,9 +378,10 @@ class Step1 extends React.Component {
               <FormControlLabel
                 control={
                   <Radio
-                    checked={this.state.selectedValue === "a"}
+                    id="userAccount"
+                    checked={this.state.selectedValue === "user"}
                     onChange={this.handleChange}
-                    value="a"
+                    value="user"
                     name="radio button demo"
                     aria-label="A"
                     icon={
@@ -407,9 +409,9 @@ class Step1 extends React.Component {
               <FormControlLabel
                 control={
                   <Radio
-                    checked={this.state.selectedValue === "b"}
+                    checked={this.state.selectedValue === "business"}
                     onChange={this.handleChange}
-                    value="b"
+                    value="business"
                     name="radio button demo"
                     aria-label="B"
                     icon={
