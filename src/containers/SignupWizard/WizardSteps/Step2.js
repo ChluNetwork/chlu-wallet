@@ -130,12 +130,12 @@ class Step2 extends React.Component {
             <h3>Apply To Become a Trusted Reviewer</h3>
             <h5 className={classes.infoText}>
               At Chlu, we are focused on solving the epedemic of fake reviews online.
-              We are creating a global network of trusted reviewers, who are rewarded for creating verified reviews by earning Chlu token.
-              Anyone can create a review with Chlu, but <em>only trusted reviewers can earn Chlu token</em>.
-              There are three requirements to earn Chlu token by writing a review:
+              We are creating a global network of Trusted Reviewers, rewarded by earning Chlu token for creating verified reviews.
+              Anyone can create a review with Chlu, but <em>only Trusted Reviewers can earn Chlu token</em>.
+              There are three requirements to earn Chlu token from writing a review:
               <ul>
-                <li>The reviewer must be a trusted reviewer with provided KYC data</li>
-                <li>There must be verified proof of payment - the Chlu protocol uses blockchain technology for this</li>
+                <li>The reviewer must be a Trusted Reviewer who has provided <a href="https://en.wikipedia.org/wiki/Know_your_customer">KYC</a> data</li>
+                <li>There must be verified proof of payment associated with the review - the Chlu protocol leverages verifable proof using blockchain technology</li>
                 <li>The review must be found useful by others</li>
               </ul>
             </h5>
