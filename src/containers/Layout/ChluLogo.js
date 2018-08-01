@@ -43,33 +43,33 @@ class ChluLogo extends React.Component {
   circle(i, r, w, invert, noDashedArc) {
     let d = this.defineArc(r, Math.PI * ARC_ANGLE, Math.PI * (2 - ARC_ANGLE));
     let d2 = this.defineArc(r, Math.PI * (2 - ARC_ANGLE), Math.PI * ARC_ANGLE);
-    let style = invert ? { transform: "rotate(180deg)", transformOrigin: "center center" } : undefined;
+    let style = invert ? { transform: "rotate(180deg)", transformOrigin: "50% 50%" } : undefined;
 
     let w2 = w * 3 / 4;
 
     return (
       <g ref={g => this.circles[i] = g}>
-        <path
-          style={style}
-          x={0}
-          y={0}
-          fill="transparent"
-          stroke={this.props.color}
-          strokeWidth={w}
-          d={d}
-        />
-        <path
-          opacity={noDashedArc ? 0 : 1}
-          style={style}
-          x={0}
-          y={0}
-          fill="transparent"
-          stroke={this.props.color}
-          strokeWidth={w2}
-          strokeDasharray={`${w2} ${w2 * DASH_GAP_FACTOR}`}
-          strokeDashoffset={w2 + w2 * DASH_GAP_FACTOR / 2}
-          d={d2}
-        />
+        <g style={style}>
+          <path
+            x={0}
+            y={0}
+            fill="transparent"
+            stroke={this.props.color}
+            strokeWidth={w}
+            d={d}
+          />
+          <path
+            opacity={noDashedArc ? 0 : 1}
+            x={0}
+            y={0}
+            fill="transparent"
+            stroke={this.props.color}
+            strokeWidth={w2}
+            strokeDasharray={`${w2} ${w2 * DASH_GAP_FACTOR}`}
+            strokeDashoffset={w2 + w2 * DASH_GAP_FACTOR / 2}
+            d={d2}
+          />
+        </g>
       </g>
     );
   }
@@ -112,13 +112,16 @@ class ChluLogo extends React.Component {
         keyFrames = keyFrames.reverse();
       }
 
-      circle.animate(
-        keyFrames,
-        {
-          duration: 1400,
-          easing: "cubic-bezier(0.6,0,0,1)"
-        }
-      );
+      if (circle.animate) {
+        // TODO: HTMLElement.prototype.animate should be polyfilled.
+        circle.animate(
+          keyFrames,
+          {
+            duration: 1400,
+            easing: "cubic-bezier(0.6,0,0,1)"
+          }
+        );
+      }
     }
   }
 }
