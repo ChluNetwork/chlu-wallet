@@ -44,7 +44,6 @@ class ChluLogo extends React.Component {
     let d = this.defineArc(r, Math.PI * ARC_ANGLE, Math.PI * (2 - ARC_ANGLE));
     let d2 = this.defineArc(r, Math.PI * (2 - ARC_ANGLE), Math.PI * ARC_ANGLE);
     let style = invert ? { transform: "rotate(180deg)", transformOrigin: "50% 50%" } : undefined;
-
     let w2 = w * 3 / 4;
 
     return (
