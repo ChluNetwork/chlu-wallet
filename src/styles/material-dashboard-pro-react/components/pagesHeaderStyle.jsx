@@ -57,6 +57,34 @@ const pagesHeaderStyle = theme => ({
       color: "#FFFFFF"
     }
   },
+  logo: {
+    marginTop: "8px",
+    fontFamily: "Roboto",
+    fontWeight: "500",
+    lineHeight: "30px",
+    fontSize: "58px",
+    borderRadius: "3px",
+    textTransform: "none",
+    color: "#FFFFFF",
+    letterSpacing: "2px",
+    "&:hover,&:focus": {
+      background: "transparent",
+      color: "#FFFFFF"
+    }
+  },
+  logotag: {
+    fontFamily: "Roboto",
+    padding: "12px 0 0 0",
+    lineHeight: "30px",
+    fontSize: "18px",
+    borderRadius: "3px",
+    textTransform: "none",
+    color: "#FFFFFF",
+    "&:hover,&:focus": {
+      background: "transparent",
+      color: "#FFFFFF"
+    }
+  },
   appResponsive: {
     top: "8px"
   },

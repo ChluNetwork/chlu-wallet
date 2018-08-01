@@ -21,7 +21,8 @@ const homePageStyle = {
   title: {
     ...defaultFont,
     color: "#FFFFFF",
-    textAlign: "center"
+    textAlign: "center",
+    margin: "0 0 0 0"
   },
   description: {
     fontSize: "18px",

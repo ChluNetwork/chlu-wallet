@@ -41,7 +41,6 @@ class PictureUpload extends React.Component {
           />
           <input type='file' onChange={e => this.handleImageChange(e)} />
         </div>
-        <h6 className='description'>Choose Picture</h6>
       </div>
     );
   }
