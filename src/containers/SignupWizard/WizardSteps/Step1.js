@@ -72,6 +72,10 @@ class Step1 extends React.Component {
   };
   handleChange(event) {
     this.setState({ selectedValue: event.target.value });
+
+    if (this.props.onSignupTypeChange) {
+      this.props.onSignupTypeChange(event.target.value);
+    }
   }
   handleChangeEnabled(event) {
     this.setState({ selectedEnabled: event.target.value });

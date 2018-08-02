@@ -17,6 +17,13 @@ import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick, isEmpty } from 'lodash'
 
 class SignupWizard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      signupType: undefined // "user" or "business"
+    };
+  }
 
   componentDidMount() {
     this.refreshReputation()
@@ -74,6 +81,12 @@ class SignupWizard extends Component {
     if (to === 1 && !walletCreated) createWallet()
   }
 
+  onSignupTypeChange = (signupType) => {
+    this.setState({
+      signupType: signupType
+    });
+  }
+
   finishClicked() {
     if (!isEmpty(this.props.reputation)) {
       // Reputation is there
@@ -101,26 +114,19 @@ class SignupWizard extends Component {
           stepComponent: Step1,
           stepId: 'get started',
           stepProps: {
-            ...this.props
+            ...this.props,
+            onSignupTypeChange: this.onSignupTypeChange
           }
         },
         {
-          stepName: 'Step 2: Become A Trusted Reviewer',
-          stepComponent: Step2,
+          stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
+          stepComponent: this.state.signupType === "business" ? Step3 : Step2,
           stepId: 'about',
           stepProps: {
             ...this.props,
             downloadWallet: this.downloadWallet.bind(this)
           }
-        },
-        {
-          stepName: 'Step 3: Import Existing Reviews',
-          stepComponent: Step3,
-          stepId: 'reviews',
-          stepProps: {
-            ...this.props
-          }
-        },
+        }
       ]}
       title="Let's Get Started"
       subtitle='Follow The Three Easy Steps Below To Begin'
