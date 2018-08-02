@@ -10,11 +10,13 @@ import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
 import DoneIcon from '@material-ui/icons/Done'
 import ReputationIcon from '@material-ui/icons/Star'
+import DownloadIcon from '@material-ui/icons/FileDownload'
 // custom components
 import Button from 'components/MaterialDashboardPro/Button'
 import RegularCard from 'components/MaterialDashboardPro/RegularCard'
 import NavPills from 'components/MaterialDashboardPro/NavPills'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
+
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
 import { withStyles } from '@material-ui/core'
@@ -50,7 +52,7 @@ const style = {
 class Step3 extends React.Component {
 
   render() {
-    const { classes, reputation, reputationLoading: loading, push } = this.props;
+    const { classes, reputation, downloadWallet, reputationLoading: loading, push } = this.props;
 
     if (loading) {
       return <Grid container justify='center'>
@@ -73,7 +75,7 @@ class Step3 extends React.Component {
             description='You have imported your reputation'
           >
             <Button color='success' onClick={() => push('/reputation')}>
-              <ReputationIcon/> View My Reputation 
+              <ReputationIcon/> View My Reputation
             </Button>
           </InfoArea>
         </Grid>
@@ -82,6 +84,17 @@ class Step3 extends React.Component {
       return (
       <div>
         <Grid container justify='center'>
+          <Grid item xs={12} sm={12} md={9} justify='center'>
+              <h5>Your Chlu Wallet is now created. You must download and save your public and private keys to continue.</h5>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3} justify='center'>
+            <Button color='success' onClick={downloadWallet}>
+              <DownloadIcon/> Save My Keys
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} justify='center'>
+            <hr></hr>
+          </Grid>
           <Grid item xs={12} sm={12} md={9} className={classes.itemGrid}>
             <br></br>
             <h4 className={classes.infoText}>Do You Manage An Online Profile That Receives Ratings & Reviews?</h4>
