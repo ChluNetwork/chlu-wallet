@@ -44,6 +44,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "xstart": "cross-env NODE_PATH=./src react-scripts start",
     "build": "react-scripts build",
     "prebuild": "cp webpack.config.prod.js node_modules/react-scripts/config",
     "postbuild": "npx uglify-es build/static/js/main.*.js -o build/static/js/$(ls build/static/js | head -n 1)",
