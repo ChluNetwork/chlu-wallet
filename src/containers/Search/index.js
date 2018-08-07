@@ -11,6 +11,8 @@ import Tab from '@material-ui/core/Tab';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BusinessIcon from '@material-ui/icons/Business';
 
+import EnhancedTable from './EnhancedTable';
+
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
 // icons
@@ -191,8 +193,7 @@ class Search extends Component {
           </TabContainer>}
 
         <Divider/>
-        Search Results...
-
+          <EnhancedTable/>
         </CardContent>
       </Card>
   }
