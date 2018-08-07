@@ -2,16 +2,14 @@ import React, { Component } from 'react'
 // components
 import { Card, CardContent, CardHeader, Divider, Grid, withStyles } from '@material-ui/core'
 
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import NoSsr from '@material-ui/core/NoSsr';
-import Chip from '@material-ui/core/Chip';
-import classNames from 'classnames';
 import Select from 'react-select';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import BusinessIcon from '@material-ui/icons/Business';
 
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
@@ -81,6 +79,13 @@ const options = [
   label: option.label,
 }));
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
 
 class Search extends Component {
   constructor(props) {
@@ -88,11 +93,11 @@ class Search extends Component {
   }
 
   state = {
-    toggle: true,
+    value: 0,
   };
 
-  handleToggle = (event, checked) => {
-    this.setState({ toggle: checked });
+  handleMenuChange = (event, value) => {
+    this.setState({ value });
   };
 
   handleChange = name => value => {
@@ -101,53 +106,92 @@ class Search extends Component {
     });
   };
 
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
 
   render () {
 
-    const { toggle } = this.state;
+    const { value, toggle } = this.state;
     const { classes } = this.props;
 
     return <Card className={classes.card}>
         <CardHeader
             subheader='Find People or Busineses to Pay, Review & Earn Chlu'
         />
+        <Tabs
+          value={this.state.value}
+          onChange={this.handleTabChange}
+          fullWidth
+          indicatorColor="secondary"
+          textColor="secondary"
+          centered
+        >
+          <Tab icon={<AccountCircleIcon />} label="People" />
+          <Tab icon={<BusinessIcon />} label="Businesses" />
+        </Tabs>
+
         <Divider/>
         <CardContent>
-          <FormGroup>
-            <Grid container justify='center' spacing={12}>
+
+        {value === 0 && <TabContainer>
+            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
               <Grid item xs={12} sm={12} md={2}>
-                <FormControlLabel
-                  control={
-                    <Switch checked={toggle} onChange={this.handleToggle} aria-label="ProfileSwitch" />
-                  }
-                  label={toggle ? 'Businesses' : 'Individuals'}
+                <Select
+                  classes={classes}
+                  options={options}
+                  placeholder="Location"
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={4} justify='center'>
-                <div className={classes.root}>
-                  <NoSsr>
-                    <Select
-                      classes={classes}
-                      options={options}
-                      placeholder="Business Type"
-                    />
-                    </NoSsr>
-                </div>
-              </Grid>
-              <Grid item xs={12} sm={12} md={4} justify='center'>
+              <Grid item xs={12} sm={12} md={3}>
                 <TextField
                   id="search"
-                  label="Search text"
+                  label="Name"
                   type="search"
+                  fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                <Button variant="fab" color="primary" aria-label="Search" className={classes.button}>
-                  <SearchIcon />
+                <Button variant="contained" color="secondary" className={classes.button}>
+                  Search <SearchIcon className={classes.rightIcon} />
                 </Button>
               </Grid>
             </Grid>
-            </FormGroup>
+          </TabContainer>}
+        {value === 1 && <TabContainer>
+            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={options}
+                  placeholder="Business Type"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={options}
+                  placeholder="Location"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={3}>
+                <TextField
+                  id="search"
+                  label="Name"
+                  type="search"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Button variant="contained" color="secondary" className={classes.button}>
+                  Search <SearchIcon className={classes.rightIcon} />
+                </Button>
+              </Grid>
+            </Grid>
+          </TabContainer>}
+
+        <Divider/>
+        Search Results...
 
         </CardContent>
       </Card>
