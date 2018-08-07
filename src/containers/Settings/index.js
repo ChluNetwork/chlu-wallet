@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { get } from 'lodash'
+
 // components
 import { Button, Card, CardContent, CardActions, CardHeader, Divider, Grid, InputAdornment } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
+
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
+
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
+import { debounce } from 'helpers/debounce';
+
+// stores, or whatever...
+import { fetchProfile, updateProfile, setProfile } from 'store/modules/ui/profile';
 
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
@@ -54,6 +61,11 @@ class Settings extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount() {
+    const didId = get(this.props.wallet, 'did.publicDidDocument.id', '');
+    this.props.getProfile(didId);
+  }
+
   handleClick(button) {
     if (button === 'profile') {
       this.setState({activeSubmenu: "profile"})
@@ -63,12 +75,18 @@ class Settings extends Component {
     }
   }
 
+  change = (event, fieldName) => {
+    let didId = get(this.props.wallet, 'did.publicDidDocument.id', '')
+
+    this.props.updateProfile(didId, {
+      ...this.props.profile,
+      [fieldName]: event.target.value
+    });
+  }
 
   static propTypes = {
     wallet: object
   }
-
-
 
   handleDownload = () => downloadWallet(this.props.wallet)
 
@@ -100,27 +118,26 @@ class Settings extends Component {
       </Card>
   }
 
-  renderProfile(){
+  renderProfile() {
     if (this.state.activeSubmenu !== "profile") return undefined;
+
     const { wallet, classes } = this.props
+
     return (
-        <Card className={classes.card}>
-          <CardHeader
-            avatar={<Avatar><ProfileIcon/></Avatar>}
-            title='Profile'
-            subheader='Your Profile Page'
-          />
-          <CardContent>
-            {this.renderUser()}
-          </CardContent>
-        </Card>
-      )
-    }
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={<Avatar><ProfileIcon/></Avatar>}
+          title='Profile'
+          subheader='Your Profile Page'
+        />
+        <CardContent>
+          {this.renderUser()}
+        </CardContent>
+      </Card>
+    )
+  }
 
-
-
-
-  renderWallet(){
+  renderWallet() {
     if (this.state.activeSubmenu !== "wallet") return undefined;
     const { wallet, classes } = this.props
     const address = getAddress(wallet)
@@ -174,10 +191,10 @@ class Settings extends Component {
       )
   }
 
-
   renderUser() {
+    const { classes, profile } = this.props;
 
-    const { classes } = this.props;
+    console.log(profile);
 
     return (
       <Grid container justify='center' spacing={16}>
@@ -200,6 +217,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'email', 'length', 3),
+              value: profile.email,
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Email className={classes.inputAdornmentIcon} />
@@ -223,6 +241,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'username', 'length', 3),
+              value: profile.username,
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -244,8 +263,10 @@ class Settings extends Component {
             formControlProps={{
               fullWidth: true
             }}
+            value={profile.firstname}
             inputProps={{
               onChange: event => this.change(event, 'firstname', 'length', 3),
+              value: profile.firstname,
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -269,6 +290,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'lastname', 'length', 3),
+              value: profile.lastname,
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -280,15 +302,30 @@ class Settings extends Component {
       </Grid>
     )
   }
-
-
 }
 
-const mapStateToProps = store => ({
-  wallet: store.data.wallet
-})
+const mapStateToProps = store => {
+  return {
+    wallet: store.data.wallet,
+    profile: store.ui.profile.profile
+  };
+};
+
+// const updateProfileDebounced = debounce(updateProfile, 1000);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProfile: (didId) => {
+      fetchProfile(didId)(dispatch);
+    },
+    updateProfile: (didId, profile) => {
+      dispatch(setProfile(profile));
+      updateProfile(didId, profile)(dispatch);
+    }
+  }
+};
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles)
 )(Settings)
