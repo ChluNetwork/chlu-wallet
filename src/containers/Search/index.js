@@ -118,26 +118,16 @@ class Search extends Component {
     const { classes } = this.props;
 
     return <Card className={classes.card}>
-        <CardHeader
-            subheader='Find People or Busineses to Pay, Review & Earn Chlu'
-        />
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleTabChange}
-          fullWidth
-          indicatorColor="secondary"
-          textColor="secondary"
-          centered
-        >
-          <Tab icon={<AccountCircleIcon />} label="People" />
-          <Tab icon={<BusinessIcon />} label="Businesses" />
-        </Tabs>
-
         <Divider/>
         <CardContent>
 
         {value === 0 && <TabContainer>
             <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
+              <Grid item xs={12} sm={12} md={12}>
+                <Typography variant="headline" align="center">
+                  Search for people to pay and review
+                </Typography>
+              </Grid>
               <Grid item xs={12} sm={12} md={2}>
                 <Select
                   classes={classes}
@@ -162,6 +152,11 @@ class Search extends Component {
           </TabContainer>}
         {value === 1 && <TabContainer>
             <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
+              <Grid item xs={12} sm={12} md={12}>
+                <Typography variant="headline" align="center">
+                  Search for businesses to pay and review
+                </Typography>
+              </Grid>
               <Grid item xs={12} sm={12} md={2}>
                 <Select
                   classes={classes}
@@ -191,6 +186,18 @@ class Search extends Component {
               </Grid>
             </Grid>
           </TabContainer>}
+
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleTabChange}
+            fullWidth
+            indicatorColor="secondary"
+            textColor="secondary"
+            centered
+          >
+            <Tab icon={<AccountCircleIcon />} label="People" />
+            <Tab icon={<BusinessIcon />} label="Businesses" />
+          </Tabs>
 
         <Divider/>
           <EnhancedTable/>
