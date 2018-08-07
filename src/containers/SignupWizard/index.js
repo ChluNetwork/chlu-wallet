@@ -98,7 +98,7 @@ class SignupWizard extends Component {
 
   render() {
     const { wallet, crawlerRunning } = this.props
-    const initialStep = wallet.did ? 2 : 0
+    const initialStep = wallet.did ? 1 : 0
 
     return <Wizard
       validate={this.validate.bind(this)}
