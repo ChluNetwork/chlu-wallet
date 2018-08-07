@@ -15,6 +15,11 @@ import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+
+
 
 // icons
 import Email from '@material-ui/icons/Email';
@@ -45,35 +50,37 @@ const styles = theme => ({
   }
 });
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeSubmenu: "wallet"
-    };
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(button) {
-    if (button === 'profile') {
-      this.setState({activeSubmenu: "profile"})
-    }
-    else if (button === 'wallet') {
-      this.setState({activeSubmenu: "wallet"})
-    }
-  }
-
+  state = {
+    value: 0,
+  };
 
   static propTypes = {
     wallet: object
   }
 
-
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
 
   handleDownload = () => downloadWallet(this.props.wallet)
 
   render () {
     const { wallet, classes } = this.props
+    const { value } = this.state
 
     return <Card className={classes.card}>
         <CardHeader
@@ -81,27 +88,31 @@ class Settings extends Component {
             subheader='Your Profile and Wallet Settings'
         />
 
-        <CardActions>
-            <Button variant='raised' color="default" onClick={() => this.handleClick('profile')} className={classes.button}>
-               My Profile<ProfileIcon className={classes.rightIcon}/>
-            </Button>
-            <Button variant='raised' color="primary" onClick={() => this.handleClick('wallet')} className={classes.button}>
-              My Wallet<WalletIcon className={classes.rightIcon}/>
-            </Button>
-        </CardActions>
+        <Tabs
+          value={this.state.value}
+          onChange={this.handleTabChange}
+          fullWidth
+          indicatorColor="secondary"
+          textColor="secondary"
+          centered
+        >
+          <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label="My Profile" />
+          <Tab icon={<WalletIcon className={classes.rightIcon}/>} label="My Wallet" />
+        </Tabs>
 
         <Divider/>
         <CardContent>
-
-        {this.renderProfile()}
-        {this.renderWallet()}
-
+          {value === 0 && <TabContainer>
+              {this.renderProfile()}
+          </TabContainer>}
+          {value === 1 && <TabContainer>
+            {this.renderWallet()}
+          </TabContainer>}
         </CardContent>
       </Card>
   }
 
   renderProfile(){
-    if (this.state.activeSubmenu !== "profile") return undefined;
     const { wallet, classes } = this.props
     return (
         <Card className={classes.card}>
@@ -121,7 +132,6 @@ class Settings extends Component {
 
 
   renderWallet(){
-    if (this.state.activeSubmenu !== "wallet") return undefined;
     const { wallet, classes } = this.props
     const address = getAddress(wallet)
     const didId = get(wallet, 'did.publicDidDocument.id', '')
