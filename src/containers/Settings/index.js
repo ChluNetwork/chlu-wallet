@@ -22,6 +22,11 @@ import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+
+
 
 // icons
 import Email from '@material-ui/icons/Email';
@@ -52,11 +57,20 @@ const styles = theme => ({
   }
 });
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSubmenu: "wallet"
+      value: 0
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -88,10 +102,15 @@ class Settings extends Component {
     wallet: object
   }
 
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
+
   handleDownload = () => downloadWallet(this.props.wallet)
 
   render () {
     const { wallet, classes } = this.props
+    const { value } = this.state
 
     return <Card className={classes.card}>
         <CardHeader
@@ -99,30 +118,32 @@ class Settings extends Component {
             subheader='Your Profile and Wallet Settings'
         />
 
-        <CardActions>
-            <Button variant='raised' color="default" onClick={() => this.handleClick('profile')} className={classes.button}>
-               My Profile<ProfileIcon className={classes.rightIcon}/>
-            </Button>
-            <Button variant='raised' color="primary" onClick={() => this.handleClick('wallet')} className={classes.button}>
-              My Wallet<WalletIcon className={classes.rightIcon}/>
-            </Button>
-        </CardActions>
+        <Tabs
+          value={this.state.value}
+          onChange={this.handleTabChange}
+          fullWidth
+          indicatorColor="secondary"
+          textColor="secondary"
+          centered
+        >
+          <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label="My Profile" />
+          <Tab icon={<WalletIcon className={classes.rightIcon}/>} label="My Wallet" />
+        </Tabs>
 
         <Divider/>
         <CardContent>
-
-        {this.renderProfile()}
-        {this.renderWallet()}
-
+          {value === 0 && <TabContainer>
+              {this.renderProfile()}
+          </TabContainer>}
+          {value === 1 && <TabContainer>
+            {this.renderWallet()}
+          </TabContainer>}
         </CardContent>
       </Card>
   }
 
   renderProfile() {
-    if (this.state.activeSubmenu !== "profile") return undefined;
-
     const { wallet, classes } = this.props
-
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -138,63 +159,60 @@ class Settings extends Component {
   }
 
   renderWallet() {
-    if (this.state.activeSubmenu !== "wallet") return undefined;
     const { wallet, classes } = this.props
     const address = getAddress(wallet)
     const didId = get(wallet, 'did.publicDidDocument.id', '')
     const didPrivateKey = get(wallet, 'did.privateKeyBase58', '')
 
     return (
-        <Card className={classes.card}>
-          <CardHeader
-            avatar={<Avatar><WalletIcon/></Avatar>}
-            title='Wallet'
-            subheader='Your Distributed Identity and Bitcoin Funds'
-          />
-          <CardContent>
-            <List dense disablePadding>
-              <ReactCopyToClipBoard text={didId}>
-                <ListItem button>
-                    <ListItemIcon><UserIcon/></ListItemIcon>
-                    <ListItemText
-                        primary='Distributed Identity (DID)'
-                        secondary={`${didId} - Click to copy to clipboard`}
-                    />
-                </ListItem>
-              </ReactCopyToClipBoard>
-              <ReactCopyToClipBoard text={didPrivateKey}>
-                <ListItem button>
-                    <ListItemIcon><KeyIcon/></ListItemIcon>
-                    <ListItemText
-                        primary='DID Private Key'
-                        secondary='Click to copy to clipboard'
-                    />
-                </ListItem>
-              </ReactCopyToClipBoard>
-              <ReactCopyToClipBoard text={address}>
-                <ListItem button>
-                    <ListItemIcon><WalletIcon/></ListItemIcon>
-                    <ListItemText
-                        primary='Your Bitcoin Address (testnet)'
-                        secondary={`${address} - Click to copy to clipboard`}
-                    />
-                </ListItem>
-              </ReactCopyToClipBoard>
-            </List>
-          </CardContent>
-          <CardActions>
-            <Button variant='raised' onClick={this.handleDownload}>
-              <DownloadIcon/> Download Wallet
-            </Button>
-          </CardActions>
-        </Card>
-      )
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={<Avatar><WalletIcon/></Avatar>}
+          title='Wallet'
+          subheader='Your Distributed Identity and Bitcoin Funds'
+        />
+        <CardContent>
+          <List dense disablePadding>
+            <ReactCopyToClipBoard text={didId}>
+              <ListItem button>
+                  <ListItemIcon><UserIcon/></ListItemIcon>
+                  <ListItemText
+                      primary='Distributed Identity (DID)'
+                      secondary={`${didId} - Click to copy to clipboard`}
+                  />
+              </ListItem>
+            </ReactCopyToClipBoard>
+            <ReactCopyToClipBoard text={didPrivateKey}>
+              <ListItem button>
+                  <ListItemIcon><KeyIcon/></ListItemIcon>
+                  <ListItemText
+                      primary='DID Private Key'
+                      secondary='Click to copy to clipboard'
+                  />
+              </ListItem>
+            </ReactCopyToClipBoard>
+            <ReactCopyToClipBoard text={address}>
+              <ListItem button>
+                  <ListItemIcon><WalletIcon/></ListItemIcon>
+                  <ListItemText
+                      primary='Your Bitcoin Address (testnet)'
+                      secondary={`${address} - Click to copy to clipboard`}
+                  />
+              </ListItem>
+            </ReactCopyToClipBoard>
+          </List>
+        </CardContent>
+        <CardActions>
+          <Button variant='raised' onClick={this.handleDownload}>
+            <DownloadIcon/> Download Wallet
+          </Button>
+        </CardActions>
+      </Card>
+    )
   }
 
   renderUser() {
     const { classes, profile } = this.props;
-
-    console.log(profile);
 
     return (
       <Grid container justify='center' spacing={16}>
@@ -217,7 +235,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'email', 'length', 3),
-              value: profile.email,
+              value: profile.email || "",
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Email className={classes.inputAdornmentIcon} />
@@ -241,7 +259,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'username', 'length', 3),
-              value: profile.username,
+              value: profile.username || "",
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -266,7 +284,7 @@ class Settings extends Component {
             value={profile.firstname}
             inputProps={{
               onChange: event => this.change(event, 'firstname', 'length', 3),
-              value: profile.firstname,
+              value: profile.firstname || "",
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -290,7 +308,7 @@ class Settings extends Component {
             }}
             inputProps={{
               onChange: event => this.change(event, 'lastname', 'length', 3),
-              value: profile.lastname,
+              value: profile.lastname || "",
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -307,7 +325,7 @@ class Settings extends Component {
 const mapStateToProps = store => {
   return {
     wallet: store.data.wallet,
-    profile: store.ui.profile.profile
+    profile: store.ui.profile.profile || {}
   };
 };
 
