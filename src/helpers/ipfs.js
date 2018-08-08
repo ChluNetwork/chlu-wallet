@@ -2,9 +2,8 @@ import ChluIPFS from 'chlu-ipfs-support'
 import { updateReviewRecordAction } from 'store/modules/data/reviews'
 import { readMyReputation } from 'store/modules/data/reputation';
 
-export async function getChluIPFS(type) {
+export async function getChluIPFS() {
     const options = {
-        type: type || ChluIPFS.types.customer,
         network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental,
         bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
         blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN
@@ -24,7 +23,6 @@ export async function getChluIPFS(type) {
         window.reduxStore.dispatch(readMyReputation())
     } else {
         await window.chluIpfs.waitUntilReady()
-        if (type) await window.chluIpfs.switchType(options.type)
     }
     return window.chluIpfs;
 }
@@ -48,4 +46,3 @@ export async function importUnverifiedReviews(reviews) {
     }))
 }
 
-export const types = ChluIPFS.types;
