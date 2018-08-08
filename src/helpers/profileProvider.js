@@ -49,12 +49,16 @@ export default {
       return Object.values(localProfiles);
     }
 
-    for (let profile of Object.values(localProfiles)) {
+    for (let id of Object.keys(localProfiles)) {
+      let profile = localProfiles[id];
       let firstName = profile.firstname || "";
       let lastName = profile.lastname || "";
 
       if (firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
-        filteredProfiles.push(profile);
+        filteredProfiles.push({
+          ...profile,
+          id: id
+        });
       }
     }
 
