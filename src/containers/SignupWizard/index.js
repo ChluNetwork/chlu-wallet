@@ -17,8 +17,6 @@ import { submit } from 'redux-form'
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick, isEmpty } from 'lodash'
-
-// stores, I guess
 import profileProvider from 'helpers/profileProvider';
 
 class SignupWizard extends Component {

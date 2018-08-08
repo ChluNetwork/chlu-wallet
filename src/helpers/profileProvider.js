@@ -34,6 +34,30 @@ export default {
     await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
   },
   searchProfiles: async (type, location, name) => {
+    let localProfilesJson = window.localStorage.getItem("chlu-wallet.local-profiles");
+    let localProfiles = {};
+    let filteredProfiles = [];
 
+    if (localProfilesJson) {
+      localProfiles = JSON.parse(localProfilesJson);
+    }
+
+    // Add some artificial delay to mimic API request latency.
+    await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
+
+    if (!name) {
+      return Object.values(localProfiles);
+    }
+
+    for (let profile of Object.values(localProfiles)) {
+      let firstName = profile.firstname || "";
+      let lastName = profile.lastname || "";
+
+      if (firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
+        filteredProfiles.push(profile);
+      }
+    }
+
+    return filteredProfiles;
   }
 };

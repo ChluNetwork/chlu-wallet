@@ -20,10 +20,13 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Avatar from '@material-ui/core/Avatar';
 
+import profileProvider from 'helpers/profileProvider';
+
 let counter = 0;
+
 function createData(name, calories, fat, carbs, protein) {
   counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
+  return { id: counter, name, calories, fat, carbs, protein }; // 🥕
 }
 
 function getSorting(order, orderBy) {
@@ -166,24 +169,30 @@ class EnhancedTable extends React.Component {
       order: 'asc',
       orderBy: 'calories',
       selected: [],
-      data: [
-        createData('Cupcake', 'bob1', 'smith1', 'NY1'),
-        createData('Donut', 'bob2', 'smith2', 'NY2'),
-        createData('Eclair', 'bob3', 'smith3', 'NY3'),
-        createData('Frozen yoghurt', 'bob4', 'smith4', 'NY4'),
-        createData('Gingerbread', 'bob5', 'smith5', 'NY5'),
-        createData('Honeycomb', 'bob6', 'smith6', 'NY6'),
-        createData('Ice cream sandwich', 'bob7', 'smith7', 'NY7'),
-        createData('Jelly Bean', 'bob8', 'smith8', 'NY8'),
-        createData('KitKat', 'bob9', 'smith9', 'NY9'),
-        createData('Lollipop', 'bob10', 'smith10', 'NY10'),
-        createData('Marshmallow', 'bob11', 'smith11', 'NY11'),
-        createData('Nougat', 'bob12', 'smith12', 'NY12'),
-        createData('Oreo', 'bob13', 'smith13', 'NY13'),
-      ],
+      data: [],
       page: 0,
       rowsPerPage: 5,
     };
+  }
+
+  componentDidMount() {
+    this.updateSearchData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.searchName !== prevProps.searchName) {
+      this.updateSearchData();
+    }
+  }
+
+  updateSearchData() {
+    let currentSearchName = this.props.searchName;
+
+    profileProvider.searchProfiles(undefined, undefined, this.props.searchName).then(results => {
+      if (currentSearchName === this.props.searchName) {
+        this.setState({ data: results.map(profile => createData(profile.username, profile.firstname, profile.lastname, undefined)) });
+      }
+    });
   }
 
   handleRequestSort = (event, property) => {

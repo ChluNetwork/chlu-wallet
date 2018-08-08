@@ -95,11 +95,11 @@ function TabContainer(props) {
 class Search extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      value: 0,
+      searchName: ""
+    }
   }
-
-  state = {
-    value: 0,
-  };
 
   handleMenuChange = (event, value) => {
     this.setState({ value });
@@ -143,6 +143,8 @@ class Search extends Component {
                   id="search"
                   label="Name"
                   type="search"
+                  value={this.state.searchName}
+                  onChange={(e) => this.setState({ searchName: e.target.value })}
                   fullWidth
                 />
               </Grid>
@@ -203,7 +205,7 @@ class Search extends Component {
           </Tabs>
 
         <Divider/>
-          <EnhancedTable/>
+          <EnhancedTable searchName={this.state.searchName} />
         </CardContent>
       </Card>
   }
