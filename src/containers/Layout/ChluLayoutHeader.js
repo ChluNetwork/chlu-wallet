@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 // routing
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
 // components
@@ -11,7 +11,6 @@ import {
     AppBar,
     Toolbar,
     IconButton,
-    Button,
     Hidden,
     Drawer,
     List,
@@ -25,7 +24,6 @@ import Menu from "@material-ui/icons/Menu";
 import TransactionsIcon from '@material-ui/icons/AccountBalanceWallet';
 import SearchIcon from '@material-ui/icons/Search';
 import PayIcon from '@material-ui/icons/Send';
-import SettingsIcon from '@material-ui/icons/Settings'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import LoginIcon from '@material-ui/icons/Fingerprint'
 import ReputationIcon from '@material-ui/icons/Star'

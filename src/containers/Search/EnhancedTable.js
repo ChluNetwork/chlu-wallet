@@ -12,21 +12,18 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Avatar from '@material-ui/core/Avatar';
+import replace from 'helpers/replace'
 
 import profileProvider from 'helpers/profileProvider';
 
 let counter = 0;
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(username, firstname, lastname, location,  averagescore) {
   counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein }; // 🥕
+  return { id: counter, username, firstname, lastname, location, averagescore }; // 🥕
 }
 
 function getSorting(order, orderBy) {
@@ -35,9 +32,11 @@ function getSorting(order, orderBy) {
 
 const columnData = [
   { id: 'pic', numeric: false, disablePadding: true, label: 'Picture' },
-  { id: 'first', numeric: true, disablePadding: false, label: 'First Name' },
-  { id: 'last', numeric: true, disablePadding: false, label: 'Last Name' },
-  { id: 'location', numeric: true, disablePadding: false, label: 'Location' },
+  { id: 'username', numeric: false, disablePadding: true, label: 'Username' },
+  { id: 'first', numeric: false, disablePadding: true, label: 'First Name' },
+  { id: 'last', numeric: false, disablePadding: true, label: 'Last Name' },
+  { id: 'location', numeric: false, disablePadding: true, label: 'Location' },
+  { id: 'averagescore', numeric: true, disablePadding: false, label: 'Reviews' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -145,6 +144,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
+    flexDirection: 'column',
   },
   table: {
     minWidth: 1020,
@@ -167,7 +167,7 @@ class EnhancedTable extends React.Component {
 
     this.state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: 'lastname',
       selected: [],
       data: [],
       page: 0,
@@ -214,27 +214,6 @@ class EnhancedTable extends React.Component {
     this.setState({ selected: [] });
   };
 
-  handleClick = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    this.setState({ selected: newSelected });
-  };
-
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -270,27 +249,29 @@ class EnhancedTable extends React.Component {
                 .map(n => {
                   const isSelected = this.isSelected(n.id);
                   return (
-                    <TableRow
-                      hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={-1}
-                      key={n.id}
-                      selected={isSelected}
-                    >
-                      <TableCell component="th" scope="row" padding="none">
-                        <Avatar
-                              alt="Bob Smith"
-                              src={require('images/default-avatar.png')}
-                              className={classNames(classes.avatar, classes.bigAvatar)}
-                            />
-                      </TableCell>
-                      <TableCell numeric>{n.calories}</TableCell>
-                      <TableCell numeric>{n.fat}</TableCell>
-                      <TableCell numeric>{n.carbs}</TableCell>
-                      <TableCell numeric>{n.protein}</TableCell>
-                    </TableRow>
+                      <TableRow
+                        hover
+//                        onClick={event => this.handleClick(event, n.id)}
+                        onClick={()=> replace('/profile/'+n.username)}
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        tabIndex={-1}
+                        key={n.id}
+                        selected={isSelected}
+                      >
+                        <TableCell component="th" scope="row" padding="none">
+                          <Avatar
+                                alt="Bob Smith"
+                                src={require('images/default-avatar.png')}
+                                className={classNames(classes.avatar, classes.bigAvatar)}
+                              />
+                        </TableCell>
+                        <TableCell>{n.username}</TableCell>
+                        <TableCell>{n.firstname}</TableCell>
+                        <TableCell>{n.lastname}</TableCell>
+                        <TableCell>{n.location}</TableCell>
+                        <TableCell numeric>{n.averagescore}</TableCell>
+                      </TableRow>
                   );
                 })}
               {emptyRows > 0 && (

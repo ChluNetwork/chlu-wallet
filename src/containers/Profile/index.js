@@ -3,7 +3,7 @@ import { object } from 'prop-types'
 import { get } from 'lodash'
 
 // components
-import { Button, Card, CardContent, CardActions, CardHeader, Divider, Grid, InputAdornment } from '@material-ui/core'
+import { Card, CardContent, CardActions, CardHeader, Grid, InputAdornment } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 
@@ -12,29 +12,25 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux'
 
 // helpers
-import { downloadWallet, getAddress } from 'helpers/wallet';
-import { debounce } from 'helpers/debounce';
+import { getAddress } from 'helpers/wallet';
 import profileProvider from 'helpers/profileProvider';
 
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
-import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-
-
 
 // icons
 import Email from '@material-ui/icons/Email';
 import Face from '@material-ui/icons/Face';
-import DownloadIcon from '@material-ui/icons/FileDownload'
 import UserIcon from '@material-ui/icons/Person'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
-import KeyIcon from '@material-ui/icons/Lock'
-import AccountBoxIcon from '@material-ui/icons/AccountBox'
+
+import Payment from '../Payment'
+
+
+
 
 
 const styles = theme => ({
@@ -54,15 +50,6 @@ const styles = theme => ({
     margin: '30px'
   }
 });
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
 
 class Profile extends Component {
   constructor(props) {
@@ -94,21 +81,7 @@ class Profile extends Component {
   render () {
     const { classes } = this.props
 
-    return <Card className={classes.card}>
-      <CardHeader
-          avatar={<Avatar><AccountBoxIcon/></Avatar>}
-          subheader="User's Profile"
-      />
-
-      <CardContent>
-        {this.renderProfile()}
-      </CardContent>
-    </Card>
-  }
-
-  renderProfile() {
-    const { wallet, classes } = this.props
-    return (
+    return(
       <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar><ProfileIcon/></Avatar>}
@@ -121,6 +94,7 @@ class Profile extends Component {
       </Card>
     )
   }
+
 
   renderWallet() {
     const { classes, wallet } = this.props
@@ -168,6 +142,7 @@ class Profile extends Component {
     const { profile } = this.state;
 
     return (
+      <div>
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
           <PictureUpload />
@@ -270,6 +245,9 @@ class Profile extends Component {
           />
         </Grid>
       </Grid>
+      <Payment/>
+      </div>
+
     )
   }
 }

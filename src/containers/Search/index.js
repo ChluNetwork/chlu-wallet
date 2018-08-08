@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // components
-import { Card, CardContent, CardHeader, Divider, Grid, withStyles } from '@material-ui/core'
+import { Card, CardContent, Divider, Grid, withStyles } from '@material-ui/core'
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,10 +10,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BusinessIcon from '@material-ui/icons/Business';
+import Star from '@material-ui/icons/Star';
+import Add from '@material-ui/icons/Add';
 
 import EnhancedTable from './EnhancedTable';
-
-import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
 // icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -44,41 +44,33 @@ const styles = theme => ({
   },
 });
 
-const options = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
+const ratings = [
+  { label: "Any" },
+  { label: <div><Star /><Star /><Star /><Star /><Star /></div> },
+  { label: <div><Star /><Star /><Star /><Star /><Add /></div> },
+  { label: <div><Star /><Star /><Star /><Add /></div> },
+  { label: <div><Star /><Star /><Add /></div> },
+  { label: <div><Star /><Add /></div> },
+].map(option => ({
+  value: option.label,
+  label: option.label,
+}));
+
+const categories = [
+  { label: 'Accountant' },
+  { label: 'Advertising' },
+  { label: 'Restaurant' },
+  { label: 'Etc' },
+].map(option => ({
+  value: option.label,
+  label: option.label,
+}));
+
+const locations = [
+  { label: 'Europe' },
+  { label: 'US' },
+  { label: 'Asia' },
+  { label: 'Etc' },
 ].map(option => ({
   value: option.label,
   label: option.label,
@@ -117,7 +109,7 @@ class Search extends Component {
 
   render () {
 
-    const { value, toggle } = this.state;
+    const { value } = this.state;
     const { classes } = this.props;
 
     return <Card className={classes.card}>
@@ -131,13 +123,6 @@ class Search extends Component {
                   Search for people to pay and review
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={12} md={2}>
-                <Select
-                  classes={classes}
-                  options={options}
-                  placeholder="Location"
-                />
-              </Grid>
               <Grid item xs={12} sm={12} md={3}>
                 <TextField
                   id="search"
@@ -146,6 +131,13 @@ class Search extends Component {
                   value={this.state.searchName}
                   onChange={(e) => this.setState({ searchName: e.target.value })}
                   fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={locations}
+                  placeholder="Location"
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
@@ -162,26 +154,33 @@ class Search extends Component {
                   Search for businesses to pay and review
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={12} md={2}>
-                <Select
-                  classes={classes}
-                  options={options}
-                  placeholder="Business Type"
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}>
-                <Select
-                  classes={classes}
-                  options={options}
-                  placeholder="Location"
-                />
-              </Grid>
               <Grid item xs={12} sm={12} md={3}>
                 <TextField
                   id="search"
                   label="Name"
                   type="search"
                   fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={categories}
+                  placeholder="Business Type"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={locations}
+                  placeholder="Location"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={ratings}
+                  placeholder="Rating"
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
