@@ -189,23 +189,23 @@ class ChluLayoutHeader extends React.Component {
           <div className={classes.flex}>
             <ChluLogo classes={classes} />
           </div>
-          <Hidden smDown implementation="css">
+          <Hidden smDown implementation='css'>
             {list}
           </Hidden>
           <Hidden mdUp>
             <IconButton
               className={classes.sidebarButton}
-              color="inherit"
-              aria-label="open drawer"
+              color='inherit'
+              aria-label='open drawer'
               onClick={this.handleDrawerToggle}
             >
               <Menu />
             </IconButton>
           </Hidden>
-          <Hidden mdUp implementation="css">
+          <Hidden mdUp implementation='css'>
             <Hidden mdUp>
               <Drawer
-                variant="temporary"
+                variant='temporary'
                 anchor={"right"}
                 open={this.state.open}
                 classes={{

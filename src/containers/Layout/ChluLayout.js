@@ -19,7 +19,7 @@ class HomePageLayout extends React.Component {
         <div className={classes.wrapper} ref='wrapper'>
           <div className={classes.fullPage}>
             <div style={{ zIndex:'4', position:'relative', paddingTop:'100px' }}>
-              <Grid container justify="center" spacing={16} className={classes.root}>
+              <Grid container justify='center' spacing={16} className={classes.root}>
                 <Grid item xs={10} lg={9} >
                   {children}
                 </Grid>

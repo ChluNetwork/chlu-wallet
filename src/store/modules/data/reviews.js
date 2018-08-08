@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS, types } from 'helpers/ipfs'
+import { getChluIPFS } from 'helpers/ipfs'
 import { updateReviewRecord, getTxHashByMultihash } from '../../../helpers/transactions'
 import { get, find } from 'lodash'
 // ------------------------------------
@@ -66,7 +66,7 @@ export function submitEditedReview(fields) {
           }
         }
       } = getState()
-      const chluIpfs = await getChluIPFS(types.customer)
+      const chluIpfs = await getChluIPFS()
       const multihash = editing
       const review = find(reviews, r => r.multihash === multihash)
       const updatedReview = Object.assign({}, review, {

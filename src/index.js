@@ -11,5 +11,4 @@ import { getChluIPFS, types } from 'helpers/ipfs';
 ReactDOM.render(<App />, document.getElementById('root'));
 //registerServiceWorker();
 
-// prestart chluIpfs
 getChluIPFS(types.customer)

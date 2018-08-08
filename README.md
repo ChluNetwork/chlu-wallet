@@ -66,6 +66,8 @@ The customer wallet was setup using create-react-app
 - `yarn start` to run a development server
 - `yarn build` to make a production build
 
+_Note: `yarn start` may throw module resolution errors on Windows. To work around this issue, `yarn xstart` can be used instead. This requires the `cross-env` package installed globally on the developer machine._
+
 ## Test & Demo
 
 ### Set up marketplace

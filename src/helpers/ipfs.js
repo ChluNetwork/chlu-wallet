@@ -2,50 +2,48 @@ import ChluIPFS from 'chlu-ipfs-support'
 import { updateReviewRecordAction } from 'store/modules/data/reviews'
 import { readMyReputation } from 'store/modules/data/reputation';
 
-export async function getChluIPFS(type) {
-    const options = {
-        type: type || ChluIPFS.types.customer,
-        network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental,
-        bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
-        blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN
-    }
-    if (!window.chluIpfs) {
-        window.chluIpfs = new ChluIPFS(options)
-        await window.chluIpfs.start()
-        // Turn Review Record updates into redux actions
-        window.chluIpfs.instance.events.on('reviewrecord/updated', (multihash, updatedMultihash, reviewRecord) => {
-          window.reduxStore.dispatch(updateReviewRecordAction({
-            multihash, 
-            updatedMultihash,
-            reviewRecord
-          }))
-        })
-        // Read my reputation
-        window.reduxStore.dispatch(readMyReputation())
-    } else {
-        await window.chluIpfs.waitUntilReady()
-        if (type) await window.chluIpfs.switchType(options.type)
-    }
-    return window.chluIpfs;
+export async function getChluIPFS() {
+  const options = {
+    network: process.env.NODE_ENV === 'production' ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental,
+    bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
+    blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN
+  }
+  if (!window.chluIpfs) {
+    window.chluIpfs = new ChluIPFS(options)
+    await window.chluIpfs.start()
+    // Turn Review Record updates into redux actions
+    window.chluIpfs.events.on('reviewrecord/updated', (multihash, updatedMultihash, reviewRecord) => {
+      window.reduxStore.dispatch(updateReviewRecordAction({
+        multihash, 
+        updatedMultihash,
+        reviewRecord
+      }))
+    })
+    // Read my reputation
+    window.reduxStore.dispatch(readMyReputation())
+  } else {
+    await window.chluIpfs.waitUntilReady()
+  }
+  return window.chluIpfs;
 }
 
 export async function readReviews(didId) {
-    const chluIpfs = await getChluIPFS()
-    const multihashes = await chluIpfs.getReviewsByDID(didId)
-    const reviews = []
-    for (const multihash of multihashes) {
-        reviews.push(await chluIpfs.readReviewRecord(multihash))
-    }
-    return reviews
+  const chluIpfs = await getChluIPFS()
+  const multihashes = await chluIpfs.getReviewsByDID(didId)
+  const reviews = []
+  for (const multihash of multihashes) {
+    reviews.push(await chluIpfs.readReviewRecord(multihash))
+  }
+  return reviews
 }
 
 export async function importUnverifiedReviews(reviews) {
-    const chluIpfs = await getChluIPFS()
-    return await chluIpfs.importUnverifiedReviews(reviews.map(r => {
-        r.chlu_version = 0
-        r.subject.did = chluIpfs.instance.did.didId // set this to myself so that it gets indexed right in Chlu
-        return r
-    }))
+  const chluIpfs = await getChluIPFS()
+  return await chluIpfs.importUnverifiedReviews(reviews.map(r => {
+    r.chlu_version = 0
+    // set this to myself so that it gets indexed right in Chlu
+    r.subject.did = chluIpfs.didIpfsHelper.didId
+    return r
+  }))
 }
 
-export const types = ChluIPFS.types;

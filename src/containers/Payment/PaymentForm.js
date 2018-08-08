@@ -9,7 +9,7 @@ import StarRatingComponent from 'react-star-rating-component'
 import ReviewIcon from '@material-ui/icons/Star'
 
 function PaymentForm({ handleSubmit, setRating, rating, starCount, disabled }) {
-    return <form onSubmit={handleSubmit}>
+  return <form onSubmit={handleSubmit}>
         <CardHeader
             avatar={<Avatar><ReviewIcon/></Avatar>}
             title='Leave a Chlu Review'
@@ -41,5 +41,5 @@ function PaymentForm({ handleSubmit, setRating, rating, starCount, disabled }) {
 }
 
 export default reduxForm({
-    form: 'payment-form'
+  form: 'payment-form'
 })(PaymentForm)
