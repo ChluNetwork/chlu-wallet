@@ -32,22 +32,22 @@ function Footer({ ...props }) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="/" className={block}>
+              <a href='/' className={block}>
                 {rtlActive ? "الصفحة الرئيسية" : "Home"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="http://www.chlu.io" className={block}>
+              <a href='http://www.chlu.io' className={block}>
                 {rtlActive ? "شركة" : "Company"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="https://medium.com/chlunetwork" className={block}>
+              <a href='https://medium.com/chlunetwork' className={block}>
                 {rtlActive ? "مدونة" : "Blog"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="https://github.com/ChluNetwork" className={block}>
+              <a href='https://github.com/ChluNetwork' className={block}>
                 {rtlActive ? "بعدسة" : "Source"}
               </a>
             </ListItem>
@@ -55,7 +55,7 @@ function Footer({ ...props }) {
         </div>
         <p className={classes.right}>
           &copy; {1900 + new Date().getYear()}{" "}
-          <a href="https://www.creative-tim.com" className={anchor}>
+          <a href='https://www.creative-tim.com' className={anchor}>
             {rtlActive ? "توقيت الإبداعية" : "Chlu"}
           </a>
           {rtlActive

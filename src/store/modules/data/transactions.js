@@ -39,7 +39,7 @@ export const updateTransactions = createAction(UPDATE_TRANSACTIONS)
 export function getTransactions(address) {
   return async dispatch => {
     dispatch({
-        type: GET_TRANSACTIONS_LOADING
+      type: GET_TRANSACTIONS_LOADING
     })
     try {
       const fetch = new FetchTransactionHistory(blockCypherKey)
@@ -55,14 +55,14 @@ export function getTransactions(address) {
         return transaction
       })
       dispatch({
-          type: GET_TRANSACTIONS_SUCCESS,
-          payload: { txs: withReviewRecords }
+        type: GET_TRANSACTIONS_SUCCESS,
+        payload: { txs: withReviewRecords }
       })
       return withReviewRecords
     } catch (error) {
       dispatch({
-          type:  GET_TRANSACTIONS_ERROR,
-          payload: error
+        type:  GET_TRANSACTIONS_ERROR,
+        payload: error
       })
       throw error
     }

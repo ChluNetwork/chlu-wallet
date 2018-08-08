@@ -5,7 +5,7 @@ export default class Terms extends Component {
 
   render() {
     return(
-    <div className="terms">
+    <div className='terms'>
         <div className='clear-area' />
         <p><h1>Terms and Conditions</h1></p>
 
@@ -114,7 +114,7 @@ Certain areas of this Website are restricted from access by you and Chlu may fur
 	<p>The English language version of this Agreement shall be controlling in all respects and shall prevail in case of any inconsistencies with translated versions, if any.</p>
 
     </div>
-)
+    )
 
   }
 }

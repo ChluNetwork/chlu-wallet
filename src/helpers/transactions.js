@@ -32,27 +32,27 @@ function getTxHashByMultihash (reviews, multihash) {
 }
 
 function calculateTotalSpentFromTransactions (transactions, address) {
-    let result = 0
-    result = reduce(transactions, (acc, tx) => {
-        return acc + calculateTotalSpent(tx, address)
-    }, 0)
-    return result
+  let result = 0
+  result = reduce(transactions, (acc, tx) => {
+    return acc + calculateTotalSpent(tx, address)
+  }, 0)
+  return result
 }
 
 function calculateTotalSpent (transaction, address) {
 
-    let result = 0
+  let result = 0
     
-    result = reduce(transaction.outputs, (accumulator, output) => {
-        let sum = 0
-        if (includes(output.addresses, address)) {
-            sum = sum + output.value
-            }
-        return accumulator + sum
-    }, 0)
+  result = reduce(transaction.outputs, (accumulator, output) => {
+    let sum = 0
+    if (includes(output.addresses, address)) {
+      sum = sum + output.value
+    }
+    return accumulator + sum
+  }, 0)
     
     
-    return result
+  return result
 }
 
 

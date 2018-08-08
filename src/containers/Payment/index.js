@@ -25,27 +25,27 @@ import ErrorIcon from '@material-ui/icons/ErrorOutline'
 import { getAddress } from 'helpers/wallet';
 
 const style = {
-    card: {
-        margin: '30px'
-    }
+  card: {
+    margin: '30px'
+  }
 }
 
 const starCount = 5
 
 class Payment extends Component {
 
-    componentDidMount() {
-        this.props.getCheckout()
-    }
+  componentDidMount() {
+    this.props.getCheckout()
+  }
 
-    handleSubmit(data) {
-        const review = data.review || ''
-        const rating = this.props.rating
-        this.props.submitPayment({ review, rating })
-    }
+  handleSubmit(data) {
+    const review = data.review || ''
+    const rating = this.props.rating
+    this.props.submitPayment({ review, rating })
+  }
 
-    render() {
-        const {
+  render() {
+    const {
             classes,
             wallet,
             checkout: {
@@ -59,31 +59,31 @@ class Payment extends Component {
             convertFromBtcToUsd
         } = this.props
 
-        const submitDisabled = !popr || checkoutLoading || checkoutError
-        const amountSatoshi = popr.amount
-        const amountBtc = convertSatoshiToBTC(amountSatoshi)
-        const amountUSD = convertFromBtcToUsd(amountBtc)
-        const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
-        const address = getAddress(wallet)
+    const submitDisabled = !popr || checkoutLoading || checkoutError
+    const amountSatoshi = popr.amount
+    const amountBtc = convertSatoshiToBTC(amountSatoshi)
+    const amountUSD = convertFromBtcToUsd(amountBtc)
+    const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
+    const address = getAddress(wallet)
 
-        if (checkoutError) {
-            return <Card className={classes.card}>
+    if (checkoutError) {
+      return <Card className={classes.card}>
                 <CardHeader
                     avatar={<Avatar><ErrorIcon/></Avatar>}
                     title='Something went wrong'
                     subheader={checkoutError.message || checkoutError || 'Unknown error'}
                 />
             </Card>
-        } else if (checkoutLoading) {
-            return <Card className={classes.card}>
+    } else if (checkoutLoading) {
+      return <Card className={classes.card}>
                 <CardHeader
                     avatar={<CircularProgress/>}
                     title='Fetching Payment Request...'
                     subheader='Please wait'
                 />
             </Card>
-        } else {
-            return <Card className={classes.card}>
+    } else {
+      return <Card className={classes.card}>
                 <CardHeader
                     avatar={<Avatar><WalletIcon/></Avatar>}
                     title='Payment'
@@ -124,29 +124,29 @@ class Payment extends Component {
                     disabled={submitDisabled}
                     onSubmit={this.handleSubmit.bind(this)}/>
             </Card>
-        }
     }
+  }
 }
 
 
 Payment.propTypes = {
-    loading: PropTypes.bool
+  loading: PropTypes.bool
 }
 
 function mapStateToProps(state) {
-    return {
-        wallet: state.data.wallet,
-        checkout: state.data.checkout,
-        rating: state.components.customerWallet.rating
-    }
+  return {
+    wallet: state.data.wallet,
+    checkout: state.data.checkout,
+    rating: state.components.customerWallet.rating
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        getCheckout: () => dispatch(getCheckout()),
-        submitPayment: data => dispatch(submitPayment(data)),
-        setRating: data => dispatch(setRatingForCustomerWallet(data))
-    }
+  return {
+    getCheckout: () => dispatch(getCheckout()),
+    submitPayment: data => dispatch(submitPayment(data)),
+    setRating: data => dispatch(setRatingForCustomerWallet(data))
+  }
 }
 
 export default compose(
