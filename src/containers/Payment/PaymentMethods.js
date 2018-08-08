@@ -46,7 +46,7 @@ function PaymentMethods({ classes, toggleComingSoonModal, comingSoonModal }) {
             <Button onClick={toggleComingSoonModal} color='primary' autoFocus>
               Ok
             </Button>
-          </DialogActions>
+          </DialogActions> 
         </Dialog>
     </CardActions>
 }

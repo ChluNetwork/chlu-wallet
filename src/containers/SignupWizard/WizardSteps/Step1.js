@@ -137,7 +137,6 @@ class Step1 extends React.Component {
       break;
     }
     this.setState({ [stateName]: event.target.value });
-    this.props.onProfileFieldChange(stateName, event.target.value);
   }
 
   renderUser() {

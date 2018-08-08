@@ -20,10 +20,8 @@ import Reputation from '../Reputation'
 import ReviewsIWrote from '../ReviewsIWrote'
 import Transactions from '../Transactions'
 import Settings from '../Settings'
-import Profile from '../Profile'
 import Payment from '../Payment'
 import Terms from '../Terms'
-import Search from '../Search'
 
 class MainLayout extends Component {
   static propTypes = {
@@ -55,12 +53,10 @@ class MainLayout extends Component {
             <Route exact path='/' component={HomePage} />
             <Route path='/login' component={LoginPage} />
             <Route path='/terms' component={Terms} />
-            <Route path='/profile/:id' component={Profile} />
             {emptyWallet && <Redirect to='/'/>}
-            <Route path='/search' component={Search} />
-            <Route path='/pay' component={Payment} />
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />
+            <Route path='/pay' component={Payment} />
             <Route path='/transactions' component={Transactions} />
             <Route path='/settings' component={Settings} />
             <Redirect to='/'/>

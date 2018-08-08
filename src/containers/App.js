@@ -8,12 +8,9 @@ import createStore from 'store/createStore'
 import MainLayout from './Layout/MainLayout'
 
 const history = createHistory()
-
 // keep track of history for helpers/replace.js to work
-window.appHistory = history
-
+window.appHistory = history 
 const store = createStore({}, history)
-
 // Need to keep a ref to window so that chluIpfs can dispatch events
 window.reduxStore = store;
 

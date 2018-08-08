@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 // routing
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
 // components
@@ -11,6 +11,7 @@ import {
     AppBar,
     Toolbar,
     IconButton,
+    Button,
     Hidden,
     Drawer,
     List,
@@ -22,9 +23,8 @@ import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
 // icons
 import Menu from "@material-ui/icons/Menu";
 import TransactionsIcon from '@material-ui/icons/AccountBalanceWallet';
-import SearchIcon from '@material-ui/icons/Search';
 import PayIcon from '@material-ui/icons/Send';
-import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import SettingsIcon from '@material-ui/icons/Settings'
 import LoginIcon from '@material-ui/icons/Fingerprint'
 import ReputationIcon from '@material-ui/icons/Star'
 import ThumbsUpDown from '@material-ui/icons/ThumbsUpDown'
@@ -72,18 +72,6 @@ class ChluLayoutHeader extends React.Component {
     });
     const loggedInList = (
       <List className={classes.list}>
-        <ListItem className={classes.listItem}>
-          <NavLink to={"/search"} className={classes.navLink} activeClassName={classes.navLinkActive}>
-            <ListItemIcon className={classes.listItemIcon}>
-              <SearchIcon/>
-            </ListItemIcon>
-            <ListItemText
-              primary={"Search"}
-              disableTypography={true}
-              className={classes.listItemText}
-              />
-          </NavLink>
-        </ListItem>
         <ListItem className={classes.listItem}>
           <NavLink to={"/pay"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
@@ -135,10 +123,10 @@ class ChluLayoutHeader extends React.Component {
         <ListItem className={classes.listItem}>
           <NavLink to={"/settings"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
-              <AccountBoxIcon/>
+              <SettingsIcon/>
             </ListItemIcon>
             <ListItemText
-              primary={"My Account"}
+              primary={"Settings"}
               disableTypography={true}
               className={classes.listItemText}
               />
