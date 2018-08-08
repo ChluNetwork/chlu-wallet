@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS, types } from 'helpers/ipfs'
+import { getChluIPFS } from 'helpers/ipfs'
 import { toastr } from 'react-redux-toastr'
 import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction';
 import { getAddress } from 'helpers/wallet';
@@ -69,7 +69,7 @@ export function submitPayment (data) {
       }
       try {
         console.log('Getting ChluIPFS')
-        const chluIpfs = await getChluIPFS(types.customer)
+        const chluIpfs = await getChluIPFS()
         try {
           console.log('Storing review record (no publish)')
           const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })

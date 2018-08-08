@@ -62,8 +62,8 @@ export function importWallet(str) {
 }
 
 export async function importDID(did) {
-    const chluIpfs = await getChluIPFS()
-    await chluIpfs.instance.did.import(did)
+  const chluIpfs = await getChluIPFS()
+  await chluIpfs.importDid(did, true, true)
 }
 
 export async function deleteDID() {
