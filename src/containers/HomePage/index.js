@@ -55,10 +55,13 @@ class HomePage extends React.Component {
       <div className={classes.content}>
         <div className={classes.container}>
           <Grid container justify='center'>
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid item xs={12} sm={12} md={12}>
               <h2 className={classes.title}>Manage Your Reputation</h2>
               <h5 className={classes.description}>
-                Chlu is a Cryptocurrency and Decentralized Reputation Wallet.
+                Chlu is a Decentralized Reputation Protocol and Utility Token.
+              </h5>
+              <h5 className={classes.description}>
+                The Chlu Wallet demos the Chlu Protocol integrated into a project, enabling decentralized, verified & portable reviews that earn Chlu token.
               </h5>
             </Grid>
           </Grid>
