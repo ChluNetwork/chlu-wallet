@@ -20,6 +20,9 @@ import SearchIcon from '@material-ui/icons/Search';
 
 
 const styles = theme => ({
+  searchGrid: {
+    backgroundColor: 'rgba(200, 200, 200, .2)'
+  },
   button: {
     margin: theme.spacing.unit,
   },
@@ -122,7 +125,7 @@ class Search extends Component {
         <CardContent>
 
         {value === 0 && <TabContainer>
-            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
+            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant="headline" align="center">
                   Search for people to pay and review
@@ -151,7 +154,7 @@ class Search extends Component {
             </Grid>
           </TabContainer>}
         {value === 1 && <TabContainer>
-            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16}>
+            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant="headline" align="center">
                   Search for businesses to pay and review

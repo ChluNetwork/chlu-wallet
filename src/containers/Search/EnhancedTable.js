@@ -31,10 +31,10 @@ function getSorting(order, orderBy) {
 }
 
 const columnData = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Picture' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'First Name' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Last Name' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Location' },
+  { id: 'pic', numeric: false, disablePadding: true, label: 'Picture' },
+  { id: 'first', numeric: true, disablePadding: false, label: 'First Name' },
+  { id: 'last', numeric: true, disablePadding: false, label: 'Last Name' },
+  { id: 'location', numeric: true, disablePadding: false, label: 'Location' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -48,19 +48,12 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
           {columnData.map(column => {
             return (
               <TableCell
                 key={column.id}
                 numeric={column.numeric}
-                padding={column.disablePadding ? 'none' : 'default'}
+                padding={'default'}
                 sortDirection={orderBy === column.id ? order : false}
               >
                 <Tooltip
@@ -129,32 +122,11 @@ let EnhancedTableToolbar = props => {
       })}
     >
       <div className={classes.title}>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subheading">
-            {numSelected} selected
-          </Typography>
-        ) : (
           <Typography variant="title" id="tableTitle">
             Search Results
           </Typography>
-        )}
       </div>
       <div className={classes.spacer} />
-      <div className={classes.actions}>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
     </Toolbar>
   );
 };
@@ -298,9 +270,6 @@ class EnhancedTable extends React.Component {
                       key={n.id}
                       selected={isSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
-                      </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                         <Avatar
                               alt="Bob Smith"
