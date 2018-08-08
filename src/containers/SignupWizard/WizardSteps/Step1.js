@@ -119,22 +119,22 @@ class Step1 extends React.Component {
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case 'email':
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + 'State']: 'success' });
-        } else {
-          this.setState({ [stateName + 'State']: 'error' });
-        }
-        break;
-      case 'length':
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
-          this.setState({ [stateName + 'State']: 'success' });
-        } else {
-          this.setState({ [stateName + 'State']: 'error' });
-        }
-        break;
-      default:
-        break;
+    case 'email':
+      if (this.verifyEmail(event.target.value)) {
+        this.setState({ [stateName + 'State']: 'success' });
+      } else {
+        this.setState({ [stateName + 'State']: 'error' });
+      }
+      break;
+    case 'length':
+      if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+        this.setState({ [stateName + 'State']: 'success' });
+      } else {
+        this.setState({ [stateName + 'State']: 'error' });
+      }
+      break;
+    default:
+      break;
     }
     this.setState({ [stateName]: event.target.value });
   }
@@ -286,7 +286,7 @@ class Step1 extends React.Component {
             className={classes.selectFormControl}
           >
             <InputLabel
-              htmlFor="simple-select"
+              htmlFor='simple-select'
               className={classes.selectLabel}
             >
               Business Type
@@ -318,7 +318,7 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem,
                   selected: classes.selectMenuItemSelected
                 }}
-                value="1"
+                value='1'
               >
                 Accountant
                     </MenuItem>
@@ -327,7 +327,7 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem,
                   selected: classes.selectMenuItemSelected
                 }}
-                value="2"
+                value='2'
               >
                 Advertising
                     </MenuItem>
@@ -336,7 +336,7 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem,
                   selected: classes.selectMenuItemSelected
                 }}
-                value="3"
+                value='3'
               >
                 Restaurant
                     </MenuItem>
@@ -346,8 +346,8 @@ class Step1 extends React.Component {
         <Grid item xs={12} sm={12} md={10}>
           <InputLabel style={{ color: "#AAAAAA" }}>About</InputLabel>
           <CustomInput
-            labelText="Please provide a brief description of your business."
-            id="about-me"
+            labelText='Please provide a brief description of your business.'
+            id='about-me'
             formControlProps={{
               fullWidth: true
             }}
@@ -382,12 +382,12 @@ class Step1 extends React.Component {
               <FormControlLabel
                 control={
                   <Radio
-                    id="userAccount"
+                    id='userAccount'
                     checked={this.state.selectedValue === "user"}
                     onChange={this.handleChange}
-                    value="user"
-                    name="radio button demo"
-                    aria-label="A"
+                    value='user'
+                    name='radio button demo'
+                    aria-label='A'
                     icon={
                       <FiberManualRecord
                         className={classes.radioUnchecked}
@@ -406,7 +406,7 @@ class Step1 extends React.Component {
                 classes={{
                   label: classes.label
                 }}
-                label="Create A User Account. Used to Pay, Review & Earn Chlu"
+                label='Create A User Account. Used to Pay, Review & Earn Chlu'
               />
             </Grid>
             <Grid item xs={12} sm={12} md={5}>
@@ -415,9 +415,9 @@ class Step1 extends React.Component {
                   <Radio
                     checked={this.state.selectedValue === "business"}
                     onChange={this.handleChange}
-                    value="business"
-                    name="radio button demo"
-                    aria-label="B"
+                    value='business'
+                    name='radio button demo'
+                    aria-label='B'
                     icon={
                       <FiberManualRecord
                         className={classes.radioUnchecked}
@@ -436,7 +436,7 @@ class Step1 extends React.Component {
                 classes={{
                   label: classes.label
                 }}
-                label="Create A Professional Account. Control Your Online Reviews"
+                label='Create A Professional Account. Control Your Online Reviews'
               />
             </Grid>
 

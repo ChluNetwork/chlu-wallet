@@ -15,11 +15,11 @@ const store = createStore({}, history)
 window.reduxStore = store;
 
 export default function App() {
-    return (
+  return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <MainLayout/>
         </ConnectedRouter>
       </Provider>
-    )
+  )
 }

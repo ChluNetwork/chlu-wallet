@@ -21,29 +21,29 @@ import ValidIcon from '@material-ui/icons/CheckCircle'
 import InvalidIcon from '@material-ui/icons/ErrorOutline'
 
 const styles = {
-    card: {
-        margin: '30px'
-    }
+  card: {
+    margin: '30px'
+  }
 }
 
 function openInNewTab(url) {
-    if (url) {
-        const win = window.open(url, '_blank');
-        win.focus();
-    }
+  if (url) {
+    const win = window.open(url, '_blank');
+    win.focus();
+  }
 }
 
 class TransactionInfo extends Component {
 
-    static propTypes = theme => ({
-        transaction: object,
-        address: string,
-        convertSatoshiToBits: func,
-        convertFromBitsToUsd: func
-    })
+  static propTypes = theme => ({
+    transaction: object,
+    address: string,
+    convertSatoshiToBits: func,
+    convertFromBitsToUsd: func
+  })
 
-    render () {
-        const {
+  render () {
+    const {
             classes,
             transaction,
             address,
@@ -54,54 +54,54 @@ class TransactionInfo extends Component {
         } = this.props
 
         // Tx
-        const date = moment(transaction.received).calendar()
-        const inputAddresses = flatten(transaction.inputs.map(i => i.addresses))
-        const allOutputAddresses = flatten(transaction.outputs.map(o => o.addresses))
-        const outputAddresses = allOutputAddresses.filter(i => i && inputAddresses.indexOf(i) < 0)
-        const fromAddress = inputAddresses[0]
-        const toAddress = outputAddresses[0]
-        const isReceived = toAddress === address
+    const date = moment(transaction.received).calendar()
+    const inputAddresses = flatten(transaction.inputs.map(i => i.addresses))
+    const allOutputAddresses = flatten(transaction.outputs.map(o => o.addresses))
+    const outputAddresses = allOutputAddresses.filter(i => i && inputAddresses.indexOf(i) < 0)
+    const fromAddress = inputAddresses[0]
+    const toAddress = outputAddresses[0]
+    const isReceived = toAddress === address
         // Bitcoin stuff
-        const amount = calculateTotalSpent(transaction, isReceived ? fromAddress : toAddress)
-        const priceBits = convertSatoshiToBits(amount)
-        const confirmations = get(transaction, 'confirmations', 0)
-        const priceBitsFormatted = formatCurrency(priceBits)
+    const amount = calculateTotalSpent(transaction, isReceived ? fromAddress : toAddress)
+    const priceBits = convertSatoshiToBits(amount)
+    const confirmations = get(transaction, 'confirmations', 0)
+    const priceBitsFormatted = formatCurrency(priceBits)
         // Chlu review stuff
-        const isChlu = Boolean(review)
-        const reviewIsLoading = isChlu && review.loading
-        const reviewIsReady = isChlu && !review.loading
-        const reviewMultihash = isChlu ? review.multihash : null
-        const reviewIsUpdate = Boolean(review && review.last_version_multihash)
-        const reviewDate = reviewIsUpdate ? null : date
+    const isChlu = Boolean(review)
+    const reviewIsLoading = isChlu && review.loading
+    const reviewIsReady = isChlu && !review.loading
+    const reviewMultihash = isChlu ? review.multihash : null
+    const reviewIsUpdate = Boolean(review && review.last_version_multihash)
+    const reviewDate = reviewIsUpdate ? null : date
         // Links
-        const chainExplorerLink = `${process.env.REACT_APP_BTC_EXPLORER_URL_TX}/${transaction.hash}`
-        const chluExplorerLink = isChlu ? `https://explorer.chlu.io/#/v/${reviewMultihash}` : null
+    const chainExplorerLink = `${process.env.REACT_APP_BTC_EXPLORER_URL_TX}/${transaction.hash}`
+    const chluExplorerLink = isChlu ? `https://explorer.chlu.io/#/v/${reviewMultihash}` : null
         
-        let status = {
-            primary: 'Confirmed',
-            icon: ValidIcon,
-            color: 'green',
-            secondary: isChlu ? `Chlu data valid. ${confirmations} confirmations` : `${confirmations} confirmations`
-        }
-        if (isChlu && review && review.error) {
-            status = {
-                primary: 'Invalid',
-                icon: InvalidIcon,
-                color: 'red',
-                secondary: 'Chlu data invalid'
-            }
-        } else if (confirmations < 6) {
-            status = {
-                primary: 'Unconfirmed',
-                color: 'orange',
-                icon: UnconfirmedIcon,
-                secondary: `${confirmations}/6 confirmations`
-            }
-        }
+    let status = {
+      primary: 'Confirmed',
+      icon: ValidIcon,
+      color: 'green',
+      secondary: isChlu ? `Chlu data valid. ${confirmations} confirmations` : `${confirmations} confirmations`
+    }
+    if (isChlu && review && review.error) {
+      status = {
+        primary: 'Invalid',
+        icon: InvalidIcon,
+        color: 'red',
+        secondary: 'Chlu data invalid'
+      }
+    } else if (confirmations < 6) {
+      status = {
+        primary: 'Unconfirmed',
+        color: 'orange',
+        icon: UnconfirmedIcon,
+        secondary: `${confirmations}/6 confirmations`
+      }
+    }
 
-        const PaymentIcon = isReceived ? ReceivedIcon : SentIcon
+    const PaymentIcon = isReceived ? ReceivedIcon : SentIcon
 
-        return <Card className={classes.card}>
+    return <Card className={classes.card}>
             <CardHeader
                 avatar={<Avatar><PaymentIcon/></Avatar>}
                 title={`${isReceived ? 'Received' : 'Sent'} ${priceBitsFormatted} bits ${date}`}
@@ -147,7 +147,7 @@ class TransactionInfo extends Component {
                 </List>
             </CardContent>
         </Card>
-    }
+  }
 }
 
 export default withStyles(styles)(TransactionInfo)

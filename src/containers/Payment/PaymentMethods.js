@@ -9,19 +9,19 @@ import { toggleComingSoonModal } from 'store/modules/ui/modal'
 import { buttonsData } from './assets/data'
 
 const style = theme => ({
-    icon: {
-        height: '20px',
-        marginRight: theme.spacing.unit
-    }
+  icon: {
+    height: '20px',
+    marginRight: theme.spacing.unit
+  }
 })
 
 function PaymentMethods({ classes, toggleComingSoonModal, comingSoonModal }) {
 
-    const onClick = label => {
-        if (label !== 'BTC') toggleComingSoonModal()
-    }
+  const onClick = label => {
+    if (label !== 'BTC') toggleComingSoonModal()
+  }
 
-    return <CardActions>
+  return <CardActions>
         {buttonsData.map(({ label, active, icon, iconBlue }, idx) => (
             <Button
                 variant={active ? 'raised' : 'flat'}
@@ -43,7 +43,7 @@ function PaymentMethods({ classes, toggleComingSoonModal, comingSoonModal }) {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={toggleComingSoonModal} color="primary" autoFocus>
+            <Button onClick={toggleComingSoonModal} color='primary' autoFocus>
               Ok
             </Button>
           </DialogActions> 
