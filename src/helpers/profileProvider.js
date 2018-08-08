@@ -11,7 +11,7 @@ export default {
     console.log(localProfiles[didId]);
 
     // Add some artificial delay to mimic API request latency.
-    await new Promise(resolve => window.setTimeout(resolve, 500 + 1000 * Math.random()));
+    await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
 
     return localProfiles[didId];
   },
@@ -31,7 +31,7 @@ export default {
     window.localStorage.setItem("chlu-wallet.local-profiles", JSON.stringify(localProfiles));
 
     // Add some artificial delay to mimic API request latency.
-    await new Promise(resolve => window.setTimeout(resolve, 500 + 1000 * Math.random()));
+    await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
   },
   searchProfiles: async (type, location, name) => {
 

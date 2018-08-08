@@ -281,7 +281,6 @@ class Settings extends Component {
             formControlProps={{
               fullWidth: true
             }}
-            value={profile.firstname}
             inputProps={{
               onChange: event => this.change(event, 'firstname', 'length', 3),
               value: profile.firstname || "",

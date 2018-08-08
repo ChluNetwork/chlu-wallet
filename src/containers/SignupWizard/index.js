@@ -3,6 +3,7 @@ import Wizard from 'components/MaterialDashboardPro/Wizard'
 import Step1 from './WizardSteps/Step1'
 import Step2 from './WizardSteps/Step2'
 import Step3 from './WizardSteps/Step3'
+
 // redux
 import { connect } from 'react-redux'
 import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
@@ -12,16 +13,21 @@ import { setWallet } from 'store/modules/data/wallet'
 import { toastr } from 'react-redux-toastr'
 import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
+
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick, isEmpty } from 'lodash'
+
+// stores, I guess
+import profileProvider from 'helpers/profileProvider';
 
 class SignupWizard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      signupType: undefined // "user" or "business"
+      signupType: undefined, // "user" or "business"
+      profile: {}
     };
   }
 
@@ -46,6 +52,7 @@ class SignupWizard extends Component {
     if (wallet && wallet.did) {
       downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
     } else {
+      profileProvider.setProfile(walletCreated.did.publicDidDocument.id, this.state.profile);
       downloadWalletFile(walletCreated)
     }
     setWalletSaved(true)
@@ -87,6 +94,13 @@ class SignupWizard extends Component {
     });
   }
 
+  onProfileFieldChange = (fieldName, fieldValue) => {
+    this.setState(state => {
+      state.profile[fieldName] = fieldValue;
+      return state;
+    });
+  }
+
   finishClicked() {
     if (!isEmpty(this.props.reputation)) {
       // Reputation is there
@@ -94,6 +108,8 @@ class SignupWizard extends Component {
     } else {
       this.props.submit('individualsCrawlerForm')
     }
+
+
   }
 
   render() {
@@ -115,7 +131,8 @@ class SignupWizard extends Component {
           stepId: 'get started',
           stepProps: {
             ...this.props,
-            onSignupTypeChange: this.onSignupTypeChange
+            onSignupTypeChange: this.onSignupTypeChange,
+            onProfileFieldChange: this.onProfileFieldChange
           }
         },
         {
