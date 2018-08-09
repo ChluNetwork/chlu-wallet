@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
 import { setAcceptTermsAndConditions } from 'store/modules/components/SignupWizard'
 import { readMyReputation } from 'store/modules/data/reputation'
-import { setWallet } from 'store/modules/data/wallet'
+import { setWallet, setWalletToCreatedWallet } from 'store/modules/data/wallet'
 import { toastr } from 'react-redux-toastr'
 import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
@@ -83,7 +83,9 @@ class SignupWizard extends Component {
 
   onChangeStep(from, to) {
     const { walletCreated, createWallet } = this.props
-    if (to === 1 && !walletCreated) createWallet()
+    if (to === 1 && !walletCreated) {
+      createWallet()
+    }
   }
 
   onSignupTypeChange = (signupType) => {
@@ -104,10 +106,12 @@ class SignupWizard extends Component {
       // Reputation is there
       this.props.push('/reputation')
     } else {
-      this.props.submit('individualsCrawlerForm')
+      if (this.state.signupType === "business") {
+        this.props.submit('individualsCrawlerForm') // Does the wallet login.
+      } else {
+        this.props.setWalletToCreatedWallet()
+      }
     }
-
-
   }
 
   render() {
@@ -121,7 +125,6 @@ class SignupWizard extends Component {
       finishButtonClick={this.finishClicked.bind(this)}
       nextButtonDisabled={crawlerRunning}
       previousButtonDisabled={crawlerRunning}
-
       steps={[
         {
           stepName: 'Step 1: Create Your Account',
@@ -164,6 +167,14 @@ const mapDispatchToProps = {
   createWallet,
   setWallet,
   setWalletSaved,
+  setWalletToCreatedWallet: () => {
+    return async (dispatch) => {
+      // set and save full wallet
+      await dispatch(setWalletToCreatedWallet())
+      toastr.success('Logged in', 'Your Wallet is ready to go!')
+      dispatch(push('/reputation'))
+    }
+  },
   readMyReputation,
   setAcceptTermsAndConditions,
   push,
