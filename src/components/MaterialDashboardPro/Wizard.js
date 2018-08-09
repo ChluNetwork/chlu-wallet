@@ -109,12 +109,12 @@ class Wizard extends React.Component {
       this.refreshAnimation(key);
     }
   }
-    finishButtonClick() {
-      if (this.props.validate &&
+  finishButtonClick() {
+    if (this.props.validate &&
           this.props.validate(this.state.currentStep) &&
           this.props.finishButtonClick !== undefined) {
-              this.props.finishButtonClick();
-      }
+      this.props.finishButtonClick();
+    }
   }
   refreshAnimation(index) {
     var total = this.props.steps.length;

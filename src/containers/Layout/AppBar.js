@@ -15,15 +15,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import chluLogo from 'images/svg/chlu-2.svg'
 
 const style = {
-    logo: {
-        maxWidth: '150px'
-    },
-    title: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+  logo: {
+    maxWidth: '150px'
+  },
+  title: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 }
 
 function ChluAppBar({
@@ -31,7 +31,7 @@ function ChluAppBar({
     changeUserType,
     classes
 }) {
-    return <AppBar position='static'>
+  return <AppBar position='static'>
         <Toolbar>
             <IconButton onClick={toggleDrawer} className={classes.menuButton} color='inherit'>
                 <MenuIcon />

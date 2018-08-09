@@ -150,8 +150,8 @@ class Step3 extends React.Component {
                 tabIcon: Business,
                 tabContent: (
                   <RegularCard
-                    cardTitle="To begin, simply enter your email & password for any of the sites below on which you have an active profile.
-                    We extract, merge and decentrally store your reputation in a portable format so you own and control it."
+                    cardTitle='To begin, simply enter your email & password for any of the sites below on which you have an active profile.
+                    We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
                     content={<BusinessCrawlerForm />}
                   />
                 )
@@ -161,8 +161,8 @@ class Step3 extends React.Component {
                 tabIcon: ShoppingCart,
                 tabContent: (
                 <RegularCard
-                  cardTitle="To begin, simply enter your email & password for any of the sites below on which you have an active profile.
-                  We extract, merge and decentrally store your reputation in a portable format so you own and control it."
+                  cardTitle='To begin, simply enter your email & password for any of the sites below on which you have an active profile.
+                  We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
                   content={<ProductOwnersCrawlerForm />}
                 />
                 )
@@ -179,7 +179,7 @@ class Step3 extends React.Component {
           </Grid>
         </Grid>
       </div>
-    );
+      );
     }
 
   }

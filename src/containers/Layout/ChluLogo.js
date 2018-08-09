@@ -23,7 +23,7 @@ class ChluLogo extends React.Component {
       <Link onMouseEnter={this.handleMouseOver} to='/'>
         <div className={this.props.classes.logo}>
           <svg
-            viewBox="0 0 100 100"
+            viewBox='0 0 100 100'
             style={svgStyle}
           >
             {this.circle(0, this.props.logoSize, this.props.logoSize / 5, false, true)}
@@ -52,7 +52,7 @@ class ChluLogo extends React.Component {
           <path
             x={0}
             y={0}
-            fill="transparent"
+            fill='transparent'
             stroke={this.props.color}
             strokeWidth={w}
             d={d}
@@ -61,7 +61,7 @@ class ChluLogo extends React.Component {
             opacity={noDashedArc ? 0 : 1}
             x={0}
             y={0}
-            fill="transparent"
+            fill='transparent'
             stroke={this.props.color}
             strokeWidth={w2}
             strokeDasharray={`${w2} ${w2 * DASH_GAP_FACTOR}`}

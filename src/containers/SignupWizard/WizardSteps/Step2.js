@@ -64,22 +64,22 @@ class Step2 extends React.Component {
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case 'email':
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + 'State']: 'success' });
-        } else {
-          this.setState({ [stateName + 'State']: 'error' });
-        }
-        break;
-      case 'length':
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
-          this.setState({ [stateName + 'State']: 'success' });
-        } else {
-          this.setState({ [stateName + 'State']: 'error' });
-        }
-        break;
-      default:
-        break;
+    case 'email':
+      if (this.verifyEmail(event.target.value)) {
+        this.setState({ [stateName + 'State']: 'success' });
+      } else {
+        this.setState({ [stateName + 'State']: 'error' });
+      }
+      break;
+    case 'length':
+      if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+        this.setState({ [stateName + 'State']: 'success' });
+      } else {
+        this.setState({ [stateName + 'State']: 'error' });
+      }
+      break;
+    default:
+      break;
     }
     this.setState({ [stateName]: event.target.value });
   }
@@ -134,7 +134,7 @@ class Step2 extends React.Component {
               Anyone can create a review with Chlu, but <em>only Trusted Reviewers can earn Chlu token</em>.
               There are three requirements to earn Chlu token from writing a review:
               <ul>
-                <li>The reviewer must be a Trusted Reviewer who has provided <a href="https://en.wikipedia.org/wiki/Know_your_customer">KYC</a> data</li>
+                <li>The reviewer must be a Trusted Reviewer who has provided <a href='https://en.wikipedia.org/wiki/Know_your_customer'>KYC</a> data</li>
                 <li>There must be verified proof of payment associated with the review - the Chlu protocol leverages verifable proof using blockchain technology</li>
                 <li>The review must be found useful by others</li>
               </ul>

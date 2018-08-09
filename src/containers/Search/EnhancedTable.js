@@ -21,9 +21,9 @@ import profileProvider from 'helpers/profileProvider';
 
 let counter = 0;
 
-function createData(username, firstname, lastname, location,  averagescore) {
+function createData(username, firstname, lastname, location, averagescore, didid) {
   counter += 1;
-  return { id: counter, username, firstname, lastname, location, averagescore }; // 🥕
+  return { id: counter, username, firstname, lastname, location, averagescore, didid };
 }
 
 function getSorting(order, orderBy) {
@@ -190,7 +190,7 @@ class EnhancedTable extends React.Component {
 
     profileProvider.searchProfiles(undefined, undefined, this.props.searchName).then(results => {
       if (currentSearchName === this.props.searchName) {
-        this.setState({ data: results.map(profile => createData(profile.username, profile.firstname, profile.lastname, undefined)) });
+        this.setState({ data: results.map(profile => createData(profile.username, profile.firstname, profile.lastname, undefined, undefined, profile.id)) });
       }
     });
   }
@@ -251,12 +251,12 @@ class EnhancedTable extends React.Component {
                   return (
                       <TableRow
                         hover
-//                        onClick={event => this.handleClick(event, n.id)}
-                        onClick={()=> replace('/profile/'+n.username)}
+                        onClick={() => replace('/profile/' + n.didid)}
+                        style={{ cursor: "pointer" }}
                         role="checkbox"
                         aria-checked={isSelected}
                         tabIndex={-1}
-                        key={n.id}
+                        key={n.didid}
                         selected={isSelected}
                       >
                         <TableCell component="th" scope="row" padding="none">

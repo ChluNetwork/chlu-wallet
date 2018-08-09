@@ -19,10 +19,10 @@ window.reduxStore = store;
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <MainLayout/>
-      </ConnectedRouter>
-    </Provider>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <MainLayout/>
+        </ConnectedRouter>
+      </Provider>
   )
 }
