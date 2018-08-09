@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Checkout /> should render correctly checkout container 1`] = `<Connect(Checkout) />`;
