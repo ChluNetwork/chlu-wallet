@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/ChluNetwork/chlu-demo.svg?branch=master)](https://travis-ci.org/ChluNetwork/chlu-demo.svg?branch=master)
+[![Build Status](https://travis-ci.org/ChluNetwork/chlu-wallet.svg?branch=master)](https://travis-ci.org/ChluNetwork/chlu-wallet)
 
 ## What is Chlu?
 
