@@ -23,7 +23,7 @@ let counter = 0;
 
 function createData(username, firstname, lastname, location, averagescore, didid) {
   counter += 1;
-  return { id: counter, username, firstname, lastname, location, averagescore, didid }; // 🥕
+  return { id: counter, username, firstname, lastname, location, averagescore, didid };
 }
 
 function getSorting(order, orderBy) {
