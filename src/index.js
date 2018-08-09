@@ -6,9 +6,9 @@ import App from './containers/App';
 
 // others
 //import registerServiceWorker from './registerServiceWorker';
-import { getChluIPFS, types } from 'helpers/ipfs';
+import { getChluIPFS } from 'helpers/ipfs';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 //registerServiceWorker();
 
-getChluIPFS(types.customer)
+getChluIPFS()
