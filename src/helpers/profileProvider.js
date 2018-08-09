@@ -45,16 +45,12 @@ export default {
     // Add some artificial delay to mimic API request latency.
     await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
 
-    if (!name) {
-      return Object.values(localProfiles);
-    }
-
     for (let id of Object.keys(localProfiles)) {
       let profile = localProfiles[id];
       let firstName = profile.firstname || "";
       let lastName = profile.lastname || "";
 
-      if (firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
+      if (!name || firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
         filteredProfiles.push({
           ...profile,
           id: id
