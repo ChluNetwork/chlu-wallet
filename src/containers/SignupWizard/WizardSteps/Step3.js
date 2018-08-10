@@ -84,15 +84,15 @@ class Step3 extends React.Component {
       return (
       <div>
         <Grid container justify='center'>
-          <Grid item xs={12} sm={12} md={9} justify='center'>
+          <Grid item xs={12} sm={12} md={9}>
               <h5>Your Chlu Wallet is now created. You must download and save your public and private keys to continue.</h5>
           </Grid>
-          <Grid item xs={12} sm={12} md={3} justify='center'>
+          <Grid item xs={12} sm={12} md={3}>
             <Button color='success' onClick={downloadWallet}>
               <DownloadIcon/> Save My Keys
             </Button>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} justify='center'>
+          <Grid item xs={12} sm={12} md={12}>
             <hr></hr>
           </Grid>
           <Grid item xs={12} sm={12} md={9} className={classes.itemGrid}>

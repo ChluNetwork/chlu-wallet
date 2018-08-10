@@ -46,11 +46,15 @@ class SignupWizard extends Component {
   }
 
   downloadWallet() {
+    console.log('downloadWallet executing SignupWizard index.js file.');
     const { wallet, walletCreated, setWalletSaved } = this.props
     if (wallet && wallet.did) {
       downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
     } else {
-      profileProvider.setProfile(walletCreated.did.publicDidDocument.id, this.state.profile);
+      profileProvider.setProfile(walletCreated.did.publicDidDocument.id, {
+        ...this.state.profile,
+        'AIRDROP_LEVEL': 'ZERO'
+      });
       downloadWalletFile(walletCreated)
     }
     setWalletSaved(true)
@@ -102,13 +106,22 @@ class SignupWizard extends Component {
   }
 
   finishClicked() {
+    console.log('finishedClicked executing SignupWizard index.js file.');
+    const { walletCreated } = this.props
+
     if (!isEmpty(this.props.reputation)) {
       // Reputation is there
       this.props.push('/reputation')
     } else {
       if (this.state.signupType === "business") {
+        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
+          'ACCOUNT_TYPE': 'business'
+        });
         this.props.submit('individualsCrawlerForm') // Does the wallet login.
       } else {
+        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
+          'ACCOUNT_TYPE': 'individual'
+        });
         this.props.setWalletToCreatedWallet()
       }
     }
@@ -142,6 +155,7 @@ class SignupWizard extends Component {
           stepId: 'about',
           stepProps: {
             ...this.props,
+            onProfileFieldChange: this.onProfileFieldChange,
             downloadWallet: this.downloadWallet.bind(this)
           }
         }

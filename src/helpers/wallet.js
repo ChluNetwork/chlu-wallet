@@ -34,6 +34,7 @@ export function deleteWalletFromLocalStorage() {
 }
 
 export function downloadWallet(wallet) {
+  console.log('downloadWallet executing wallet.js file...');
   const obj = pick(wallet, [
     'did',
     'bitcoinMnemonic',
