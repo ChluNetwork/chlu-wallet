@@ -364,17 +364,20 @@ class Step1 extends React.Component {
 
   render() {
     const { classes, wallet } = this.props;
+
     if (wallet && wallet.did) {
-      return <Grid container justify='center'>
-        <Grid item xs={4}>
-          <InfoArea
-            icon={DoneIcon}
-            iconColor='success'
-            title='All done'
-            description='Your wallet is ready to go'
-          />
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={DoneIcon}
+              iconColor='success'
+              title='All done'
+              description='Your wallet is ready to go'
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      )
     } else {
       return (
         <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>

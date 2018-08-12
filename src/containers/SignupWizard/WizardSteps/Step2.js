@@ -90,31 +90,35 @@ class Step2 extends React.Component {
     const { classes, loading, walletCreated, downloadWallet, wallet } = this.props;
 
     if (wallet && wallet.did) {
-      return <Grid container justify='center'>
-        <Grid item xs={4}>
-          <InfoArea
-            icon={DoneIcon}
-            iconColor='success'
-            title='All done'
-            description='You have saved your Keys'
-          >
-            <Button color='success' onClick={() => downloadWallet(true)}>
-              <DownloadIcon/> Download again
-            </Button>
-          </InfoArea>
-        </Grid>
-      </Grid>
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={DoneIcon}
+              iconColor='success'
+              title='All done'
+              description='You have saved your Keys'
+            >
+              <Button color='success' onClick={() => downloadWallet(true)}>
+                <DownloadIcon/> Download again
+              </Button>
+            </InfoArea>
+          </Grid>
+          </Grid>
+      )
     } else if (loading || !walletCreated) {
-      return <Grid container justify='center'>
-        <Grid item xs={4}>
-          <InfoArea
-            icon={CircularProgress}
-            iconColor='warning'
-            title='Creating Wallet'
-            description='Please wait until your wallet is ready'
-          />
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={CircularProgress}
+              iconColor='warning'
+              title='Creating Wallet'
+              description='Please wait until your wallet is ready'
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      )
     } else {
       return (
         <Grid container justify='center'>

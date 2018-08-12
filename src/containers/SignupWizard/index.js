@@ -131,38 +131,40 @@ class SignupWizard extends Component {
     const { wallet, crawlerRunning } = this.props
     const initialStep = wallet.did ? 1 : 0
 
-    return <Wizard
-      validate={this.validate.bind(this)}
-      currentStep={initialStep}
-      onChangeStep={this.onChangeStep.bind(this)}
-      finishButtonClick={this.finishClicked.bind(this)}
-      nextButtonDisabled={crawlerRunning}
-      previousButtonDisabled={crawlerRunning}
-      steps={[
-        {
-          stepName: 'Step 1: Create Your Account',
-          stepComponent: Step1,
-          stepId: 'get started',
-          stepProps: {
-            ...this.props,
-            onSignupTypeChange: this.onSignupTypeChange,
-            onProfileFieldChange: this.onProfileFieldChange
+    return (
+      <Wizard
+        validate={this.validate.bind(this)}
+        currentStep={initialStep}
+        onChangeStep={this.onChangeStep.bind(this)}
+        finishButtonClick={this.finishClicked.bind(this)}
+        nextButtonDisabled={crawlerRunning}
+        previousButtonDisabled={crawlerRunning}
+        steps={[
+          {
+            stepName: 'Step 1: Create Your Account',
+            stepComponent: Step1,
+            stepId: 'get started',
+            stepProps: {
+              ...this.props,
+              onSignupTypeChange: this.onSignupTypeChange,
+              onProfileFieldChange: this.onProfileFieldChange
+            }
+          },
+          {
+            stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
+            stepComponent: this.state.signupType === "business" ? Step3 : Step2,
+            stepId: 'about',
+            stepProps: {
+              ...this.props,
+              onProfileFieldChange: this.onProfileFieldChange,
+              downloadWallet: this.downloadWallet.bind(this)
+            }
           }
-        },
-        {
-          stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
-          stepComponent: this.state.signupType === "business" ? Step3 : Step2,
-          stepId: 'about',
-          stepProps: {
-            ...this.props,
-            onProfileFieldChange: this.onProfileFieldChange,
-            downloadWallet: this.downloadWallet.bind(this)
-          }
-        }
-      ]}
-      title="Let's Get Started"
-      subtitle='Follow The Three Easy Steps Below To Begin'
-    />
+        ]}
+        title="Let's Get Started"
+        subtitle='Follow The Three Easy Steps Below To Begin'
+      />
+    )
   }
 }
 
