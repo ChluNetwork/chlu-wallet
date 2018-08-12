@@ -13,7 +13,8 @@ import BusinessIcon from '@material-ui/icons/Business';
 import Star from '@material-ui/icons/Star';
 import Add from '@material-ui/icons/Add';
 
-import EnhancedTable from './EnhancedTable';
+import BusinessSearchResults from './BusinessSearchResults';
+import IndividualSearchResults from './IndividualSearchResults';
 
 // icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -89,19 +90,10 @@ class Search extends Component {
     super(props);
     this.state = {
       value: 0,
-      searchName: ""
+      searchName: "",
+      actType: 'individual'
     }
   }
-
-  handleMenuChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  handleChange = name => value => {
-    this.setState({
-      [name]: value,
-    });
-  };
 
   handleTabChange = (event, value) => {
     this.setState({ value });
@@ -117,37 +109,6 @@ class Search extends Component {
         <CardContent>
 
         {value === 0 && <TabContainer>
-            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
-              <Grid item xs={12} sm={12} md={12}>
-                <Typography variant="headline" align="center">
-                  Search for people to pay and review
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={12} md={3}>
-                <TextField
-                  id="search"
-                  label="Name"
-                  type="search"
-                  value={this.state.searchName}
-                  onChange={(e) => this.setState({ searchName: e.target.value })}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}>
-                <Select
-                  classes={classes}
-                  options={locations}
-                  placeholder="Location"
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={2}>
-                <Button variant="contained" color="secondary" className={classes.button}>
-                  Search <SearchIcon className={classes.rightIcon} />
-                </Button>
-              </Grid>
-            </Grid>
-          </TabContainer>}
-        {value === 1 && <TabContainer>
             <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant="headline" align="center">
@@ -190,6 +151,38 @@ class Search extends Component {
               </Grid>
             </Grid>
           </TabContainer>}
+        {value === 1 && <TabContainer>
+            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
+              <Grid item xs={12} sm={12} md={12}>
+                <Typography variant="headline" align="center">
+                  Search for people to pay and review
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={12} md={3}>
+                <TextField
+                  id="search"
+                  label="Name"
+                  type="search"
+                  value={this.state.searchName}
+                  onChange={(e) => this.setState({ searchName: e.target.value })}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Select
+                  classes={classes}
+                  options={locations}
+                  placeholder="Location"
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={2}>
+                <Button variant="contained" color="secondary" className={classes.button}>
+                  Search <SearchIcon className={classes.rightIcon} />
+                </Button>
+              </Grid>
+            </Grid>
+          </TabContainer>}
+
 
           <Tabs
             value={this.state.value}
@@ -199,12 +192,11 @@ class Search extends Component {
             textColor="secondary"
             centered
           >
-            <Tab icon={<AccountCircleIcon />} label="People" />
             <Tab icon={<BusinessIcon />} label="Businesses" />
+            <Tab icon={<AccountCircleIcon />} label="People" />
           </Tabs>
-
         <Divider/>
-          <EnhancedTable searchName={this.state.searchName} />
+          {this.state.value == 0 ? <BusinessSearchResults searchName={this.state.searchName} /> : <IndividualSearchResults searchName={this.state.searchName} />}
         </CardContent>
       </Card>
   }

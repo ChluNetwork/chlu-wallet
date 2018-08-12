@@ -99,6 +99,7 @@ class SignupWizard extends Component {
   }
 
   onProfileFieldChange = (fieldName, fieldValue) => {
+    console.log("onProfileFieldChange executing for fieldName: "+fieldName+" with fieldValue: "+fieldValue)
     this.setState(state => {
       state.profile[fieldName] = fieldValue;
       return state;
@@ -115,14 +116,22 @@ class SignupWizard extends Component {
     } else {
       if (this.state.signupType === "business") {
         profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
-          'ACCOUNT_TYPE': 'business'
+          'type': 'business'
         });
         this.props.submit('individualsCrawlerForm') // Does the wallet login.
+        toastr.success(
+          'Congratulations',
+          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+        )
       } else {
         profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
-          'ACCOUNT_TYPE': 'individual'
+          'type': 'individual'
         });
         this.props.setWalletToCreatedWallet()
+        toastr.success(
+          'Congratulations',
+          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+        )
       }
     }
   }

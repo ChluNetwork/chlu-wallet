@@ -55,8 +55,9 @@ const profileProvider = {
       let profile = localProfiles[id];
       let firstName = profile.firstname || "";
       let lastName = profile.lastname || "";
+      let profileType = profile.type || "individual";
 
-      if (!name || firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
+      if ((!name || firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) && type === profileType) {
         filteredProfiles.push({
           ...profile,
           id: id

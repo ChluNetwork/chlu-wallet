@@ -9,11 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
 import Avatar from '@material-ui/core/Avatar';
 import replace from 'helpers/replace'
 
@@ -39,7 +36,7 @@ const columnData = [
   { id: 'averagescore', numeric: true, disablePadding: false, label: 'Reviews' },
 ];
 
-class EnhancedTableHead extends React.Component {
+class IndividualSearchResultsHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -80,7 +77,7 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
-EnhancedTableHead.propTypes = {
+IndividualSearchResultsHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
@@ -88,57 +85,6 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
-const toolbarStyles = theme => ({
-  root: {
-    paddingRight: theme.spacing.unit,
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  spacer: {
-    flex: '1 1 100%',
-  },
-  actions: {
-    color: theme.palette.text.secondary,
-  },
-  title: {
-    flex: '0 0 auto',
-  },
-});
-
-let EnhancedTableToolbar = props => {
-  const { numSelected, classes } = props;
-
-  return (
-    <Toolbar
-      className={classNames(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      <div className={classes.title}>
-          <Typography variant="title" id="tableTitle">
-            Search Results
-          </Typography>
-      </div>
-      <div className={classes.spacer} />
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-};
-
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
   root: {
@@ -161,13 +107,13 @@ const styles = theme => ({
   },
 });
 
-class EnhancedTable extends React.Component {
+class IndividualSearchResults extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       order: 'asc',
-      orderBy: 'lastname',
+      orderBy: 'firstname',
       selected: [],
       data: [],
       page: 0,
@@ -188,7 +134,9 @@ class EnhancedTable extends React.Component {
   updateSearchData() {
     let currentSearchName = this.props.searchName;
 
-    profileProvider.searchProfiles(undefined, undefined, this.props.searchName).then(results => {
+    console.log("Calling update search with search name: "+currentSearchName)
+
+    profileProvider.searchProfiles('individual', undefined, this.props.searchName).then(results => {
       if (currentSearchName === this.props.searchName) {
         this.setState({ data: results.map(profile => createData(profile.username, profile.firstname, profile.lastname, undefined, undefined, profile.id)) });
       }
@@ -231,10 +179,10 @@ class EnhancedTable extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <h3>Search Results</h3>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
+            <IndividualSearchResultsHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -301,8 +249,8 @@ class EnhancedTable extends React.Component {
   }
 }
 
-EnhancedTable.propTypes = {
+IndividualSearchResults.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+export default withStyles(styles)(IndividualSearchResults);

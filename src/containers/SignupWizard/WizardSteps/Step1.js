@@ -272,7 +272,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'Business Name', 'length', 3),
+              onChange: event => this.change(event, 'businessname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -302,6 +302,7 @@ class Step1 extends React.Component {
               value={this.state.simpleSelect}
               onChange={this.handleSimple}
               inputProps={{
+                onChange: event => this.change(event, 'businesstype'),
                 name: "simpleSelect",
                 id: "simple-select"
               }}
@@ -353,6 +354,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
+              onChange: event => this.change(event, 'businessdescription'),
               multiline: true,
               rows: 5
             }}
