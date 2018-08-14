@@ -1,5 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
+import { geocode } from 'helpers/geocode';
 
 const STYLE = {
   height: 300,
@@ -10,6 +11,14 @@ const STYLE = {
 mapboxgl.accessToken = 'pk.eyJ1Ijoiam9obndlaXN6IiwiYSI6ImNqa3NheWoyNTQzMHkzcW8zem4waTMyMmkifQ._qzWXiBScWpNONx6BxWvgg';
 
 export default class BusinessLocation extends React.PureComponent {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      position: undefined
+    };
+  }
+
   render() {
     if (!this.props.location) {
       return null;
@@ -22,16 +31,21 @@ export default class BusinessLocation extends React.PureComponent {
 
   componentDidMount() {
     this.createMapIfNeeded();
+
+    if (this.props.location) {
+      this.assignCoordinatesFromCurrentLocation();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      if (this.map) {
-        this.map.remove();
-      }
+    if (!this.props.location && this.map) {
+      this.map.remove();
+    } else if (this.props.location !== prevProps.location && this.map) {
+      // Location changing, need new coordinates for map.
+      this.assignCoordinatesFromCurrentLocation();
+    } else {
+      this.createMapIfNeeded();
     }
-
-    this.createMapIfNeeded();
   }
 
   componentWillUnmount() {
@@ -44,8 +58,34 @@ export default class BusinessLocation extends React.PureComponent {
     if (this.container && !this.map) {
       this.map = new mapboxgl.Map({
         container: this.container,
-        style: 'mapbox://styles/mapbox/streets-v9'
+        style: 'mapbox://styles/mapbox/streets-v9',
       });
+    }
+  }
+
+  async assignCoordinatesFromCurrentLocation() {
+    let location = this.props.location;
+    let coords = await geocode(this.props.location);
+
+    if (!coords || location !== this.props.location) return;
+
+    let { latitude, longitude, bounds } = coords;
+
+    if (this.map) {
+      let markerElem = document.createElement("div");
+
+      markerElem.style.width = "24px";
+      markerElem.style.height = "24px";
+      markerElem.style.borderRadius = "24px";
+      markerElem.style.backgroundColor = "red";
+      markerElem.style.border = "2px solid white";
+
+      if (this.locationMarker) {
+        this.locationMarker.remove();
+      }
+
+      this.locationMarker = new mapboxgl.Marker(markerElem).setLngLat([latitude, longitude]).addTo(this.map);
+      this.map.fitBounds(bounds);
     }
   }
 }
