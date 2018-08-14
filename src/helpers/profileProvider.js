@@ -1,4 +1,4 @@
-export default {
+const profileProvider = {
   getProfile: async (didId) => {
     let localProfilesJson = window.localStorage.getItem("chlu-wallet.local-profiles");
     let localProfiles = {};
@@ -33,6 +33,12 @@ export default {
     // Add some artificial delay to mimic API request latency.
     await new Promise(resolve => window.setTimeout(resolve, 200 + 200 * Math.random()));
   },
+  updateProfile: async (didId, profileData) => {
+    await profileProvider.setProfile(didId, {
+      ...(await profileProvider.getProfile(didId)),
+      ...profileData
+    });
+  },
   searchProfiles: async (type, location, name) => {
     let localProfilesJson = window.localStorage.getItem("chlu-wallet.local-profiles");
     let localProfiles = {};
@@ -49,8 +55,9 @@ export default {
       let profile = localProfiles[id];
       let firstName = profile.firstname || "";
       let lastName = profile.lastname || "";
+      let profileType = profile.type || "individual";
 
-      if (!name || firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) {
+      if ((!name || firstName.indexOf(name) !== -1 || lastName.indexOf(name) !== -1) && type === profileType) {
         filteredProfiles.push({
           ...profile,
           id: id
@@ -61,3 +68,5 @@ export default {
     return filteredProfiles;
   }
 };
+
+export default profileProvider;

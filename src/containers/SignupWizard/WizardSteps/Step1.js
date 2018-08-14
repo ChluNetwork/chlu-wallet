@@ -272,7 +272,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'Business Name', 'length', 3),
+              onChange: event => this.change(event, 'businessname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -302,6 +302,7 @@ class Step1 extends React.Component {
               value={this.state.simpleSelect}
               onChange={this.handleSimple}
               inputProps={{
+                onChange: event => this.change(event, 'businesstype'),
                 name: "simpleSelect",
                 id: "simple-select"
               }}
@@ -353,6 +354,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
+              onChange: event => this.change(event, 'businessdescription'),
               multiline: true,
               rows: 5
             }}
@@ -364,17 +366,20 @@ class Step1 extends React.Component {
 
   render() {
     const { classes, wallet } = this.props;
+
     if (wallet && wallet.did) {
-      return <Grid container justify='center'>
-        <Grid item xs={4}>
-          <InfoArea
-            icon={DoneIcon}
-            iconColor='success'
-            title='All done'
-            description='Your wallet is ready to go'
-          />
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={DoneIcon}
+              iconColor='success'
+              title='All done'
+              description='Your wallet is ready to go'
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      )
     } else {
       return (
         <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>

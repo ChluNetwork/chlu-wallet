@@ -46,11 +46,15 @@ class SignupWizard extends Component {
   }
 
   downloadWallet() {
+    console.log('downloadWallet executing SignupWizard index.js file.');
     const { wallet, walletCreated, setWalletSaved } = this.props
     if (wallet && wallet.did) {
       downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
     } else {
-      profileProvider.setProfile(walletCreated.did.publicDidDocument.id, this.state.profile);
+      profileProvider.setProfile(walletCreated.did.publicDidDocument.id, {
+        ...this.state.profile,
+        'AIRDROP_LEVEL': 'ZERO'
+      });
       downloadWalletFile(walletCreated)
     }
     setWalletSaved(true)
@@ -95,6 +99,7 @@ class SignupWizard extends Component {
   }
 
   onProfileFieldChange = (fieldName, fieldValue) => {
+    console.log("onProfileFieldChange executing for fieldName: "+fieldName+" with fieldValue: "+fieldValue)
     this.setState(state => {
       state.profile[fieldName] = fieldValue;
       return state;
@@ -102,14 +107,31 @@ class SignupWizard extends Component {
   }
 
   finishClicked() {
+    console.log('finishedClicked executing SignupWizard index.js file.');
+    const { walletCreated } = this.props
+
     if (!isEmpty(this.props.reputation)) {
       // Reputation is there
       this.props.push('/reputation')
     } else {
       if (this.state.signupType === "business") {
+        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
+          'type': 'business'
+        });
         this.props.submit('individualsCrawlerForm') // Does the wallet login.
+        toastr.success(
+          'Congratulations',
+          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+        )
       } else {
+        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
+          'type': 'individual'
+        });
         this.props.setWalletToCreatedWallet()
+        toastr.success(
+          'Congratulations',
+          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+        )
       }
     }
   }
@@ -118,37 +140,40 @@ class SignupWizard extends Component {
     const { wallet, crawlerRunning } = this.props
     const initialStep = wallet.did ? 1 : 0
 
-    return <Wizard
-      validate={this.validate.bind(this)}
-      currentStep={initialStep}
-      onChangeStep={this.onChangeStep.bind(this)}
-      finishButtonClick={this.finishClicked.bind(this)}
-      nextButtonDisabled={crawlerRunning}
-      previousButtonDisabled={crawlerRunning}
-      steps={[
-        {
-          stepName: 'Step 1: Create Your Account',
-          stepComponent: Step1,
-          stepId: 'get started',
-          stepProps: {
-            ...this.props,
-            onSignupTypeChange: this.onSignupTypeChange,
-            onProfileFieldChange: this.onProfileFieldChange
+    return (
+      <Wizard
+        validate={this.validate.bind(this)}
+        currentStep={initialStep}
+        onChangeStep={this.onChangeStep.bind(this)}
+        finishButtonClick={this.finishClicked.bind(this)}
+        nextButtonDisabled={crawlerRunning}
+        previousButtonDisabled={crawlerRunning}
+        steps={[
+          {
+            stepName: 'Step 1: Create Your Account',
+            stepComponent: Step1,
+            stepId: 'get started',
+            stepProps: {
+              ...this.props,
+              onSignupTypeChange: this.onSignupTypeChange,
+              onProfileFieldChange: this.onProfileFieldChange
+            }
+          },
+          {
+            stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
+            stepComponent: this.state.signupType === "business" ? Step3 : Step2,
+            stepId: 'about',
+            stepProps: {
+              ...this.props,
+              onProfileFieldChange: this.onProfileFieldChange,
+              downloadWallet: this.downloadWallet.bind(this)
+            }
           }
-        },
-        {
-          stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
-          stepComponent: this.state.signupType === "business" ? Step3 : Step2,
-          stepId: 'about',
-          stepProps: {
-            ...this.props,
-            downloadWallet: this.downloadWallet.bind(this)
-          }
-        }
-      ]}
-      title="Let's Get Started"
-      subtitle='Follow The Three Easy Steps Below To Begin'
-    />
+        ]}
+        title="Let's Get Started"
+        subtitle='Follow The Three Easy Steps Below To Begin'
+      />
+    )
   }
 }
 

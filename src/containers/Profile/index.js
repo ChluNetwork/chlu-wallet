@@ -18,8 +18,6 @@ import profileProvider from 'helpers/profileProvider';
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
-import Typography from '@material-ui/core/Typography';
-
 // icons
 import Email from '@material-ui/icons/Email';
 import Face from '@material-ui/icons/Face';

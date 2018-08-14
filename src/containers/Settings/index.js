@@ -19,14 +19,11 @@ import { debounce } from 'helpers/debounce';
 import { fetchProfile, updateProfile, setProfile } from 'store/modules/ui/profile';
 
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
-import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-
-
 
 // icons
 import Email from '@material-ui/icons/Email';
