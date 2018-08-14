@@ -62,7 +62,8 @@ class Step1 extends React.Component {
       email: "",
       emailState: "",
       simpleSelect: "",
-      selectedValue: "user"
+      selectedValue: "user",
+      businesstype: "0"
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
@@ -151,19 +152,14 @@ class Step1 extends React.Component {
           <PictureUpload />
           <div className={classes.description}>Upload Photo</div>
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
             success={this.state.emailState === 'success'}
             error={this.state.emailState === 'error'}
-            labelText={
-              <span>
-                Email <small>(required)</small>
-              </span>
-            }
+            labelText={<span>Email <small>(required)</small></span>}
             id='email'
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{ fullWidth: true }}
             inputProps={{
               onChange: event => this.change(event, 'email', 'length', 3),
               endAdornment: (
@@ -174,19 +170,14 @@ class Step1 extends React.Component {
             }}
           />
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
             success={this.state.usernameState === 'success'}
             error={this.state.usernameState === 'error'}
-            labelText={
-              <span>
-                User Name <small>(required)</small>
-              </span>
-            }
+            labelText={<span>User Name <small>(required)</small></span>}
             id='username'
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{ fullWidth: true }}
             inputProps={{
               onChange: event => this.change(event, 'username', 'length', 3),
               endAdornment: (
@@ -197,19 +188,14 @@ class Step1 extends React.Component {
             }}
           />
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
             success={this.state.firstnameState === 'success'}
             error={this.state.firstnameState === 'error'}
-            labelText={
-              <span>
-                First Name <small>(optional)</small>
-              </span>
-            }
+            labelText={<span>First Name <small>(optional)</small></span>}
             id='firstname'
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{ fullWidth: true }}
             inputProps={{
               onChange: event => this.change(event, 'firstname', 'length', 3),
               endAdornment: (
@@ -220,19 +206,14 @@ class Step1 extends React.Component {
             }}
           />
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
             success={this.state.lastnameState === 'success'}
             error={this.state.lastnameState === 'error'}
-            labelText={
-              <span>
-                Last Name <small>(optional)</small>
-              </span>
-            }
+            labelText={<span>Last Name <small>(optional)</small></span>}
             id='lastname'
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{ fullWidth: true }}
             inputProps={{
               onChange: event => this.change(event, 'lastname', 'length', 3),
               endAdornment: (
@@ -258,19 +239,14 @@ class Step1 extends React.Component {
           <PictureUpload />
           <div className={classes.description}>Upload Company Logo</div>
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
             success={this.state.businessnameState === 'success'}
             error={this.state.businessnameState === 'error'}
-            labelText={
-              <span>
-                Business Name <small>(optional)</small>
-              </span>
-            }
+            labelText={<span>Business Name <small>(optional)</small></span>}
             id='businessname'
-            formControlProps={{
-              fullWidth: true
-            }}
+            formControlProps={{ fullWidth: true }}
             inputProps={{
               onChange: event => this.change(event, 'businessname', 'length', 3),
               endAdornment: (
@@ -281,25 +257,17 @@ class Step1 extends React.Component {
             }}
           />
         </Grid>
+
         <Grid item xs={12} sm={12} md={5}>
-          <FormControl
-            fullWidth
-            className={classes.selectFormControl}
-          >
-            <InputLabel
-              htmlFor='simple-select'
-              className={classes.selectLabel}
-            >
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
               Business Type
-                  </InputLabel>
+            </InputLabel>
+
             <Select
-              MenuProps={{
-                className: classes.selectMenu
-              }}
-              classes={{
-                select: classes.select
-              }}
-              value={this.state.simpleSelect}
+              MenuProps={{ className: classes.selectMenu }}
+              classes={{ select: classes.select }}
+              value={this.state.businesstype}
               onChange={this.handleSimple}
               inputProps={{
                 onChange: event => this.change(event, 'businesstype'),
@@ -307,57 +275,40 @@ class Step1 extends React.Component {
                 id: "simple-select"
               }}
             >
-              <MenuItem
-                disabled
-                classes={{
-                  root: classes.selectMenuItem
-                }}
-              >
+              <MenuItem value='0' disabled classes={{ root: classes.selectMenuItem }}>
                 Select Industry
-                    </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value='1'
-              >
+              </MenuItem>
+
+              <MenuItem value='1' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
                 Accountant
-                    </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value='2'
-              >
+              </MenuItem>
+
+              <MenuItem value='2' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
                 Advertising
-                    </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value='3'
-              >
+              </MenuItem>
+
+              <MenuItem value='3' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
                 Restaurant
-                    </MenuItem>
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
+
         <Grid item xs={12} sm={12} md={10}>
-          <InputLabel style={{ color: "#AAAAAA" }}>About</InputLabel>
           <CustomInput
-            labelText='Please provide a brief description of your business.'
+            labelText='A brief description of your business.'
             id='about-me'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              onChange: event => this.change(event, 'businessdescription'),
-              multiline: true,
-              rows: 5
-            }}
+            formControlProps={{ fullWidth: true }}
+            inputProps={{ onChange: event => this.change(event, 'businessdescription') }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={10}>
+          <CustomInput
+            labelText='Where is your business located?'
+            id='location'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{ onChange: event => this.change(event, 'businesslocation') }}
           />
         </Grid>
       </Grid>
@@ -386,6 +337,8 @@ class Step1 extends React.Component {
           <Grid container justify='center' spacing={16}>
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
+                classes={{ label: classes.label }}
+                label='Create A User Account. Used to Pay, Review & Earn Chlu'
                 control={
                   <Radio
                     id='userAccount'
@@ -394,29 +347,18 @@ class Step1 extends React.Component {
                     value='user'
                     name='radio button demo'
                     aria-label='A'
-                    icon={
-                      <FiberManualRecord
-                        className={classes.radioUnchecked}
-                      />
-                    }
-                    checkedIcon={
-                      <FiberManualRecord
-                        className={classes.radioChecked}
-                      />
-                    }
-                    classes={{
-                      checked: classes.radio
-                    }}
+                    icon={<FiberManualRecord className={classes.radioUnchecked} />}
+                    checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
+                    classes={{ checked: classes.radio }}
                   />
                 }
-                classes={{
-                  label: classes.label
-                }}
-                label='Create A User Account. Used to Pay, Review & Earn Chlu'
               />
             </Grid>
+
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
+                classes={{ label: classes.label }}
+                label='Create A Professional Account. Control Your Online Reviews'
                 control={
                   <Radio
                     checked={this.state.selectedValue === "business"}
@@ -424,25 +366,11 @@ class Step1 extends React.Component {
                     value='business'
                     name='radio button demo'
                     aria-label='B'
-                    icon={
-                      <FiberManualRecord
-                        className={classes.radioUnchecked}
-                      />
-                    }
-                    checkedIcon={
-                      <FiberManualRecord
-                        className={classes.radioChecked}
-                      />
-                    }
-                    classes={{
-                      checked: classes.radio
-                    }}
+                    icon={<FiberManualRecord className={classes.radioUnchecked} />}
+                    checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
+                    classes={{ checked: classes.radio }}
                   />
                 }
-                classes={{
-                  label: classes.label
-                }}
-                label='Create A Professional Account. Control Your Online Reviews'
               />
             </Grid>
 
@@ -450,31 +378,18 @@ class Step1 extends React.Component {
             {this.renderBusiness()}
 
             <Grid item xs={12} sm={12} md={10}>
-
               <FormControlLabel
-                classes={{
-                  root: classes.checkboxLabelControl,
-                  label: classes.checkboxLabel
-                }}
+                classes={{ root: classes.checkboxLabelControl, label: classes.checkboxLabel }}
+                label={<span>I agree to the <Link to='/terms'>terms and conditions</Link>.</span>}
                 control={
                   <Checkbox
                     tabIndex={-1}
                     checked={this.props.acceptedTerms}
                     onClick={this.toggleAcceptTerms.bind(this)}
-                    checkedIcon={
-                      <Check className={classes.checkedIcon} />
-                    }
+                    checkedIcon={<Check className={classes.checkedIcon} />}
                     icon={<Check className={classes.uncheckedIcon} />}
-                    classes={{
-                      checked: classes.checked
-                    }}
+                    classes={{ checked: classes.checked }}
                   />
-                }
-                label={
-                  <span>
-                    I agree to the{' '}
-                    <Link to='/terms'>terms and conditions</Link>.
-                  </span>
                 }
               />
             </Grid>
