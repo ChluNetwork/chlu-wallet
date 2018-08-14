@@ -88,7 +88,7 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
+      value: "user",
       searchName: ""
     }
   }
@@ -116,7 +116,7 @@ class Search extends Component {
         <Divider/>
         <CardContent>
 
-        {value === 0 && <TabContainer>
+        {value === "user" && <TabContainer>
             <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant="headline" align="center">
@@ -147,7 +147,7 @@ class Search extends Component {
               </Grid>
             </Grid>
           </TabContainer>}
-        {value === 1 && <TabContainer>
+        {value === "business" && <TabContainer>
             <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant="headline" align="center">
@@ -199,14 +199,14 @@ class Search extends Component {
             textColor="secondary"
             centered
           >
-            <Tab icon={<AccountCircleIcon />} label="People" />
-            <Tab icon={<BusinessIcon />} label="Businesses" />
+            <Tab icon={<AccountCircleIcon />} label="People" value="user" />
+            <Tab icon={<BusinessIcon />} label="Businesses" value="business" />
           </Tabs>
 
         <Divider/>
-          <EnhancedTable searchName={this.state.searchName} />
-        </CardContent>
-      </Card>
+        <EnhancedTable searchName={this.state.searchName} searchType={this.state.value} />
+      </CardContent>
+    </Card>
   }
 }
 

@@ -226,12 +226,15 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    let { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+    data = data.sort(getSorting(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} />
+
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -242,38 +245,37 @@ class EnhancedTable extends React.Component {
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
             />
+
             <TableBody>
-              {data
-                .sort(getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  const isSelected = this.isSelected(n.id);
-                  return (
-                      <TableRow
-                        hover
-                        onClick={() => replace('/profile/' + n.didid)}
-                        style={{ cursor: "pointer" }}
-                        role="checkbox"
-                        aria-checked={isSelected}
-                        tabIndex={-1}
-                        key={n.didid}
-                        selected={isSelected}
-                      >
-                        <TableCell component="th" scope="row" padding="none">
-                          <Avatar
-                                alt="Bob Smith"
-                                src={require('images/default-avatar.png')}
-                                className={classNames(classes.avatar, classes.bigAvatar)}
-                              />
-                        </TableCell>
-                        <TableCell>{n.username}</TableCell>
-                        <TableCell>{n.firstname}</TableCell>
-                        <TableCell>{n.lastname}</TableCell>
-                        <TableCell>{n.location}</TableCell>
-                        <TableCell numeric>{n.averagescore}</TableCell>
-                      </TableRow>
-                  );
-                })}
+              {data.map(n => {
+                const isSelected = this.isSelected(n.id);
+                return (
+                  <TableRow
+                    hover
+                    onClick={() => replace('/profile/' + n.didid)}
+                    style={{ cursor: "pointer" }}
+                    role="checkbox"
+                    aria-checked={isSelected}
+                    tabIndex={-1}
+                    key={n.didid}
+                    selected={isSelected}
+                  >
+                    <TableCell component="th" scope="row" padding="none">
+                      <Avatar
+                        alt="Bob Smith"
+                        src={require('images/default-avatar.png')}
+                        className={classNames(classes.avatar, classes.bigAvatar)}
+                      />
+                    </TableCell>
+                    <TableCell>{n.username}</TableCell>
+                    <TableCell>{n.firstname}</TableCell>
+                    <TableCell>{n.lastname}</TableCell>
+                    <TableCell>{n.location}</TableCell>
+                    <TableCell numeric>{n.averagescore}</TableCell>
+                  </TableRow>
+                );
+              })}
+
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -282,17 +284,14 @@ class EnhancedTable extends React.Component {
             </TableBody>
           </Table>
         </div>
+
         <TablePagination
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
+          backIconButtonProps={{ 'aria-label': 'Previous Page', }}
+          nextIconButtonProps={{ 'aria-label': 'Next Page' }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />

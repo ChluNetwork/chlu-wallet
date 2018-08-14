@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 
 import { Link } from 'react-router-dom'
+
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
@@ -24,8 +25,8 @@ import Face from '@material-ui/icons/Face';
 import Email from '@material-ui/icons/Email';
 import DoneIcon from '@material-ui/icons/Done'
 import Check from '@material-ui/icons/Check';
-
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
+
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
@@ -272,7 +273,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'Business Name', 'length', 3),
+              onChange: event => this.change(event, 'businessname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -282,16 +283,11 @@ class Step1 extends React.Component {
           />
         </Grid>
         <Grid item xs={12} sm={12} md={5}>
-          <FormControl
-            fullWidth
-            className={classes.selectFormControl}
-          >
-            <InputLabel
-              htmlFor='simple-select'
-              className={classes.selectLabel}
-            >
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor='businesstype' className={classes.selectLabel}>
               Business Type
-                  </InputLabel>
+            </InputLabel>
+
             <Select
               MenuProps={{
                 className: classes.selectMenu
@@ -302,8 +298,8 @@ class Step1 extends React.Component {
               value={this.state.simpleSelect}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelect",
-                id: "simple-select"
+                name: "businesstype",
+                id: "businesstype"
               }}
             >
               <MenuItem
@@ -313,7 +309,8 @@ class Step1 extends React.Component {
                 }}
               >
                 Select Industry
-                    </MenuItem>
+              </MenuItem>
+
               <MenuItem
                 classes={{
                   root: classes.selectMenuItem,
@@ -322,7 +319,8 @@ class Step1 extends React.Component {
                 value='1'
               >
                 Accountant
-                    </MenuItem>
+              </MenuItem>
+
               <MenuItem
                 classes={{
                   root: classes.selectMenuItem,
@@ -331,7 +329,8 @@ class Step1 extends React.Component {
                 value='2'
               >
                 Advertising
-                    </MenuItem>
+              </MenuItem>
+
               <MenuItem
                 classes={{
                   root: classes.selectMenuItem,
@@ -340,22 +339,26 @@ class Step1 extends React.Component {
                 value='3'
               >
                 Restaurant
-                    </MenuItem>
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
+
         <Grid item xs={12} sm={12} md={10}>
-          <InputLabel style={{ color: "#AAAAAA" }}>About</InputLabel>
           <CustomInput
-            labelText='Please provide a brief description of your business.'
+            labelText={<span>A brief description of your business <small>(optional)</small></span>}
             id='about-me'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              multiline: true,
-              rows: 5
-            }}
+            formControlProps={{ fullWidth: true }}
+            inputProps={{ onChange: event => this.change(event, 'description', 'length', 3), }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={10}>
+          <CustomInput
+            labelText={<span>Where is your business located? <small>(optional)</small></span>}
+            id='location'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{ onChange: event => this.change(event, 'location', 'length', 3), }}
           />
         </Grid>
       </Grid>

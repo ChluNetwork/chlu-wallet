@@ -18,8 +18,6 @@ import profileProvider from 'helpers/profileProvider';
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
-import Typography from '@material-ui/core/Typography';
-
 // icons
 import Email from '@material-ui/icons/Email';
 import Face from '@material-ui/icons/Face';
@@ -28,10 +26,7 @@ import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 
 import Payment from '../Payment'
-
-
-
-
+import BusinessLocation from './BusinessLocation'
 
 const styles = theme => ({
   button: {
@@ -90,6 +85,7 @@ class Profile extends Component {
         />
         <CardContent>
           {this.renderUser()}
+          {this.renderBusiness()}
         </CardContent>
       </Card>
     )
@@ -141,12 +137,13 @@ class Profile extends Component {
     const { classes } = this.props;
     const { profile } = this.state;
 
+    if (profile.businessname || profile.location) return undefined;
+
     return (
       <div>
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
           <PictureUpload />
-          <div className={classes.description}>Upload Photo</div>
         </Grid>
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
@@ -154,7 +151,7 @@ class Profile extends Component {
             error={this.state.emailState === 'error'}
             labelText={
               <span>
-                Email <small>(required)</small>
+                Email
               </span>
             }
             id='email'
@@ -178,7 +175,7 @@ class Profile extends Component {
             error={this.state.usernameState === 'error'}
             labelText={
               <span>
-                User Name <small>(required)</small>
+                User Name
               </span>
             }
             id='username'
@@ -202,7 +199,7 @@ class Profile extends Component {
             error={this.state.firstnameState === 'error'}
             labelText={
               <span>
-                First Name <small>(optional)</small>
+                First Name
               </span>
             }
             id='firstname'
@@ -226,7 +223,7 @@ class Profile extends Component {
             error={this.state.lastnameState === 'error'}
             labelText={
               <span>
-                Last Name <small>(optional)</small>
+                Last Name
               </span>
             }
             id='lastname'
@@ -247,7 +244,54 @@ class Profile extends Component {
       </Grid>
       <Payment/>
       </div>
+    )
+  }
 
+  renderBusiness() {
+    const { profile } = this.state;
+
+    if (!profile.businessname && !profile.location) return undefined;
+
+    return (
+      <div>
+        <Grid container justify='center' spacing={16}>
+          <Grid item xs={12} sm={12} md={12}>
+            <PictureUpload />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.emailState === 'success'}
+              error={this.state.emailState === 'error'}
+              labelText="Name"
+              id='businessname'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.businessname || "",
+                disabled: true
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.usernameState === 'success'}
+              error={this.state.usernameState === 'error'}
+              labelText="Type"
+              id='description'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.businesstype || "",
+                disabled: true
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <BusinessLocation location={profile.location} />
+          </Grid>
+        </Grid>
+      </div>
     )
   }
 }
