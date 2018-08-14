@@ -26,10 +26,7 @@ import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 
 import Payment from '../Payment'
-
-
-
-
+import BusinessLocation from './BusinessLocation'
 
 const styles = theme => ({
   button: {
@@ -86,13 +83,14 @@ class Profile extends Component {
           title='Profile'
           subheader='Profile Page'
         />
+
         <CardContent>
           {this.renderUser()}
+          {this.renderBusiness()}
         </CardContent>
       </Card>
     )
   }
-
 
   renderWallet() {
     const { classes, wallet } = this.props
@@ -106,31 +104,32 @@ class Profile extends Component {
           title='Wallet'
           subheader='Distributed Identity and Bitcoin Funds'
         />
+
         <CardContent>
           <List dense disablePadding>
             <ReactCopyToClipBoard text={didId}>
               <ListItem button>
-                  <ListItemIcon><UserIcon/></ListItemIcon>
-                  <ListItemText
-                      primary='Distributed Identity (DID)'
-                      secondary={`${didId} - Click to copy to clipboard`}
-                  />
+                <ListItemIcon>
+                  <UserIcon />
+                </ListItemIcon>
+
+                <ListItemText primary='Distributed Identity (DID)' secondary={`${didId} - Click to copy to clipboard`} />
               </ListItem>
             </ReactCopyToClipBoard>
+
             <ReactCopyToClipBoard text={address}>
               <ListItem button>
-                  <ListItemIcon><WalletIcon/></ListItemIcon>
-                  <ListItemText
-                      primary='Bitcoin Address (testnet)'
-                      secondary={`${address} - Click to copy to clipboard`}
-                  />
+                <ListItemIcon>
+                  <WalletIcon />
+                </ListItemIcon>
+
+                <ListItemText primary='Bitcoin Address (testnet)' secondary={`${address} - Click to copy to clipboard`} />
               </ListItem>
             </ReactCopyToClipBoard>
           </List>
         </CardContent>
-        <CardActions>
 
-        </CardActions>
+        <CardActions></CardActions>
       </Card>
     )
   }
@@ -139,113 +138,143 @@ class Profile extends Component {
     const { classes } = this.props;
     const { profile } = this.state;
 
+    if (profile.businessname || profile.location) return undefined;
+
     return (
       <div>
-      <Grid container justify='center' spacing={16}>
-        <Grid item xs={12} sm={12} md={12}>
-          <PictureUpload />
-          <div className={classes.description}>Upload Photo</div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.emailState === 'success'}
-            error={this.state.emailState === 'error'}
-            labelText={
-              <span>
-                Email <small>(required)</small>
-              </span>
-            }
-            id='email'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              value: profile.email || "",
-              disabled: true,
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Email className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.usernameState === 'success'}
-            error={this.state.usernameState === 'error'}
-            labelText={
-              <span>
-                User Name <small>(required)</small>
-              </span>
-            }
-            id='username'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              value: profile.username || "",
-              disabled: true,
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.firstnameState === 'success'}
-            error={this.state.firstnameState === 'error'}
-            labelText={
-              <span>
-                First Name <small>(optional)</small>
-              </span>
-            }
-            id='firstname'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              value: profile.firstname || "",
-              disabled: true,
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.lastnameState === 'success'}
-            error={this.state.lastnameState === 'error'}
-            labelText={
-              <span>
-                Last Name <small>(optional)</small>
-              </span>
-            }
-            id='lastname'
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              value: profile.lastname || "",
-              disabled: true,
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-      </Grid>
-      <Payment/>
-      </div>
+        <Grid container justify='center' spacing={16}>
+          <Grid item xs={12} sm={12} md={12}>
+            <PictureUpload />
+            <div className={classes.description}>Upload Photo</div>
+          </Grid>
 
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.emailState === 'success'}
+              error={this.state.emailState === 'error'}
+              labelText="Email"
+              id='email'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.email || "",
+                disabled: true,
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Email className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.usernameState === 'success'}
+              error={this.state.usernameState === 'error'}
+              labelText="User Name"
+              id='username'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.username || "",
+                disabled: true,
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Face className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.firstnameState === 'success'}
+              error={this.state.firstnameState === 'error'}
+              labelText="First Name"
+              id='firstname'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.firstname || "",
+                disabled: true,
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Face className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.lastnameState === 'success'}
+              error={this.state.lastnameState === 'error'}
+              labelText="Last Name"
+              id='lastname'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.lastname || "",
+                disabled: true,
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <Face className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+        </Grid>
+
+        <Payment />
+      </div>
+    )
+  }
+
+  renderBusiness() {
+    const { profile } = this.state;
+
+    if (!profile.businessname && !profile.location) return undefined;
+
+    return (
+      <div>
+        <Grid container justify='center' spacing={16}>
+          <Grid item xs={12} sm={12} md={12}>
+            <PictureUpload />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.emailState === 'success'}
+              error={this.state.emailState === 'error'}
+              labelText="Name"
+              id='businessname'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.businessname || "",
+                disabled: true
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <CustomInput
+              success={this.state.usernameState === 'success'}
+              error={this.state.usernameState === 'error'}
+              labelText="Business Type"
+              id='description'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                value: profile.businesstype || "",
+                disabled: true
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <BusinessLocation location={profile.businesslocation} />
+          </Grid>
+        </Grid>
+      </div>
     )
   }
 }
