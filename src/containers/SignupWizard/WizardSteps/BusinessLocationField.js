@@ -2,8 +2,8 @@ import React from "react";
 
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import ExploreIcon from '@material-ui/icons/Explore';
-import { InputAdornment, IconButton, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { geocode, reverseGeocode, autocomplete } from 'helpers/geocode';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { autocomplete } from 'helpers/geocode';
 import { debounce } from 'helpers/debounce';
 
 export default class BusinessLocationField extends React.Component {
@@ -47,39 +47,22 @@ export default class BusinessLocationField extends React.Component {
     }
   }
 
-  updateSuggestions = (value) => {
-    (async () => {
-      let suggestions = await autocomplete(value);
+  updateSuggestions = async (value) => {
+    let suggestions = await autocomplete(value);
 
-      this.setState({
-        suggestions: suggestions
-      });
-    })();
-  }
-
-  handleGeolocationClick = () => {
-    (async () => {
-      let position = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
-      let features = await reverseGeocode(position.coords.longitude, position.coords.latitude);
-
-      if (features) {
-        if (this.props.onChange) {
-          this.props.onChange(features[0].place_name);
-        }
-      }
-    })();
+    this.setState({
+      suggestions: suggestions
+    });
   }
 
   render() {
-    const { value } = this.props;
-
     return (
       <div>
         <CustomInput
           labelText='Where is your business located?'
           id='location'
           formControlProps={{ fullWidth: true }}
-          inputProps={{ onChange: this.handleInputChange, value: value, endAdornment: this.renderGeolocateButton(), onKeyDown: this.handleInputKeyDown }}
+          inputProps={{ onChange: this.handleInputChange, value: this.props.value, onKeyDown: this.handleInputKeyDown }}
         />
         {this.renderSuggestions()}
       </div>
@@ -107,19 +90,5 @@ export default class BusinessLocationField extends React.Component {
         <ListItemText primary={suggestion} secondary={i === 0 ? "Best match, press ENTER to accept" : undefined} />
       </ListItem>
     )
-  }
-
-  renderGeolocateButton() {
-    // const { classes } = this.props;
-
-    // if ("geolocation" in navigator) {
-    //   return (
-    //     <InputAdornment position='end' className={classes.inputAdornment}>
-    //       <IconButton className={classes.button} aria-label="Auto-locate" onClick={this.handleGeolocationClick}>
-    //         <ExploreIcon className={classes.inputAdornmentIcon} />
-    //       </IconButton>
-    //     </InputAdornment>
-    //   )
-    // }
   }
 }
