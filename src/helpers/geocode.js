@@ -10,9 +10,13 @@ const HEADERS = {
  * @returns {Promise<{ latitude: number, longitude: number }>}
  */
 export async function geocode(query) {
+  if (!query) return undefined;
+
   let url = `${ENDPOINT}/geocoding/v5/${SOURCE}/${encodeURIComponent(query)}.json?access_token=${ACCESS_TOKEN}`;
   let response = await fetch(url, { headers: HEADERS });
   let responseJson = await response.json();
+
+  console.log(responseJson);
 
   if (responseJson.features && responseJson.features[0]) {
     return {
@@ -22,6 +26,20 @@ export async function geocode(query) {
     };
   } else {
     return undefined;
+  }
+}
+
+export async function autocomplete(query) {
+  if (!query) return [];
+
+  let url = `${ENDPOINT}/geocoding/v5/${SOURCE}/${encodeURIComponent(query)}.json?access_token=${ACCESS_TOKEN}`;
+  let response = await fetch(url, { headers: HEADERS });
+  let responseJson = await response.json();
+
+  if (responseJson.features) {
+    return responseJson.features.map(feature => feature.place_name);
+  } else {
+    return [];
   }
 }
 
