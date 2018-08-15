@@ -271,7 +271,7 @@ class Profile extends Component {
           </Grid>
 
           <Grid item xs={12} sm={12} md={5}>
-            <BusinessLocation location={profile.businesslocation} />
+            <BusinessLocation location={profile.businesslocationgeo} />
           </Grid>
         </Grid>
       </div>

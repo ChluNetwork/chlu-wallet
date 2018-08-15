@@ -17,6 +17,7 @@ import { submit } from 'redux-form'
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick, isEmpty } from 'lodash'
+import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider';
 
 class SignupWizard extends Component {
@@ -45,18 +46,44 @@ class SignupWizard extends Component {
     if (!this.props.reputationLoading) this.props.readMyReputation()
   }
 
-  downloadWallet() {
+  async downloadWallet() {
     console.log('downloadWallet executing SignupWizard index.js file.');
     const { wallet, walletCreated, setWalletSaved } = this.props
+
     if (wallet && wallet.did) {
       downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
-    } else {
+    } else
+    {
+      let profile = { ...this.state.profile };
+
+      if (profile.businesslocation) {
+        try {
+          let coords = await geocode(profile.businesslocation);
+
+          if (coords) {
+            profile = {
+              ...profile,
+              businesslocationgeo: {
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                bounds: coords.bounds
+              }
+            }
+          }
+        } catch (err) {
+          // Let's not break up the signup flow with API errors.
+          console.error(err);
+        }
+      }
+
       profileProvider.setProfile(walletCreated.did.publicDidDocument.id, {
-        ...this.state.profile,
+        ...profile,
         'AIRDROP_LEVEL': 'ZERO'
       });
+
       downloadWalletFile(walletCreated)
     }
+
     setWalletSaved(true)
   }
 
