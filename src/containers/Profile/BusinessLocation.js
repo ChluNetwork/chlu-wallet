@@ -1,6 +1,5 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
-import { geocode } from 'helpers/geocode';
 
 const STYLE = {
   height: 300,
@@ -13,10 +12,6 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiam9obndlaXN6IiwiYSI6ImNqa3NheWoyNTQzMHkzcW8ze
 export default class BusinessLocation extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
-
-    this.state = {
-      position: undefined
-    };
   }
 
   render() {
@@ -33,7 +28,7 @@ export default class BusinessLocation extends React.PureComponent {
     this.createMapIfNeeded();
 
     if (this.props.location) {
-      this.assignCoordinatesFromCurrentLocation();
+      this.addMapMarkerFromCurrentLocation();
     }
   }
 
@@ -42,9 +37,10 @@ export default class BusinessLocation extends React.PureComponent {
       this.map.remove();
     } else if (this.props.location !== prevProps.location && this.map) {
       // Location changing, need new coordinates for map.
-      this.assignCoordinatesFromCurrentLocation();
+      this.addMapMarkerFromCurrentLocation();
     } else {
       this.createMapIfNeeded();
+      this.addMapMarkerFromCurrentLocation();
     }
   }
 
@@ -63,13 +59,8 @@ export default class BusinessLocation extends React.PureComponent {
     }
   }
 
-  async assignCoordinatesFromCurrentLocation() {
-    let location = this.props.location;
-    let coords = await geocode(this.props.location);
-
-    if (!coords || location !== this.props.location) return;
-
-    let { latitude, longitude, bounds } = coords;
+  addMapMarkerFromCurrentLocation() {
+    let { latitude, longitude, bounds } = this.props.location;
 
     if (this.map) {
       let markerElem = document.createElement("div");
