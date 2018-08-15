@@ -10,7 +10,6 @@ const HEADERS = {
  * @returns {Promise<{ latitude: number, longitude: number }>}
  */
 export async function geocode(query) {
-  // let searchTime = new Date();
   let url = `${ENDPOINT}/geocoding/v5/${SOURCE}/${encodeURIComponent(query)}.json?access_token=${ACCESS_TOKEN}`;
   let response = await fetch(url, { headers: HEADERS });
   let responseJson = await response.json();
@@ -21,6 +20,23 @@ export async function geocode(query) {
       longitude: responseJson.features[0].center[1],
       bounds: responseJson.features[0].bbox
     };
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ * @param latitude Latitude coordinate of the place to look up.
+ * @param longitude Longitude coordinate of the place to look up.
+ * @returns {Array<{}>}
+ */
+export async function reverseGeocode(latitude, longitude) {
+  let url = `${ENDPOINT}/geocoding/v5/${SOURCE}/${longitude},${latitude}.json?access_token=${ACCESS_TOKEN}&types=place`;
+  let response = await fetch(url, { headers: HEADERS });
+  let responseJson = await response.json();
+
+  if (responseJson && responseJson.features && responseJson.features.length > 0) {
+    return responseJson.features;
   } else {
     return undefined;
   }

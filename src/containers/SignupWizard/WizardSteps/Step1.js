@@ -1,4 +1,5 @@
 import React from 'react';
+
 // components
 import {
   withStyles,
@@ -14,18 +15,20 @@ import {
 } from '@material-ui/core'
 
 import { Link } from 'react-router-dom'
+
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
+import BusinessLocationField from './BusinessLocationField';
 
 // icons
 import Face from '@material-ui/icons/Face';
 import Email from '@material-ui/icons/Email';
 import DoneIcon from '@material-ui/icons/Done'
 import Check from '@material-ui/icons/Check';
-
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
+
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
@@ -63,7 +66,8 @@ class Step1 extends React.Component {
       emailState: "",
       simpleSelect: "",
       selectedValue: "user",
-      businesstype: "0"
+      businesstype: "0",
+      businesslocation: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
@@ -118,17 +122,17 @@ class Step1 extends React.Component {
     }
     return false;
   }
-  change(event, stateName, type, stateNameEqualTo) {
+  change(value, stateName, type, stateNameEqualTo) {
     switch (type) {
     case 'email':
-      if (this.verifyEmail(event.target.value)) {
+      if (this.verifyEmail(value)) {
         this.setState({ [stateName + 'State']: 'success' });
       } else {
         this.setState({ [stateName + 'State']: 'error' });
       }
       break;
     case 'length':
-      if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+      if (this.verifyLength(value, stateNameEqualTo)) {
         this.setState({ [stateName + 'State']: 'success' });
       } else {
         this.setState({ [stateName + 'State']: 'error' });
@@ -137,8 +141,8 @@ class Step1 extends React.Component {
     default:
       break;
     }
-    this.setState({ [stateName]: event.target.value });
-    this.props.onProfileFieldChange(stateName, event.target.value);
+    this.setState({ [stateName]: value });
+    this.props.onProfileFieldChange(stateName, value);
   }
 
   renderUser() {
@@ -161,7 +165,7 @@ class Step1 extends React.Component {
             id='email'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event, 'email', 'length', 3),
+              onChange: event => this.change(event.target.value, 'email', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Email className={classes.inputAdornmentIcon} />
@@ -179,7 +183,7 @@ class Step1 extends React.Component {
             id='username'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event, 'username', 'length', 3),
+              onChange: event => this.change(event.target.value, 'username', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -197,7 +201,7 @@ class Step1 extends React.Component {
             id='firstname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event, 'firstname', 'length', 3),
+              onChange: event => this.change(event.target.value, 'firstname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -215,7 +219,7 @@ class Step1 extends React.Component {
             id='lastname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event, 'lastname', 'length', 3),
+              onChange: event => this.change(event.target.value, 'lastname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -248,7 +252,7 @@ class Step1 extends React.Component {
             id='businessname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event, 'businessname', 'length', 3),
+              onChange: event => this.change(event.target.value, 'businessname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -270,7 +274,7 @@ class Step1 extends React.Component {
               value={this.state.businesstype}
               onChange={this.handleSimple}
               inputProps={{
-                onChange: event => this.change(event, 'businesstype'),
+                onChange: event => this.change(event.target.value, 'businesstype'),
                 name: "simpleSelect",
                 id: "simple-select"
               }}
@@ -299,16 +303,15 @@ class Step1 extends React.Component {
             labelText='A brief description of your business.'
             id='about-me'
             formControlProps={{ fullWidth: true }}
-            inputProps={{ onChange: event => this.change(event, 'businessdescription') }}
+            inputProps={{ onChange: event => this.change(event.target.value, 'businessdescription') }}
           />
         </Grid>
 
         <Grid item xs={12} sm={12} md={10}>
-          <CustomInput
-            labelText='Where is your business located?'
-            id='location'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{ onChange: event => this.change(event, 'businesslocation') }}
+          <BusinessLocationField
+            value={this.state.businesslocation}
+            onChange={value => this.change(value, 'businesslocation')}
+            classes={classes}
           />
         </Grid>
       </Grid>
