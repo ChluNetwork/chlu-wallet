@@ -52,11 +52,12 @@ class SignupWizard extends Component {
 
     if (wallet && wallet.did) {
       downloadWalletFile(pick(wallet, ['did', 'bitcoinMnemonic', 'testnet']))
-    } else
-    {
+    } else {
       let profile = { ...this.state.profile };
 
       if (profile.businesslocation) {
+        // Pre-cache geo coords for location.
+        // TODO: perhaps this could be done on the marketplace server, to ensure coords line up with the location text.
         try {
           let coords = await geocode(profile.businesslocation);
 
