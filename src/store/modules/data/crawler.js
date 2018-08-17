@@ -62,7 +62,7 @@ export default handleActions({
   }),
   [CRAWLER_START_IPFS]: state => ({
     ...state,
-    running: false,
+    running: true,
     savingToIPFS: true
   }),
   [CRAWLER_ERROR]: (state, { payload: error }) => ({
