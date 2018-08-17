@@ -201,24 +201,20 @@ class ChluLayoutHeader extends React.Component {
             >
               <Menu />
             </IconButton>
-          </Hidden>
-          <Hidden lgUp implementation='css'>
-            <Hidden lgUp>
-              <Drawer
-                variant='temporary'
-                anchor={"right"}
-                open={this.state.open}
-                classes={{
-                  paper: classes.drawerPaper
-                }}
-                onClose={this.handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true // Better open performance on mobile.
-                }}
-              >
-                {list}
-              </Drawer>
-            </Hidden>
+            <Drawer
+              variant='temporary'
+              anchor={"right"}
+              open={this.state.open}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              onClose={this.handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true // Better open performance on mobile.
+              }}
+            >
+              {list}
+            </Drawer>
           </Hidden>
         </Toolbar>
       </AppBar>
