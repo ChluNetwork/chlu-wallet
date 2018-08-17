@@ -5,13 +5,12 @@ import { DELETE_WALLET } from './wallet';
 // ------------------------------------
 // Constants
 // ------------------------------------
-const READ_REPUTATION_LOADING = 'READ_REPUTATION_LOADING'
-const READ_REPUTATION_SUCCESS = 'READ_REPUTATION_SUCCESS'
-const READ_REPUTATION_ERROR = 'READ_REPUTATION_ERROR'
+const READ_REPUTATION_LOADING = 'reviewsaboutme/READ_REPUTATION_LOADING'
+const READ_REPUTATION_SUCCESS = 'reviewsaboutme/READ_REPUTATION_SUCCESS'
+const READ_REPUTATION_ERROR = 'reviewsaboutme/READ_REPUTATION_ERROR'
 const READ_REVIEWRECORD_LOADING = 'reviewsaboutme/READ_REVIEWRECORD_LOADING'
 const READ_REVIEWRECORD_SUCCESS = 'reviewsaboutme/READ_REVIEWRECORD_SUCCESS'
 const READ_REVIEWRECORD_ERROR = 'reviewsaboutme/READ_REVIEWRECORD_ERROR'
-const UPDATE_REVIEW_RECORD = 'UPDATE_REVIEW_RECORD'
 
 function getInitialState() {
   return {
@@ -126,15 +125,6 @@ export default handleActions({
         multihash,
         { error: error.message || error, loading: false, multihash }
       )
-    }
-  }),
-  [UPDATE_REVIEW_RECORD]: (state, { payload: { multihash, newMultihash, reviewRecord } }) => ({
-    ...state,
-    reviews: {
-      ...updateReviewRecord(get(state, 'reviews', {}), multihash, {
-        ...reviewRecord,
-        updatedMultihash: newMultihash
-      }, false)
     }
   }),
   [DELETE_WALLET]: state => getInitialState()

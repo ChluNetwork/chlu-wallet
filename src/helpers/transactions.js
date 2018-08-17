@@ -1,4 +1,4 @@
-import { get, findKey, reduce, includes } from 'lodash'
+import { get, reduce, includes } from 'lodash'
 
 function updateTransactions (txs, transaction) {
   const isConfirmations = txs.find((item) => get(item, 'hash', 'old') === get(transaction, 'hash', 'new'))
@@ -25,10 +25,6 @@ function updateReviewRecord (reviews, txHash, data) {
   } else {
     return reviews
   }
-}
-
-function getTxHashByMultihash (reviews, multihash) {
-  return findKey(reviews, r => r.multihash === multihash)
 }
 
 function calculateTotalSpentFromTransactions (transactions, address) {
@@ -59,7 +55,6 @@ function calculateTotalSpent (transaction, address) {
 export {
   updateTransactions,
   updateReviewRecord,
-  getTxHashByMultihash,
   calculateTotalSpent,
   calculateTotalSpentFromTransactions
 }
