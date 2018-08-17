@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS } from 'helpers/ipfs'
+import { getChluAPIClient } from 'helpers/chlu'
 import { get } from 'lodash'
 import { DELETE_WALLET } from './wallet';
 // ------------------------------------
@@ -39,11 +39,8 @@ function readReviewRecord(multihash) {
   return async dispatch => {
     try {
       dispatch(readReviewRecordLoading(multihash))
-      const chluIpfs = await getChluIPFS()
-      const reviewRecord = await chluIpfs.readReviewRecord(multihash, {
-        getLatestVersion: true,
-        // TODO: check for updates
-      })
+      const chluApiClient = await getChluAPIClient()
+      const reviewRecord = await chluApiClient.readReviewRecord(multihash)
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash }))
     } catch (error) {
       dispatch(readReviewRecordError({ multihash, error: error.message || error }))
@@ -59,13 +56,15 @@ export function readMyReputation () {
       dispatch(readReputationLoading())
       try {
         // TODO: improve this and use a loading system per-review
-        const chluIpfs = await getChluIPFS()
-        const multihashes = await chluIpfs.getReviewsByDID(didId)
+        const chluApiClient = await getChluAPIClient()
+        const list = await chluApiClient.getReviewsAboutDID(didId)
         const reviews = {}
-        for (const multihash of multihashes) {
-            // TODO: show them as loading and dispatch redux actions to resolve them
-            reviews[multihash] = { multihash, loading: true, error: null }
-            dispatch(readReviewRecord(multihash))
+        for (const review of list) {
+          const multihash = review.multihash
+          // TODO: show them as loading and dispatch redux actions to resolve them
+          reviews[multihash] = { multihash, loading: true, error: null, ...review }
+          // Only read the review if the api client did not return it resolved
+          if (!reviews[multihash].resolved) dispatch(readReviewRecord(multihash))
         }
         dispatch(readReputationSuccess(reviews))
       } catch (error) {
