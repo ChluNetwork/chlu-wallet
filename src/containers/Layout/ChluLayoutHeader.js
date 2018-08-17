@@ -34,8 +34,8 @@ import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { deleteWallet, closeDeleteModal, openDeleteModal } from 'store/modules/data/wallet'
 // style
-import ChluLayoutHeaderStyle from 'styles/ChluLayoutHeader'
 import ChluLogo from "./ChluLogo";
+import pagesHeaderStyle from "styles/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
 class ChluLayoutHeader extends React.Component {
   constructor(props) {
@@ -192,7 +192,7 @@ class ChluLayoutHeader extends React.Component {
           <Hidden mdDown implementation='css'>
             {list}
           </Hidden>
-          <Hidden mdUp>
+          <Hidden lgUp>
             <IconButton
               className={classes.sidebarButton}
               color='inherit'
@@ -201,20 +201,24 @@ class ChluLayoutHeader extends React.Component {
             >
               <Menu />
             </IconButton>
-            <Drawer
-              variant='temporary'
-              anchor='right'
-              open={this.state.open}
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              onClose={this.handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true // Better open performance on mobile.
-              }}
-            >
-              {list}
-            </Drawer>
+          </Hidden>
+          <Hidden lgUp implementation='css'>
+            <Hidden lgUp>
+              <Drawer
+                variant='temporary'
+                anchor={"right"}
+                open={this.state.open}
+                classes={{
+                  paper: classes.drawerPaper
+                }}
+                onClose={this.handleDrawerToggle}
+                ModalProps={{
+                  keepMounted: true // Better open performance on mobile.
+                }}
+              >
+                {list}
+              </Drawer>
+            </Hidden>
           </Hidden>
         </Toolbar>
       </AppBar>
@@ -242,6 +246,6 @@ const mapDispatchToProps = {
 
 export default compose(
   withRouter, // prevent NavLinks not realising the route has changed
-  withStyles(ChluLayoutHeaderStyle),
+  withStyles(pagesHeaderStyle),
   connect(mapStateToProps, mapDispatchToProps)
 )(ChluLayoutHeader);
