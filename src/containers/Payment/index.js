@@ -38,9 +38,9 @@ class Payment extends Component {
     this.props.getCheckout(this.props.match.params.multihash)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.multihash !== this.props.match.params.multihash) {
-      this.props.getCheckout(nextProps.match.params.multihash)
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.multihash !== prevProps.match.params.multihash) {
+      this.props.getCheckout(this.props.match.params.multihash)
     }
   }
 
