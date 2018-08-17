@@ -41,10 +41,6 @@ const pagesHeaderStyle = theme => ({
   flex: {
     flex: 1
   },
-  logo: {
-    height: "80px",
-    width: "80px"
-  },
   title: {
     ...defaultFont,
     lineHeight: "30px",
@@ -131,7 +127,7 @@ const pagesHeaderStyle = theme => ({
     width: "auto",
     margin: "0",
     padding: "0",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       zIndex: "999",
       width: "100%",
       paddingRight: "15px"
