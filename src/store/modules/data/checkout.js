@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { requestPopr } from 'helpers/marketplace'
-import { getChluIPFS } from 'helpers/ipfs'
+import { getChluIPFS } from 'helpers/chlu'
 
 // ------------------------------------
 // Constants
@@ -36,6 +36,7 @@ export function getCheckout (poprMultihash) {
         console.log('Reading PoPR at ' + poprMultihash)
         const chluIpfs = await getChluIPFS()
         // TODO: create API calls in Chlu to fetch PoPR instead of this manual thing
+        // and use the API client
         const buffer = await chluIpfs.instance.ipfsUtils.get(poprMultihash)
         popr = await chluIpfs.instance.protobuf.PoPR.decode(buffer)
         popr.multihash = poprMultihash

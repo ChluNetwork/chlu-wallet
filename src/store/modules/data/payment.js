@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS } from 'helpers/ipfs'
+import { getChluIPFS } from 'helpers/chlu'
 import { toastr } from 'react-redux-toastr'
 import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction';
 import { getAddress } from 'helpers/wallet';
@@ -73,6 +73,7 @@ export function submitPayment (data) {
         chlu_version: 0
       }
       console.log(reviewRecord)
+      // TODO: clean up this mess
       try {
         console.log('Getting ChluIPFS')
         const chluIpfs = await getChluIPFS()

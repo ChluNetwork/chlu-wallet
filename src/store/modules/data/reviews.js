@@ -1,7 +1,8 @@
 import { createAction, handleActions } from 'redux-actions'
-import { getChluIPFS, types } from 'helpers/ipfs'
+import { getChluAPIClient, getChluIPFS } from 'helpers/chlu'
 import { updateReviewRecord, getTxHashByMultihash } from 'helpers/transactions'
 import { get, set, find, cloneDeep } from 'lodash'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -42,11 +43,8 @@ export function readReviewRecord (txHash, multihash) {
   return async dispatch => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
     try {
-      const chluIpfs = await getChluIPFS()
-      const reviewRecord = await chluIpfs.readReviewRecord(multihash, {
-        getLatestVersion: true,
-        checkForUpdates: true
-      })
+      const chluIpfs = await getChluAPIClient()
+      const reviewRecord = await chluIpfs.readReviewRecord(multihash)
       reviewRecord.txHash = txHash
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
@@ -67,13 +65,13 @@ export function submitEditedReview(fields) {
           }
         }
       } = getState()
-      const chluIpfs = await getChluIPFS()
       const multihash = editing
       const review = find(reviews, r => r.multihash === multihash)
       const updatedReview = cloneDeep(review)
       set(updatedReview, 'previous_version_multihash', multihash)
       set(updatedReview, 'rating_details.value', fields.rating)
       set(updatedReview, 'review.text', fields.comment)
+      const chluIpfs = await getChluIPFS()
       const updatedMultihash = await chluIpfs.storeReviewRecord(updatedReview)
       dispatch(editReviewSuccess({ multihash, updatedMultihash }))
     } catch (error) {

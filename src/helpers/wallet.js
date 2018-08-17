@@ -2,7 +2,7 @@ import ImportPrivateKey from 'chlu-wallet-support-js/lib/import_private_key'
 import fileDownload from 'js-file-download'
 import ChluDID from 'chlu-did/src' // TODO: precompiled sources??
 import { pick } from 'lodash'
-import { getChluIPFS } from 'helpers/ipfs'
+import { getChluAPIClient } from './chlu';
 
 export async function generateNewWallet() {
   const importer = new ImportPrivateKey()
@@ -14,11 +14,6 @@ export async function generateNewWallet() {
     testnet: true,
     bitcoinMnemonic: mnemonic
   }
-}
-
-export async function saveWalletDIDToIPFS(wallet) {
-    // TODO: implementation
-    // code is already in chlu-did-service and chlu-service-node
 }
 
 export function saveWalletToLocalStorage(wallet) {
@@ -34,7 +29,6 @@ export function deleteWalletFromLocalStorage() {
 }
 
 export function downloadWallet(wallet) {
-  console.log('downloadWallet executing wallet.js file...');
   const obj = pick(wallet, [
     'did',
     'bitcoinMnemonic',
@@ -63,14 +57,14 @@ export function importWallet(str) {
 }
 
 export async function importDID(did) {
-  const chluIpfs = await getChluIPFS()
-  await chluIpfs.importDID(did, true, true)
+  const chluApiClient = await getChluAPIClient()
+  await chluApiClient.importDID(did, true, true)
 }
 
 export async function deleteDID() {
-  const chluIpfs = await getChluIPFS()
+  const chluApiClient = await getChluAPIClient()
     // replace DID with a new one
-  await chluIpfs.generateNewDID(false, false)
+  await chluApiClient.generateNewDID(false, false)
 }
 
 export function getAddress(wallet) {
