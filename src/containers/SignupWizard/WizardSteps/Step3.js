@@ -56,7 +56,7 @@ const style = {
 class Step3 extends React.Component {
 
   render() {
-    const { classes, reputation, downloadWallet, reputationLoading: loading, push } = this.props;
+    const { classes, reviews, downloadWallet, reputationLoading: loading, push } = this.props;
 
     if (loading) {
       return (
@@ -71,7 +71,7 @@ class Step3 extends React.Component {
           </Grid>
         </Grid>
       )
-    } else if (!isEmpty(reputation)) {
+    } else if (!isEmpty(reviews)) {
       return (
         <Grid container justify='center'>
           <Grid item xs={4}>
