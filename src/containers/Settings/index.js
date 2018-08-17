@@ -13,7 +13,6 @@ import { connect } from 'react-redux'
 
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
-import { debounce } from 'helpers/debounce';
 
 // stores, or whatever...
 import { fetchProfile, updateProfile, setProfile } from 'store/modules/ui/profile';
@@ -56,7 +55,7 @@ const styles = theme => ({
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component='div' style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   );
@@ -79,10 +78,10 @@ class Settings extends Component {
 
   handleClick(button) {
     if (button === 'profile') {
-      this.setState({activeSubmenu: "profile"})
+      this.setState({ activeSubmenu: "profile" })
     }
     else if (button === 'wallet') {
-      this.setState({activeSubmenu: "wallet"})
+      this.setState({ activeSubmenu: "wallet" })
     }
   }
 
@@ -106,7 +105,7 @@ class Settings extends Component {
   handleDownload = () => downloadWallet(this.props.wallet)
 
   render () {
-    const { wallet, classes } = this.props
+    const { classes } = this.props
     const { value } = this.state
 
     return <Card className={classes.card}>
@@ -140,7 +139,7 @@ class Settings extends Component {
   }
 
   renderProfile() {
-    const { wallet, classes } = this.props
+    const { classes } = this.props
     return (
       <Card className={classes.card}>
         <CardHeader

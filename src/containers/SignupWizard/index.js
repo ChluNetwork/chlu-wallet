@@ -16,7 +16,7 @@ import { submit } from 'redux-form'
 
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
-import { get, pick, isEmpty } from 'lodash'
+import { get, pick } from 'lodash'
 import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider';
 

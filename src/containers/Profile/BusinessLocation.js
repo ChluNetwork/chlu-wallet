@@ -10,9 +10,6 @@ const STYLE = {
 mapboxgl.accessToken = 'pk.eyJ1Ijoiam9obndlaXN6IiwiYSI6ImNqa3NheWoyNTQzMHkzcW8zem4waTMyMmkifQ._qzWXiBScWpNONx6BxWvgg';
 
 export default class BusinessLocation extends React.PureComponent {
-  constructor(props, context) {
-    super(props, context);
-  }
 
   render() {
     if (!this.props.location) {

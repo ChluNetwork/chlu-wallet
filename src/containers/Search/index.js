@@ -46,7 +46,7 @@ const styles = theme => ({
 });
 
 const ratings = [
-  { label: "Any" },
+  { label: 'Any' },
   { label: <div><Star /><Star /><Star /><Star /><Star /></div> },
   { label: <div><Star /><Star /><Star /><Star /><Add /></div> },
   { label: <div><Star /><Star /><Star /><Add /></div> },
@@ -79,7 +79,7 @@ const locations = [
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component='div' style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   );
@@ -90,7 +90,7 @@ class Search extends Component {
     super(props);
     this.state = {
       value: 0,
-      searchName: "",
+      searchName: '',
       actType: 'individual'
     }
   }
@@ -109,17 +109,17 @@ class Search extends Component {
         <CardContent>
 
         {value === 0 && <TabContainer>
-            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
+            <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
-                <Typography variant="headline" align="center">
+                <Typography variant='headline' align='center'>
                   Search for businesses to pay and review
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={12} md={3}>
                 <TextField
-                  id="search"
-                  label="Name"
-                  type="search"
+                  id='search'
+                  label='Name'
+                  type='search'
                   fullWidth
                 />
               </Grid>
@@ -127,42 +127,42 @@ class Search extends Component {
                 <Select
                   classes={classes}
                   options={categories}
-                  placeholder="Business Type"
+                  placeholder='Business Type'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
                 <Select
                   classes={classes}
                   options={locations}
-                  placeholder="Location"
+                  placeholder='Location'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
                 <Select
                   classes={classes}
                   options={ratings}
-                  placeholder="Rating"
+                  placeholder='Rating'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                <Button variant="contained" color="secondary" className={classes.button}>
+                <Button variant='contained' color='secondary' className={classes.button}>
                   Search <SearchIcon className={classes.rightIcon} />
                 </Button>
               </Grid>
             </Grid>
           </TabContainer>}
         {value === 1 && <TabContainer>
-            <Grid container justify="space-evenly" alignItems="flex-end" spacing={16} className={classes.searchGrid}>
+            <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
-                <Typography variant="headline" align="center">
+                <Typography variant='headline' align='center'>
                   Search for people to pay and review
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={12} md={3}>
                 <TextField
-                  id="search"
-                  label="Name"
-                  type="search"
+                  id='search'
+                  label='Name'
+                  type='search'
                   value={this.state.searchName}
                   onChange={(e) => this.setState({ searchName: e.target.value })}
                   fullWidth
@@ -172,11 +172,11 @@ class Search extends Component {
                 <Select
                   classes={classes}
                   options={locations}
-                  placeholder="Location"
+                  placeholder='Location'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                <Button variant="contained" color="secondary" className={classes.button}>
+                <Button variant='contained' color='secondary' className={classes.button}>
                   Search <SearchIcon className={classes.rightIcon} />
                 </Button>
               </Grid>
@@ -188,15 +188,15 @@ class Search extends Component {
             value={this.state.value}
             onChange={this.handleTabChange}
             fullWidth
-            indicatorColor="secondary"
-            textColor="secondary"
+            indicatorColor='secondary'
+            textColor='secondary'
             centered
           >
-            <Tab icon={<BusinessIcon />} label="Businesses" />
-            <Tab icon={<AccountCircleIcon />} label="People" />
+            <Tab icon={<BusinessIcon />} label='Businesses' />
+            <Tab icon={<AccountCircleIcon />} label='People' />
           </Tabs>
         <Divider/>
-          {this.state.value == 0 ? <BusinessSearchResults searchName={this.state.searchName} /> : <IndividualSearchResults searchName={this.state.searchName} />}
+          {this.state.value === 0 ? <BusinessSearchResults searchName={this.state.searchName} /> : <IndividualSearchResults searchName={this.state.searchName} />}
         </CardContent>
       </Card>
   }
