@@ -66,7 +66,7 @@ class ChluLayoutHeader extends React.Component {
   }
 
   render() {
-    const { wallet, classes, isModalOpen, closeDeleteModal, openDeleteModal, color, push } = this.props
+    const { wallet, classes, isModalOpen, closeDeleteModal, openDeleteModal, color } = this.props
     const appBarClasses = cx({
       [" " + classes[color]]: color
     });

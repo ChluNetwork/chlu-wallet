@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions'
-import { get } from 'lodash'
 import profileProvider from 'helpers/profileProvider'
 
 // ------------------------------------
