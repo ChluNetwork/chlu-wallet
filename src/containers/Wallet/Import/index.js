@@ -26,6 +26,7 @@ class ImportWallet extends Component {
       await importDID(wallet.did)
       this.props.setWallet(wallet)
       toastr.success('Wallet imported', 'Your existing data has been imported')
+      // TODO: redirect user depending on their type: business goes to reviews about me, individual goes to search
     } catch (error) {
       toastr.error('Could not import Wallet', 'Something went wrong')
       console.log(error)
