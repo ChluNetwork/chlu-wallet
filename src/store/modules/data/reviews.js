@@ -1,25 +1,33 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient, getChluIPFS } from 'helpers/chlu'
-import { updateReviewRecord, getTxHashByMultihash } from 'helpers/transactions'
+import { updateReviewRecord } from 'helpers/transactions'
 import { get, set, find, cloneDeep } from 'lodash'
+import { DELETE_WALLET } from './wallet';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-const EDIT_REVIEW = 'customer/EDIT_REVIEW'
-const EDIT_REVIEW_LOADING = 'customer/EDIT_REVIEW_LOADING'
-const EDIT_REVIEW_SUCCESS = 'customer/EDIT_REVIEW_SUCCESS'
-const EDIT_REVIEW_ERROR = 'customer/EDIT_REVIEW_ERROR'
-const EDIT_REVIEW_CANCEL = 'customer/EDIT_REVIEW_CANCEL'
-const UPDATE_REVIEW_RECORD = 'UPDATE_REVIEW_RECORD'
-const READ_REVIEWRECORD_LOADING = 'READ_REVIEWRECORD_LOADING'
-const READ_REVIEWRECORD_SUCCESS = 'READ_REVIEWRECORD_SUCCESS'
-const READ_REVIEWRECORD_ERROR = 'READ_REVIEWRECORD_ERROR'
+const EDIT_REVIEW = 'EDIT_REVIEW'
+const EDIT_REVIEW_LOADING = 'EDIT_REVIEW_LOADING'
+const EDIT_REVIEW_SUCCESS = 'EDIT_REVIEW_SUCCESS'
+const EDIT_REVIEW_ERROR = 'EDIT_REVIEW_ERROR'
+const EDIT_REVIEW_CANCEL = 'EDIT_REVIEW_CANCEL'
+const READ_REVIEWRECORD_LOADING = 'reviewsiwrote/READ_REVIEWRECORD_LOADING'
+const READ_REVIEWRECORD_SUCCESS = 'reviewsiwrote/READ_REVIEWRECORD_SUCCESS'
+const READ_REVIEWRECORD_ERROR = 'reviewsiwrote/READ_REVIEWRECORD_ERROR'
+const READ_REVIEWS_I_WROTE_LOADING = 'reviewsiwrote/READ_REVIEWS_I_WROTE_LOADING'
+const READ_REVIEWS_I_WROTE_SUCCESS= 'reviewsiwrote/READ_REVIEWS_I_WROTE_SUCCESS'
+const READ_REVIEWS_I_WROTE_ERROR = 'reviewsiwrote/READ_REVIEWS_I_WROTE__ERROR'
 
-const initialState = {
-  loading: false,
-  error: null,
-  reviews: {}
+function getInitialState() {
+  return {
+    loading: false,
+    error: null,
+    reviewsIWrote: [],
+    reviewsIWroteError: null,
+    reviewsIWroteLoading: false,
+    reviews: {}
+  }
 }
 
 // ------------------------------------
@@ -27,17 +35,48 @@ const initialState = {
 // ------------------------------------
 export const editReview = createAction(EDIT_REVIEW)
 export const cancelEditReview = createAction(EDIT_REVIEW_CANCEL)
-export const editReviewLoading = createAction(EDIT_REVIEW_LOADING)
-export const editReviewError = createAction(EDIT_REVIEW_ERROR)
+const editReviewLoading = createAction(EDIT_REVIEW_LOADING)
+const editReviewError = createAction(EDIT_REVIEW_ERROR)
 const editReviewSuccess = createAction(EDIT_REVIEW_SUCCESS)
-export const updateReviewRecordAction = createAction(UPDATE_REVIEW_RECORD)
-export const readReviewRecordLoading = createAction(READ_REVIEWRECORD_LOADING)
-export const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
-export const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
+const readReviewRecordLoading = createAction(READ_REVIEWRECORD_LOADING)
+const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
+const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
+const readReviewsIWroteLoading = createAction(READ_REVIEWS_I_WROTE_LOADING)
+const readReviewsIWroteSuccess = createAction(READ_REVIEWS_I_WROTE_SUCCESS)
+const readReviewsIWroteError = createAction(READ_REVIEWS_I_WROTE_ERROR)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
+
+export function readReviewsIWrote () {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const didId = get(state, 'data.wallet.did.publicDidDocument.id', null)
+    if (didId) {
+      dispatch(readReviewsIWroteLoading())
+      try {
+        // TODO: improve this and use a loading system per-review
+        const chluApiClient = await getChluAPIClient()
+        const list = await chluApiClient.getReviewsWrittenByDID(didId)
+        const reviews = {}
+        for (const review of list) {
+          const multihash = review.multihash
+          // TODO: show them as loading and dispatch redux actions to resolve them
+          reviews[multihash] = { multihash, loading: true, error: null, ...review }
+          // Only read the review if the api client did not return it resolved
+          if (!reviews[multihash].resolved) dispatch(readReviewRecord(multihash))
+        }
+        dispatch(readReviewsIWroteSuccess(reviews))
+      } catch (error) {
+        console.log(error)
+        dispatch(readReviewsIWroteError(error.message || error))
+      }
+    } else {
+      dispatch(readReviewsIWroteError('Not logged in'))
+    }
+  }
+}
 
 export function readReviewRecord (txHash, multihash) {
   return async dispatch => {
@@ -85,6 +124,20 @@ export function submitEditedReview(fields) {
 // Reducer
 // ------------------------------------
 export default handleActions({
+  [READ_REVIEWS_I_WROTE_LOADING]: state => ({
+    ...state,
+    reviewsIWroteLoading: true
+  }),
+  [READ_REVIEWS_I_WROTE_SUCCESS]: (state, { payload: reviews }) => ({
+    ...state,
+    reviewsIWroteLoading: false,
+    reviewsIWrote: reviews
+  }),
+  [READ_REVIEWS_I_WROTE_ERROR]: (state, { payload: error }) => ({
+    ...state,
+    reviewsIWroteLoading: false,
+    reviewsIWroteError: error 
+  }),
   [EDIT_REVIEW] : (state, { payload: multihash }) => ({
     ...state,
     editing: multihash,
@@ -135,13 +188,5 @@ export default handleActions({
       )
     }
   }),
-  [UPDATE_REVIEW_RECORD]: (state, { payload: { multihash, newMultihash, reviewRecord } }) => ({
-    ...state,
-    reviews: {
-      ...updateReviewRecord(get(state, 'reviews', {}), getTxHashByMultihash(get(state, 'reviews', {}), multihash), {
-        ...reviewRecord,
-        updatedMultihash: newMultihash
-      })
-    }
-  })
-}, initialState)
+  [DELETE_WALLET]: state => getInitialState()
+}, getInitialState())
