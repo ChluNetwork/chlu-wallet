@@ -149,8 +149,10 @@ class SignupWizard extends Component {
 
     toastr.success(
       'Congratulations',
-      'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+      `You have completed the first airdrop task and earned 1 Chlu bonus token.
+       You will be awarded the Chlu token post our public sale`
     )
+    // TODO: redirect user depending on their type: business goes to reviews about me, individual goes to search
   }
 
   render() {
