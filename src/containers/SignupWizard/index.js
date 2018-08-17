@@ -135,33 +135,22 @@ class SignupWizard extends Component {
   }
 
   finishClicked() {
-    console.log('finishedClicked executing SignupWizard index.js file.');
     const { walletCreated } = this.props
 
-    if (!isEmpty(this.props.reputation)) {
-      // Reputation is there
-      this.props.push('/reputation')
-    } else {
-      if (this.state.signupType === "business") {
-        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
-          'type': 'business'
-        });
-        this.props.submit('individualsCrawlerForm') // Does the wallet login.
-        toastr.success(
-          'Congratulations',
-          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
-        )
-      } else {
-        profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
-          'type': 'individual'
-        });
-        this.props.setWalletToCreatedWallet()
-        toastr.success(
-          'Congratulations',
-          'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
-        )
-      }
+    // Check if signup is in progress
+    if (get(walletCreated, 'did.publicDidDocument.id')) {
+      this.props.setWalletToCreatedWallet() // logs in user
+      // update user vendor profile on marketplace
+      const isBusiness = this.state.signupType === "business"
+      profileProvider.updateProfile(walletCreated.did.publicDidDocument.id, {
+        'type': isBusiness ? 'business' : 'individual'
+      });
     }
+
+    toastr.success(
+      'Congratulations',
+      'You have completed the first airdrop task and earned 1 Chlu bonus token. You will be awarded the Chlu token post our public sale'
+    )
   }
 
   render() {
@@ -220,14 +209,7 @@ const mapDispatchToProps = {
   createWallet,
   setWallet,
   setWalletSaved,
-  setWalletToCreatedWallet: () => {
-    return async (dispatch) => {
-      // set and save full wallet
-      await dispatch(setWalletToCreatedWallet())
-      toastr.success('Logged in', 'Your Wallet is ready to go!')
-      dispatch(push('/reputation'))
-    }
-  },
+  setWalletToCreatedWallet,
   readMyReputation,
   setAcceptTermsAndConditions,
   push,
