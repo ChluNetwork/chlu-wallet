@@ -11,7 +11,6 @@ import withFxRates from 'containers/Hoc/withFxRates'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { Redirect } from 'react-router'
 import { getCheckout } from 'store/modules/data/checkout'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { submitPayment } from 'store/modules/data/payment'
@@ -24,7 +23,7 @@ import AmountIcon from '@material-ui/icons/Payment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
 import { getAddress } from 'helpers/wallet';
-import queryString from 'query-string'
+import { get } from 'lodash'
 
 const style = {
   card: {
@@ -33,40 +32,38 @@ const style = {
 }
 
 const starCount = 5
+const defaultAmount = 100
 
 class Payment extends Component {
 
   componentDidMount() {
-    this.props.getCheckout(this.props.match.params.multihash)
+    // TODO: provide checkout data from props
+    this.props.getCheckout({ vendorId: this.props.didId, amount: defaultAmount })
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.multihash !== prevProps.match.params.multihash) {
-      this.props.getCheckout(this.props.match.params.multihash)
+    if (this.props.didId !== prevProps.didId) {
+      // TODO: provide checkout data from props
+      this.props.getCheckout({ vendorId: this.props.didId, amount: defaultAmount })
     }
   }
 
   async handleSubmit(data) {
     const review = data.review || ''
     const rating = this.props.rating
-    const success = await this.props.submitPayment({ review, rating })
-    const redirectUrl = queryString.parse(this.props.location.search).redirect
-    if (success && redirectUrl) {
-      window.location = redirectUrl
-    }
+    await this.props.submitPayment({ review, rating })
   }
 
   render() {
     const {
       classes,
-      location,
-      match,
       wallet,
       checkout: {
         data: popr,
         loading: checkoutLoading,
         error: checkoutError
       },
+      profile,
       rating,
       setRating,
       convertSatoshiToBTC,
@@ -79,29 +76,24 @@ class Payment extends Component {
     const amountUSD = convertFromBtcToUsd(amountBtc)
     const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
     const address = getAddress(wallet)
+    const vendorAddress = get(profile, 'vendorAddress')
+    const error =
+      (checkoutError ? checkoutError.message : checkoutError)
+      || (vendorAddress ? 'Unknown Error' : 'Missing vendor payment address')
 
-    const redirectUrl = queryString.parse(location.search).redirect
-    const multihash = match.params.multihash
-    const defaultRedirect = encodeURIComponent('#/wrote')
-
-    if (!redirectUrl) {
-      // Apply default redirect
-      return <Redirect to={`/pay${multihash ? '/' + multihash : ''}?redirect=${defaultRedirect}`} />
-    }
-
-    if (checkoutError) {
+    if (checkoutError || !vendorAddress) {
       return <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar><ErrorIcon/></Avatar>}
-          title='Something went wrong'
-          subheader={checkoutError.message || checkoutError || 'Unknown error'}
+          title='Something went wrong while fetching Payment Information'
+          subheader={error}
         />
       </Card>
     } else if (checkoutLoading) {
       return <Card className={classes.card}>
         <CardHeader
           avatar={<CircularProgress/>}
-          title='Fetching Payment Request...'
+          title='Fetching Payment Information...'
           subheader='Please wait'
         />
       </Card>
@@ -127,7 +119,7 @@ class Payment extends Component {
             </ListItem>
             <ListItem>
               <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-              <ListItemText primary='Vendor Wallet' secondary={popr.vendor_address}/>
+              <ListItemText primary='Vendor Wallet' secondary={vendorAddress}/>
             </ListItem>
             <ListItem>
               <ListItemIcon><VendorIcon/></ListItemIcon>

@@ -50,23 +50,25 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
-      profile: {}
+      profile: {},
+      loading: true
     };
   }
 
   componentDidMount() {
     const didId = this.props.match.params.id;
-    profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {} }));
+    profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
   }
 
-  change = (event, fieldName) => {
-    let didId = get(this.props.wallet, 'did.publicDidDocument.id', '')
-
-    this.props.updateProfile(didId, {
-      ...this.props.profile,
-      [fieldName]: event.target.value
-    });
+  componentDidUpdate(prevProps) {
+    const didId = this.props.match.params.id;
+    if (didId !== prevProps.match.params.id) {
+      this.setState({
+        loading: true
+      }, () => {
+        profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
+      })
+    }
   }
 
   static propTypes = {
@@ -75,20 +77,32 @@ class Profile extends Component {
 
   render () {
     const { classes } = this.props
+    const { loading, profile } = this.state
+
+    const didId = this.props.match.params.id
 
     return(
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={<Avatar><ProfileIcon/></Avatar>}
-          title='Profile'
-          subheader='Profile Page'
-        />
+      <div>
+        <Card className={classes.card}>
+          { !loading && <CardHeader
+            avatar={<Avatar><ProfileIcon/></Avatar>}
+            title='Profile'
+            subheader='Profile Page'
+          /> }
 
-        <CardContent>
-          {this.renderUser()}
-          {this.renderBusiness()}
-        </CardContent>
-      </Card>
+          { loading && <CardHeader
+            avatar={<Avatar><ProfileIcon/></Avatar>}
+            title='Profile'
+            subheader='Loading...'
+          /> }
+
+          <CardContent>
+            {!loading && this.renderUser()}
+            {!loading && this.renderBusiness()}
+          </CardContent>
+        </Card>
+        { !loading && <Payment profile={profile} didId={didId} /> }
+      </div>
     )
   }
 
@@ -98,39 +112,43 @@ class Profile extends Component {
     const didId = get(wallet, 'did.publicDidDocument.id', '')
 
     return (
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={<Avatar><WalletIcon/></Avatar>}
-          title='Wallet'
-          subheader='Distributed Identity and Bitcoin Funds'
-        />
+      <div>
+        <Card className={classes.card}>
+          <CardHeader
+            avatar={<Avatar><WalletIcon/></Avatar>}
+            title='Wallet'
+            subheader='Distributed Identity and Bitcoin Funds'
+          />
 
-        <CardContent>
-          <List dense disablePadding>
-            <ReactCopyToClipBoard text={didId}>
-              <ListItem button>
-                <ListItemIcon>
-                  <UserIcon />
-                </ListItemIcon>
+          <CardContent>
+            <List dense disablePadding>
+              <ReactCopyToClipBoard text={didId}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <UserIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary='Distributed Identity (DID)'
+                    secondary={`${didId} - Click to copy to clipboard`}
+                  />
+                </ListItem>
+              </ReactCopyToClipBoard>
 
-                <ListItemText primary='Distributed Identity (DID)' secondary={`${didId} - Click to copy to clipboard`} />
-              </ListItem>
-            </ReactCopyToClipBoard>
-
-            <ReactCopyToClipBoard text={address}>
-              <ListItem button>
-                <ListItemIcon>
-                  <WalletIcon />
-                </ListItemIcon>
-
-                <ListItemText primary='Bitcoin Address (testnet)' secondary={`${address} - Click to copy to clipboard`} />
-              </ListItem>
-            </ReactCopyToClipBoard>
-          </List>
-        </CardContent>
-
-        <CardActions></CardActions>
-      </Card>
+              <ReactCopyToClipBoard text={address}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <WalletIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary='Bitcoin Address (testnet)'
+                    secondary={`${address} - Click to copy to clipboard`}
+                  />
+                </ListItem>
+              </ReactCopyToClipBoard>
+            </List>
+          </CardContent>
+        </Card>
+      </div>
     )
   }
 
@@ -152,7 +170,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.emailState === 'success'}
               error={this.state.emailState === 'error'}
-              labelText="Email"
+              labelText='Email'
               id='email'
               formControlProps={{ fullWidth: true }}
               inputProps={{
@@ -171,7 +189,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.usernameState === 'success'}
               error={this.state.usernameState === 'error'}
-              labelText="User Name"
+              labelText='User Name'
               id='username'
               formControlProps={{ fullWidth: true }}
               inputProps={{
@@ -190,7 +208,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.firstnameState === 'success'}
               error={this.state.firstnameState === 'error'}
-              labelText="First Name"
+              labelText='First Name'
               id='firstname'
               formControlProps={{ fullWidth: true }}
               inputProps={{
@@ -209,7 +227,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.lastnameState === 'success'}
               error={this.state.lastnameState === 'error'}
-              labelText="Last Name"
+              labelText='Last Name'
               id='lastname'
               formControlProps={{ fullWidth: true }}
               inputProps={{
@@ -224,8 +242,6 @@ class Profile extends Component {
             />
           </Grid>
         </Grid>
-
-        <Payment />
       </div>
     )
   }
@@ -246,7 +262,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.emailState === 'success'}
               error={this.state.emailState === 'error'}
-              labelText="Name"
+              labelText='Name'
               id='businessname'
               formControlProps={{ fullWidth: true }}
               inputProps={{
@@ -260,7 +276,7 @@ class Profile extends Component {
             <CustomInput
               success={this.state.usernameState === 'success'}
               error={this.state.usernameState === 'error'}
-              labelText="Business Type"
+              labelText='Business Type'
               id='description'
               formControlProps={{ fullWidth: true }}
               inputProps={{
