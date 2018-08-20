@@ -81,19 +81,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"Search"}
               disableTypography={true}
               className={classes.listItemText}
-              />
-          </NavLink>
-        </ListItem>
-        <ListItem className={classes.listItem}>
-          <NavLink to={"/pay"} className={classes.navLink} activeClassName={classes.navLinkActive}>
-            <ListItemIcon className={classes.listItemIcon}>
-              <PayIcon/>
-            </ListItemIcon>
-            <ListItemText
-              primary={"Pay, Review, Earn Chlu"}
-              disableTypography={true}
-              className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
@@ -105,7 +93,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"Reviews About Me"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
@@ -117,7 +105,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"Reviews I Wrote"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
@@ -129,7 +117,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"All Transactions"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
@@ -141,7 +129,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"My Account"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
@@ -153,7 +141,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"Logout"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
         <ConfirmActionModal
@@ -176,7 +164,7 @@ class ChluLayoutHeader extends React.Component {
               primary={"Login"}
               disableTypography={true}
               className={classes.listItemText}
-              />
+            />
           </NavLink>
         </ListItem>
       </List>
