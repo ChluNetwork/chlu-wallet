@@ -7,17 +7,17 @@ import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
 // components
 import {
-    withStyles,
-    AppBar,
-    Toolbar,
-    IconButton,
-    Hidden,
-    Drawer,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText
- } from "@material-ui/core";
+  withStyles,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Hidden,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from "@material-ui/core";
 import ConfirmActionModal from 'components/Modals/ConfirmActionModal';
 // icons
 import Menu from "@material-ui/icons/Menu";
