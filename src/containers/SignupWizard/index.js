@@ -9,16 +9,14 @@ import { connect } from 'react-redux'
 import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
 import { setAcceptTermsAndConditions } from 'store/modules/components/SignupWizard'
 import { readMyReputation } from 'store/modules/data/reputation'
-import { setWallet, setWalletToCreatedWallet } from 'store/modules/data/wallet'
+import { signupToMarketplace } from 'store/modules/ui/profile'
 import { toastr } from 'react-redux-toastr'
 import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
 
 // helpers
-import { downloadWallet as downloadWalletFile, getAddress } from 'helpers/wallet'
+import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick } from 'lodash'
-import { geocode } from 'helpers/geocode';
-import profileProvider from 'helpers/profileProvider';
 
 class SignupWizard extends Component {
   constructor(props) {
@@ -113,39 +111,7 @@ class SignupWizard extends Component {
     // TODO: move this code in a redux file
     // Check if signup is in progress
     if (get(walletCreated, 'did.publicDidDocument.id')) {
-      // TODO: show logging in is in progress in the UI
-      // update user vendor profile on marketplace
-      const isBusiness = this.state.signupType === "business"
-      let businesslocationgeo = undefined
-      if (isBusiness && profile.businesslocation) {
-        // Pre-cache geo coords for location.
-        // TODO: perhaps this could be done on the marketplace server, to ensure coords line up with the location text.
-        try {
-          let coords = await geocode(profile.businesslocation);
-          if (coords) {
-            businesslocationgeo = {
-              latitude: coords.latitude,
-              longitude: coords.longitude,
-              bounds: coords.bounds
-            }
-          }
-        } catch (err) {
-          // Let's not break up the signup flow with API errors.
-          console.error(err);
-        }
-      }
-      const preparedProfile = {
-        ...profile,
-        vendorAddress: getAddress(walletCreated),
-        'type': isBusiness ? 'business' : 'individual',
-      }
-      if (isBusiness && businesslocationgeo) {
-        preparedProfile.businesslocationgeo = businesslocationgeo
-      }
-      // TODO: signup to marketplace here and set profile
-      await profileProvider.setProfile(walletCreated.did.publicDidDocument.id, preparedProfile);
-      this.props.setWalletToCreatedWallet() // logs in user
-      // TODO: signal login finished
+      await this.props.signupToMarketplace(profile)
       toastr.success(
         'Congratulations',
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
@@ -215,11 +181,10 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = {
   createWallet,
-  setWallet,
   setWalletSaved,
-  setWalletToCreatedWallet,
   readMyReputation,
   setAcceptTermsAndConditions,
+  signupToMarketplace,
   push,
   submit
 }
