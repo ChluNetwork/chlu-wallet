@@ -10,12 +10,10 @@ import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
+import { fetchProfile, updateProfile } from 'store/modules/ui/profile';
 
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
-
-// stores, or whatever...
-import { fetchProfile, updateProfile, setProfile } from 'store/modules/ui/profile';
 
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
@@ -33,6 +31,7 @@ import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 import KeyIcon from '@material-ui/icons/Lock'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import SaveIcon from '@material-ui/icons/Save';
 
 
 const styles = theme => ({
@@ -66,14 +65,23 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0
+      value: 0,
+      profile: {},
+      dirty: false,
+      loading: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const didId = get(this.props.wallet, 'did.publicDidDocument.id', '');
-    this.props.getProfile(didId);
+    this.setState({ loading: true })
+    const profile = await this.props.fetchProfile(didId)
+    this.setState({
+      profile,
+      dirty: false,
+      loading: false
+    })
   }
 
   handleClick(button) {
@@ -86,12 +94,13 @@ class Settings extends Component {
   }
 
   change = (event, fieldName) => {
-    let didId = get(this.props.wallet, 'did.publicDidDocument.id', '')
-
-    this.props.updateProfile(didId, {
-      ...this.props.profile,
-      [fieldName]: event.target.value
-    });
+    this.setState({
+      dirty: true,
+      profile: {
+        ...this.state.profile,
+        [fieldName]: event.target.value
+      }
+    })
   }
 
   static propTypes = {
@@ -102,44 +111,51 @@ class Settings extends Component {
     this.setState({ value });
   };
 
-  handleDownload = () => downloadWallet(this.props.wallet)
+  handleDownload () { 
+    downloadWallet(this.props.wallet)
+  }
+
+  saveProfile () {
+    this.props.updateProfile(this.state.profile)
+  }
 
   render () {
     const { classes } = this.props
     const { value } = this.state
 
     return <Card className={classes.card}>
-        <CardHeader
-            avatar={<Avatar><AccountBoxIcon/></Avatar>}
-            subheader='Your Profile and Wallet Settings'
-        />
+      <CardHeader
+        avatar={<Avatar><AccountBoxIcon/></Avatar>}
+        subheader='Your Profile and Wallet Settings'
+      />
 
-        <Tabs
-          value={this.state.value}
-          onChange={this.handleTabChange}
-          fullWidth
-          indicatorColor="secondary"
-          textColor="secondary"
-          centered
-        >
-          <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label="My Profile" />
-          <Tab icon={<WalletIcon className={classes.rightIcon}/>} label="My Wallet" />
-        </Tabs>
+      <Tabs
+        value={this.state.value}
+        onChange={this.handleTabChange}
+        fullWidth
+        indicatorColor='secondary'
+        textColor='secondary'
+        centered
+      >
+        <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label='My Profile' />
+        <Tab icon={<WalletIcon className={classes.rightIcon}/>} label='My Wallet' />
+      </Tabs>
 
-        <Divider/>
-        <CardContent>
-          {value === 0 && <TabContainer>
-              {this.renderProfile()}
-          </TabContainer>}
-          {value === 1 && <TabContainer>
-            {this.renderWallet()}
-          </TabContainer>}
-        </CardContent>
-      </Card>
+      <Divider/>
+      <CardContent>
+        {value === 0 && <TabContainer>
+          {this.renderProfile()}
+        </TabContainer>}
+        {value === 1 && <TabContainer>
+          {this.renderWallet()}
+        </TabContainer>}
+      </CardContent>
+    </Card>
   }
 
   renderProfile() {
     const { classes } = this.props
+    const { dirty } = this.state
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -150,6 +166,11 @@ class Settings extends Component {
         <CardContent>
           {this.renderUser()}
         </CardContent>
+        <CardActions>
+          <Button variant='raised' onClick={this.saveProfile.bind(this)} disabled={!dirty}>
+            <SaveIcon/> Save
+          </Button>
+        </CardActions>
       </Card>
     )
   }
@@ -171,29 +192,29 @@ class Settings extends Component {
           <List dense disablePadding>
             <ReactCopyToClipBoard text={didId}>
               <ListItem button>
-                  <ListItemIcon><UserIcon/></ListItemIcon>
-                  <ListItemText
-                      primary='Distributed Identity (DID)'
-                      secondary={`${didId} - Click to copy to clipboard`}
-                  />
+                <ListItemIcon><UserIcon/></ListItemIcon>
+                <ListItemText
+                  primary='Distributed Identity (DID)'
+                  secondary={`${didId} - Click to copy to clipboard`}
+                />
               </ListItem>
             </ReactCopyToClipBoard>
             <ReactCopyToClipBoard text={didPrivateKey}>
               <ListItem button>
-                  <ListItemIcon><KeyIcon/></ListItemIcon>
-                  <ListItemText
-                      primary='DID Private Key'
-                      secondary='Click to copy to clipboard'
-                  />
+                <ListItemIcon><KeyIcon/></ListItemIcon>
+                <ListItemText
+                  primary='DID Private Key'
+                  secondary='Click to copy to clipboard'
+                />
               </ListItem>
             </ReactCopyToClipBoard>
             <ReactCopyToClipBoard text={address}>
               <ListItem button>
-                  <ListItemIcon><WalletIcon/></ListItemIcon>
-                  <ListItemText
-                      primary='Your Bitcoin Address (testnet)'
-                      secondary={`${address} - Click to copy to clipboard`}
-                  />
+                <ListItemIcon><WalletIcon/></ListItemIcon>
+                <ListItemText
+                  primary='Your Bitcoin Address (testnet)'
+                  secondary={`${address} - Click to copy to clipboard`}
+                />
               </ListItem>
             </ReactCopyToClipBoard>
           </List>
@@ -208,7 +229,8 @@ class Settings extends Component {
   }
 
   renderUser() {
-    const { classes, profile } = this.props;
+    const { classes } = this.props;
+    const { profile } = this.state
 
     return (
       <Grid container justify='center' spacing={16}>
@@ -324,19 +346,10 @@ const mapStateToProps = store => {
   };
 };
 
-// const updateProfileDebounced = debounce(updateProfile, 1000);
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getProfile: (didId) => {
-      fetchProfile(didId)(dispatch);
-    },
-    updateProfile: (didId, profile) => {
-      dispatch(setProfile(profile));
-      updateProfile(didId, profile)(dispatch);
-    }
-  }
-};
+const mapDispatchToProps = {
+  updateProfile,
+  fetchProfile
+}
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

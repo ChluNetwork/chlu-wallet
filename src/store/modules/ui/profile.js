@@ -26,18 +26,21 @@ export const setProfile = createAction(SET_CURRENT_PROFILE);
 // ------------------------------------
 export function fetchProfile(did) {
   return async (dispatch) => {
+    // TODO: show loading
     let profile = await profileProvider.getProfile(did);
     dispatch(setProfile(profile || {}));
+    return profile
   }
 }
 
 export function updateProfile(profile) {
   return async (dispatch, getState) => {
-    const currentProfile = getState().ui.profile
+    const currentProfile = getState().ui.profile.profile
     const newProfile = { ...currentProfile, ...profile }
     const chluApiClient = await getChluAPIClient()
-    await chluApiClient.updateVendorProfile(newProfile);
+    await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
     dispatch(setProfile(newProfile))
+    return newProfile
   }
 }
 
@@ -76,7 +79,7 @@ export function signupToMarketplace(profile) {
     }
     const chluApiClient = await getChluAPIClient()
     await chluApiClient.importDID(walletCreated.did)
-    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL)
+    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, profile)
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     dispatch(setWalletToCreatedWallet()) // logs in user
     // TODO: signal login finished
