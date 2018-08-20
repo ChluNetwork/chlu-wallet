@@ -34,7 +34,7 @@ const transformMap = {
   upwork: transformUpworkData
 }
 
-export function startCrawler(type, url) {
+export function startCrawler_client(type, url) {
   return async (dispatch, getState) => {
     const state = getState()
     dispatch(startCrawlerAction())
@@ -48,6 +48,27 @@ export function startCrawler(type, url) {
       const chluIpfs = await getChluIPFS()
       await chluIpfs.importDID(did)
       await importUnverifiedReviews(results)
+      dispatch(finishCrawler())
+      dispatch(readMyReputation())
+    } catch (error) {
+      console.log(error)
+      dispatch(crawlerError(error.message || error))
+    }
+  }
+}
+
+export function startCrawler(type, url) {
+  return async (dispatch, getState) => {
+    const state = getState()
+    dispatch(startCrawlerAction())
+    dispatch(startCrawlerIPFS())
+    try {
+      const signedInDid = get(state, 'data.wallet.did', null)
+      const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
+      const did = signedInDid || signedOutDid
+
+      // TODO: post to 'chlu-api-publish/crawl', with data '{ did, type, url }' here...
+
       dispatch(finishCrawler())
       dispatch(readMyReputation())
     } catch (error) {
@@ -80,5 +101,5 @@ export default handleActions({
     running: false,
     savingToIPFS: false,
     error: null
-  }) 
+  })
 }, getInitialState())
