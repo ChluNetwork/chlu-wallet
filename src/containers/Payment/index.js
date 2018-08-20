@@ -58,20 +58,20 @@ class Payment extends Component {
 
   render() {
     const {
-            classes,
-            location,
-            match,
-            wallet,
-            checkout: {
-                data: popr,
-                loading: checkoutLoading,
-                error: checkoutError
-            },
-            rating,
-            setRating,
-            convertSatoshiToBTC,
-            convertFromBtcToUsd
-        } = this.props
+      classes,
+      location,
+      match,
+      wallet,
+      checkout: {
+        data: popr,
+        loading: checkoutLoading,
+        error: checkoutError
+      },
+      rating,
+      setRating,
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
+    } = this.props
 
     const submitDisabled = !popr || checkoutLoading || checkoutError
     const amountSatoshi = popr.amount
@@ -85,68 +85,68 @@ class Payment extends Component {
     const defaultRedirect = encodeURIComponent('#/wrote')
 
     if (!redirectUrl) {
-        // Apply default redirect
-        return <Redirect to={`/pay${multihash ? '/' + multihash : ''}?redirect=${defaultRedirect}`} />
+      // Apply default redirect
+      return <Redirect to={`/pay${multihash ? '/' + multihash : ''}?redirect=${defaultRedirect}`} />
     }
 
     if (checkoutError) {
-        return <Card className={classes.card}>
-            <CardHeader
-                avatar={<Avatar><ErrorIcon/></Avatar>}
-                title='Something went wrong'
-                subheader={checkoutError.message || checkoutError || 'Unknown error'}
-            />
-        </Card>
+      return <Card className={classes.card}>
+        <CardHeader
+          avatar={<Avatar><ErrorIcon/></Avatar>}
+          title='Something went wrong'
+          subheader={checkoutError.message || checkoutError || 'Unknown error'}
+        />
+      </Card>
     } else if (checkoutLoading) {
       return <Card className={classes.card}>
-                <CardHeader
-                    avatar={<CircularProgress/>}
-                    title='Fetching Payment Request...'
-                    subheader='Please wait'
-                />
-            </Card>
+        <CardHeader
+          avatar={<CircularProgress/>}
+          title='Fetching Payment Request...'
+          subheader='Please wait'
+        />
+      </Card>
     } else {
       return <Card className={classes.card}>
-                <CardHeader
-                    avatar={<Avatar><WalletIcon/></Avatar>}
-                    title='Payment'
-                    subheader='Choose a payment method'
-                />
-                <Divider/>
-                <PaymentMethods />
-                <Divider/>
-                <CardContent>
-                    <List dense disablePadding>
-                        <ListItem>
-                            <ListItemIcon><AmountIcon/></ListItemIcon>
-                            <ListItemText primary='Amount Requested' secondary={amountText}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon><WalletIcon/></ListItemIcon>
-                            <ListItemText primary='Your tBTC Wallet' secondary={address}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-                            <ListItemText primary='Vendor Wallet' secondary={popr.vendor_address}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon><VendorIcon/></ListItemIcon>
-                            <ListItemText primary='Vendor URL' secondary={popr.marketplace_vendor_url}/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemIcon><MarketplaceIcon/></ListItemIcon>
-                            <ListItemText primary='Marketplace URL' secondary={popr.marketplace_url}/>
-                        </ListItem>
-                    </List>
-                </CardContent>
-                <Divider/>
-                <PaymentForm
-                    starCount={starCount}
-                    rating={rating}
-                    setRating={setRating}
-                    disabled={submitDisabled}
-                    onSubmit={this.handleSubmit.bind(this)}/>
-            </Card>
+        <CardHeader
+          avatar={<Avatar><WalletIcon/></Avatar>}
+          title='Payment'
+          subheader='Choose a payment method'
+        />
+        <Divider/>
+        <PaymentMethods />
+        <Divider/>
+        <CardContent>
+          <List dense disablePadding>
+            <ListItem>
+              <ListItemIcon><AmountIcon/></ListItemIcon>
+              <ListItemText primary='Amount Requested' secondary={amountText}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><WalletIcon/></ListItemIcon>
+              <ListItemText primary='Your tBTC Wallet' secondary={address}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
+              <ListItemText primary='Vendor Wallet' secondary={popr.vendor_address}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><VendorIcon/></ListItemIcon>
+              <ListItemText primary='Vendor URL' secondary={popr.marketplace_vendor_url}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><MarketplaceIcon/></ListItemIcon>
+              <ListItemText primary='Marketplace URL' secondary={popr.marketplace_url}/>
+            </ListItem>
+          </List>
+        </CardContent>
+        <Divider/>
+        <PaymentForm
+          starCount={starCount}
+          rating={rating}
+          setRating={setRating}
+          disabled={submitDisabled}
+          onSubmit={this.handleSubmit.bind(this)}/>
+      </Card>
     }
   }
 }
@@ -171,10 +171,10 @@ const mapDispatchToProps = {
 }
 
 export default compose(
-    withStyles(style),
-    withFxRates,
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )
+  withStyles(style),
+  withFxRates,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(Payment)
