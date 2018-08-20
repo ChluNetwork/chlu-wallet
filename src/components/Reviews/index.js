@@ -18,6 +18,7 @@ class Reviews extends Component {
   
   render() {
     const { classes, reviews, loading } = this.props
+    const reviewList = reviews ? Object.values(reviews) : []
 
     return <Grid container spacing={16} className={classes.root}>
       {loading && <Grid item xs={12}>
@@ -28,7 +29,7 @@ class Reviews extends Component {
           />
         </Card>
       </Grid>}
-      {!loading && reviews.length === 0 && <Grid item xs={12}>
+      {!loading && reviewList.length === 0 && <Grid item xs={12}>
         <Card>
           <CardHeader
             avatar={<ErrorIcon/>}
@@ -37,7 +38,7 @@ class Reviews extends Component {
           />
         </Card>
       </Grid>}
-      {!loading && reviews.map((review, index) => {
+      {!loading && reviewList.map((review, index) => {
         return <Grid key={index} item xs={12} > 
           {review.loading && <Card>
             <CardHeader
@@ -52,7 +53,7 @@ class Reviews extends Component {
               subheader={review.error}
             />
           </Card>}
-          {!review.loading && !review.error && <Review review={review} key={reviews.length + index} />}
+          {!review.loading && !review.error && <Review review={review} key={reviewList.length + index} />}
         </Grid>
       })}
     </Grid>
