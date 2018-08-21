@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { object } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
-import { setWallet } from 'store/modules/data/wallet'
+import { signIn } from 'store/modules/ui/profile'
 // libs
-import { importWallet, importDID } from 'helpers/wallet'
+import { importWallet } from 'helpers/wallet'
 import { Link } from 'react-router-dom'
 // components
 import FileReaderInput from 'react-file-reader-input'
@@ -23,8 +23,7 @@ class ImportWallet extends Component {
   async importWallet(str) {
     try {
       const wallet = importWallet(str)
-      await importDID(wallet.did)
-      this.props.setWallet(wallet)
+      await this.props.signIn(wallet)
       toastr.success('Wallet imported', 'Your existing data has been imported')
       // TODO: redirect user depending on their type: business goes to reviews about me, individual goes to search
     } catch (error) {
@@ -75,7 +74,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = {
-  setWallet
+  signIn
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportWallet)

@@ -62,10 +62,12 @@ export function readReviewsIWrote () {
         const reviews = {}
         for (const review of list) {
           const multihash = review.multihash
+          const content = get(review, 'reviewRecord', {})
+          const resolved = get(content, 'resolved', false)
           // TODO: show them as loading and dispatch redux actions to resolve them
-          reviews[multihash] = { multihash, loading: true, error: null, ...review }
+          reviews[multihash] = { multihash, loading: !resolved, error: null, ...content }
           // Only read the review if the api client did not return it resolved
-          if (!reviews[multihash].resolved) dispatch(readReviewRecord(multihash))
+          if (!resolved) dispatch(readReviewRecord(multihash))
         }
         dispatch(readReviewsIWroteSuccess(reviews))
       } catch (error) {

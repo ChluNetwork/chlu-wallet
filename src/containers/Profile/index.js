@@ -5,11 +5,13 @@ import { get } from 'lodash'
 // components
 import { Card, CardContent, CardActions, CardHeader, Grid, InputAdornment } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import Reviews from 'components/Reviews'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
+import { readReputation } from 'store/modules/data/reputation'
 
 // helpers
 import { getAddress } from 'helpers/wallet';
@@ -55,19 +57,22 @@ class Profile extends Component {
     };
   }
 
-  componentDidMount() {
+  updateProfileAndReviews() {
     const didId = this.props.match.params.id;
-    profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
+    if (didId) {
+      profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
+      this.props.readReputation(didId)
+    }
+  }
+
+  componentDidMount() {
+    this.updateProfileAndReviews()
   }
 
   componentDidUpdate(prevProps) {
     const didId = this.props.match.params.id;
     if (didId !== prevProps.match.params.id) {
-      this.setState({
-        loading: true
-      }, () => {
-        profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
-      })
+      this.setState({ loading: true }, () => this.updateProfileAndReviews())
     }
   }
 
@@ -76,10 +81,13 @@ class Profile extends Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { wallet, classes, reviews, reviewsLoading, reviewsDidId } = this.props
     const { loading, profile } = this.state
 
     const didId = this.props.match.params.id
+    const myDid = get(wallet, 'did.publicDidDocument.id', null)
+    const showPayment = !loading && myDid && didId !== myDid 
+    const showReviews = !loading && !reviewsLoading && reviewsDidId === didId
 
     return(
       <div>
@@ -101,7 +109,8 @@ class Profile extends Component {
             {!loading && this.renderBusiness()}
           </CardContent>
         </Card>
-        { !loading && <Payment profile={profile} didId={didId} /> }
+        { showPayment && <Payment profile={profile} didId={didId} /> }
+        <Reviews loading={!showReviews} reviews={Object.values(reviews || {})} />
       </div>
     )
   }
@@ -298,11 +307,18 @@ class Profile extends Component {
 const mapStateToProps = store => {
   return {
     wallet: store.data.wallet,
-    profile: store.ui.profile.profile || {}
+    profile: store.ui.profile.profile || {},
+    reviews: store.data.reputation.reviews,
+    reviewsDidId: store.data.reputation.didId,
+    reviewsLoading: store.data.reputation.reviewsLoading
   };
 };
 
+const mapDispatchToProps = {
+  readReputation
+}
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles)
 )(Profile)

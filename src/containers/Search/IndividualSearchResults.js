@@ -56,7 +56,7 @@ class IndividualSearchResultsHead extends React.Component {
                 sortDirection={orderBy === column.id ? order : false}
               >
                 <Tooltip
-                  title="Sort"
+                  title='Sort'
                   placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
@@ -134,12 +134,10 @@ class IndividualSearchResults extends React.Component {
   updateSearchData() {
     let currentSearchName = this.props.searchName;
 
-    console.log("Calling update search with search name: "+currentSearchName)
+    console.log('Calling update search with search name: '+currentSearchName)
 
     profileProvider.searchProfiles('individual', undefined, this.props.searchName).then(results => {
-      if (currentSearchName === this.props.searchName) {
-        this.setState({ data: results.map(profile => createData(profile.username, profile.firstname, profile.lastname, undefined, undefined, profile.id)) });
-      }
+      this.setState({ data: results })
     });
   }
 
@@ -181,7 +179,7 @@ class IndividualSearchResults extends React.Component {
       <Paper className={classes.root}>
         <h3>Search Results</h3>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
+          <Table className={classes.table} aria-labelledby='tableTitle'>
             <IndividualSearchResultsHead
               numSelected={selected.length}
               order={order}
@@ -195,21 +193,21 @@ class IndividualSearchResults extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.did);
                   return (
                       <TableRow
                         hover
-                        onClick={() => replace('/profile/' + n.didid)}
-                        style={{ cursor: "pointer" }}
-                        role="checkbox"
+                        onClick={() => replace('/profile/' + n.did)}
+                        style={{ cursor: 'pointer' }}
+                        role='checkbox'
                         aria-checked={isSelected}
                         tabIndex={-1}
-                        key={n.didid}
+                        key={n.did}
                         selected={isSelected}
                       >
-                        <TableCell component="th" scope="row" padding="none">
+                        <TableCell component='th' scope='row' padding='none'>
                           <Avatar
-                                alt="Bob Smith"
+                                alt='Bob Smith'
                                 src={require('images/default-avatar.png')}
                                 className={classNames(classes.avatar, classes.bigAvatar)}
                               />
@@ -231,7 +229,7 @@ class IndividualSearchResults extends React.Component {
           </Table>
         </div>
         <TablePagination
-          component="div"
+          component='div'
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}

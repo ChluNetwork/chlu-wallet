@@ -5,12 +5,12 @@ import { DELETE_WALLET } from './wallet';
 // ------------------------------------
 // Constants
 // ------------------------------------
-const READ_REPUTATION_LOADING = 'reviewsaboutme/READ_REPUTATION_LOADING'
-const READ_REPUTATION_SUCCESS = 'reviewsaboutme/READ_REPUTATION_SUCCESS'
-const READ_REPUTATION_ERROR = 'reviewsaboutme/READ_REPUTATION_ERROR'
-const READ_REVIEWRECORD_LOADING = 'reviewsaboutme/READ_REVIEWRECORD_LOADING'
-const READ_REVIEWRECORD_SUCCESS = 'reviewsaboutme/READ_REVIEWRECORD_SUCCESS'
-const READ_REVIEWRECORD_ERROR = 'reviewsaboutme/READ_REVIEWRECORD_ERROR'
+const READ_REPUTATION_LOADING = 'reviewsaboutvendor/READ_REPUTATION_LOADING'
+const READ_REPUTATION_SUCCESS = 'reviewsaboutvendor/READ_REPUTATION_SUCCESS'
+const READ_REPUTATION_ERROR = 'reviewsaboutvendor/READ_REPUTATION_ERROR'
+const READ_REVIEWRECORD_LOADING = 'reviewsaboutvendor/READ_REVIEWRECORD_LOADING'
+const READ_REVIEWRECORD_SUCCESS = 'reviewsaboutvendor/READ_REVIEWRECORD_SUCCESS'
+const READ_REVIEWRECORD_ERROR = 'reviewsaboutvendor/READ_REVIEWRECORD_ERROR'
 
 function getInitialState() {
   return {
@@ -51,8 +51,14 @@ export function readMyReputation () {
   return async (dispatch, getState) => {
     const state = getState()
     const didId = get(state, 'data.wallet.did.publicDidDocument.id', null)
+    if (didId) return dispatch(readReputation(didId))
+  }
+}
+
+export function readReputation (didId) {
+  return async (dispatch, getState) => {
     if (didId) {
-      dispatch(readReputationLoading())
+      dispatch(readReputationLoading(didId))
       try {
         // TODO: improve this and use a loading system per-review
         const chluApiClient = await getChluAPIClient()
@@ -60,12 +66,14 @@ export function readMyReputation () {
         const reviews = {}
         for (const review of list) {
           const multihash = review.multihash
+          const content = get(review, 'reviewRecord', {})
+          const resolved = get(content, 'resolved', false)
           // TODO: show them as loading and dispatch redux actions to resolve them
-          reviews[multihash] = { multihash, loading: true, error: null, ...review }
+          reviews[multihash] = { multihash, loading: !resolved, error: null, ...content }
           // Only read the review if the api client did not return it resolved
-          if (!reviews[multihash].resolved) dispatch(readReviewRecord(multihash))
+          if (!resolved) dispatch(readReviewRecord(multihash))
         }
-        dispatch(readReputationSuccess(reviews))
+        dispatch(readReputationSuccess({ reviews, didId }))
       } catch (error) {
         console.log(error)
         dispatch(readReputationError(error.message || error))
@@ -91,19 +99,20 @@ function updateReviewRecord (reviews, multihash, data, create = true) {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [READ_REPUTATION_LOADING]: state => ({
+  [READ_REPUTATION_LOADING]: (state, { payload: didId }) => ({
     ...state,
+    didId,
     loading: true
   }),
-  [READ_REPUTATION_SUCCESS]: (state, { payload: reviews }) => ({
+  [READ_REPUTATION_SUCCESS]: (state, { payload: { reviews, didId } }) => ({
     ...state,
-    loading: false,
-    reviews: reviews
+    loading: didId === state.didId ? false : state.loading,
+    reviews: didId === state.didId ? reviews : state.reviews
   }),
-  [READ_REPUTATION_ERROR]: (state, { payload: error }) => ({
+  [READ_REPUTATION_ERROR]: (state, { payload: { error, didId } }) => ({
     ...state,
-    loading: false,
-    error 
+    loading: didId === state.didId ? false : state.loading,
+    error: didId === state.didId ? error : state.error
   }),
   [READ_REVIEWRECORD_LOADING]: (state, { payload: multihash }) => ({
     ...state,

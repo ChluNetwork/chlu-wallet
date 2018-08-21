@@ -2,8 +2,9 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient } from 'helpers/chlu'
 import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider'
-import { setWalletToCreatedWallet } from 'store/modules/data/wallet'
-import { getAddress } from 'helpers/wallet'
+import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
+import { getAddress, importDID } from 'helpers/wallet'
+import { get } from 'http';
 
 // ------------------------------------
 // Constants
@@ -79,10 +80,32 @@ export function signupToMarketplace(profile) {
     }
     const chluApiClient = await getChluAPIClient()
     await chluApiClient.importDID(walletCreated.did)
-    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, profile)
+    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     dispatch(setWalletToCreatedWallet()) // logs in user
     // TODO: signal login finished
+  }
+}
+
+export function signIn(exportedWallet) {
+  return async dispatch => {
+    dispatch(setWallet(exportedWallet))
+    const chluApiClient = await getChluAPIClient()
+    await importDID(exportedWallet.did)
+    // register to marketplace does nothing if the registration was already completed
+    // otherwise corrects whatever data is missing
+    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL)
+    // check that the profile vendor address is correct
+    const profile = await dispatch(fetchProfile(exportedWallet.did.publicDidDocument.id))
+    const vendorAddress = getAddress(exportedWallet)
+    if (get(profile, 'vendorAddress', null) !== vendorAddress) {
+      // update it if it's wrong
+      const preparedProfile = {
+        ...profile,
+        vendorAddress
+      }
+      await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
+    }
   }
 }
 
