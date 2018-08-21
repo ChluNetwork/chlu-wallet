@@ -61,13 +61,25 @@ export function startCrawler(type, url) {
   return async (dispatch, getState) => {
     const state = getState()
     dispatch(startCrawlerAction())
-    dispatch(startCrawlerIPFS())
     try {
       const signedInDid = get(state, 'data.wallet.did', null)
       const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
       const did = signedInDid || signedOutDid
 
-      // TODO: post to 'chlu-api-publish/crawl', with data '{ did, type, url }' here...
+      console.log('starting crawler with payload:')
+      console.log(JSON.stringify({ type, url, did }));
+
+      // TODO: use API endpoint from env?
+      const result = await fetch('http://localhost:3006/api/v1/crawl', {
+        method: 'POST',
+        body: JSON.stringify({ type, url, did }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      console.log('crawler finished')
+      console.log(await result.json())
 
       dispatch(finishCrawler())
       dispatch(readMyReputation())
