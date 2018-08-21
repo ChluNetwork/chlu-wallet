@@ -1,8 +1,8 @@
 import { createAction, handleActions } from 'redux-actions'
 import { getChluIPFS } from 'helpers/chlu'
 import { toastr } from 'react-redux-toastr'
-import CreateChluTransaction from 'chlu-wallet-support-js/lib/create_chlu_transaction';
 import { getAddress } from 'helpers/wallet';
+import { createTransaction } from 'helpers/payment';
 
 // ------------------------------------
 // Constants
@@ -27,10 +27,21 @@ export const setPaymentLoading = createAction(SET_PAYMENT_LOADING)
 // Thunks
 // ------------------------------------
 
+export const paymentStepLoadingMessages = [
+  null,
+  'Preparing Payment and Review data',
+  'Connecting to Chlu IPFS Distributed System',
+  'Preparing Chlu Review',
+  'Creating Cryptocurrency Transaction',
+  'Publishing Cryptocurrency Transaction',
+  'Publishing Chlu Review. Please wait until the review is replicated by a Chlu Collector, this might take a while',
+]
+
 export function submitPayment (data) {
   return async (dispatch, getState) => {
-    dispatch(setPaymentLoading(true))
+    dispatch(setPaymentLoading(1))
     try {
+      let step = 1
       const state = getState()
       const wallet = state.data.wallet
       const popr = state.data.checkout.data;
@@ -74,78 +85,81 @@ export function submitPayment (data) {
       }
       console.log(reviewRecord)
       // TODO: clean up this mess
+      let chluIpfs, multihash, transaction, pushedTransaction
+      // Step 1: Start ChluIPFS
       try {
+        dispatch(setPaymentLoading(++step))
         console.log('Getting ChluIPFS')
-        const chluIpfs = await getChluIPFS()
-        try {
-          console.log('Storing review record (no publish)')
-          const multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
-          console.log('Creating transaction')
-          console.log(popr.amount)
-          try {
-            const tr = new CreateChluTransaction(process.env.REACT_APP_BLOCKCYPHER_TOKEN)
-            tr.getImportedKey(wallet.bitcoinMnemonic)
-            console.log(address, popr.vendor_address, popr.amount, null, multihash)
-            const response = await tr.create(address, popr.vendor_address, popr.amount, null, multihash)
-            console.log(response)
-            try {
-              console.log('Pushing transaction')
-              const tx = await tr.pushTransaction(response)
-              console.log('Publishing review record')
-              try {
-                console.log(reviewRecord)
-                await chluIpfs.storeReviewRecord(reviewRecord, {
-                  bitcoinTransactionHash: tx.hash
-                })
-                toastr.success('success', 'Payment success')
-                dispatch(setPaymentSuccess())
-                return true
-              } catch (exception) {
-                console.log('Error saving review record')
-                console.log(exception)
-                toastr.error("Unable to save review",
-                             "Your payment went through, but the review wasn't saved. The review will be saved when you access the wallet again later.")
-                dispatch(setPaymentError(exception.message || exception))
-                return false
-              }
-            } catch (exception) {
-              console.log('Error pushing transaction')
-              console.log(exception)
-              toastr.error("Check Wallet Balance",
-                           "There was an error making the payment. Please check your wallet's balance")
-              dispatch(setPaymentError(exception.message || exception))
-              return false
-            }
-          } catch (exception) {
-            console.log('Error creating transaction')
-            console.log(exception)
-            toastr.error("Check Wallet Balance",
-                         "There was an error making the payment. Please check your wallet's balance")
-            dispatch(setPaymentError(exception.message || exception))
-            return false
-          }
-        } catch (exception) {
-          console.log('Error creating the review')
-          console.log(exception)
-          toastr.error("Review Error",
-                       "There was an error creating the review. Your funds were not spent. Please check your network and try again")
-          dispatch(setPaymentError(exception.message || exception))
-          return false
-        }
+        chluIpfs = await getChluIPFS()
       } catch (exception) {
         console.log('IPFS unreachable')
         console.log(exception)
-        toastr.error("Network Error",
-                     "IPFS is unreachable, please check your network connection and try again")
+        toastr.error('Network Error',
+                     'IPFS is unreachable, please check your network connection and try again')
         dispatch(setPaymentError(exception.message || exception))
         return false
       }      
+      // Step 2: Store ReviewRecord
+      try {
+        dispatch(setPaymentLoading(++step))
+        console.log('Storing review record (no publish)')
+        multihash = await chluIpfs.storeReviewRecord(reviewRecord, { publish: false })
+      } catch (exception) {
+        console.log('Error creating the review')
+        console.log(exception)
+        toastr.error('Review Error',
+                      'There was an error creating the review. Your funds were not spent. Please check your network and try again')
+        dispatch(setPaymentError(exception.message || exception))
+        return false
+      }
+      // Step 3: create blockchain transaction
+      try {
+        dispatch(setPaymentLoading(++step))
+        transaction = await createTransaction(wallet.bitcoinMnemonic, popr.amount, address, popr.vendor_address,multihash)
+      } catch (exception) {
+        console.log('Error creating transaction')
+        console.log(exception)
+        toastr.error('Check Wallet Balance',
+                      "There was an error making the payment. Please check your wallet's balance")
+        dispatch(setPaymentError(exception.message || exception))
+        return false
+      }
+      // Step 4: publish blockchain transaction
+      try {
+        dispatch(setPaymentLoading(++step))
+        pushedTransaction = await transaction.pushTransaction()
+      } catch (exception) {
+        console.log('Error pushing transaction')
+        console.log(exception)
+        toastr.error('Check Wallet Balance',
+                      "There was an error making the payment. Please check your wallet's balance")
+        dispatch(setPaymentError(exception.message || exception))
+        return false
+      }
+      // Step 5: Publishing review record
+      try {
+        dispatch(setPaymentLoading(++step))
+        console.log(reviewRecord)
+        await chluIpfs.storeReviewRecord(reviewRecord, {
+          bitcoinTransactionHash: pushedTransaction.hash,
+          expectedMultihash: multihash
+        })
+        toastr.success('success', 'Payment success')
+        dispatch(setPaymentSuccess())
+        return true
+      } catch (exception) {
+        console.log('Error saving review record')
+        console.log(exception)
+        toastr.error('Unable to save review',
+                      "Your payment went through, but the review wasn't saved. The review will be saved when you access the wallet again later.")
+        dispatch(setPaymentError(exception.message || exception))
+        return false
+      }
     } catch (exception) {
       console.log(exception)
-      toastr.error("Unknown Error",
-                   "There was an error making the payment. Please try again later.")
+      toastr.error('Unknown Error',
+                    'Something went wrong')
       dispatch(setPaymentError(exception.message || exception))
-      return false
     }
   }
 }
@@ -157,15 +171,21 @@ export default handleActions({
   [SET_PAYMENT_SUCCESS]: (state) => ({
     ...state,
     loading: false,
+    loadingStep: 0,
+    loadingMessage: null,
     error: null
   }),
   [SET_PAYMENT_ERROR]: (state, { payload: { error } }) => ({
     ...state,
     loading: false,
+    loadingStep: 0,
+    loadingMessage: null,
     error
   }),
-  [SET_PAYMENT_LOADING]: (state, { payload: loading }) => ({
+  [SET_PAYMENT_LOADING]: (state, { payload: step }) => ({
     ...state,
-    loading
+    loading: step > 0,
+    loadingStep: step || 0,
+    loadingMessage: paymentStepLoadingMessages[step] || null
   })
 }, initialState)
