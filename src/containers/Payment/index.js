@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { getCheckout } from 'store/modules/data/checkout'
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
-import { submitPayment } from 'store/modules/data/payment'
+import { submitPayment, paymentStepLoadingMessages } from 'store/modules/data/payment'
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import VendorIcon from '@material-ui/icons/Shop'
@@ -63,6 +63,10 @@ class Payment extends Component {
         loading: checkoutLoading,
         error: checkoutError
       },
+      loading,
+      loadingStep,
+      loadingMessage,
+      paymentError,
       profile,
       rating,
       setRating,
@@ -77,8 +81,10 @@ class Payment extends Component {
     const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
     const address = getAddress(wallet)
     const vendorAddress = get(profile, 'vendorAddress')
+    const loadingSteps = paymentStepLoadingMessages.length - 1
     const error =
-      (checkoutError ? checkoutError.message : checkoutError)
+      (get(paymentError, 'message') ? paymentError.message : paymentError)
+      || (get(checkoutError, 'message') ? checkoutError.message : checkoutError)
       || (vendorAddress ? 'Unknown Error' : 'Missing vendor payment address')
 
     if (checkoutError || !vendorAddress) {
@@ -97,7 +103,15 @@ class Payment extends Component {
           subheader='Please wait'
         />
       </Card>
-    } else {
+    } else if (loading) {
+      return <Card className={classes.card}>
+        <CardHeader
+          avatar={<CircularProgress/>}
+          title={`Paying and Submitting Review (Step ${loadingStep}/${loadingSteps})`}
+          subheader={loadingMessage || 'Please wait...'}
+        />
+      </Card>
+    } else{
       return <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar><WalletIcon/></Avatar>}
@@ -143,7 +157,6 @@ class Payment extends Component {
   }
 }
 
-
 Payment.propTypes = {
   loading: PropTypes.bool
 }
@@ -152,7 +165,11 @@ function mapStateToProps(state) {
   return {
     wallet: state.data.wallet,
     checkout: state.data.checkout,
-    rating: state.components.customerWallet.rating
+    rating: state.components.customerWallet.rating,
+    loading: state.data.payment.loading,
+    paymentError: state.data.payment.error,
+    loadingMessage: state.data.payment.loadingMessage,
+    loadingStep: state.data.payment.loadingStep
   }
 }
 
