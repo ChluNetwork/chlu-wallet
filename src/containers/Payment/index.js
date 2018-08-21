@@ -32,7 +32,7 @@ const style = {
 }
 
 const starCount = 5
-const defaultAmount = 100
+const defaultAmount = 1000
 
 class Payment extends Component {
 
@@ -101,7 +101,7 @@ class Payment extends Component {
       return <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar><WalletIcon/></Avatar>}
-          title='Payment'
+          title='Send Payment'
           subheader='Choose a payment method'
         />
         <Divider/>
