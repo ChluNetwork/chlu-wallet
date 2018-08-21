@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { requestPopr } from 'helpers/marketplace'
-import { getChluIPFS } from 'helpers/chlu'
+import { getProfile } from 'helpers/profileProvider'
+import { get } from 'lodash'
 
 // ------------------------------------
 // Constants
@@ -37,6 +38,9 @@ export function getCheckout ({ vendorId, amount }) {
         amount,
         currency_symbol: 'tBTC'
       })
+      console.log(`Requesting Profile for vendor ${vendorId} to get vendorAddress`)
+      const profile = await getProfile(vendorId)
+      popr.vendor_address = get(profile, 'vendorAddress', null)
       console.log(`Requested PoPR to ${url} for vendor ${vendorId}`)
       console.log(popr)
       dispatch(fetchCheckoutDataSuccess(popr))

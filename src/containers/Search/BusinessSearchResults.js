@@ -18,9 +18,9 @@ import profileProvider from 'helpers/profileProvider';
 
 let counter = 0;
 
-function createData(logo, name, description, location, type, website, averagescore, didid) {
+function createData(logo, name, description, location, type, website, averagescore, did) {
   counter += 1;
-  return { id: counter, logo, name, description, location, type, website, averagescore, didid };
+  return { id: counter, logo, name, description, location, type, website, averagescore, did };
 }
 
 function getSorting(order, orderBy) {
@@ -57,7 +57,7 @@ class BusinessSearchResultsHead extends React.Component {
                 sortDirection={orderBy === column.id ? order : false}
               >
                 <Tooltip
-                  title="Sort"
+                  title='Sort'
                   placement={column.numeric ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
@@ -135,12 +135,13 @@ class BusinessSearchResults extends React.Component {
   updateSearchData() {
     let currentSearchName = this.props.searchName;
 
-    console.log("Calling update search with search name: "+currentSearchName)
+    console.log('Calling update search with search name: '+currentSearchName)
 
     profileProvider.searchProfiles('business', undefined, this.props.searchName).then(results => {
       if (currentSearchName === this.props.searchName ) {
-        this.setState({ data: results.map(profile => createData(undefined, profile.businessname, profile.businessdescription, undefined, profile.businesstype, undefined, undefined, profile.id)) });
-        console.log("data is: "+this.state.data)
+        console.log(results)
+        this.setState({ data: results.map(profile => createData(undefined, profile.businessname, profile.businessdescription, undefined, profile.businesstype, undefined, undefined, profile.did)) });
+        console.log('data is: '+this.state.data)
       }
     });
   }
@@ -183,7 +184,7 @@ class BusinessSearchResults extends React.Component {
       <Paper className={classes.root}>
         <h3>Search Results</h3>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
+          <Table className={classes.table} aria-labelledby='tableTitle'>
             <BusinessSearchResultsHead
               numSelected={selected.length}
               order={order}
@@ -197,21 +198,22 @@ class BusinessSearchResults extends React.Component {
                 .sort(getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  console.log(n)
+                  const isSelected = this.isSelected(n.did);
                   return (
                       <TableRow
                         hover
-                        onClick={() => replace('/profile/' + n.didid)}
-                        style={{ cursor: "pointer" }}
-                        role="checkbox"
+                        onClick={() => replace('/profile/' + n.did)}
+                        style={{ cursor: 'pointer' }}
+                        role='checkbox'
                         aria-checked={isSelected}
                         tabIndex={-1}
-                        key={n.didid}
+                        key={n.did}
                         selected={isSelected}
                       >
-                        <TableCell component="th" scope="row" padding="none">
+                        <TableCell component='th' scope='row' padding='none'>
                           <Avatar
-                                alt="Bob Smith"
+                                alt='Bob Smith'
                                 src={require('images/default-avatar.png')}
                                 className={classNames(classes.avatar, classes.bigAvatar)}
                               />
@@ -234,7 +236,7 @@ class BusinessSearchResults extends React.Component {
           </Table>
         </div>
         <TablePagination
-          component="div"
+          component='div'
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}

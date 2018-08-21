@@ -7,21 +7,20 @@ function getChluNetwork() {
   return process.env.REACT_APP_CHLU_NETWORK || defaultNetwork
 }
 
-async function getDIDFromChluAPIClient() {
-  const chluApiClient = await getChluAPIClient()
-  return await chluApiClient.exportDID()
-}
-
 export async function getChluIPFS() {
-  const did = await getDIDFromChluAPIClient() // use same did that is in chlu api client
+  const chluApiClient = await getChluAPIClient()
+  const did = await chluApiClient.exportDID() // use same did that is in chlu api client
   const options = {
     network: getChluNetwork(),
     bitcoinNetwork: process.env.REACT_APP_BLOCKCYPHER_RESOURCE || 'test3',
     blockCypherApiKey: process.env.REACT_APP_BLOCKCYPHER_TOKEN,
-    did
+    did,
+    OrbitDBIndexName: 'NOOP'
   }
   if (!window.chluIpfs) {
     window.chluIpfs = new ChluIPFS(options)
+    // Resolve DIDs through the API Client
+    window.chluIpfs.didIpfsHelper.getDID = (...args) => chluApiClient.didIpfsHelper.getDID(...args)
     await window.chluIpfs.start()
   } else {
     await window.chluIpfs.waitUntilReady()
@@ -42,6 +41,7 @@ export async function getChluAPIClient() {
     window.chluApiClient = new ChluAPIClient(options)
     await window.chluApiClient.start()
   }
+  window.getChluIPFS = getChluIPFS
   return window.chluApiClient;
 }
 
