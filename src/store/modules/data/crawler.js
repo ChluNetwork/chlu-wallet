@@ -31,7 +31,6 @@ export function startCrawler(type, url) {
       const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
       const did = signedInDid || signedOutDid
 
-      // TODO: use API endpoint from env?
       const result = await fetch(`${API_URL}/api/v1/crawl`, {
         method: 'POST',
         body: JSON.stringify({ type, url, did }),
