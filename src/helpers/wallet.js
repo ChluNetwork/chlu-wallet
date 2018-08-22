@@ -71,8 +71,14 @@ export function getAddress(wallet) {
   if (!wallet || !wallet.bitcoinMnemonic) {
     return null
   }
-  const keyPath = "m/44'/1'/0'/0/0"
-  const importer = new ImportPrivateKey()
-  const kp = importer.importFromMnemonic(wallet.bitcoinMnemonic, keyPath)
-  return kp.getAddress()
+  try {
+    const keyPath = "m/44'/1'/0'/0/0"
+    const importer = new ImportPrivateKey()
+    const kp = importer.importFromMnemonic(wallet.bitcoinMnemonic, keyPath)
+    return kp.getAddress()
+  } catch (error) {
+    console.log(`Error while getting wallet address for ${wallet.bitcoinMnemonic}`)
+    console.log(error)
+    return null
+  }
 }
