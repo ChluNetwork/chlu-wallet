@@ -56,9 +56,22 @@ const style = {
 class Step3 extends React.Component {
 
   render() {
-    const { classes, reviews, downloadWallet, reputationLoading: loading, push } = this.props;
+    const { classes, reviews, downloadWallet, reputationLoading, loginLoading, push } = this.props;
 
-    if (loading) {
+    if (loginLoading) {
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={CircularProgress}
+              iconColor='warning'
+              title='Setting Up'
+              description='Please wait while we finish setting up your Wallet'
+            />
+          </Grid>
+        </Grid>
+      )
+    } else if (reputationLoading) {
       return (
         <Grid container justify='center'>
           <Grid item xs={4}>

@@ -87,9 +87,22 @@ class Step2 extends React.Component {
 
 
   render() {
-    const { classes, loading, walletCreated, downloadWallet, wallet } = this.props;
+    const { classes, loading, loginLoading, walletCreated, downloadWallet, wallet } = this.props;
 
-    if (wallet && wallet.did) {
+    if (loginLoading) {
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={4}>
+            <InfoArea
+              icon={CircularProgress}
+              iconColor='warning'
+              title='Setting Up'
+              description='Please wait while we finish setting up your Wallet'
+            />
+          </Grid>
+        </Grid>
+      )
+    } else if (wallet && wallet.did) {
       return (
         <Grid container justify='center'>
           <Grid item xs={4}>

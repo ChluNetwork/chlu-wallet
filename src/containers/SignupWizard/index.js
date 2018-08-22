@@ -170,6 +170,7 @@ class SignupWizard extends Component {
 
 const mapStateToProps = store => ({
   loading: store.components.createWallet.loading,
+  loginLoading: store.ui.profile.loginLoading,
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
