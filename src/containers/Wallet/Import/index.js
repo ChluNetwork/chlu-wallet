@@ -40,37 +40,52 @@ class ImportWallet extends Component {
   }
 
   render () {
-    return (
-      <div>
+    const { loading } = this.props
+
+    if (loading) {
+      return <div>
         <WalletCard>
           <CardHeader
             avatar={<Avatar><WalletIcon/></Avatar>}
-            title='Import a Chlu Wallet'
-            subheader='Access your existing funds and Identity from this device'
+            title='Signing In...'
+            subheader='Please wait while your Wallet is imported'
           />
-          <CardContent>
-            Don't have a wallet yet? <Link to='/'>Create a new one</Link>
-          </CardContent>
-          <CardActions>
-            <FileReaderInput
-              as='text'
-              onChange={this.fileChanged.bind(this)}
-              accept='application/json'
-            >
-              <Button variant='raised' color='primary'>
-                Import from File
-              </Button>
-            </FileReaderInput>
-          </CardActions>
-          <Divider/>
         </WalletCard>
       </div>
-    )
+    } else {
+      return (
+        <div>
+          <WalletCard>
+            <CardHeader
+              avatar={<Avatar><WalletIcon/></Avatar>}
+              title='Import a Chlu Wallet'
+              subheader='Access your existing funds and Identity from this device'
+            />
+            <CardContent>
+              Don't have a wallet yet? <Link to='/'>Create a new one</Link>
+            </CardContent>
+            <CardActions>
+              <FileReaderInput
+                as='text'
+                onChange={this.fileChanged.bind(this)}
+                accept='application/json'
+              >
+                <Button variant='raised' color='primary'>
+                  Import from File
+                </Button>
+              </FileReaderInput>
+            </CardActions>
+            <Divider/>
+          </WalletCard>
+        </div>
+      )
+    }
   }
 }
 
 const mapStateToProps = store => ({
-  wallet: store.data.wallet
+  wallet: store.data.wallet,
+  loading: store.ui.profile.loginLoading
 })
 
 const mapDispatchToProps = {

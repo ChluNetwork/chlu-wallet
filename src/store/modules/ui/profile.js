@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient } from 'helpers/chlu'
 import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider'
+import { push } from 'react-router-redux'
 import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
 import { getAddress, importDID } from 'helpers/wallet'
 import { get } from 'lodash'
@@ -11,9 +12,11 @@ import { get } from 'lodash'
 // ------------------------------------
 const TOGGLE_SEARCH_SHOW = 'TOGGLE_SEARCH_SHOW'
 const SET_CURRENT_PROFILE = 'profile/SET';
+const SET_LOGIN_LOADING = 'profile/LOGIN_LOADING';
 
 const initialState = {
-  isSearchFieldOpen: false
+  isSearchFieldOpen: false,
+  loginLoading: false
 }
 
 // ------------------------------------
@@ -21,6 +24,7 @@ const initialState = {
 // ------------------------------------
 export const toggleSearchShow = createAction(TOGGLE_SEARCH_SHOW)
 export const setProfile = createAction(SET_CURRENT_PROFILE);
+export const setLoginLoading = createAction(SET_LOGIN_LOADING);
 
 // ------------------------------------
 // Thunks
@@ -47,6 +51,7 @@ export function updateProfile(profile) {
 
 export function signupToMarketplace(profile) {
   return async (dispatch, getState) => {
+    dispatch(setLoginLoading(true))
     const state = getState()
     const walletCreated = state.components.createWallet.walletCreated
     // TODO: show logging in is in progress in the UI
@@ -82,14 +87,16 @@ export function signupToMarketplace(profile) {
     await chluApiClient.importDID(walletCreated.did)
     await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
-    dispatch(setWalletToCreatedWallet()) // logs in user
-    // TODO: signal login finished
+    dispatch(setWalletToCreatedWallet())
+    const dest = isBusiness ? '/reputation' : '/search'
+    dispatch(push(dest))
+    dispatch(setLoginLoading(false))
   }
 }
 
 export function signIn(exportedWallet) {
   return async dispatch => {
-    // TODO: loading
+    dispatch(setLoginLoading(true))
     dispatch(setWallet(exportedWallet))
     const chluApiClient = await getChluAPIClient()
     await importDID(exportedWallet.did)
@@ -107,7 +114,9 @@ export function signIn(exportedWallet) {
       }
       await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     }
-    // TODO: loading finish
+    const dest = profile.type === 'business' ? '/reputation' : '/search'
+    dispatch(push(dest))
+    dispatch(setLoginLoading(false))
   }
 }
 
@@ -125,5 +134,6 @@ export default handleActions({
       ...state.profile,
       ...action.payload
     }
-  })
+  }),
+  [SET_LOGIN_LOADING]: (state, { payload: loginLoading }) => ({ ...state, loginLoading })
 }, initialState)
