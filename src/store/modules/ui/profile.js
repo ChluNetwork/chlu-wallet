@@ -2,9 +2,9 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient } from 'helpers/chlu'
 import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider'
-import { setWalletToCreatedWallet, setWallet, fetchBalance } from 'store/modules/data/wallet'
+import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
 import { getAddress, importDID } from 'helpers/wallet'
-import { get } from 'http';
+import { get } from 'lodash'
 
 // ------------------------------------
 // Constants
@@ -89,6 +89,7 @@ export function signupToMarketplace(profile) {
 
 export function signIn(exportedWallet) {
   return async dispatch => {
+    // TODO: loading
     dispatch(setWallet(exportedWallet))
     const chluApiClient = await getChluAPIClient()
     await importDID(exportedWallet.did)
@@ -106,6 +107,7 @@ export function signIn(exportedWallet) {
       }
       await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     }
+    // TODO: loading finish
   }
 }
 
