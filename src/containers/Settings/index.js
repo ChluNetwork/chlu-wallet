@@ -10,6 +10,7 @@ import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import { fetchProfile, updateProfile } from 'store/modules/ui/profile';
 import { fetchBalance } from 'store/modules/data/wallet';
 
@@ -67,12 +68,10 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
       profile: {},
       dirty: false,
       loading: false
     };
-    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
@@ -87,31 +86,19 @@ class Settings extends Component {
     })
   }
 
-  handleClick(button) {
-    if (button === 'profile') {
-      this.setState({ activeSubmenu: "profile" })
-    }
-    else if (button === 'wallet') {
-      this.setState({ activeSubmenu: "wallet" })
-    }
-  }
-
-  change = (event, fieldName) => {
-    this.setState({
-      dirty: true,
-      profile: {
-        ...this.state.profile,
-        [fieldName]: event.target.value
-      }
-    })
-  }
-
   static propTypes = {
     wallet: object
   }
 
   handleTabChange = (event, value) => {
-    this.setState({ value });
+    // TODO: redirect here
+    const urls = [
+      '/settings/profile',
+      '/settings/wallet'
+    ]
+    if (urls[value]) {
+      this.props.push(urls[value])
+    }
   };
 
   handleDownload () { 
@@ -123,8 +110,7 @@ class Settings extends Component {
   }
 
   render () {
-    const { classes } = this.props
-    const { value } = this.state
+    const { classes, tabIndex } = this.props
 
     return <Card className={classes.card}>
       <CardHeader
@@ -133,7 +119,7 @@ class Settings extends Component {
       />
 
       <Tabs
-        value={this.state.value}
+        value={tabIndex}
         onChange={this.handleTabChange}
         fullWidth
         indicatorColor='secondary'
@@ -146,10 +132,10 @@ class Settings extends Component {
 
       <Divider/>
       <CardContent>
-        {value === 0 && <TabContainer>
+        {tabIndex === 0 && <TabContainer>
           {this.renderProfile()}
         </TabContainer>}
-        {value === 1 && <TabContainer>
+        {tabIndex === 1 && <TabContainer>
           {this.renderWallet()}
         </TabContainer>}
       </CardContent>
@@ -361,7 +347,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = {
   updateProfile,
   fetchProfile,
-  fetchBalance
+  fetchBalance,
+  push
 }
 
 export default compose(

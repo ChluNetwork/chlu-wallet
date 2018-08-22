@@ -62,7 +62,9 @@ class MainLayout extends Component {
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />
             <Route path='/transactions' component={Transactions} />
-            <Route path='/settings' component={Settings} />
+            <Route path='/settings/profile' render={() => <Settings tabIndex={0} />} />
+            <Route path='/settings/wallet' render={() => <Settings tabIndex={1} />} />
+            <Redirect from='/settings' to='/settings/profile' />
             <Redirect to='/'/>
           </Switch>
         </ChluLayout>
