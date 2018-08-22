@@ -27,7 +27,7 @@ class Reputation extends Component {
 
 const mapStateToProps = state => ({
   reviews: state.data.reputation.reviews,
-  loading: state.data.loading
+  loading: state.data.reputation.loading
 })
 
 const mapDispatchToProps = {
