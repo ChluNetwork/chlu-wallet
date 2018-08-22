@@ -11,6 +11,7 @@ import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
 import { fetchProfile, updateProfile } from 'store/modules/ui/profile';
+import { fetchBalance } from 'store/modules/data/wallet';
 
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
@@ -32,6 +33,7 @@ import ProfileIcon from '@material-ui/icons/AccountCircle'
 import KeyIcon from '@material-ui/icons/Lock'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import SaveIcon from '@material-ui/icons/Save';
+import BalanceIcon from '@material-ui/icons/AttachMoney'
 
 
 const styles = theme => ({
@@ -76,6 +78,7 @@ class Settings extends Component {
   async componentDidMount() {
     const didId = get(this.props.wallet, 'did.publicDidDocument.id', '');
     this.setState({ loading: true })
+    this.props.fetchBalance()
     const profile = await this.props.fetchProfile(didId)
     this.setState({
       profile,
@@ -180,6 +183,8 @@ class Settings extends Component {
     const address = getAddress(wallet)
     const didId = get(wallet, 'did.publicDidDocument.id', '')
     const didPrivateKey = get(wallet, 'did.privateKeyBase58', '')
+    const balanceSat = get(wallet, 'balance.final_balance', 0)
+    const balance = balanceSat / 100000 // mbtc
 
     return (
       <Card className={classes.card}>
@@ -217,6 +222,13 @@ class Settings extends Component {
                 />
               </ListItem>
             </ReactCopyToClipBoard>
+            <ListItem>
+              <ListItemIcon><BalanceIcon/></ListItemIcon>
+              <ListItemText
+                primary='Wallet Balance'
+                secondary={`${balance} mBTC (testnet)`}
+              />
+            </ListItem>
           </List>
         </CardContent>
         <CardActions>
@@ -348,7 +360,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = {
   updateProfile,
-  fetchProfile
+  fetchProfile,
+  fetchBalance
 }
 
 export default compose(

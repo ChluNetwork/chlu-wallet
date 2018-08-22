@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient } from 'helpers/chlu'
 import { geocode } from 'helpers/geocode';
 import profileProvider from 'helpers/profileProvider'
-import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
+import { setWalletToCreatedWallet, setWallet, fetchBalance } from 'store/modules/data/wallet'
 import { getAddress, importDID } from 'helpers/wallet'
 import { get } from 'http';
 
