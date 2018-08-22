@@ -30,10 +30,11 @@ export function startCrawler(type, url) {
       const signedInDid = get(state, 'data.wallet.did', null)
       const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
       const did = signedInDid || signedOutDid
+      const didId = did.publicDidDocument.id
 
       const result = await fetch(`${API_URL}/api/v1/crawl`, {
         method: 'POST',
-        body: JSON.stringify({ type, url, did }),
+        body: JSON.stringify({ type, url, didId }),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
