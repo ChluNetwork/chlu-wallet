@@ -28,22 +28,6 @@ class SignupWizard extends Component {
     };
   }
 
-  componentDidMount() {
-    this.refreshReputation()
-  }
-
-  componentDidUpdate(prevProps) {
-    const newDidID = get(this.props, 'wallet.did.didDocument.id', null)
-    const oldDidID = get(prevProps, 'wallet.did.didDocument.id', null)
-    if (newDidID !== oldDidID) {
-      this.refreshReputation()
-    }
-  }
-
-  refreshReputation() {
-    if (!this.props.reputationLoading) this.props.readMyReputation()
-  }
-
   async downloadWallet() {
     const { wallet, walletCreated, setWalletSaved } = this.props
 
@@ -174,8 +158,6 @@ const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
-  reviews: store.data.reputation.reviews,
-  reputationLoading: store.data.reputation.loading,
   crawlerRunning: store.data.crawler.running,
   acceptedTerms: store.components.signupWizard.acceptedTerms
 })
