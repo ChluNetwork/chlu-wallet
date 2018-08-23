@@ -341,7 +341,7 @@ class Step1 extends React.Component {
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
                 classes={{ label: classes.label }}
-                label='Create A User Account. Used to Pay, Review & Earn Chlu'
+                label='Create A Consumer Account. Used to Pay, Review & Earn Chlu'
                 control={
                   <Radio
                     id='userAccount'
@@ -361,7 +361,7 @@ class Step1 extends React.Component {
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
                 classes={{ label: classes.label }}
-                label='Create A Professional Account. Control Your Online Reviews'
+                label='Create A Business Account. Control Your Online Reviews'
                 control={
                   <Radio
                     checked={this.state.selectedValue === "business"}

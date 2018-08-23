@@ -12,7 +12,10 @@ import {
     Lock,
     CallMerge,
     Web,
-    Payment
+    Payment,
+    CreditCard,
+    Launch,
+    Stars
 } from '@material-ui/icons'
 // custom components
 import RegularCard from 'components/MaterialDashboardPro/RegularCard'
@@ -77,47 +80,47 @@ class HomePage extends React.Component {
                     <Grid container justify='center'>
                       <Grid item xs={12} sm={12} md={5}>
                         <div className={classes.center}>
-                          <h3>For Online Review Writers</h3>
+                          <h3>For Consumers (Review Writers)</h3>
                         </div>
                         <InfoArea
                           title='Pay'
-                          description='Use Your Chlu Wallet to Pay With Crypto.'
+                          description='Pay for products & services with fiat or crypto.'
                           icon={Payment}
                           iconColor='rose'
                         />
                         <InfoArea
                           title='Review'
-                          description='Use Your Chlu Wallet to Write Verified Reviews for Online Products & Services.'
+                          description='Write verified reviews for products & services.'
                           icon={ThumbsUpDown}
                           iconColor='primary'
                         />
                         <InfoArea
                           title='Earn Chlu'
-                          description='Earn Redeemable Chlu Tokens for Writing Verified Reviews.'
+                          description='Earn Chlu tokens for writing verified reviews.'
                           icon={MonetizationOn}
                           iconColor='info'
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={5}>
                         <div className={classes.center}>
-                          <h3>For Online Review Recipients</h3>
+                          <h3>For Businesses (Review Recipients)</h3>
                         </div>
                         <InfoArea
-                          title='Own'
-                          description='Take ownership of all your ratings and reviews.'
-                          icon={Lock}
+                          title='Earn'
+                          description='Easily get paid in fiat or crypto.'
+                          icon={MonetizationOn}
                           iconColor='rose'
                         />
                         <InfoArea
-                          title='Merge'
-                          description='Merge your ratings and reviews from multiple websites.'
-                          icon={CallMerge}
+                          title='Grow'
+                          description='Grow your business by receiving verified reviews.'
+                          icon={Launch}
                           iconColor='primary'
                         />
                         <InfoArea
-                          title='Port'
-                          description='Take your merged ratings and reviews to any website.'
-                          icon={Web}
+                          title='Own, Merge & Port'
+                          description='All your ratings and reviews to any website.'
+                          icon={Stars}
                           iconColor='info'
                         />
                       </Grid>
