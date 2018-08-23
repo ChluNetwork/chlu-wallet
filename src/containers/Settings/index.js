@@ -101,7 +101,7 @@ class Settings extends Component {
     }
   };
 
-  handleDownload () { 
+  handleDownload () {
     downloadWallet(this.props.wallet)
   }
 
@@ -242,7 +242,7 @@ class Settings extends Component {
             error={this.state.emailState === 'error'}
             labelText={
               <span>
-                Email <small>(required)</small>
+                Email
               </span>
             }
             id='email'
@@ -266,7 +266,7 @@ class Settings extends Component {
             error={this.state.usernameState === 'error'}
             labelText={
               <span>
-                User Name <small>(required)</small>
+                User Name
               </span>
             }
             id='username'
@@ -290,7 +290,7 @@ class Settings extends Component {
             error={this.state.firstnameState === 'error'}
             labelText={
               <span>
-                First Name <small>(optional)</small>
+                First Name
               </span>
             }
             id='firstname'
@@ -314,7 +314,7 @@ class Settings extends Component {
             error={this.state.lastnameState === 'error'}
             labelText={
               <span>
-                Last Name <small>(optional)</small>
+                Last Name
               </span>
             }
             id='lastname'
