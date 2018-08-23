@@ -1,10 +1,8 @@
 import { createAction, handleActions } from 'redux-actions'
-import { readMyReputation } from './reputation'
 import { get } from 'lodash'
 
 // Constants
 const CRAWLER_START = 'crawler/START'
-const CRAWLER_START_IPFS = 'crawler/START_IPFS'
 const CRAWLER_ERROR = 'crawler/ERROR'
 const CRAWLER_FINISH = 'crawler/FINISH'
 
@@ -45,7 +43,6 @@ export function startCrawler(type, url) {
       console.log(await result.json())
 
       dispatch(finishCrawler())
-      dispatch(readMyReputation())
     } catch (error) {
       console.log(error)
       dispatch(crawlerError(error.message || error))
@@ -57,24 +54,16 @@ export default handleActions({
   [CRAWLER_START]: state => ({
     ...state,
     running: true,
-    savingToIPFS: false,
     error: null
-  }),
-  [CRAWLER_START_IPFS]: state => ({
-    ...state,
-    running: true,
-    savingToIPFS: true
   }),
   [CRAWLER_ERROR]: (state, { payload: error }) => ({
     ...state,
     running: false,
-    savingToIPFS: false,
     error
   }),
   [CRAWLER_FINISH]: state => ({
     ...state,
     running: false,
-    savingToIPFS: false,
     error: null
   })
 }, getInitialState())

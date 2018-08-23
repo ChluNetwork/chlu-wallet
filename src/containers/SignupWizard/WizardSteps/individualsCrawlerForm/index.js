@@ -48,12 +48,6 @@ const submit = async (values, dispatch, props) => {
   if (values['upwork-email']) {
     await dispatch(startCrawler('upwork', values['upwork-email']))
   }
-  if (!get(props.wallet, 'did.publicDidDocument.id', null)) {
-    // set and save full wallet
-    await dispatch(setWalletToCreatedWallet())
-    toastr.success('Logged in', 'Your Wallet is ready to go!')
-    dispatch(push('/reputation'))
-  }
 }
 
 
