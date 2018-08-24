@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent, CircularProgress } from '@material-ui/core'
+import { Card, CardHeader, Divider, CardContent, CircularProgress, CardActions, Button, TextField } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
@@ -11,15 +11,18 @@ import withFxRates from 'containers/Hoc/withFxRates'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { getCheckout } from 'store/modules/data/checkout'
+import { getCheckout, cancelPayment } from 'store/modules/data/checkout'
+import { fetchBalance } from 'store/modules/data/wallet';
 import { setRatingForCustomerWallet } from 'store/modules/components/CustomerWallet'
 import { submitPayment, paymentStepLoadingMessages } from 'store/modules/data/payment'
 // icons
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
+import BalanceIcon from '@material-ui/icons/AttachMoney'
 import VendorIcon from '@material-ui/icons/Shop'
 import PaymentDestinationIcon from '@material-ui/icons/ArrowForward'
 import MarketplaceIcon from '@material-ui/icons/Store'
 import AmountIcon from '@material-ui/icons/Payment'
+import CommentIcon from '@material-ui/icons/Comment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
 import { getAddress } from 'helpers/wallet';
@@ -32,20 +35,42 @@ const style = {
 }
 
 const starCount = 5
-const defaultAmount = 1000
 
 class Payment extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = { amount: 0 }
+  }
+
   componentDidMount() {
-    // TODO: provide checkout data from props
-    this.props.getCheckout({ vendorId: this.props.didId, amount: defaultAmount })
+    this.props.fetchBalance()
+  }
+  
+  componentWillUnmount() {
+    this.cancel()
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.didId !== prevProps.didId) {
-      // TODO: provide checkout data from props
-      this.props.getCheckout({ vendorId: this.props.didId, amount: defaultAmount })
+      this.cancel()
     }
+  }
+
+  getCheckout() {
+    const amountMBtc = this.state.amount
+    const amountSat = amountMBtc * 100000
+    return this.props.getCheckout(this.props.didId, amountSat)
+  }
+
+  cancel() {
+    this.setState({ amount: 0 })
+    this.props.cancelPayment()
+  }
+
+  changeAmount(event) {
+    const amountMBtc = event.target.value
+    this.setState({ amount: amountMBtc })
   }
 
   async handleSubmit(data) {
@@ -73,13 +98,18 @@ class Payment extends Component {
       convertSatoshiToBTC,
       convertFromBtcToUsd
     } = this.props
+    const { amount } = this.state
 
     const submitDisabled = !popr || checkoutLoading || checkoutError
-    const amountSatoshi = popr.amount
+    const amountSatoshi = popr ? popr.amount : (amount * 100000)
+    const amountMBtc = popr ? convertSatoshiToBTC(popr.amount)/1000 : amount
     const amountBtc = convertSatoshiToBTC(amountSatoshi)
     const amountUSD = convertFromBtcToUsd(amountBtc)
-    const amountText = `${amountUSD} tUSD | ${amountBtc} tBTC`
+    const amountText = `${amountBtc} tBTC | ${amountUSD} tUSD`
     const address = getAddress(wallet)
+    const balanceSat = get(wallet, 'balance.final_balance', 0)
+    const balance = balanceSat / 100000 // mbtc
+    const balanceSufficient = balanceSat >= amountSatoshi
     const vendorAddress = get(profile, 'vendorAddress')
     const loadingSteps = paymentStepLoadingMessages.length - 1
     const error =
@@ -95,7 +125,7 @@ class Payment extends Component {
           subheader={error}
         />
       </Card>
-    } else if (checkoutLoading) {
+    } else if (checkoutLoading || get(wallet, 'loading')) {
       return <Card className={classes.card}>
         <CardHeader
           avatar={<CircularProgress/>}
@@ -111,7 +141,7 @@ class Payment extends Component {
           subheader={loadingMessage || 'Please wait...'}
         />
       </Card>
-    } else{
+    } else if (!popr) {
       return <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar><WalletIcon/></Avatar>}
@@ -125,23 +155,72 @@ class Payment extends Component {
           <List dense disablePadding>
             <ListItem>
               <ListItemIcon><AmountIcon/></ListItemIcon>
-              <ListItemText primary='Amount Requested' secondary={amountText}/>
+              <ListItemText
+                primary={<TextField
+                  type='number'
+                  value={amount}
+                  onChange={this.changeAmount.bind(this)}
+                  error={!balanceSufficient}
+                  helperText={balanceSufficient ? `You will pay ${amountMBtc} Testnet mBTC (${amountUSD} tUSD)` : `You do not have enough funds to cover this payment`}
+                />}
+              />
             </ListItem>
             <ListItem>
               <ListItemIcon><WalletIcon/></ListItemIcon>
-              <ListItemText primary='Your tBTC Wallet' secondary={address}/>
+              <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><BalanceIcon/></ListItemIcon>
+              <ListItemText primary='Your tBTC Balance (testnet)' secondary={`${balance} mBTC`}/>
             </ListItem>
             <ListItem>
               <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-              <ListItemText primary='Vendor Wallet' secondary={vendorAddress}/>
+              <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><CommentIcon/></ListItemIcon>
+              <ListItemText
+                primary='Chlu Enabled'
+                secondary='You will be able to leave a Decentralised Review backed by this payment.'
+              />
+            </ListItem>
+          </List>
+        </CardContent>
+        <CardActions>
+          <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout.bind(this)}>Prepare Payment</Button>
+        </CardActions>
+      </Card>
+    } else {
+      return <Card className={classes.card}>
+        <CardHeader
+          avatar={<Avatar><WalletIcon/></Avatar>}
+          title='Send Prepared Payment'
+          subheader='If you want, you can leave a review. You can also add or edit your review later'
+        />
+        <Divider/>
+        <PaymentMethods />
+        <Divider/>
+        <CardContent>
+          <List dense disablePadding>
+            <ListItem>
+              <ListItemIcon><AmountIcon/></ListItemIcon>
+              <ListItemText primary='Amount Prepared' secondary={amountText}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><WalletIcon/></ListItemIcon>
+              <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
+              <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
             </ListItem>
             <ListItem>
               <ListItemIcon><VendorIcon/></ListItemIcon>
-              <ListItemText primary='Vendor URL' secondary={popr.marketplace_vendor_url}/>
+              <ListItemText primary='Chlu Vendor' secondary={popr.marketplace_vendor_url}/>
             </ListItem>
             <ListItem>
               <ListItemIcon><MarketplaceIcon/></ListItemIcon>
-              <ListItemText primary='Marketplace URL' secondary={popr.marketplace_url}/>
+              <ListItemText primary='Chlu Marketplace' secondary={popr.marketplace_url}/>
             </ListItem>
           </List>
         </CardContent>
@@ -151,7 +230,9 @@ class Payment extends Component {
           rating={rating}
           setRating={setRating}
           disabled={submitDisabled}
-          onSubmit={this.handleSubmit.bind(this)}/>
+          onSubmit={this.handleSubmit.bind(this)}
+          onCancel={this.cancel.bind(this)}
+        />
       </Card>
     }
   }
@@ -176,6 +257,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getCheckout,
   submitPayment,
+  cancelPayment,
+  fetchBalance,
   setRating: setRatingForCustomerWallet
 }
 
