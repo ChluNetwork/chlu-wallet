@@ -57,23 +57,23 @@ class Payment extends Component {
     }
   }
 
-  getCheckout() {
+  getCheckout = () => {
     const amountMBtc = this.state.amount
     const amountSat = amountMBtc * 100000
     return this.props.getCheckout(this.props.didId, amountSat)
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ amount: 0 })
     this.props.cancelPayment()
   }
 
-  changeAmount(event) {
+  changeAmount = (event) => {
     const amountMBtc = event.target.value
     this.setState({ amount: amountMBtc })
   }
 
-  async handleSubmit(data) {
+  handleSubmit = async (data) => {
     const review = data.review || ''
     const rating = this.props.rating
     await this.props.submitPayment({ review, rating })
@@ -159,7 +159,7 @@ class Payment extends Component {
                 primary={<TextField
                   type='number'
                   value={amount}
-                  onChange={this.changeAmount.bind(this)}
+                  onChange={this.changeAmoun}
                   error={!balanceSufficient}
                   helperText={balanceSufficient ? `You will pay ${amountMBtc} Testnet mBTC (${amountUSD} tUSD)` : `You do not have enough funds to cover this payment`}
                 />}
@@ -187,7 +187,7 @@ class Payment extends Component {
           </List>
         </CardContent>
         <CardActions>
-          <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout.bind(this)}>Prepare Payment</Button>
+          <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout}>Prepare Payment</Button>
         </CardActions>
       </Card>
     } else {
@@ -230,8 +230,8 @@ class Payment extends Component {
           rating={rating}
           setRating={setRating}
           disabled={submitDisabled}
-          onSubmit={this.handleSubmit.bind(this)}
-          onCancel={this.cancel.bind(this)}
+          onSubmit={this.handleSubmit}
+          onCancel={this.cancel}
         />
       </Card>
     }
