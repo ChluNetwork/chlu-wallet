@@ -159,7 +159,7 @@ class Payment extends Component {
                 primary={<TextField
                   type='number'
                   value={amount}
-                  onChange={this.changeAmoun}
+                  onChange={this.changeAmount}
                   error={!balanceSufficient}
                   helperText={balanceSufficient ? `You will pay ${amountMBtc} Testnet mBTC (${amountUSD} tUSD)` : `You do not have enough funds to cover this payment`}
                 />}
