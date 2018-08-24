@@ -8,7 +8,7 @@ import StarRatingComponent from 'react-star-rating-component'
 // icons
 import ReviewIcon from '@material-ui/icons/Star'
 
-function PaymentForm({ handleSubmit, setRating, rating, starCount, disabled }) {
+function PaymentForm({ handleSubmit, onCancel, setRating, rating, starCount, disabled }) {
   return <form onSubmit={handleSubmit}>
         <CardHeader
             avatar={<Avatar><ReviewIcon/></Avatar>}
@@ -36,6 +36,7 @@ function PaymentForm({ handleSubmit, setRating, rating, starCount, disabled }) {
         </CardContent>
         <CardActions>
             <Button type='submit' disabled={disabled}>Pay</Button>
+            <Button onClick={onCancel}>Cancel</Button>
         </CardActions>
     </form>
 }
