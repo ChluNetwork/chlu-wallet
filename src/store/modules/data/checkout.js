@@ -39,7 +39,7 @@ export function getCheckout (vendorId, amount) {
       const url = process.env.REACT_APP_MARKETPLACE_URL || 'http://localhost:4000'
       console.log(`Requesting PoPR to ${url} for vendor ${vendorId} amount ${amount}`)
       popr = await requestPopr(url, vendorId, {
-        amount: String(amount),
+        amount: amount.toString(),
         currency_symbol: 'tBTC'
       })
       console.log(`Requesting Profile for vendor ${vendorId} to get vendorAddress`)
