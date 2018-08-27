@@ -20,6 +20,22 @@ class LinkedinForm extends React.Component {
     }
   }
 
+  handleUserChange = (e) => {
+    this.setState({
+      user: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      pass: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  callChangeHandler = () => {
+    this.props.onChange(this.state.user, this.state.pass)
+  }
+
   render() {
     const { classes } = this.props
 
@@ -37,6 +53,8 @@ class LinkedinForm extends React.Component {
                   name='linkedin-email'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
+                    value: this.state.user,
+                    onChange: this.handleUserChange,
                     endAdornment: (
                       <InputAdornment position='end' className={classes.inputAdornment}>
                         <FaceIcon className={classes.inputAdornmentIcon} />
@@ -53,6 +71,8 @@ class LinkedinForm extends React.Component {
                   name='linkedin-password'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
+                    value: this.state.password,
+                    onChange: this.handlePasswordChange,
                     endAdornment: (
                       <InputAdornment position='end' className={classes.inputAdornment}>
                         <HttpsIcon className={classes.inputAdornmentIcon} />

@@ -18,7 +18,9 @@ class FiverrForm extends React.Component {
     super(props, context)
     this.state = {
       isProfileUrlValid: false,
-      profileUrl: ''
+      profileUrl: '',
+      user: '',
+      pass: ''
     }
   }
 
@@ -27,6 +29,22 @@ class FiverrForm extends React.Component {
       isProfileUrlValid: (e.target.value.length > 0 && this.isFiverrProfileUrlValid(e.target.value)),
       profileUrl: e.target.value
     })
+  }
+
+  handleUserChange = (e) => {
+    this.setState({
+      user: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      pass: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  callChangeHandler = () => {
+    this.props.onChange(this.state.profileUrl, this.state.user, this.state.pass)
   }
 
   render() {
@@ -81,7 +99,8 @@ class FiverrForm extends React.Component {
                 name='fiverr-email'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
-                  onChange: this.handleProfileUrlChange,
+                  value: this.state.user,
+                  onChange: this.handleUserChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <EmailIcon className={classes.inputAdornmentIcon} />
@@ -100,7 +119,8 @@ class FiverrForm extends React.Component {
                 name='fiverr-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
-                  onChange: this.handleProfileUrlChange,
+                  value: this.state.pass,
+                  onChange: this.handlePasswordChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <HttpsIcon className={classes.inputAdornmentIcon} />
