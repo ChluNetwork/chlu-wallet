@@ -61,7 +61,7 @@ const categories = [
   { label: 'Accountant' },
   { label: 'Advertising' },
   { label: 'Restaurant' },
-  { label: 'Etc' },
+  { label: 'Other' },
 ].map(option => ({
   value: option.label,
   label: option.label,
@@ -71,7 +71,7 @@ const locations = [
   { label: 'Europe' },
   { label: 'US' },
   { label: 'Asia' },
-  { label: 'Etc' },
+  { label: 'Earth' },
 ].map(option => ({
   value: option.label,
   label: option.label,
@@ -105,7 +105,6 @@ class Search extends Component {
     const { classes } = this.props;
 
     return <Card className={classes.card}>
-        <Divider/>
         <CardContent>
 
         {value === 0 && <TabContainer>
