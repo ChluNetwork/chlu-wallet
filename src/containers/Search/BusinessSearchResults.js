@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import replace from 'helpers/replace'
+import { get } from 'lodash'
 
 import profileProvider from 'helpers/profileProvider';
 
@@ -132,18 +133,36 @@ class BusinessSearchResults extends React.Component {
     }
   }
 
-  updateSearchData() {
+  async updateSearchData() {
     let currentSearchName = this.props.searchName;
 
     console.log('Calling update search with search name: '+currentSearchName)
 
-    profileProvider.searchProfiles('business', undefined, this.props.searchName).then(results => {
-      if (currentSearchName === this.props.searchName ) {
-        console.log(results)
-        this.setState({ data: results.map(profile => createData(undefined, profile.businessname, profile.businessdescription, undefined, profile.businesstype, undefined, undefined, profile.did)) });
-        console.log('data is: '+this.state.data)
-      }
-    });
+    const query = {
+      type: 'business'
+    }
+    if (currentSearchName) query.name = currentSearchName
+
+    // TODO: limit and offset
+
+    const { rows } = await profileProvider.searchProfiles(query)
+
+    if (currentSearchName === this.props.searchName ) {
+      const preparedRows = rows.map(v => {
+        return createData(
+          undefined,
+          get(v, 'profile.businessname', 'Unnamed Business'),
+          get(v, 'profile.businessdescription', ''),
+          get(v, 'profile.businesslocation', ''),
+          get(v, 'profile.businesstype', ''),
+          undefined,
+          undefined,
+          v.vDidId
+        )
+      })
+      this.setState({ data: preparedRows })
+      console.log('data is: '+this.state.data)
+    }
   }
 
   handleRequestSort = (event, property) => {

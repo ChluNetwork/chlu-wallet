@@ -131,14 +131,15 @@ class IndividualSearchResults extends React.Component {
     }
   }
 
-  updateSearchData() {
+  async updateSearchData() {
     let currentSearchName = this.props.searchName;
 
     console.log('Calling update search with search name: '+currentSearchName)
 
-    profileProvider.searchProfiles('individual', undefined, this.props.searchName).then(results => {
-      this.setState({ data: results })
-    });
+    const query = { type: 'individual' }
+    if (currentSearchName) query.name = currentSearchName
+    const { rows } = await profileProvider.searchProfiles(query)
+    this.setState({ data: rows.map(v => ({ ...(v.profile), did: v.vDidId })) })
   }
 
   handleRequestSort = (event, property) => {
