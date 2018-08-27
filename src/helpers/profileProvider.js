@@ -22,21 +22,23 @@ export async function updateProfile (didId, profileData) {
   throw new Error('Not implemented')
 }
 
-export async function searchProfiles (type, location, name) {
-  console.warn('Search filters not implemented')
-  const response = await fetch(`${marketplaceUrl}/vendors`)
+export async function searchProfiles (query, limit, offset ) {
+  const response = await fetch(`${marketplaceUrl}/search`, {
+    method: 'POST',
+    body: JSON.stringify({ query, limit, offset }),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
   if (response.ok) {
     const data = await response.json()
-    const vendorProfiles = await Promise.all(data.map(async did => {
-      const profile = await getProfile(did)
-      profile.did = did
-      return profile
-    }))
-    const vendorProfilesFiltered = vendorProfiles.filter(p => !!p)
-    console.log(vendorProfilesFiltered)
-    return vendorProfilesFiltered
+    return {
+      count: data.count,
+      rows: data.rows
+    }
   } else {
-    return []
+    return { count: 0, rows: [] }
   }
 }
 
