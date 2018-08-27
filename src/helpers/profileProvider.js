@@ -22,7 +22,7 @@ export async function updateProfile (didId, profileData) {
   throw new Error('Not implemented')
 }
 
-export async function searchProfiles (query, limit, offset ) {
+export async function searchProfiles (query, limit, offset) {
   const response = await fetch(`${marketplaceUrl}/search`, {
     method: 'POST',
     body: JSON.stringify({ query, limit, offset }),
