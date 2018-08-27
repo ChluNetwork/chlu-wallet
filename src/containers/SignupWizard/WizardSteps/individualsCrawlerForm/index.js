@@ -8,14 +8,7 @@ import { withStyles } from '@material-ui/core'
 
 // redux
 import { connect } from 'react-redux'
-import { startCrawler } from 'store/modules/data/crawler';
-import { push } from 'react-router-redux'
 import { compose } from 'recompose'
-import { toastr } from 'react-redux-toastr'
-import { setWalletToCreatedWallet } from 'store/modules/data/wallet'
-
-// helpers
-import { get } from 'lodash'
 
 // redux form
 import { reduxForm } from 'redux-form'
@@ -43,13 +36,6 @@ const style = {
   },
   ...regularFormsStyle
 };
-
-const submit = async (values, dispatch, props) => {
-  if (values['upwork-email']) {
-    await dispatch(startCrawler('upwork', values['upwork-email']))
-  }
-}
-
 
 class IndividualsCrawlerForm extends React.Component {
   
@@ -113,8 +99,7 @@ const mapStateToProps = store => ({
 })
 
 const IndividualsCrawlerReduxForm = reduxForm({
-  form: 'individualsCrawlerForm',
-  onSubmit: submit
+  form: 'individualsCrawlerForm'
 })(IndividualsCrawlerForm)
 
 export default compose(

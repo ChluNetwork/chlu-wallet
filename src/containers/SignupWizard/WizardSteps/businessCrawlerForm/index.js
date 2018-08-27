@@ -8,7 +8,6 @@ import { withStyles } from '@material-ui/core'
 
 // redux
 import { connect } from 'react-redux'
-import { startCrawler } from 'store/modules/data/crawler';
 
 // redux form
 import { reduxForm } from 'redux-form'
@@ -36,11 +35,6 @@ const style = {
   },
   ...regularFormsStyle
 };
-
-const submit = (values, dispatch, props) => {
-  dispatch(startCrawler('yelp', values['yelp-email']))
-}
-
 
 class BusinessCrawlerForm extends React.Component {
   
@@ -86,8 +80,7 @@ const mapDispatchToProps = {
 }
 
 const BusinessCrawlerReduxForm = reduxForm({
-  form: 'businessCrawlerForm',
-  onSubmit: submit
+  form: 'businessCrawlerForm'
 })(BusinessCrawlerForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(BusinessCrawlerReduxForm))
