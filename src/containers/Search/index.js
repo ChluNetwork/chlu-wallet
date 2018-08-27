@@ -21,7 +21,7 @@ import Star from '@material-ui/icons/Star';
 import Add from '@material-ui/icons/Add';
 
 // redux
-import { search, setQuery } from 'store/modules/data/search'
+import { search, setQuery, setPage } from 'store/modules/data/search'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
@@ -234,6 +234,7 @@ class Search extends Component {
             page={page}
             data={get(results, 'rows', [])}
             count={get(results, 'count', 0)}
+            setPage={this.props.setPage}
           /> 
         </CardContent>
       </Card>
@@ -254,7 +255,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   search,
-  setQuery
+  setQuery,
+  setPage
 }
 
 export default compose(
