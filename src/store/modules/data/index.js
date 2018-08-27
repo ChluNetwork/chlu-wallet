@@ -8,6 +8,7 @@ import checkout from './checkout'
 import transactions from './transactions'
 import reviews from './reviews'
 import wallet from './wallet'
+import search from './search'
 
 export default combineReducers({
   payment,
@@ -17,5 +18,6 @@ export default combineReducers({
   checkout,
   transactions,
   reviews,
-  wallet
+  wallet,
+  search
 })
