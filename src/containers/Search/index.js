@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { get, isEmpty, findIndex } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 // components
 import { Card, CardContent, Divider, Grid, withStyles } from '@material-ui/core'
@@ -10,8 +10,7 @@ import Select from 'react-select';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import BusinessSearchResults from './BusinessSearchResults';
-import IndividualSearchResults from './IndividualSearchResults';
+import SearchResults from './SearchResults';
 
 // icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -112,6 +111,7 @@ class Search extends Component {
     const type = value ? 'individuals' : 'businesses'
     this.setState({ type });
     this.setType(type === 'businesses' ? 'business' : 'individual')
+    this.props.search()
   };
 
   setQueryField = field => event => {
@@ -121,15 +121,17 @@ class Search extends Component {
     query[field] = isEmpty(preparedValue) ? undefined : preparedValue
     console.log(field, query[field])
     this.props.setQuery(query)
-    this.forceUpdate()
+  }
+
+  setPage = page => {
+    this.props.setPage(page)
+    this.props.search()
   }
 
   render () {
 
     const { type } = this.state;
     const { classes, search, name, location, businesstype, page, results } = this.props
-
-    const SearchComponent = type === 'businesses' ? BusinessSearchResults : IndividualSearchResults
 
     return <Card className={classes.card}>
         <CardContent>
@@ -230,11 +232,12 @@ class Search extends Component {
             <Tab icon={<AccountCircleIcon />} label='People' />
           </Tabs>
           <Divider/>
-          <SearchComponent
+          <SearchResults
+            type={type}
             page={page}
             data={get(results, 'rows', [])}
             count={get(results, 'count', 0)}
-            setPage={this.props.setPage}
+            setPage={this.setPage}
           /> 
         </CardContent>
       </Card>

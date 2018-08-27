@@ -15,7 +15,7 @@ import replace from 'helpers/replace'
 
 import { itemsPerPage } from 'store/modules/data/search'
 
-const columnData = [
+const businessesColumnData = [
   { id: 'logo', numeric: false, disablePadding: true, label: 'Logo' },
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'description', numeric: false, disablePadding: true, label: 'Description' },
@@ -24,27 +24,36 @@ const columnData = [
   { id: 'averagescore', numeric: true, disablePadding: false, label: 'Reviews' },
 ];
 
-class BusinessSearchResultsHead extends React.Component {
-  render() {
-    return (
-      <TableHead>
-        <TableRow>
-          {columnData.map(column => {
-            return (
-              <TableCell
-                key={column.id}
-                numeric={column.numeric}
-                padding={'default'}
-                sortDirection={false}
-              >
-                {column.label}
-              </TableCell>
-            );
-          }, this)}
-        </TableRow>
-      </TableHead>
-    );
-  }
+const individualsColumnData = [
+  { id: 'pic', numeric: false, disablePadding: true, label: 'Picture' },
+  { id: 'username', numeric: false, disablePadding: true, label: 'Username' },
+  { id: 'first', numeric: false, disablePadding: true, label: 'First Name' },
+  { id: 'last', numeric: false, disablePadding: true, label: 'Last Name' },
+  { id: 'location', numeric: false, disablePadding: true, label: 'Location' },
+  { id: 'averagescore', numeric: true, disablePadding: false, label: 'Reviews' },
+];
+
+const SearchResultsHead = ({ type }) => {
+  const isBusiness = type === 'businesses'
+  const columnData = isBusiness ? businessesColumnData : individualsColumnData
+  return (
+    <TableHead>
+      <TableRow>
+        {columnData.map(column => {
+          return (
+            <TableCell
+              key={column.id}
+              numeric={column.numeric}
+              padding={'default'}
+              sortDirection={false}
+            >
+              {column.label}
+            </TableCell>
+          );
+        }, this)}
+      </TableRow>
+    </TableHead>
+  );
 }
 
 const styles = theme => ({
@@ -68,14 +77,14 @@ const styles = theme => ({
   },
 });
 
-class BusinessSearchResults extends React.Component {
+class SearchResults extends React.Component {
 
   handleChangePage = (event, page) => {
     this.props.setPage(page);
   };
 
   render() {
-    const { classes, data, count, page } = this.props;
+    const { classes, type, data, count, page } = this.props;
     const emptyRows = itemsPerPage - data.length
 
     return (
@@ -83,7 +92,7 @@ class BusinessSearchResults extends React.Component {
         <h3>Search Results</h3>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby='tableTitle'>
-            <BusinessSearchResultsHead />
+            <SearchResultsHead type={type} />
             <TableBody>
               {data
                 .map(vendor => {
@@ -105,10 +114,10 @@ class BusinessSearchResults extends React.Component {
                             className={classNames(classes.avatar, classes.bigAvatar)}
                           />
                         </TableCell>
-                        <TableCell>{n.businessname}</TableCell>
-                        <TableCell>{n.businessdescription}</TableCell>
-                        <TableCell>{n.businesslocation}</TableCell>
-                        <TableCell>{n.businesstype}</TableCell>
+                        <TableCell>{n.businessname || n.username}</TableCell>
+                        <TableCell>{n.businessdescription || n.firstname}</TableCell>
+                        <TableCell>{n.businesslocation || n.lastname}</TableCell>
+                        <TableCell>{n.businesstype || n.location}</TableCell>
                         <TableCell numeric>{n.averagescore}</TableCell>
                       </TableRow>
                   );
@@ -140,8 +149,8 @@ class BusinessSearchResults extends React.Component {
   }
 }
 
-BusinessSearchResults.propTypes = {
+SearchResults.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BusinessSearchResults);
+export default withStyles(styles)(SearchResults);
