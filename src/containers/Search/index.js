@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, findIndex } from 'lodash'
 
 // components
 import { Card, CardContent, Divider, Grid, withStyles } from '@material-ui/core'
@@ -119,13 +119,15 @@ class Search extends Component {
     const query = this.props.query || {}
     const preparedValue = get(value, 'value', value)
     query[field] = isEmpty(preparedValue) ? undefined : preparedValue
+    console.log(field, query[field])
     this.props.setQuery(query)
+    this.forceUpdate()
   }
 
   render () {
 
     const { type } = this.state;
-    const { classes, search, query, page, results } = this.props
+    const { classes, search, name, location, businesstype, page, results } = this.props
 
     const SearchComponent = type === 'businesses' ? BusinessSearchResults : IndividualSearchResults
 
@@ -145,7 +147,7 @@ class Search extends Component {
                   label='Name'
                   type='search'
                   fullWidth
-                  value={get(query, 'name')}
+                  value={name}
                   onChange={this.setName}
                 />
               </Grid>
@@ -154,7 +156,7 @@ class Search extends Component {
                   classes={classes}
                   options={categories}
                   placeholder='Business Type'
-                  value={get(query, 'businesstype')}
+                  value={businesstype}
                   onChange={this.setBusinessType}
                 />
               </Grid>
@@ -163,7 +165,7 @@ class Search extends Component {
                   classes={classes}
                   options={locations}
                   placeholder='Location'
-                  value={get(query, 'location')}
+                  value={location}
                   onChange={this.setLocation}
                 />
               </Grid>
@@ -193,7 +195,7 @@ class Search extends Component {
                   id='search'
                   label='Name'
                   type='search'
-                  value={get(query, 'name')}
+                  value={name}
                   onChange={this.setName}
                   fullWidth
                 />
@@ -202,7 +204,7 @@ class Search extends Component {
                 <Select
                   classes={classes}
                   options={locations}
-                  value={get(query, 'location')}
+                  value={location}
                   onChange={this.setLocation}
                   placeholder='Location'
                 />
@@ -243,7 +245,11 @@ const mapStateToProps = state => ({
   error: state.data.search.loading,
   page: state.data.search.page,
   pages: state.data.search.pages,
-  results: state.data.search.results
+  results: state.data.search.results,
+  query: state.data.search.query,
+  name: get(state, 'data.search.query.name', ''),
+  location: get(state, 'data.search.query.location', ''),
+  businesstype: get(state, 'data.search.query.businesstype', ''),
 })
 
 const mapDispatchToProps = {

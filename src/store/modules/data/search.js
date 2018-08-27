@@ -46,7 +46,7 @@ export function search() {
   }
 }
 
-export const itemsPerPage = 20
+export const itemsPerPage = 5
 
 export default handleActions({
   [SET_QUERY]: (state, { payload: query }) => ({ ...state, query }),

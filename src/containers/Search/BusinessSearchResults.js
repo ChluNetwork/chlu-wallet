@@ -125,6 +125,7 @@ class BusinessSearchResults extends React.Component {
           component='div'
           count={count}
           rowsPerPage={itemsPerPage}
+          rowsPerPageOptions={[itemsPerPage]}
           page={page}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
