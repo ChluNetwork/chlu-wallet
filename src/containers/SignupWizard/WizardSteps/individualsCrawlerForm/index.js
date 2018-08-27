@@ -63,9 +63,9 @@ class IndividualsCrawlerForm extends React.Component {
           <form onSubmit={handleSubmit}>
             <Grid container justify='center'>
               <Grid item xs={12} md={12}>
-                <UpWorkForm />
-                <FiverrForm />
-                <LinkedinForm />
+                <UpWorkForm onChange={(url, user, pass) => this.props.onChange("upwork", url, user, pass)} />
+                <FiverrForm onChange={(url, user, pass) => this.props.onChange("fiverr", url, user, pass)} />
+                <LinkedinForm onChange={(user, pass) => this.props.onChange("linkedin", undefined, user, pass)} />
               </Grid>
             </Grid>
           </form>

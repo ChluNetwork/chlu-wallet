@@ -26,7 +26,23 @@ class UpWorkForm extends React.Component {
     this.setState({
       isProfileUrlValid: (e.target.value.length > 0 && this.isUpWorkProfileUrlValid(e.target.value)),
       profileUrl: e.target.value
-    })
+    }, this.callChangeHandler)
+  }
+
+  handleUserChange = (e) => {
+    this.setState({
+      user: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      password: e.target.value
+    }, this.callChangeHandler)
+  }
+
+  callChangeHandler = () => {
+    this.props.onChange(this.state.profileUrl, this.state.user, this.state.password)
   }
 
   render() {
@@ -79,7 +95,8 @@ class UpWorkForm extends React.Component {
                 name='upwork-email'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
-                  onChange: this.handleProfileUrlChange,
+                  value: this.state.user,
+                  onChange: this.handleUserChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <EmailIcon className={classes.inputAdornmentIcon} />
@@ -96,7 +113,8 @@ class UpWorkForm extends React.Component {
                 name='upwork-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
-                  onChange: this.handleProfileUrlChange,
+                  value: this.state.password,
+                  onChange: this.handlePasswordChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <HttpsIcon className={classes.inputAdornmentIcon} />

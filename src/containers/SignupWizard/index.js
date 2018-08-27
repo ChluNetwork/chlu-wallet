@@ -18,6 +18,7 @@ import { submit } from 'redux-form'
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick } from 'lodash'
 import { businessTypes } from 'store/modules/ui/profile';
+import { startCrawler } from 'store/modules/data/crawler';
 
 class SignupWizard extends Component {
   constructor(props) {
@@ -25,8 +26,9 @@ class SignupWizard extends Component {
 
     this.state = {
       signupType: undefined, // "user" or "business"
-      profile: {}
-    };
+      profile: {},
+      crawlerData: {}
+    }
   }
 
   async downloadWallet() {
@@ -78,21 +80,38 @@ class SignupWizard extends Component {
   onSignupTypeChange = (signupType) => {
     this.setState({
       signupType: signupType
-    });
+    })
   }
 
   onProfileFieldChange = (fieldName, fieldValue) => {
     console.log("onProfileFieldChange executing for fieldName: "+fieldName+" with fieldValue: "+fieldValue)
     this.setState(state => {
-      state.profile[fieldName] = fieldValue;
-      return state;
-    });
+      state.profile[fieldName] = fieldValue
+      return state
+    })
+  }
+
+  onCrawlerFieldChange = (type, url, user, pass) => {
+    this.setState(state => {
+      if (!state.crawlerData[type]) {
+        state.crawlerData[type] = {}
+      }
+
+      state.crawlerData[type].url = url
+      state.crawlerData[type].user = user
+      state.crawlerData[type].pass = pass
+
+      console.log(type)
+      console.log(state.crawlerData[type])
+
+      return state
+    })
   }
 
   async finishClicked() {
     const { walletCreated } = this.props
     const { profile, signupType } = this.state
-    
+
     // Check if signup is in progress
     if (get(walletCreated, 'did.publicDidDocument.id')) {
       const preparedProfile = {
@@ -100,7 +119,21 @@ class SignupWizard extends Component {
         signupType,
         businesstype: (profile.businesstype > 0 && businessTypes[profile.businesstype]) || 'Other'
       }
+
+      // We'll request crawler runs in parallel
+      // TODO: the server should accept multiple crawlers in one request
+      const crawlerPromises = []
+
+      for (const crawlerType of Object.keys(this.state.crawlerData)) {
+        const crawlerFields = this.state.crawlerData[crawlerType]
+        const crawlerPromise = this.props.startCrawler(crawlerType, crawlerFields.url, crawlerFields.user, crawlerFields.pass)
+
+        crawlerPromises.push(crawlerPromise)
+      }
+
+      await Promise.all(crawlerPromises)
       await this.props.signupToMarketplace(preparedProfile)
+
       toastr.success(
         'Congratulations',
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
@@ -145,6 +178,7 @@ class SignupWizard extends Component {
             stepProps: {
               ...this.props,
               onProfileFieldChange: this.onProfileFieldChange,
+              onCrawlerFieldChange: this.onCrawlerFieldChange,
               downloadWallet: this.downloadWallet.bind(this)
             }
           }
@@ -171,6 +205,7 @@ const mapDispatchToProps = {
   setWalletSaved,
   readMyReputation,
   setAcceptTermsAndConditions,
+  startCrawler,
   signupToMarketplace,
   push,
   submit

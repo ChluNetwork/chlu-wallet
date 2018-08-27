@@ -53,6 +53,11 @@ const style = {
   ...regularFormsStyle
 };
 
+const CRAWLER_CARD_TITLE = [
+  'To begin, simply enter your email & password for any of the sites below on which you have an active profile.',
+  'We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
+].join(" ")
+
 class Step3 extends React.Component {
 
   render() {
@@ -162,7 +167,7 @@ class Step3 extends React.Component {
                         <p key={0} style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
                         <p key={1} style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
                       ]}
-                      content={<IndividualsCrawlerForm />}
+                      content={<IndividualsCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
                     />
                   )
                 },
@@ -171,9 +176,8 @@ class Step3 extends React.Component {
                   tabIcon: Business,
                   tabContent: (
                     <RegularCard
-                      cardTitle='To begin, simply enter your email & password for any of the sites below on which you have an active profile.
-                      We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
-                      content={<BusinessCrawlerForm />}
+                      cardTitle={CRAWLER_CARD_TITLE}
+                      content={<BusinessCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
                     />
                   )
                 },
@@ -181,11 +185,10 @@ class Step3 extends React.Component {
                   tabButton: 'Product Owners',
                   tabIcon: ShoppingCart,
                   tabContent: (
-                  <RegularCard
-                    cardTitle='To begin, simply enter your email & password for any of the sites below on which you have an active profile.
-                    We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
-                    content={<ProductOwnersCrawlerForm />}
-                  />
+                    <RegularCard
+                      cardTitle={CRAWLER_CARD_TITLE}
+                      content={<ProductOwnersCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
+                    />
                   )
                 }
               ]}
