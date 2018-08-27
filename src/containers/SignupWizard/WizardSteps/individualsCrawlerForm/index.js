@@ -15,6 +15,7 @@ import { reduxForm } from 'redux-form'
 
 import UpWorkForm from './UpWorkForm'
 import FiverrForm from './FiverrForm';
+import LinkedinForm from './LinkedinForm';
 
 const style = {
   profileText: {
@@ -64,6 +65,7 @@ class IndividualsCrawlerForm extends React.Component {
               <Grid item xs={12} md={12}>
                 <UpWorkForm />
                 <FiverrForm />
+                <LinkedinForm />
               </Grid>
 
               {/* {<RenderEmailPasswordCombo emailName='linkedin-email'
