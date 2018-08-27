@@ -10,14 +10,6 @@ import HttpsIcon from '@material-ui/icons/Https';
 const style = {
   gridRow: {
     margin: '12px 0',
-  },
-  credCellLeft: {
-    margin: '0 0 12px 0',
-    paddingRight: 12
-  },
-  credCellRight: {
-    margin: '0 0 12px 0',
-    paddingLeft: 12
   }
 }
 
@@ -26,7 +18,7 @@ class FiverrForm extends React.Component {
     super(props, context)
     this.state = {
       isProfileUrlValid: false,
-      profileUrl: ""
+      profileUrl: ''
     }
   }
 
@@ -49,7 +41,7 @@ class FiverrForm extends React.Component {
             <CustomInput
               success={this.state.isProfileUrlValid}
               error={this.state.profileUrl && !this.state.isProfileUrlValid}
-              labelText="Fiverr profile URL"
+              labelText='Fiverr profile URL'
               id='fiverr-url'
               name='fiverr-url'
               formControlProps={{ fullWidth: true }}
@@ -84,7 +76,7 @@ class FiverrForm extends React.Component {
               <CustomInput
                 success={this.state.emailState === 'success'}
                 error={this.state.emailState === 'error'}
-                labelText="Fiverr e-mail"
+                labelText='Fiverr e-mail'
                 id='fiverr-email'
                 name='fiverr-email'
                 formControlProps={{ fullWidth: true }}
@@ -103,7 +95,7 @@ class FiverrForm extends React.Component {
               <CustomInput
                 success={this.state.emailState === 'success'}
                 error={this.state.emailState === 'error'}
-                labelText="Fiverr password"
+                labelText='Fiverr password'
                 id='fiverr-password'
                 name='fiverr-password'
                 formControlProps={{ fullWidth: true }}
@@ -131,12 +123,12 @@ class FiverrForm extends React.Component {
 
     url = url.toLowerCase();
 
-    if (url.indexOf("fiverr.com") === 0) return true;
-    if (url.indexOf("www.fiverr.com") === 0) return true;
-    if (url.indexOf("http://fiverr.com") === 0) return true;
-    if (url.indexOf("https://fiverr.com") === 0) return true;
-    if (url.indexOf("http://www.fiverr.com") === 0) return true;
-    if (url.indexOf("https://www.fiverr.com") === 0) return true;
+    if (url.indexOf('fiverr.com') === 0) return true;
+    if (url.indexOf('www.fiverr.com') === 0) return true;
+    if (url.indexOf('http://fiverr.com') === 0) return true;
+    if (url.indexOf('https://fiverr.com') === 0) return true;
+    if (url.indexOf('http://www.fiverr.com') === 0) return true;
+    if (url.indexOf('https://www.fiverr.com') === 0) return true;
 
     return false;
   }
