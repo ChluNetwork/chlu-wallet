@@ -9,11 +9,13 @@ const SEARCH_CLEAR = 'search/CLEAR'
 const NEXT_PAGE = 'search/PAGE_NEXT'
 const PREV_PAGE = 'search/PAGE_PREV'
 const SET_QUERY = 'search/SET_QUERY'
+const SET_PAGE = 'search/SET_PAGE'
 
 const searchLoading = createAction(SEARCH_LOADING)
 const searchSuccess = createAction(SEARCH_SUCCESS)
 const searchError = createAction(SEARCH_ERROR)
 export const setQuery = createAction(SET_QUERY)
+export const setPage = createAction(SET_PAGE)
 export const searchClear = createAction(SEARCH_CLEAR)
 
 function getInitialState() {
@@ -50,6 +52,7 @@ export const itemsPerPage = 5
 
 export default handleActions({
   [SET_QUERY]: (state, { payload: query }) => ({ ...state, query }),
+  [SET_PAGE]: (state, { payload: page }) => ({ ...state, page }),
   [SEARCH_LOADING]: (state, { payload: query }) => {
     let page = state.page
     if (!isEqual(state.query, query)) page = 0

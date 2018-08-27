@@ -127,13 +127,13 @@ class BusinessSearchResults extends React.Component {
           rowsPerPage={itemsPerPage}
           rowsPerPageOptions={[itemsPerPage]}
           page={page}
+          onChangePage={this.handleChangePage}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
           }}
           nextIconButtonProps={{
             'aria-label': 'Next Page',
           }}
-          onChangePage={this.handleChangePage}
         />
       </Paper>
     );
