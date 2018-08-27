@@ -17,6 +17,7 @@ import { submit } from 'redux-form'
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick } from 'lodash'
+import { businessTypes } from 'store/modules/ui/profile';
 
 class SignupWizard extends Component {
   constructor(props) {
@@ -90,12 +91,16 @@ class SignupWizard extends Component {
 
   async finishClicked() {
     const { walletCreated } = this.props
-    const { profile } = this.state
-
-    // TODO: move this code in a redux file
+    const { profile, signupType } = this.state
+    
     // Check if signup is in progress
     if (get(walletCreated, 'did.publicDidDocument.id')) {
-      await this.props.signupToMarketplace(profile)
+      const preparedProfile = {
+        ...profile,
+        signupType,
+        businesstype: (profile.businesstype > 0 && businessTypes[profile.businesstype]) || 'Other'
+      }
+      await this.props.signupToMarketplace(preparedProfile)
       toastr.success(
         'Congratulations',
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
@@ -108,7 +113,6 @@ class SignupWizard extends Component {
         You will be awarded the Chlu token post our public sale`
       )
     }
-    // TODO: redirect user depending on their type: business goes to reviews about me, individual goes to search
   }
 
   render() {

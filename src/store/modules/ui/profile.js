@@ -19,6 +19,13 @@ const initialState = {
   loginLoading: false
 }
 
+export const businessTypes = [
+  'Select Industry',
+  'Accountant',
+  'Advertising',
+  'Restaurant'
+]
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -67,7 +74,9 @@ export function signupToMarketplace(profile) {
           businesslocationgeo = {
             latitude: coords.latitude,
             longitude: coords.longitude,
-            bounds: coords.bounds
+            bounds: coords.bounds,
+            place_name: coords.place_name,
+            text: coords.text
           }
         }
       } catch (err) {

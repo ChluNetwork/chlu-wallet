@@ -33,6 +33,9 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
 
+// data
+import { businessTypes } from 'store/modules/ui/profile';
+
 const style = {
   infoText: {
     fontWeight: '300',
@@ -66,7 +69,7 @@ class Step1 extends React.Component {
       emailState: "",
       simpleSelect: "",
       selectedValue: "user",
-      businesstype: "0",
+      businesstype: 0,
       businesslocation: ""
     };
     this.handleChange = this.handleChange.bind(this);
@@ -279,21 +282,9 @@ class Step1 extends React.Component {
                 id: "simple-select"
               }}
             >
-              <MenuItem value='0' disabled classes={{ root: classes.selectMenuItem }}>
-                Select Industry
-              </MenuItem>
-
-              <MenuItem value='1' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Accountant
-              </MenuItem>
-
-              <MenuItem value='2' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Advertising
-              </MenuItem>
-
-              <MenuItem value='3' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Restaurant
-              </MenuItem>
+              {businessTypes.map((v, i) => (
+                <MenuItem key={i} value={i} disabled={!i} classes={{ root: classes.selectMenuItem, selected: i ? classes.selectMenuItemSelected : undefined }}>{v}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
