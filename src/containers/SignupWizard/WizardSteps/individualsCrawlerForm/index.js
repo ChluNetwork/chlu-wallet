@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { LinearProgress, Grid } from '@material-ui/core'
+import { LinearProgress, Grid, List, ListItem, ListItemText, Checkbox } from '@material-ui/core'
 
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
@@ -13,7 +13,8 @@ import { compose } from 'recompose'
 // redux form
 import { reduxForm } from 'redux-form'
 
-import RenderEmailPasswordCombo from '../renderEmailPasswordCombo'
+import UpWorkForm from './UpWorkForm'
+import FiverrForm from './FiverrForm';
 
 const style = {
   profileText: {
@@ -38,7 +39,14 @@ const style = {
 };
 
 class IndividualsCrawlerForm extends React.Component {
-  
+
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+
+    }
+  }
+
   render () {
     const { handleSubmit, crawlerRunning } = this.props
 
@@ -49,45 +57,49 @@ class IndividualsCrawlerForm extends React.Component {
         </Grid>
       </Grid>
     } else {
-      return (<span>
-        <form onSubmit={handleSubmit}>
-          <Grid container justify='center'>
-            
-            {<RenderEmailPasswordCombo emailName='linkedin-email'
-                                       emailLabel='Linkedin email'
-                                       emailHelp='We never store your Linkedin email'
-                                       passwordName='linkedin-password'
-                                       passwordLabel='Linkedin password'
-                                       passwordHelp='We never store your Linkedin password' />
-            }
-            
-            {<RenderEmailPasswordCombo emailName='upwork-email'
-                                       emailLabel='UpWork email'
-                                       emailHelp='We never store your UpWork email'
-                                       passwordName='upwork-password'
-                                       passwordLabel='UpWork password'
-                                       passwordHelp='We never store your UpWork password' />
-            }
-            
-            {<RenderEmailPasswordCombo emailName='fiverr-email'
-                                       emailLabel='Fiverr email'
-                                       emailHelp='We never store your Fiverr email'
-                                       passwordName='fiverr-password'
-                                       passwordLabel='Fiverr password'
-                                       passwordHelp='We never store your Fiverr password' />
-            }
-            
-            {<RenderEmailPasswordCombo emailName='flexhire-email'
-                                       emailLabel='Flexhire email'
-                                       emailHelp='We never store your Flexhire email'
-                                       passwordName='flexhire-password'
-                                       passwordLabel='Flexhire password'
-                                       passwordHelp='We never store your Flexhire password' />
-            }
-            
-          </Grid>      
-        </form>
-      </span>
+      return (
+        <span>
+          <form onSubmit={handleSubmit}>
+            <Grid container justify='center'>
+              <Grid item xs={12} md={12}>
+                <UpWorkForm />
+                <FiverrForm />
+              </Grid>
+
+              {/* {<RenderEmailPasswordCombo emailName='linkedin-email'
+                                        emailLabel='Linkedin email'
+                                        emailHelp='We never store your Linkedin email'
+                                        passwordName='linkedin-password'
+                                        passwordLabel='Linkedin password'
+                                        passwordHelp='We never store your Linkedin password' />
+              }
+
+              {<RenderEmailPasswordCombo emailName='upwork-email'
+                                        emailLabel='UpWork email'
+                                        emailHelp='We never store your UpWork email'
+                                        passwordName='upwork-password'
+                                        passwordLabel='UpWork password'
+                                        passwordHelp='We never store your UpWork password' />
+              }
+
+              {<RenderEmailPasswordCombo emailName='fiverr-email'
+                                        emailLabel='Fiverr email'
+                                        emailHelp='We never store your Fiverr email'
+                                        passwordName='fiverr-password'
+                                        passwordLabel='Fiverr password'
+                                        passwordHelp='We never store your Fiverr password' />
+              }
+
+              {<RenderEmailPasswordCombo emailName='flexhire-email'
+                                        emailLabel='Flexhire email'
+                                        emailHelp='We never store your Flexhire email'
+                                        passwordName='flexhire-password'
+                                        passwordLabel='Flexhire password'
+                                        passwordHelp='We never store your Flexhire password' />
+              } */}
+            </Grid>
+          </form>
+        </span>
       )
     }
   }
