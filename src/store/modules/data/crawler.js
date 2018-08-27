@@ -20,7 +20,7 @@ export const crawlerError = createAction(CRAWLER_ERROR)
 const startCrawlerAction = createAction(CRAWLER_START)
 export const finishCrawler = createAction(CRAWLER_FINISH)
 
-export function startCrawler(type, url) {
+export function startCrawler(type, url, username, password) {
   return async (dispatch, getState) => {
     const state = getState()
     dispatch(startCrawlerAction())
@@ -32,7 +32,7 @@ export function startCrawler(type, url) {
 
       const result = await fetch(`${API_URL}/api/v1/crawl`, {
         method: 'POST',
-        body: JSON.stringify({ type, url, didId }),
+        body: JSON.stringify({ type, url, didId, username, password }),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
