@@ -16,7 +16,7 @@ const searchSuccess = createAction(SEARCH_SUCCESS)
 const searchError = createAction(SEARCH_ERROR)
 export const setQuery = createAction(SET_QUERY)
 export const setPage = createAction(SET_PAGE)
-export const searchClear = createAction(SEARCH_CLEAR)
+export const clearSearch = createAction(SEARCH_CLEAR)
 
 function getInitialState() {
   return {
