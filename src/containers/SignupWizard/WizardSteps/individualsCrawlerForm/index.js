@@ -67,38 +67,6 @@ class IndividualsCrawlerForm extends React.Component {
                 <FiverrForm />
                 <LinkedinForm />
               </Grid>
-
-              {/* {<RenderEmailPasswordCombo emailName='linkedin-email'
-                                        emailLabel='Linkedin email'
-                                        emailHelp='We never store your Linkedin email'
-                                        passwordName='linkedin-password'
-                                        passwordLabel='Linkedin password'
-                                        passwordHelp='We never store your Linkedin password' />
-              }
-
-              {<RenderEmailPasswordCombo emailName='upwork-email'
-                                        emailLabel='UpWork email'
-                                        emailHelp='We never store your UpWork email'
-                                        passwordName='upwork-password'
-                                        passwordLabel='UpWork password'
-                                        passwordHelp='We never store your UpWork password' />
-              }
-
-              {<RenderEmailPasswordCombo emailName='fiverr-email'
-                                        emailLabel='Fiverr email'
-                                        emailHelp='We never store your Fiverr email'
-                                        passwordName='fiverr-password'
-                                        passwordLabel='Fiverr password'
-                                        passwordHelp='We never store your Fiverr password' />
-              }
-
-              {<RenderEmailPasswordCombo emailName='flexhire-email'
-                                        emailLabel='Flexhire email'
-                                        emailHelp='We never store your Flexhire email'
-                                        passwordName='flexhire-password'
-                                        passwordLabel='Flexhire password'
-                                        passwordHelp='We never store your Flexhire password' />
-              } */}
             </Grid>
           </form>
         </span>
