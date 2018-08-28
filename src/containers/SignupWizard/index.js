@@ -51,8 +51,8 @@ class SignupWizard extends Component {
   }
 
   validate(step) {
-    const { wallet, crawlerRunning, acceptedTerms } = this.props
-    if (crawlerRunning) return false
+    const { wallet, acceptedTerms } = this.props
+
     if (step === 0 && !acceptedTerms && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Terms and Conditions',
@@ -60,6 +60,7 @@ class SignupWizard extends Component {
       )
       return false
     }
+
     if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Please save your Wallet Keys',
@@ -67,6 +68,7 @@ class SignupWizard extends Component {
       )
       return false
     }
+
     return true
   }
 
@@ -131,7 +133,10 @@ class SignupWizard extends Component {
         crawlerPromises.push(crawlerPromise)
       }
 
-      await Promise.all(crawlerPromises)
+      if (crawlerPromises.length > 0) {
+        await Promise.all(crawlerPromises)
+      }
+
       await this.props.signupToMarketplace(preparedProfile)
 
       toastr.success(
@@ -139,6 +144,13 @@ class SignupWizard extends Component {
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
         You will be awarded the Chlu token post our public sale`
       )
+
+      if (crawlerPromises.length > 0) {
+        toastr.success(
+          'Your Reviews',
+          'Your reviews from your chosen platforms will be imported shortly. They will be available on the Reputation page once done.'
+        )
+      }
     } else {
       toastr.success(
         'Already logged in',
@@ -149,7 +161,7 @@ class SignupWizard extends Component {
   }
 
   render() {
-    const { wallet, crawlerRunning } = this.props
+    const { wallet } = this.props
     const initialStep = wallet.did ? 1 : 0
 
     return (
@@ -158,8 +170,6 @@ class SignupWizard extends Component {
         currentStep={initialStep}
         onChangeStep={this.onChangeStep.bind(this)}
         finishButtonClick={this.finishClicked.bind(this)}
-        nextButtonDisabled={crawlerRunning}
-        previousButtonDisabled={crawlerRunning}
         steps={[
           {
             stepName: 'Step 1: Create Your Account',
@@ -196,7 +206,6 @@ const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
-  crawlerRunning: store.data.crawler.running,
   acceptedTerms: store.components.signupWizard.acceptedTerms
 })
 
