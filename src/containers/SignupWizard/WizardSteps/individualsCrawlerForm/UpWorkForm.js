@@ -74,9 +74,9 @@ class UpWorkForm extends React.Component {
           </Grid>
         </Grid>
 
-        <Grid container justify='center'>
+        {/* <Grid container justify='center'>
           {this.renderLogin()}
-        </Grid>
+        </Grid> */}
       </Grid>
     )
   }
