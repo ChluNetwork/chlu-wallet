@@ -54,7 +54,7 @@ class FiverrForm extends React.Component {
       <Grid item xs={12} md={12} >
         <Grid container justify='center'>
           <Grid item xs={12} md={8} className={classes.gridRow}>
-            <h5>Fiverr reviews</h5>
+            <h5>Import Fiverr reviews <small>(coming soon)</small></h5>
 
             <CustomInput
               success={this.state.isProfileUrlValid}
@@ -64,6 +64,7 @@ class FiverrForm extends React.Component {
               name='fiverr-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
+                disabled: true,
                 value: this.state.profileUrl,
                 onChange: this.handleProfileUrlChange,
                 endAdornment: (
@@ -99,6 +100,7 @@ class FiverrForm extends React.Component {
                 name='fiverr-email'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  disabled: true,
                   value: this.state.user,
                   onChange: this.handleUserChange,
                   endAdornment: (
@@ -119,6 +121,7 @@ class FiverrForm extends React.Component {
                 name='fiverr-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  disabled: true,
                   value: this.state.pass,
                   onChange: this.handlePasswordChange,
                   endAdornment: (
