@@ -26,6 +26,15 @@ export const businessTypes = [
   'Restaurant'
 ]
 
+export function getFullName(profile) {
+  console.log('getting full name for profile', profile)
+  let name = profile.firstname || profile.businessname || ''
+  if (profile.lastname) name += ` ${profile.lastname}`
+  if (profile.username) name += ` (${profile.username})`
+  console.log(`Full name ${name} for profile`, profile)
+  return name
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -49,6 +58,7 @@ export function updateProfile(profile) {
   return async (dispatch, getState) => {
     const currentProfile = getState().ui.profile.profile
     const newProfile = { ...currentProfile, ...profile }
+    newProfile.name = getFullName(newProfile)
     const chluApiClient = await getChluAPIClient()
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
     dispatch(setProfile(newProfile))
@@ -89,6 +99,7 @@ export function signupToMarketplace(profile) {
       vendorAddress: getAddress(walletCreated),
       'type': isBusiness ? 'business' : 'individual',
     }
+    preparedProfile.name = getFullName(preparedProfile)
     if (businesslocationgeo) {
       preparedProfile.businesslocationgeo = businesslocationgeo
     }
@@ -102,6 +113,7 @@ export function signupToMarketplace(profile) {
     dispatch(setLoginLoading(false))
   }
 }
+
 
 export function signIn(exportedWallet) {
   return async dispatch => {

@@ -89,6 +89,10 @@ function TabContainer(props) {
   );
 }
 
+function selectFieldValue(val) {
+  return val ? { label: val, value: val } : null
+}
+
 class Search extends Component {
   constructor(props) {
     super(props);
@@ -136,7 +140,7 @@ class Search extends Component {
     return <Card className={classes.card}>
         <CardContent>
 
-        {type === 'individuals' && <TabContainer>
+        {type === 'businesses' && <TabContainer>
             <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant='headline' align='center'>
@@ -158,7 +162,7 @@ class Search extends Component {
                   classes={classes}
                   options={categories}
                   placeholder='Business Type'
-                  value={businesstype}
+                  value={selectFieldValue(businesstype)}
                   onChange={this.setBusinessType}
                 />
               </Grid>
@@ -167,7 +171,7 @@ class Search extends Component {
                   classes={classes}
                   options={locations}
                   placeholder='Location'
-                  value={location}
+                  value={selectFieldValue(location)}
                   onChange={this.setLocation}
                 />
               </Grid>
@@ -185,7 +189,7 @@ class Search extends Component {
               </Grid>
             </Grid>
           </TabContainer>}
-        {type === 'businesses' && <TabContainer>
+        {type === 'individuals' && <TabContainer>
             <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant='headline' align='center'>
@@ -206,7 +210,7 @@ class Search extends Component {
                 <Select
                   classes={classes}
                   options={locations}
-                  value={location}
+                  value={selectFieldValue(location)}
                   onChange={this.setLocation}
                   placeholder='Location'
                 />
