@@ -109,6 +109,12 @@ class Settings extends Component {
     this.props.updateProfile(this.state.profile)
   }
 
+  change(event, stateName) {
+    const value = get(event, 'target.value', event)
+    console.log(stateName, value)
+    this.setState({ dirty: true, profile: { ...this.state.profile, [stateName]: value } });
+  }
+
   render () {
     const { classes, tabIndex } = this.props
 
