@@ -52,7 +52,7 @@ class UpWorkForm extends React.Component {
       <Grid item xs={12} md={12} >
         <Grid container justify='center'>
           <Grid item xs={12} md={8} className={classes.gridRow}>
-            <h5>UpWork reviews</h5>
+            <h5>Import UpWork reviews</h5>
 
             <CustomInput
               success={this.state.isProfileUrlValid}
@@ -113,6 +113,7 @@ class UpWorkForm extends React.Component {
                 name='upwork-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  type: 'password',
                   value: this.state.password,
                   onChange: this.handlePasswordChange,
                   endAdornment: (
