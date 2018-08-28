@@ -23,6 +23,7 @@ import Add from '@material-ui/icons/Add';
 import { search, setQuery, setPage } from 'store/modules/data/search'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 const styles = theme => ({
   searchGrid: {
@@ -96,26 +97,29 @@ function selectFieldValue(val) {
 class Search extends Component {
   constructor(props) {
     super(props);
-    const type = 'businesses'
-    this.state = {
-      type
-    }
+    const { type } = props
     this.setName = this.setQueryField('name')
     this.setBusinessType = this.setQueryField('businesstype')
     this.setLocation = this.setQueryField('location')
     this.setType = this.setQueryField('type')
-    this.setType(type === 'businesses' ? 'business' : 'individual')
+    this.props.setQuery({ type: type === 'businesses' ? 'business' : 'individual' })
   }
 
   componentDidMount() {
     this.props.search()
   }
 
+  componentDidUpdate(prevProps) {
+    const { type, setQuery, search } = this.props
+    if (prevProps.type !== type) {
+      setQuery({ type: type === 'businesses' ? 'business' : 'individual' })
+      search()
+    }
+  }
+
   handleTabChange = (event, value) => {
     const type = value ? 'individuals' : 'businesses'
-    this.setState({ type });
-    this.setType(type === 'businesses' ? 'business' : 'individual')
-    this.props.search()
+    this.props.push(`/search/${type}`)
   };
 
   setQueryField = field => event => {
@@ -134,8 +138,7 @@ class Search extends Component {
 
   render () {
 
-    const { type } = this.state;
-    const { classes, search, name, location, businesstype, page, results } = this.props
+    const { classes, type, search, name, location, businesstype, page, results, error, loading } = this.props
 
     return <Card className={classes.card}>
         <CardContent>
@@ -242,6 +245,8 @@ class Search extends Component {
             data={get(results, 'rows', [])}
             count={get(results, 'count', 0)}
             setPage={this.setPage}
+            loading={loading}
+            error={error}
           /> 
         </CardContent>
       </Card>
@@ -250,7 +255,7 @@ class Search extends Component {
 
 const mapStateToProps = state => ({
   loading: state.data.search.loading,
-  error: state.data.search.loading,
+  error: state.data.search.error,
   page: state.data.search.page,
   pages: state.data.search.pages,
   results: state.data.search.results,
@@ -263,7 +268,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   search,
   setQuery,
-  setPage
+  setPage,
+  push
 }
 
 export default compose(

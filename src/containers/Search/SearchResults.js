@@ -14,6 +14,7 @@ import Avatar from '@material-ui/core/Avatar';
 import replace from 'helpers/replace'
 
 import { itemsPerPage } from 'store/modules/data/search'
+import { LinearProgress } from '@material-ui/core';
 
 const businessesColumnData = [
   { id: 'logo', numeric: false, disablePadding: true, label: 'Logo' },
@@ -84,13 +85,15 @@ class SearchResults extends React.Component {
   };
 
   render() {
-    const { classes, type, data, count, page } = this.props;
+    const { classes, type, data, count, page, loading, error } = this.props;
     const emptyRows = itemsPerPage - data.length
 
     return (
       <Paper className={classes.root}>
         <h3>Search Results</h3>
-        <div className={classes.tableWrapper}>
+        {error ? 'Something went wrong' : ''}
+        {loading && !error && <div><LinearProgress /></div>}
+        {!loading && !error && <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby='tableTitle'>
             <SearchResultsHead type={type} />
             <TableBody>
@@ -129,8 +132,8 @@ class SearchResults extends React.Component {
               )}
             </TableBody>
           </Table>
-        </div>
-        <TablePagination
+        </div> }
+        {!error && !loading && <TablePagination
           component='div'
           count={count}
           rowsPerPage={itemsPerPage}
@@ -143,7 +146,7 @@ class SearchResults extends React.Component {
           nextIconButtonProps={{
             'aria-label': 'Next Page',
           }}
-        />
+        />}
       </Paper>
     );
   }
