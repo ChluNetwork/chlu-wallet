@@ -28,7 +28,7 @@ class FiverrForm extends React.Component {
     this.setState({
       isProfileUrlValid: (e.target.value.length > 0 && this.isFiverrProfileUrlValid(e.target.value)),
       profileUrl: e.target.value
-    })
+    }, this.callChangeHandler)
   }
 
   handleUserChange = (e) => {
