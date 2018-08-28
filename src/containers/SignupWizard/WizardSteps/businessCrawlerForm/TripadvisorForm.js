@@ -54,7 +54,7 @@ class TripadvisorForm extends React.Component {
       <Grid item xs={12} md={12} >
         <Grid container justify='center'>
           <Grid item xs={12} md={8} className={classes.gridRow}>
-            <h5>Import TripAdvisor reviews</h5>
+            <h5>Import TripAdvisor reviews <small>(coming soon)</small></h5>
 
             <CustomInput
               success={this.state.isProfileUrlValid}
@@ -64,6 +64,7 @@ class TripadvisorForm extends React.Component {
               name='tripadvisor-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
+                disabled: true,
                 value: this.state.profileUrl,
                 onChange: this.handleProfileUrlChange,
                 endAdornment: (
@@ -99,6 +100,7 @@ class TripadvisorForm extends React.Component {
                 name='tripadvisor-email'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  disabled: true,
                   value: this.state.user,
                   onChange: this.handleUserChange,
                   endAdornment: (
@@ -120,6 +122,7 @@ class TripadvisorForm extends React.Component {
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
                   type: 'password',
+                  disabled: true,
                   value: this.state.pass,
                   onChange: this.handlePasswordChange,
                   endAdornment: (
