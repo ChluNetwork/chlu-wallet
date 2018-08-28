@@ -15,9 +15,9 @@ const styles = {
 }
 
 class Reviews extends Component {
-  
+
   render() {
-    const { classes, reviews, loading } = this.props
+    const { classes, reviews, loading, crawling } = this.props
     const reviewList = reviews ? Object.values(reviews) : []
 
     return <Grid container spacing={16} className={classes.root}>
@@ -29,17 +29,19 @@ class Reviews extends Component {
           />
         </Card>
       </Grid>}
+
       {!loading && reviewList.length === 0 && <Grid item xs={12}>
         <Card>
           <CardHeader
             avatar={<ErrorIcon/>}
-            title='There is nothing here'
-            subheader='No reviews to display'
+            title='There is nothing here yet'
+            subheader={crawling ? 'Your reviews from other platforms are still being imported. Once done, they will be available to you on this page shortly after.' : 'No reviews to display yet'}
           />
         </Card>
       </Grid>}
+
       {!loading && reviewList.map((review, index) => {
-        return <Grid key={index} item xs={12} > 
+        return <Grid key={index} item xs={12} >
           {review.loading && <Card>
             <CardHeader
               avatar={<CircularProgress/>}
