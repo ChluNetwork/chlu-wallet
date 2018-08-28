@@ -54,7 +54,7 @@ class YelpForm extends React.Component {
       <Grid item xs={12} md={12} >
         <Grid container justify='center'>
           <Grid item xs={12} md={8} className={classes.gridRow}>
-            <h5>Import Yelp reviews</h5>
+            <h5>Import Yelp reviews <small>(coming soon)</small></h5>
 
             <CustomInput
               success={this.state.isProfileUrlValid}
@@ -64,6 +64,7 @@ class YelpForm extends React.Component {
               name='yelp-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
+                disabled: true,
                 value: this.state.profileUrl,
                 onChange: this.handleProfileUrlChange,
                 endAdornment: (
@@ -99,6 +100,7 @@ class YelpForm extends React.Component {
                 name='yelp-email'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  disabled: true,
                   value: this.state.user,
                   onChange: this.handleUserChange,
                   endAdornment: (
@@ -119,6 +121,7 @@ class YelpForm extends React.Component {
                 name='yelp-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
+                  disabled: true,
                   type: 'password',
                   value: this.state.pass,
                   onChange: this.handlePasswordChange,
