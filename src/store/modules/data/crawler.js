@@ -6,7 +6,7 @@ const CRAWLER_START = 'crawler/START'
 const CRAWLER_ERROR = 'crawler/ERROR'
 const CRAWLER_FINISH = 'crawler/FINISH'
 
-const API_URL = process.env.REACT_APP_PUBLISH_API_URL || 'https://publish.chlu.io'
+const API_URL = process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io'
 
 function getInitialState() {
   return {
