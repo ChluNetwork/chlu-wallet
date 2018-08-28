@@ -57,7 +57,9 @@ class MainLayout extends Component {
             <Route path='/terms' component={Terms} />
             <Route path='/profile/:id' component={Profile} />
             {emptyWallet && <Redirect to='/'/>}
-            <Route path='/search' component={Search} />
+            <Route path='/search/businesses' render={() => <Search type='businesses'/>} />
+            <Route path='/search/individuals' render={() => <Search type='individuals'/>} />
+            <Redirect from='/search' to='/search/businesses' />
             <Route path='/pay/:multihash?' component={Payment} />
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />
