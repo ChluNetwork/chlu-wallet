@@ -53,11 +53,6 @@ const style = {
   ...regularFormsStyle
 };
 
-const CRAWLER_CARD_TITLE = [
-  'To begin, simply enter your email & password for any of the sites below on which you have an active profile.',
-  'We extract, merge and decentrally store your reputation in a portable format so you own and control it.'
-].join(" ")
-
 class Step3 extends React.Component {
 
   render() {
@@ -176,21 +171,24 @@ class Step3 extends React.Component {
                   tabIcon: Business,
                   tabContent: (
                     <RegularCard
-                      cardTitle={CRAWLER_CARD_TITLE}
+                      cardTitle={[
+                        <p key={0} style={{ textAlign: 'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
+                        <p key={1} style={{ textAlign: 'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
+                      ]}
                       content={<BusinessCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
                     />
                   )
                 },
-                {
-                  tabButton: 'Product Owners',
-                  tabIcon: ShoppingCart,
-                  tabContent: (
-                    <RegularCard
-                      cardTitle={CRAWLER_CARD_TITLE}
-                      content={<ProductOwnersCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
-                    />
-                  )
-                }
+                // {
+                //   tabButton: 'Product Owners',
+                //   tabIcon: ShoppingCart,
+                //   tabContent: (
+                //     <RegularCard
+                //       cardTitle={CRAWLER_CARD_TITLE}
+                //       content={<ProductOwnersCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
+                //     />
+                //   )
+                // }
               ]}
             />
           </Grid>
