@@ -103,9 +103,6 @@ class SignupWizard extends Component {
       state.crawlerData[type].user = user
       state.crawlerData[type].pass = pass
 
-      console.log(type)
-      console.log(state.crawlerData[type])
-
       return state
     })
   }
@@ -121,6 +118,9 @@ class SignupWizard extends Component {
         signupType,
         businesstype: (profile.businesstype > 0 && businessTypes[profile.businesstype]) || 'Other'
       }
+
+      console.log('crawlerData:')
+      console.log(this.state.crawlerData)
 
       // We'll request crawler runs in parallel
       // TODO: the server should accept multiple crawlers in one request
@@ -148,7 +148,7 @@ class SignupWizard extends Component {
       if (crawlerPromises.length > 0) {
         toastr.success(
           'Your Reviews',
-          'Your reviews from your chosen platforms will be imported shortly. They will be available on the Reputation page once done.'
+          'Your reviews from your chosen platforms will be imported shortly, and will be available on the Reputation page once done.'
         )
       }
     } else {

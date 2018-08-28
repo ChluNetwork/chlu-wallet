@@ -32,7 +32,7 @@ export function startCrawler(type, url, username, password) {
       const did = signedInDid || signedOutDid
       const didId = did.publicDidDocument.id
 
-      await fetch(`${API_URL}/api/v1/crawl`, {
+      const response = await fetch(`${API_URL}/api/v1/crawl`, {
         method: 'POST',
         body: JSON.stringify({ type, url, didId, username, password }),
         headers: {
@@ -40,6 +40,11 @@ export function startCrawler(type, url, username, password) {
           'Content-Type': 'application/json'
         },
       })
+
+      const responseJson = await response.json()
+
+      console.log('Crawlers running:')
+      console.log(responseJson)
     } catch (error) {
       console.log(error)
     }
