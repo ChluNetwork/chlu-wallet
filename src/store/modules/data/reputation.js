@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { getChluAPIClient } from 'helpers/chlu'
 import { get } from 'lodash'
 import { DELETE_WALLET } from './wallet';
+
 // ------------------------------------
 // Constants
 // ------------------------------------
