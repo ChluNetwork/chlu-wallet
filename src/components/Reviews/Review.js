@@ -20,6 +20,8 @@ import TokenIcon from '@material-ui/icons/PlusOne'
 
 import EditReview from 'components/Reviews/EditReview'
 
+import { connect } from 'react-redux'
+
 import { isArray, isNil, get } from 'lodash'
 
 const starCount = 5
@@ -98,9 +100,10 @@ class Review extends Component {
   }
   
   render() {
-    const { review, index } = this.props
+    const { review, index, editing } = this.props
     const maxStars = get(review, 'rating_details.max', starCount)
     const max = maxStars > 0 ? maxStars : starCount
+    console.log(review.editable, editing)
     return (
       <Card>
         <CardHeader
@@ -119,10 +122,14 @@ class Review extends Component {
           <List disablePadding>
             <ListItem>
               <ListItemIcon><CommentIcon/></ListItemIcon>
-              <ListItemText
+              {(!editing || editing !== review.multihash) && <ListItemText
                 primary={review.review.title || 'No title provided'}
                 secondary={review.review.text || 'No review provided'}
-              />
+              />}
+              {review && review.editable && (!editing || editing === review.multihash)
+                ? <EditReview multihash={review.multihash} />
+                : null
+              }
             </ListItem>
             <ListItem>
               <ListItemIcon><PlatformIcon/></ListItemIcon>
@@ -160,4 +167,8 @@ class Review extends Component {
   }  
 }
 
-export default Review
+const mapStateToProps = state => ({
+  editing: state.data.reviews.editing
+})
+
+export default connect(mapStateToProps)(Review)
