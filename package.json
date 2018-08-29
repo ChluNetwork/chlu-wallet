@@ -9,7 +9,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "chlu-api-client": "ChluNetwork/chlu-api-client-js#semver:~0.2.2",
-    "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support#semver:~0.2.1",
+    "chlu-ipfs-support": "ChluNetwork/chlu-ipfs-support#semver:~0.2.5",
     "classnames": "^2.2.6",
     "history": "^4.7.2",
     "js-file-download": "^0.4.1",

@@ -2068,9 +2068,32 @@ cheerio@^0.22.0:
     elliptic "^6.4.0"
     js-sha3 "^0.7.0"
 
-"chlu-ipfs-support@ChluNetwork/chlu-ipfs-support#semver:~0.2.0", "chlu-ipfs-support@ChluNetwork/chlu-ipfs-support#semver:~0.2.1":
+"chlu-ipfs-support@ChluNetwork/chlu-ipfs-support#semver:~0.2.0":
   version "0.2.3"
   resolved "https://codeload.github.com/ChluNetwork/chlu-ipfs-support/tar.gz/438367aa4532357390aa71a25c008012736d326c"
+  dependencies:
+    axios "^0.18.0"
+    blockcypher ChluNetwork/node-client
+    brorand "^1.1.0"
+    chlu-did "ChluNetwork/chlu-did#semver:~0.1.0"
+    chlu-wallet-support-js "ChluNetwork/chlu-wallet-support-js#semver:~0.1.1"
+    commander "^2.15.1"
+    debounce-async "^0.0.1"
+    elliptic "^6.4.0"
+    ipfs "~0.31.7"
+    ipfs-api "^22.3.0"
+    lodash "^4.17.5"
+    lru-cache "^4.1.2"
+    moment "^2.22.2"
+    orbit-db "~0.19.9"
+    pg "^7.4.3"
+    protons "~1.0.1"
+    sequelize "^4.38.0"
+    sqlite3 "^4.0.2"
+
+"chlu-ipfs-support@ChluNetwork/chlu-ipfs-support#semver:~0.2.5":
+  version "0.2.5"
+  resolved "https://codeload.github.com/ChluNetwork/chlu-ipfs-support/tar.gz/bf664734528a0484107f79137a48ec2433c73b6a"
   dependencies:
     axios "^0.18.0"
     blockcypher ChluNetwork/node-client
