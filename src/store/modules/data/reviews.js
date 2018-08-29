@@ -64,10 +64,9 @@ export function readReviewsIWrote () {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const resolved = get(content, 'resolved', false)
+          const preparedContent = { ...content, editable: true }
           // TODO: show them as loading and dispatch redux actions to resolve them
-          reviews[multihash] = { multihash, loading: !resolved, error: null, ...content }
-          // Only read the review if the api client did not return it resolved
-          if (!resolved) dispatch(readReviewRecord(multihash))
+          reviews[multihash] = { multihash, loading: !resolved, error: null, ...preparedContent }
         }
         dispatch(readReviewsIWroteSuccess(reviews))
       } catch (error) {
@@ -81,12 +80,15 @@ export function readReviewsIWrote () {
 }
 
 export function readReviewRecord (txHash, multihash) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
     try {
+      const didId = get(getState(), 'data.wallet.did.publicDidDocument.id', null)
       const chluIpfs = await getChluAPIClient()
       const reviewRecord = await chluIpfs.readReviewRecord(multihash)
+      const customerDidId = get(reviewRecord, 'customer_signature.creator', null)
       reviewRecord.txHash = txHash
+      reviewRecord.editable = didId && customerDidId && didId === customerDidId
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
       dispatch(readReviewRecordError({ error, multihash, txHash }))
@@ -108,13 +110,18 @@ export function submitEditedReview(fields) {
       } = getState()
       const multihash = editing
       const review = find(reviews, r => r.multihash === multihash)
+      const bitcoinTransactionHash = review.txHash || get(review, 'metadata.bitcoinTransactionHash')
       const updatedReview = cloneDeep(review)
       set(updatedReview, 'previous_version_multihash', multihash)
       set(updatedReview, 'rating_details.value', fields.rating)
       set(updatedReview, 'review.text', fields.comment)
       const chluIpfs = await getChluIPFS()
-      const updatedMultihash = await chluIpfs.storeReviewRecord(updatedReview)
-      dispatch(editReviewSuccess({ multihash, updatedMultihash }))
+      const updatedMultihash = await chluIpfs.storeReviewRecord(updatedReview, {
+        // TX hash is needed for the validator, since in the browser it can't resolve
+        // the tx hash from orbitdb on its own.
+        bitcoinTransactionHash
+      })
+      dispatch(editReviewSuccess({ multihash, updatedMultihash, updatedReview }))
     } catch (error) {
       dispatch(editReviewError(error))
       console.log(error)
