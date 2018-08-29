@@ -96,7 +96,7 @@ export function readReviewRecord (txHash, multihash) {
   }
 }
 
-export function submitEditedReview(fields) {
+export function submitEditedReview(fields, reviewArg) {
   return async (dispatch, getState) => {
     try {
       dispatch(editReviewLoading())
@@ -104,13 +104,22 @@ export function submitEditedReview(fields) {
         data: {
           reviews: {
             reviews,
+            reviewsIWrote,
             editing
           }
         }
       } = getState()
       const multihash = editing
-      const review = find(reviews, r => r.multihash === multihash)
-      const bitcoinTransactionHash = review.txHash || get(review, 'metadata.bitcoinTransactionHash')
+      let review = reviewArg
+      if (!review) review = find(reviews, r => r.multihash === multihash)
+      if (!review) review = find(reviewsIWrote, r => r.multihash === multihash)
+      if (!review) throw new Error('Review not found')
+      console.log(review)
+      let bitcoinTransactionHash = review.txHash || get(review, 'metadata.bitcoinTransactionHash')
+      if (!bitcoinTransactionHash && review.history && review.history.length > 0) {
+        const original = review.history[review.history.length-1]
+        bitcoinTransactionHash = get(original, 'reviewRecord.metadata.metadata.bitcoinTransactionHash')
+      } 
       const updatedReview = cloneDeep(review)
       set(updatedReview, 'previous_version_multihash', multihash)
       set(updatedReview, 'rating_details.value', fields.rating)

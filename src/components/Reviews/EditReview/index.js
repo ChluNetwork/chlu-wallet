@@ -11,13 +11,17 @@ const EditReview = props => {
   const {
     multihash,
     reviews,
+    reviewsIWrote,
     loading,
     editing,
     showEditForm,
     submit,
     cancel
   } = props
-  const review = find(Object.values(reviews), v => v.multihash === multihash)
+  let review = props.review
+  if(!review) review = find(reviews, v => v.multihash === multihash)
+  if(!review) review = find(reviewsIWrote, v => v.multihash === multihash)
+  console.log(review, multihash)
   if (review) {
     return <div>
       {editing === multihash && <CardContent>
@@ -46,6 +50,7 @@ const EditReview = props => {
 
 function mapStateToProps (state) {
   return {
+    reviewsIWrote: state.data.reviews.reviewsIWrote,
     reviews: state.data.reviews.reviews,
     editing: state.data.reviews.editing,
     loading: state.data.reviews.loading
