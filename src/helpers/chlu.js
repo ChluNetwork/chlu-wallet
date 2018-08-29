@@ -19,7 +19,7 @@ export async function getChluIPFS() {
   }
   if (!window.chluIpfs) {
     window.chluIpfs = new ChluIPFS(options)
-    // Resolve DIDs through the API Client
+    // Resolve DIDs through the API Client. Needed for review publishing
     window.chluIpfs.didIpfsHelper.getDID = (...args) => chluApiClient.didIpfsHelper.getDID(...args)
     await window.chluIpfs.start()
   } else {
@@ -44,26 +44,3 @@ export async function getChluAPIClient() {
   window.getChluIPFS = getChluIPFS
   return window.chluApiClient;
 }
-
-export async function readReviews(didId) {
-  // TODO: replace this with API Client call
-  const chluIpfs = await getChluIPFS()
-  const multihashes = await chluIpfs.getReviewsByDID(didId)
-  const reviews = []
-  for (const multihash of multihashes) {
-    // TODO: show them as loading and dispatch redux actions to resolve them
-    reviews.push(await chluIpfs.readReviewRecord(multihash))
-  }
-  return reviews
-}
-
-export async function importUnverifiedReviews(reviews) {
-  const chluIpfs = await getChluIPFS()
-  return await chluIpfs.importUnverifiedReviews(reviews.map(r => {
-    r.chlu_version = 0
-    // set this to myself so that it gets indexed right in Chlu
-    r.subject.did = chluIpfs.didIpfsHelper.didId
-    return r
-  }))
-}
-
