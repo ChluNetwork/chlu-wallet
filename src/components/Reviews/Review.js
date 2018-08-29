@@ -74,21 +74,19 @@ class Review extends Component {
 
   platform(review) {
     if (review.platform && review.platform.name && review.platform.url) {
-      return <span>
-            Review Origin: <a href={this.addHttp(review.platform.url)} target='_blank'>{review.platform.name} </a>
-      </span>
+      return  <a href={this.addHttp(review.platform.url)} target='_blank'>{review.platform.name}</a>
     } else {
-      return 'Review Origin: unknown'
+      return 'Unknown'
     }
   }
 
   reviewUrl(review) {
     if (review.url) {
       return <span>
-        Review link: <a href={this.addHttp(review.review.url)} target='_blank'>{this.addHttp(review.review.url)} </a>
+        <a href={this.addHttp(review.review.url)} target='_blank'>{this.addHttp(review.review.url)} </a>
       </span>
     } else {
-      return 'Review link: No url available'
+      return 'Unknown'
     }
   }
 
@@ -120,27 +118,31 @@ class Review extends Component {
         {review.review && <CardContent>
           <List disablePadding>
             <ListItem>
+              <ListItemIcon><CommentIcon/></ListItemIcon>
               <ListItemText
-                  primary={review.review.title || 'No title provided'}
-                  secondary={review.review.text || 'No review provided'}
-              />
-            </ListItem>
-            {this.datePublished(review.review.date_published)}
-            {this.url(review.review.url)}
-            {this.detailedReview(review.detailed_review)}
-            <ListItem>
-              <ListItemText
-                  primary={this.platform(review)}
+                primary={review.review.title || 'No title provided'}
+                secondary={review.review.text || 'No review provided'}
               />
             </ListItem>
             <ListItem>
+              <ListItemIcon><PlatformIcon/></ListItemIcon>
               <ListItemText
-                  primary={`Verifiable: ${(isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes' )}`}
+                primary='Platform'
+                secondary={this.platform(review)}
               />
             </ListItem>
             <ListItem>
+              <ListItemIcon><VerifiableIcon/></ListItemIcon>
               <ListItemText
-                  primary={this.reviewUrl(review)}
+                primary='Verifiable'
+                secondary={isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes'}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon><LinkIcon/></ListItemIcon>
+              <ListItemText
+                primary='Review Origin'
+                secondary={this.reviewUrl(review)}
               />
             </ListItem>
             { review.editable && <ListItem>
@@ -150,6 +152,7 @@ class Review extends Component {
                 secondary='This Review you left will award you Chlu Tokens'
               />
             </ListItem> }
+            {this.detailedReview(review.detailed_review)}
           </List>
         </CardContent>}
       </Card>
