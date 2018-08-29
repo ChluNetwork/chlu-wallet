@@ -146,8 +146,8 @@ class Review extends Component {
             { review.editable && <ListItem>
               <ListItemIcon><TokenIcon/></ListItemIcon>
               <ListItemText
-                primary='Chlu Token'
-                secondary='This Review is eligible for a Chlu Token'
+                primary='Chlu Token Eligible'
+                secondary='This Review you left will award you Chlu Tokens'
               />
             </ListItem> }
           </List>
