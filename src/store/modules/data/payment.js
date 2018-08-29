@@ -30,11 +30,11 @@ export const setPaymentLoading = createAction(SET_PAYMENT_LOADING)
 export const paymentStepLoadingMessages = [
   null,
   'Preparing Payment and Review data',
-  'Connecting to Chlu IPFS Distributed System',
+  'Syncing with Chlu IPFS Distributed System',
   'Preparing Chlu Review',
   'Creating Cryptocurrency Transaction',
   'Publishing Cryptocurrency Transaction',
-  'Publishing Chlu Review. Please wait until the review is replicated by a Chlu Collector, this might take a while',
+  'Publishing Chlu Review. Please wait until the review is replicated by a Chlu Collector',
 ]
 
 export function submitPayment (data) {
@@ -144,7 +144,7 @@ export function submitPayment (data) {
           bitcoinTransactionHash: pushedTransaction.hash,
           expectedMultihash: multihash
         })
-        toastr.success('success', 'Payment success')
+        toastr.success('Payment Completed', 'Your payment and review have been submitted to the Chlu IPFS distributed system and will appear shortly')
         dispatch(setPaymentSuccess())
         return true
       } catch (exception) {
