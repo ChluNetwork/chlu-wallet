@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // components
 import { Grid, Card, CardHeader, Avatar, CircularProgress } from '@material-ui/core'
-import Review from './Review'
+import Review from 'components/Review'
 // icons
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // styles
@@ -45,7 +45,7 @@ class Reviews extends Component {
           {review.loading && <Card>
             <CardHeader
               avatar={<CircularProgress/>}
-              title='Fetching Review from IPFS...'
+              title='Fetching Review...'
             />
           </Card>}
           {review.error && <Card>

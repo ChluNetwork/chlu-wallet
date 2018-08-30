@@ -3,7 +3,7 @@ import { object, string } from 'prop-types'
 import { get } from 'lodash'
 // components
 import { CardContent, CardHeader, Avatar } from '@material-ui/core';
-import EditReview from '../EditReview'
+import EditReview from 'components/EditReview'
 import StarRatingComponent from 'react-star-rating-component'
 // icons
 import ReviewIcon from '@material-ui/icons/Check'
