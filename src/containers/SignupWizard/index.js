@@ -108,11 +108,13 @@ class SignupWizard extends Component {
   }
 
   async finishClicked() {
-    const { walletCreated } = this.props
+    const { walletCreated, wallet } = this.props
     const { profile, signupType } = this.state
 
     // Check if signup is in progress
-    if (get(walletCreated, 'did.publicDidDocument.id')) {
+    const signedInDid = get(wallet, 'did.publicDidDocument.id')
+    const tempDid = get(walletCreated, 'did.publicDidDocument.id')
+    if (tempDid && !signedInDid) {
       const preparedProfile = {
         ...profile,
         signupType,
