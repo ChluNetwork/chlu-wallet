@@ -17,10 +17,12 @@ import CommentIcon from '@material-ui/icons/Comment'
 import PlatformIcon from '@material-ui/icons/Store'
 import VerifiableIcon from '@material-ui/icons/VerifiedUser'
 import TokenIcon from '@material-ui/icons/PlusOne'
+import ViewMoreIcon from '@material-ui/icons/OpenInNew'
 
-import EditReview from 'components/Reviews/EditReview'
+import EditReview from 'components/EditReview'
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import { isArray, isNil, get } from 'lodash'
 
@@ -64,7 +66,12 @@ class Review extends Component {
                   <div>
                     <div>{dr.category}</div>
                     <div>
-                      <StarRatingComponent name='rating' editing={false} starCount={dr.rating.max} value={dr.rating.value} />
+                      <StarRatingComponent
+                        name='rating'
+                        editing={false}
+                        starCount={dr.rating.max}
+                        value={dr.rating.value}
+                      />
                     </div>
                   </div>}
                 secondary={dr.review}
@@ -99,15 +106,23 @@ class Review extends Component {
     return url;
   }
   
+  openReview = () => this.props.push(`/review/${this.props.review.multihash}`)
+
   render() {
-    const { review, index, editing } = this.props
+    const {
+      review,
+      editing = false,
+      editingMultihash = null,
+      detailed = false
+    } = this.props
     const maxStars = get(review, 'rating_details.max', starCount)
     const max = maxStars > 0 ? maxStars : starCount
-    console.log(review.editable, editing)
+    const editingThisReview = editing && editingMultihash === review.multihash
+    const authorName = review.author.name || review.author.did || review.customer_signature.creator || 'Anonymous'
     return (
       <Card>
         <CardHeader
-          avatar={<Avatar aria-label='review-author'> {index} </Avatar>}
+          avatar={<Avatar aria-label='review-author'>A</Avatar>}
           title={
             <StarRatingComponent
               name='rating'
@@ -116,17 +131,17 @@ class Review extends Component {
               editing={false}
             />
           }
-          subheader={isNil(get(review, 'author.name')) ? 'Anonymous' : review.author.name }
+          subheader={authorName}
         />
         {review.review && <CardContent>
           <List disablePadding>
             <ListItem>
               <ListItemIcon><CommentIcon/></ListItemIcon>
-              {(!editing || editing !== review.multihash) && <ListItemText
+              {!editingThisReview && <ListItemText
                 primary={review.review.title || 'No title provided'}
                 secondary={review.review.text || 'No review provided'}
               />}
-              {review && review.editable && (!editing || editing === review.multihash)
+              {detailed && review.editable && (!editing || editingThisReview)
                 ? <EditReview multihash={review.multihash} />
                 : null
               }
@@ -145,21 +160,28 @@ class Review extends Component {
                 secondary={isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes'}
               />
             </ListItem>
-            <ListItem>
+            { detailed && <ListItem>
               <ListItemIcon><LinkIcon/></ListItemIcon>
               <ListItemText
                 primary='Review Origin'
                 secondary={this.reviewUrl(review)}
               />
-            </ListItem>
+            </ListItem> }
             { review.editable && <ListItem>
               <ListItemIcon><TokenIcon/></ListItemIcon>
               <ListItemText
                 primary='Chlu Token Eligible'
-                secondary='This Review you left will award you Chlu Tokens'
+                secondary='This Review you will award you Chlu Tokens'
               />
             </ListItem> }
-            {this.detailedReview(review.detailed_review)}
+            { detailed && this.detailedReview(review.detailed_review)}
+            { !detailed && <ListItem button onClick={this.openReview}>
+              <ListItemIcon><ViewMoreIcon/></ListItemIcon>
+              <ListItemText
+                primary='View More'
+                secondary='Click here to view detailed information or edit this review'
+              />
+            </ListItem> }
           </List>
         </CardContent>}
       </Card>
@@ -168,7 +190,12 @@ class Review extends Component {
 }
 
 const mapStateToProps = state => ({
-  editing: state.data.reviews.editing
+  editingMultihash: state.data.review.multihash,
+  editing: state.data.review.editing
 })
 
-export default connect(mapStateToProps)(Review)
+const mapDispatchToProps = {
+  push
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Review)

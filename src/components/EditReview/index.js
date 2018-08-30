@@ -1,30 +1,28 @@
 import React from 'react'
-import { get, find } from 'lodash'
+import { get } from 'lodash'
 import { connect } from 'react-redux'
-import EditReviewForm from 'containers/Transactions/EditReviewForm'
+import EditReviewForm from 'containers/EditReviewForm'
 import Button from '@material-ui/core/Button'
 // actions
-import { submitEditedReview , cancelEditReview, editReview } from 'store/modules/data/reviews'
+import { submitEditedReview, cancelEditReview, editReview } from 'store/modules/data/review'
 import { CardActions, CardContent } from '@material-ui/core';
 
 const EditReview = props => {
   const {
     multihash,
-    reviews,
-    reviewsIWrote,
-    loading,
+    reviewMultihash,
+    review,
+    publishing,
     editing,
+    publishingError, // TODO: use this
     showEditForm,
     submit,
     cancel
   } = props
-  let review = props.review
-  if(!review) review = find(reviews, v => v.multihash === multihash)
-  if(!review) review = find(reviewsIWrote, v => v.multihash === multihash)
-  console.log(review, multihash)
+  const editingMultihash = editing ? reviewMultihash : null
   if (review) {
     return <div>
-      {editing === multihash && <CardContent>
+      {editingMultihash === multihash && <CardContent>
           <EditReviewForm
             onSubmit={submit}
             handleCancel={cancel}
@@ -32,10 +30,10 @@ const EditReview = props => {
               comment: get(review, 'review.text'),
               rating: get(review, 'rating_details.value')
             }}
-            isLoading={loading}
+            isLoading={publishing}
           />
         </CardContent>}
-      {review.editable && editing !== multihash && <CardActions>
+      {review.editable && editingMultihash !== multihash && <CardActions>
           <Button
             onClick={() => showEditForm(multihash)}
             disabled={Boolean(editing)}
@@ -50,10 +48,12 @@ const EditReview = props => {
 
 function mapStateToProps (state) {
   return {
-    reviewsIWrote: state.data.reviews.reviewsIWrote,
-    reviews: state.data.reviews.reviews,
-    editing: state.data.reviews.editing,
-    loading: state.data.reviews.loading
+    review: state.data.review.data,
+    reviewMultihash: state.data.review.multihash,
+    editing: state.data.review.editing,
+    publishingError: state.data.review.publishingError,
+    publishing: state.data.review.publishing,
+    loading: state.data.review.loading
   }
 }
 

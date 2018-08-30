@@ -63,7 +63,6 @@ function TabContainer(props) {
   );
 }
 
-
 class Settings extends Component {
   constructor(props) {
     super(props);
