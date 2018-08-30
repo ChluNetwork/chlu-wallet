@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // components
-import { Grid, Card, CardHeader, Avatar, CircularProgress } from '@material-ui/core'
+import { Button, Grid, Card, CardHeader, Avatar, CircularProgress } from '@material-ui/core'
 import Review from 'components/Review'
 // icons
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
@@ -17,7 +17,7 @@ const styles = {
 class Reviews extends Component {
 
   render() {
-    const { classes, reviews, loading, crawling } = this.props
+    const { classes, reviews, loading, crawling, onLoadMoreReviews } = this.props
     const reviewList = reviews ? Object.values(reviews) : []
 
     return <Grid container spacing={16} className={classes.root}>
@@ -58,6 +58,7 @@ class Reviews extends Component {
           {!review.loading && !review.error && <Review review={review} key={reviewList.length + index} />}
         </Grid>
       })}
+      { onLoadMoreReviews && <Button fullWidth onClick={onLoadMoreReviews}>Load More</Button> }
     </Grid>
   }
 }
