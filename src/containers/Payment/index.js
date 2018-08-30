@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // components
-import { Card, CardHeader, Divider, CardContent, CircularProgress, CardActions, Button, TextField } from '@material-ui/core'
+import { CardHeader, Divider, CardContent, CircularProgress, CardActions, Button, TextField } from '@material-ui/core'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
-import { Avatar, withStyles } from '@material-ui/core'
+import { Avatar } from '@material-ui/core'
 import PaymentForm from './PaymentForm'
 import PaymentMethods from './PaymentMethods'
 // hoc
@@ -27,12 +27,6 @@ import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
 import { getAddress } from 'helpers/wallet';
 import { get } from 'lodash'
-
-const style = {
-  card: {
-    margin: '30px'
-  }
-}
 
 const starCount = 5
 
@@ -81,7 +75,6 @@ class Payment extends Component {
 
   render() {
     const {
-      classes,
       wallet,
       checkout: {
         data: popr,
@@ -118,31 +111,25 @@ class Payment extends Component {
       || (vendorAddress ? 'Unknown Error' : 'Missing vendor payment address')
 
     if (checkoutError || !vendorAddress) {
-      return <Card className={classes.card}>
-        <CardHeader
-          avatar={<Avatar><ErrorIcon/></Avatar>}
-          title='Something went wrong while fetching Payment Information'
-          subheader={error}
-        />
-      </Card>
+      return <CardHeader
+        avatar={<Avatar><ErrorIcon/></Avatar>}
+        title='Something went wrong while fetching Payment Information'
+        subheader={error}
+      />
     } else if (checkoutLoading || get(wallet, 'loading')) {
-      return <Card className={classes.card}>
-        <CardHeader
-          avatar={<CircularProgress/>}
-          title='Fetching Payment Information...'
-          subheader='Please wait'
-        />
-      </Card>
+      return <CardHeader
+        avatar={<CircularProgress/>}
+        title='Fetching Payment Information...'
+        subheader='Please wait'
+      />
     } else if (loading) {
-      return <Card className={classes.card}>
-        <CardHeader
-          avatar={<CircularProgress/>}
-          title={`Paying and Submitting Review (Step ${loadingStep}/${loadingSteps})`}
-          subheader={loadingMessage || 'Please wait...'}
-        />
-      </Card>
+      return <CardHeader
+        avatar={<CircularProgress/>}
+        title={`Paying and Submitting Review (Step ${loadingStep}/${loadingSteps})`}
+        subheader={loadingMessage || 'Please wait...'}
+      />
     } else if (!popr) {
-      return <Card className={classes.card}>
+      return <div>
         <CardHeader
           avatar={<Avatar><WalletIcon/></Avatar>}
           title='Send Payment'
@@ -189,9 +176,9 @@ class Payment extends Component {
         <CardActions>
           <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout}>Prepare Payment</Button>
         </CardActions>
-      </Card>
+      </div>
     } else {
-      return <Card className={classes.card}>
+      return <div>
         <CardHeader
           avatar={<Avatar><WalletIcon/></Avatar>}
           title='Send Prepared Payment'
@@ -233,7 +220,7 @@ class Payment extends Component {
           onSubmit={this.handleSubmit}
           onCancel={this.cancel}
         />
-      </Card>
+      </div>
     }
   }
 }
@@ -263,7 +250,6 @@ const mapDispatchToProps = {
 }
 
 export default compose(
-  withStyles(style),
   withFxRates,
   connect(
     mapStateToProps,

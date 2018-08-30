@@ -49,8 +49,7 @@ function TransactionLog({ classes, loading, error, transactions, address, review
           convertSatoshiToBTC={props.convertSatoshiToBTC}
           convertFromBtcToUsd={props.convertFromBtcToUsd}
           convertFromBitsToUsd={props.convertFromBitsToUsd}
-          review={reviews.reviews[item.hash]}
-          editing={reviews.editing}
+          review={reviews[item.hash]}
         />
       ))}
     </div>
@@ -58,7 +57,7 @@ function TransactionLog({ classes, loading, error, transactions, address, review
 }
 
 const mapStateToProps = store => ({
-  reviews: store.data.reviews
+  reviews: store.data.transactions.reviews
 })
 
 export default compose(
