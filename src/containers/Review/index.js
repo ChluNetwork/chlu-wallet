@@ -23,21 +23,21 @@ class ReviewContainer extends Component {
   }
 
   render() {
-    const { classes, multihash, review, match } = this.props
+    const { classes, multihash, review, error, loading, match } = this.props
     const ok = multihash === match.params.multihash
-    if (!review || !ok || review.loading) {
-      return <Card className={classes.pageContent}>
-        <CardHeader
-          avatar={<CircularProgress/>}
-          title='Fetching Review...'
-        />
-      </Card>
-    } else if (review.error) {
+    if (error) {
       return <Card className={classes.pageContent}>
         <CardHeader
           avatar={<Avatar><ErrorIcon/></Avatar>}
           title='Something went wrong'
-          subheader={review.error}
+          subheader={error}
+        />
+      </Card>
+    } else if (!review || !ok || loading) {
+      return <Card className={classes.pageContent}>
+        <CardHeader
+          avatar={<CircularProgress/>}
+          title='Fetching Review...'
         />
       </Card>
     } else {
@@ -49,6 +49,8 @@ class ReviewContainer extends Component {
 const mapStateToProps = state => ({
   multihash: state.data.review.multihash,
   review: state.data.review.data,
+  loading: state.data.review.loading,
+  error: state.data.review.error,
   editing: state.data.review.editing
 })
 

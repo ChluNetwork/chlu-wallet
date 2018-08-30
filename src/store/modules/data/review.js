@@ -60,13 +60,14 @@ export function submitEditedReview(fields) {
   return async (dispatch, getState) => {
     try {
       dispatch(editReviewLoading())
-      const { editing, multihash, review } = getState().data.review
+      const { editing, multihash, data: review } = getState().data.review
       if (!editing) throw new Error('User is not editing a review')
-      let bitcoinTransactionHash = get(review, 'metadata.bitcoinTransactionHash')
+      let bitcoinTransactionHash = get(review, 'metadata.metadata.bitcoinTransactionHash')
       if (!bitcoinTransactionHash && review.history && review.history.length > 0) {
         const original = review.history[review.history.length-1]
         bitcoinTransactionHash = get(original, 'reviewRecord.metadata.metadata.bitcoinTransactionHash')
       } 
+      if (!bitcoinTransactionHash) throw new Error('Missing bitcoin transaction hash')
       const updatedReview = cloneDeep(review)
       set(updatedReview, 'previous_version_multihash', multihash)
       set(updatedReview, 'rating_details.value', fields.rating)
@@ -79,7 +80,7 @@ export function submitEditedReview(fields) {
       })
       dispatch(editReviewSuccess({ multihash, updatedMultihash, updatedReview }))
     } catch (error) {
-      dispatch(editReviewError(error))
+      dispatch(editReviewError(error.message))
       console.log(error)
     }
   }
@@ -97,6 +98,7 @@ export default handleActions({
   }),
   [READ_REVIEWRECORD_SUCCESS]: (state, { payload: { review, multihash } }) => ({
     ...state,
+    loading: false,
     multihash,
     data: review
   }),
@@ -121,11 +123,12 @@ export default handleActions({
     data: null,
     error
   }),
-  [EDIT_REVIEW_SUCCESS]: (state, { payload: { multihash, updatedMultihash } }) => {
+  [EDIT_REVIEW_SUCCESS]: (state, { payload: { updatedReview } }) => {
     return {
       ...state,
-      loading: false,
+      publishing: false,
       editing: false,
+      data: updatedReview,
       error: null // TODO: update the edited review
     }
   },
