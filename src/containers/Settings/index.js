@@ -90,7 +90,6 @@ class Settings extends Component {
   }
 
   handleTabChange = (event, value) => {
-    // TODO: redirect here
     const urls = [
       '/settings/profile',
       '/settings/wallet'
