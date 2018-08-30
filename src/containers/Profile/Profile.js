@@ -140,29 +140,43 @@ class Profile extends Component {
     return (
       <div>
         <Grid container justify='center' spacing={16}>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={12} md={2}>
             <PictureUpload />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5}>
-            <CustomInput
-              labelText='Name'
-              id='businessname'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.businessname || "",
-                disabled: true
-              }}
-            />
+          <Grid item xs={12} sm={12} md={10}>
+            <Grid item xs={12} sm={12} md={12}>
+              <CustomInput
+                labelText='Name'
+                id='businessname'
+                formControlProps={{ fullWidth: true }}
+                inputProps={{
+                  multiline: true,
+                  value: profile.businessname || "",
+                  disabled: true
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <CustomInput
+                labelText='Business Type'
+                id='businesstype'
+                formControlProps={{ fullWidth: true }}
+                inputProps={{
+                  value: profile.businesstype || "",
+                  disabled: true
+                }}
+              />
+            </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={12}>
             <CustomInput
-              labelText='Business Type'
+              labelText='Description'
               id='description'
               formControlProps={{ fullWidth: true }}
               inputProps={{
-                value: profile.businesstype || "",
+                value: profile.businessdescription || "",
                 disabled: true
               }}
             />
