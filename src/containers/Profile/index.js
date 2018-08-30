@@ -40,6 +40,13 @@ class ProfileContainer extends Component {
     }
   }
 
+  loadMoreReviews = () => {
+    const didId = this.props.match.params.id
+    if (!this.props.reviewsLoading) {
+      this.props.readReputation(didId, false)
+    }
+  }
+
   componentDidMount() {
     this.updateProfileAndReviews()
   }
@@ -102,7 +109,7 @@ class ProfileContainer extends Component {
       <CardContent>
         { loading && <LinearProgress/>}
         { tabIndex === 0 && !loading && <Profile profile={profile} /> }
-        { tabIndex === 1 && !loading && <Reviews reviews={reviews} /> }
+        { tabIndex === 1 && !loading && <Reviews reviews={reviews} onLoadMoreReviews={this.loadMoreReviews}/> }
         { tabIndex === 2 && !loading && <Payment profile={profile} didId={didId} /> }
       </CardContent>
     </Card>

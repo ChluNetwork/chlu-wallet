@@ -9,12 +9,14 @@ import { DELETE_WALLET } from './wallet';
 const READ_REPUTATION_LOADING = 'reviewsaboutvendor/READ_REPUTATION_LOADING'
 const READ_REPUTATION_SUCCESS = 'reviewsaboutvendor/READ_REPUTATION_SUCCESS'
 const READ_REPUTATION_ERROR = 'reviewsaboutvendor/READ_REPUTATION_ERROR'
+const itemsPerPage = 5
 
 function getInitialState() {
   return {
     loading: false,
     error: null,
-    reviews: null
+    reviews: null,
+    page: 0
   }
 }
 
@@ -37,25 +39,30 @@ export function readMyReputation () {
   }
 }
 
-export function readReputation (didId) {
+export function readReputation (didId, firstPage = true) {
   return async (dispatch, getState) => {
     if (didId) {
       dispatch(readReputationLoading(didId))
       try {
-        const myDidId = get(getState(), 'data.wallet.did.publicDidDocument.id', null)
+        const state = getState()
+        const prevDidid = get(state, 'data.reputation.didId')
+        const didChanged = !prevDidid || didId !== prevDidid
+        const page = get(state, 'data.reputation.page', 0)
+        const myDidId = get(state, 'data.wallet.did.publicDidDocument.id', null)
         const chluApiClient = await getChluAPIClient()
-        const list = await chluApiClient.getReviewsAboutDID(didId)
-        const reviews = {}
-        for (const review of list) {
+        const limit = itemsPerPage
+        const offset = firstPage || didChanged ? 0 : page * itemsPerPage
+        let reviews = await chluApiClient.getReviewsAboutDID(didId, offset, limit)
+        const isEmpty = reviews.length === 0
+        reviews = reviews.map(review => {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const customerDidId = get(review, 'reviewRecord.customer_signature.creator', null)
           const editable = customerDidId && myDidId && myDidId === customerDidId
-          const resolved = get(content, 'resolved', false)
-          const preparedContent = { ...content, editable }
-          reviews[multihash] = { multihash, loading: !resolved, error: null, ...preparedContent }
-        }
-        dispatch(readReputationSuccess({ reviews, didId }))
+          return { multihash, loading: false, error: null, ...content, editable }
+        })
+        const newPage = firstPage ? 0 : (isEmpty ? page : page + 1)
+        dispatch(readReputationSuccess({ reviews, didId, page: newPage }))
       } catch (error) {
         console.log(error)
         dispatch(readReputationError(error.message || error))
@@ -75,10 +82,11 @@ export default handleActions({
     didId,
     loading: true
   }),
-  [READ_REPUTATION_SUCCESS]: (state, { payload: { reviews, didId } }) => ({
+  [READ_REPUTATION_SUCCESS]: (state, { payload: { reviews, didId, page } }) => ({
     ...state,
     loading: didId === state.didId ? false : state.loading,
-    reviews: didId === state.didId ? reviews : state.reviews
+    reviews: didId === state.didId ? (page > 0 ? (state.reviews || []).concat(reviews) : reviews) : state.reviews,
+    page: didId === state.didId ? page : state.page
   }),
   [READ_REPUTATION_ERROR]: (state, { payload: { error, didId } }) => ({
     ...state,
