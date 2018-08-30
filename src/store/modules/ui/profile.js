@@ -107,7 +107,7 @@ export function signupToMarketplace(profile) {
     await chluApiClient.importDID(walletCreated.did)
     await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
-    dispatch(setWalletToCreatedWallet())
+    await dispatch(setWalletToCreatedWallet())
     const dest = isBusiness ? '/reputation' : '/search'
     dispatch(push(dest))
     dispatch(setLoginLoading(false))
@@ -118,7 +118,6 @@ export function signupToMarketplace(profile) {
 export function signIn(exportedWallet) {
   return async dispatch => {
     dispatch(setLoginLoading(true))
-    dispatch(setWallet(exportedWallet))
     const chluApiClient = await getChluAPIClient()
     await importDID(exportedWallet.did)
     // register to marketplace does nothing if the registration was already completed
@@ -135,6 +134,7 @@ export function signIn(exportedWallet) {
       }
       await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     }
+    await dispatch(setWallet(exportedWallet))
     const dest = profile.type === 'business' ? '/reputation' : '/search'
     dispatch(push(dest))
     dispatch(setLoginLoading(false))
