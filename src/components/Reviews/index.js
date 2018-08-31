@@ -17,8 +17,8 @@ const styles = {
 class Reviews extends Component {
 
   render() {
-    const { classes, reviews, loading, crawling, onLoadMoreReviews, canLoadMore } = this.props
-    const reviewList = reviews ? Object.values(reviews) : []
+    const { classes, reviews = [], loading, crawling = false, onLoadMoreReviews, canLoadMore } = this.props
+    const empty = reviews ? !reviews.length : true
 
     return <Grid container spacing={16} className={classes.root}>
       {loading && <Grid item xs={12}>
@@ -30,7 +30,7 @@ class Reviews extends Component {
         </Card>
       </Grid>}
 
-      {!loading && reviewList.length === 0 && <Grid item xs={12}>
+      {!loading && (empty || crawling) && <Grid item xs={12}>
         <Card>
           <CardHeader
             avatar={<ErrorIcon/>}
@@ -40,7 +40,7 @@ class Reviews extends Component {
         </Card>
       </Grid>}
 
-      {!loading && reviewList.map((review, index) => {
+      {!loading && !crawling && Array.isArray(reviews) && reviews.map((review, index) => {
         return <Grid key={index} item xs={12} >
           {review.loading && <Card>
             <CardHeader
@@ -55,10 +55,14 @@ class Reviews extends Component {
               subheader={review.error}
             />
           </Card>}
-          {!review.loading && !review.error && <Review review={review} key={reviewList.length + index} />}
+          {!review.loading && !review.error && <Review review={review} key={reviews.length + index} />}
         </Grid>
       })}
-      { onLoadMoreReviews && <Button fullWidth onClick={onLoadMoreReviews} disabled={!canLoadMore}>Load More</Button> }
+      { onLoadMoreReviews && !empty && <Button
+          fullWidth
+          onClick={onLoadMoreReviews}
+          disabled={!canLoadMore || loading}
+        >Load More</Button> }
     </Grid>
   }
 }

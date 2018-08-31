@@ -11,19 +11,30 @@ class ReviewsIWrote extends Component {
   componentDidMount() {
     this.props.readReviewsIWrote()
   }
+  
+  loadMore = () => {
+    if (!this.props.loading) this.props.readReviewsIWrote(false)
+  }
 
   render() {
-    const { reviews, editing, loading, error } = this.props
+    const { reviews, loading, loadingPage, canLoadMore, error } = this.props
 
-    return <Reviews reviews={reviews} loading={loading} error={error} editing={editing} />
+    return <Reviews
+      reviews={reviews}
+      loading={loading && loadingPage === 0}
+      error={error}
+      canLoadMore={canLoadMore}
+      onLoadMoreReviews={this.loadMore}
+    />
   }
 
 }
 
 const mapStateToProps = state => ({
   reviews: state.data.reviewsIWrote.reviews,
-  editing: state.data.reviewsIWrote.editing,
   loading: state.data.reviewsIWrote.loading,
+  loadingPage: state.data.reviewsIWrote.loadingPage,
+  canLoadMore: state.data.reviewsIWrote.canLoadMore,
   error: state.data.reviewsIWrote.error,
 })
 
