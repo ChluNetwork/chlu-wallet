@@ -8,12 +8,13 @@ import { withStyles } from '@material-ui/core'
 
 // redux
 import { connect } from 'react-redux'
-import { startCrawler } from 'store/modules/data/crawler';
 
 // redux form
 import { reduxForm } from 'redux-form'
 
 import RenderEmailPasswordCombo from '../renderEmailPasswordCombo'
+import YelpForm from './YelpForm';
+import TripadvisorForm from './TripadvisorForm';
 
 const style = {
   profileText: {
@@ -37,43 +38,29 @@ const style = {
   ...regularFormsStyle
 };
 
-const submit = (values, dispatch, props) => {
-  dispatch(startCrawler('yelp', values['yelp-email']))
-}
-
-
 class BusinessCrawlerForm extends React.Component {
-  
+
   render () {
     const { handleSubmit, crawlerRunning } = this.props
 
     if (crawlerRunning) {
-      return <Grid container justify='center'>
-        <Grid item xs={12} md={12} >
-          <LinearProgress size={100} />
+      return (
+        <Grid container justify='center'>
+          <Grid item xs={12} md={12} >
+            <LinearProgress size={100} />
+          </Grid>
         </Grid>
-      </Grid>
+      )
     } else {
-      return (<span>
-        <form onSubmit={handleSubmit}>
-          <Grid container justify='center'>
-            
-            {<RenderEmailPasswordCombo emailName='yelp-email'
-                                       emailLabel='Yelp email'
-                                       emailHelp='We never store your Yelp email'
-                                       passwordName='yelp-password'
-                                       passwordLabel='Yelp password'
-                                       passwordHelp='We never store your Yelp password' />
-            }
-            {<RenderEmailPasswordCombo emailName='tripadvisor-email' emailLabel='Tripadvisor email'
-                                       emailHelp='We never store your Tripadvisor email'
-                                       passwordName='tripadvisor-password' passwordLabel='Tripadvisor password'
-                                       passwordHelp='We never store your Tripadvisor password' />
-            }
-            
-          </Grid>      
-        </form>
-      </span>
+      return (
+        <span>
+          <form onSubmit={handleSubmit}>
+            <Grid container justify='center'>
+              <YelpForm onChange={(url, user, pass) => this.props.onChange("yelp", url, user, pass)} />
+              <TripadvisorForm onChange={(url, user, pass) => this.props.onChange("tripadvisor", url, user, pass)} />
+            </Grid>
+          </form>
+        </span>
       )
     }
   }
@@ -86,8 +73,7 @@ const mapDispatchToProps = {
 }
 
 const BusinessCrawlerReduxForm = reduxForm({
-  form: 'businessCrawlerForm',
-  onSubmit: submit
+  form: 'businessCrawlerForm'
 })(BusinessCrawlerForm)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(BusinessCrawlerReduxForm))

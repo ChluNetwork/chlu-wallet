@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { readReviewsIWrote } from 'store/modules/data/reviews'
+import { readReviewsIWrote } from 'store/modules/data/reviewsIWrote'
 // components
 import Reviews from 'components/Reviews'
 
@@ -21,10 +21,10 @@ class ReviewsIWrote extends Component {
 }
 
 const mapStateToProps = state => ({
-  reviews: state.data.reviews.reviewsIWrote,
-  editing: state.data.reviews.editing,
-  loading: state.data.reviews.reviewsIWroteLoading,
-  error: state.data.reviews.reviewsIWroteError,
+  reviews: state.data.reviewsIWrote.reviews,
+  editing: state.data.reviewsIWrote.editing,
+  loading: state.data.reviewsIWrote.loading,
+  error: state.data.reviewsIWrote.error,
 })
 
 const mapDispatchToProps = {

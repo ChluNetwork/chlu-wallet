@@ -24,6 +24,7 @@ import Profile from '../Profile'
 import Payment from '../Payment'
 import Terms from '../Terms'
 import Search from '../Search'
+import ReviewContainer from '../Review'
 
 class MainLayout extends Component {
   static propTypes = {
@@ -55,9 +56,14 @@ class MainLayout extends Component {
             <Route exact path='/' component={HomePage} />
             <Route path='/login' component={LoginPage} />
             <Route path='/terms' component={Terms} />
-            <Route path='/profile/:id' component={Profile} />
+            <Route path='/review/:multihash' component={ReviewContainer} />
             {emptyWallet && <Redirect to='/'/>}
-            <Route path='/search' component={Search} />
+            <Route path='/profile/:id/pay' render={props => <Profile page='payment' {...props} />} />
+            <Route path='/profile/:id/reputation' render={props => <Profile page='reputation' {...props} />} />
+            <Route path='/profile/:id' component={Profile} />
+            <Route path='/search/businesses' render={() => <Search type='businesses'/>} />
+            <Route path='/search/individuals' render={() => <Search type='individuals'/>} />
+            <Redirect from='/search' to='/search/businesses' />
             <Route path='/pay/:multihash?' component={Payment} />
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />

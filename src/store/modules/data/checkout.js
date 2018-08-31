@@ -9,39 +9,43 @@ import { get } from 'lodash'
 const FETCH_CHECKOUT_DATA_SUCCESS = 'checkout/FETCH_CHECKOUT_DATA_SUCCESS'
 const FETCH_CHECKOUT_DATA_ERROR = 'checkout/FETCH_CHECKOUT_DATA_ERROR'
 const FETCH_CHECKOUT_DATA_LOADING = 'checkout/FETCH_CHECKOUT_DATA_LOADING'
+const CANCEL_PAYMENT = 'checkout/CANCEL'
 
-const initialState = {
-  loading: false,
-  error: null,
-  data: {}
+function getInitialState () {
+  return {
+    loading: false,
+    error: null,
+    data: null
+  }
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const fetchCheckoutDataSuccess = createAction(FETCH_CHECKOUT_DATA_SUCCESS)
-export const fetchCheckoutDataError = createAction(FETCH_CHECKOUT_DATA_ERROR)
-export const fetchCheckoutDataLoading = createAction(FETCH_CHECKOUT_DATA_LOADING)
+const fetchCheckoutDataSuccess = createAction(FETCH_CHECKOUT_DATA_SUCCESS)
+const fetchCheckoutDataError = createAction(FETCH_CHECKOUT_DATA_ERROR)
+const fetchCheckoutDataLoading = createAction(FETCH_CHECKOUT_DATA_LOADING)
+export const cancelPayment = createAction(CANCEL_PAYMENT)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
 
-export function getCheckout ({ vendorId, amount }) {
+export function getCheckout (vendorId, amount) {
   return async dispatch => {
     dispatch(fetchCheckoutDataLoading(true))
-    let popr = null
     try {
+      let popr = null
       const url = process.env.REACT_APP_MARKETPLACE_URL || 'http://localhost:4000'
-      console.log(`Requesting PoPR to ${url} for vendor ${vendorId}`)
+      console.log(`Requesting PoPR to ${url} for vendor ${vendorId} amount ${amount}`)
       popr = await requestPopr(url, vendorId, {
-        amount,
+        amount: amount.toString(),
         currency_symbol: 'tBTC'
       })
       console.log(`Requesting Profile for vendor ${vendorId} to get vendorAddress`)
       const profile = await getProfile(vendorId)
       popr.vendor_address = get(profile, 'vendorAddress', null)
-      console.log(`Requested PoPR to ${url} for vendor ${vendorId}`)
+      console.log(`Requested PoPR to ${url} for vendor ${vendorId} amount ${amount}`)
       console.log(popr)
       dispatch(fetchCheckoutDataSuccess(popr))
       return popr
@@ -69,5 +73,6 @@ export default handleActions({
   [FETCH_CHECKOUT_DATA_LOADING]: (state, { payload: loading }) => ({
     ...state,
     loading
-  })
-}, initialState)
+  }),
+  [CANCEL_PAYMENT]: state => ({ ...state, data: null })
+}, getInitialState())

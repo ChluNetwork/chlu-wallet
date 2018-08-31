@@ -22,7 +22,9 @@ export async function geocode(query) {
     return {
       latitude: responseJson.features[0].center[0],
       longitude: responseJson.features[0].center[1],
-      bounds: responseJson.features[0].bbox
+      bounds: responseJson.features[0].bbox,
+      place_name: responseJson.features[0].place_name,
+      text: responseJson.features[0].text
     };
   } else {
     return undefined;

@@ -17,6 +17,8 @@ import { submit } from 'redux-form'
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick } from 'lodash'
+import { businessTypes } from 'store/modules/ui/profile';
+import { startCrawler } from 'store/modules/data/crawler';
 
 class SignupWizard extends Component {
   constructor(props) {
@@ -24,24 +26,9 @@ class SignupWizard extends Component {
 
     this.state = {
       signupType: undefined, // "user" or "business"
-      profile: {}
-    };
-  }
-
-  componentDidMount() {
-    this.refreshReputation()
-  }
-
-  componentDidUpdate(prevProps) {
-    const newDidID = get(this.props, 'wallet.did.didDocument.id', null)
-    const oldDidID = get(prevProps, 'wallet.did.didDocument.id', null)
-    if (newDidID !== oldDidID) {
-      this.refreshReputation()
+      profile: {},
+      crawlerData: {}
     }
-  }
-
-  refreshReputation() {
-    if (!this.props.reputationLoading) this.props.readMyReputation()
   }
 
   async downloadWallet() {
@@ -64,8 +51,8 @@ class SignupWizard extends Component {
   }
 
   validate(step) {
-    const { wallet, crawlerRunning, acceptedTerms } = this.props
-    if (crawlerRunning) return false
+    const { wallet, acceptedTerms } = this.props
+
     if (step === 0 && !acceptedTerms && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Terms and Conditions',
@@ -73,6 +60,7 @@ class SignupWizard extends Component {
       )
       return false
     }
+
     if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Please save your Wallet Keys',
@@ -80,6 +68,7 @@ class SignupWizard extends Component {
       )
       return false
     }
+
     return true
   }
 
@@ -93,30 +82,77 @@ class SignupWizard extends Component {
   onSignupTypeChange = (signupType) => {
     this.setState({
       signupType: signupType
-    });
+    })
   }
 
   onProfileFieldChange = (fieldName, fieldValue) => {
     console.log("onProfileFieldChange executing for fieldName: "+fieldName+" with fieldValue: "+fieldValue)
     this.setState(state => {
-      state.profile[fieldName] = fieldValue;
-      return state;
-    });
+      state.profile[fieldName] = fieldValue
+      return state
+    })
+  }
+
+  onCrawlerFieldChange = (type, url, user, pass) => {
+    this.setState(state => {
+      if (!state.crawlerData[type]) {
+        state.crawlerData[type] = {}
+      }
+
+      state.crawlerData[type].url = url
+      state.crawlerData[type].user = user
+      state.crawlerData[type].pass = pass
+
+      return state
+    })
   }
 
   async finishClicked() {
-    const { walletCreated } = this.props
-    const { profile } = this.state
+    const { walletCreated, wallet } = this.props
+    const { profile, signupType } = this.state
 
-    // TODO: move this code in a redux file
     // Check if signup is in progress
-    if (get(walletCreated, 'did.publicDidDocument.id')) {
-      await this.props.signupToMarketplace(profile)
+    const signedInDid = get(wallet, 'did.publicDidDocument.id')
+    const tempDid = get(walletCreated, 'did.publicDidDocument.id')
+    if (tempDid && !signedInDid) {
+      const preparedProfile = {
+        ...profile,
+        signupType,
+        businesstype: (profile.businesstype > 0 && businessTypes[profile.businesstype]) || 'Other'
+      }
+
+      console.log('crawlerData:')
+      console.log(this.state.crawlerData)
+
+      // We'll request crawler runs in parallel
+      // TODO: the server should accept multiple crawlers in one request
+      const crawlerPromises = []
+
+      for (const crawlerType of Object.keys(this.state.crawlerData)) {
+        const crawlerFields = this.state.crawlerData[crawlerType]
+        const crawlerPromise = this.props.startCrawler(crawlerType, crawlerFields.url, crawlerFields.user, crawlerFields.pass)
+
+        crawlerPromises.push(crawlerPromise)
+      }
+
+      if (crawlerPromises.length > 0) {
+        await Promise.all(crawlerPromises)
+      }
+
+      await this.props.signupToMarketplace(preparedProfile)
+
       toastr.success(
         'Congratulations',
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
         You will be awarded the Chlu token post our public sale`
       )
+
+      if (crawlerPromises.length > 0) {
+        toastr.success(
+          'Your Reviews',
+          'Your reviews from your chosen platforms will be imported shortly, and will be available on the Reputation page once done.'
+        )
+      }
     } else {
       toastr.success(
         'Already logged in',
@@ -124,11 +160,10 @@ class SignupWizard extends Component {
         You will be awarded the Chlu token post our public sale`
       )
     }
-    // TODO: redirect user depending on their type: business goes to reviews about me, individual goes to search
   }
 
   render() {
-    const { wallet, crawlerRunning } = this.props
+    const { wallet } = this.props
     const initialStep = wallet.did ? 1 : 0
 
     return (
@@ -137,8 +172,6 @@ class SignupWizard extends Component {
         currentStep={initialStep}
         onChangeStep={this.onChangeStep.bind(this)}
         finishButtonClick={this.finishClicked.bind(this)}
-        nextButtonDisabled={crawlerRunning}
-        previousButtonDisabled={crawlerRunning}
         steps={[
           {
             stepName: 'Step 1: Create Your Account',
@@ -157,6 +190,7 @@ class SignupWizard extends Component {
             stepProps: {
               ...this.props,
               onProfileFieldChange: this.onProfileFieldChange,
+              onCrawlerFieldChange: this.onCrawlerFieldChange,
               downloadWallet: this.downloadWallet.bind(this)
             }
           }
@@ -174,9 +208,6 @@ const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
-  reviews: store.data.reputation.reviews,
-  reputationLoading: store.data.reputation.loading,
-  crawlerRunning: store.data.crawler.running,
   acceptedTerms: store.components.signupWizard.acceptedTerms
 })
 
@@ -185,6 +216,7 @@ const mapDispatchToProps = {
   setWalletSaved,
   readMyReputation,
   setAcceptTermsAndConditions,
+  startCrawler,
   signupToMarketplace,
   push,
   submit

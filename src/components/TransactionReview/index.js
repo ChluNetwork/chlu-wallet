@@ -1,20 +1,23 @@
 import React from 'react'
-import { object, string } from 'prop-types'
 import { get } from 'lodash'
 // components
-import { CardContent, CardHeader, Avatar } from '@material-ui/core';
-import EditReview from '../EditReview'
+import { CardContent, CardHeader, Avatar, CardActions, Button } from '@material-ui/core';
+import EditReview from 'components/EditReview'
 import StarRatingComponent from 'react-star-rating-component'
 // icons
 import ReviewIcon from '@material-ui/icons/Check'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
+// redux
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 const starCount = 5
 
 const Review = props => {
   const {
     review,
-    editing
+    editing,
+    push
   } = props
 
   const hasError = Boolean(review.error)
@@ -48,13 +51,15 @@ const Review = props => {
         ? <EditReview multihash={review.multihash} />
         : null
       }
+      <CardActions>
+        <Button onClick={() => push(`/review/${review.multihash}`)}>View More</Button>
+      </CardActions>
     </div>
   }
 }
 
-Review.propTypes = {
-  review: object,
-  date: string
+const mapDispatchToProps = {
+  push
 }
 
-export default Review
+export default connect(null, mapDispatchToProps)(Review)

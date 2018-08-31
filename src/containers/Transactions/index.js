@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { shape, bool, any, object, func, number } from 'prop-types'
 // redux
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -21,23 +20,6 @@ const styles = {
 }
 
 class Transactions extends Component {
-  static propTypes = {
-    reviews: shape({
-      loading: bool,
-      error: any,
-      data: object
-    }),
-    editRating: number,
-    isEditFormOpen: bool,
-    IsShowEditForm: func,
-    groupTransactionByAddress: func,
-    convertSatoshiToBTC: func,
-    convertFromBtcToUsd: func,
-    convertFromBitsToUsd: func,
-    convertSatoshiToBits: func,
-    convertFromUsdToBtc: func,
-    vendor: bool
-  }
 
   constructor(props) {
     super(props)
@@ -82,9 +64,7 @@ class Transactions extends Component {
 }
 
 const mapStateToProps = store => ({
-  wallet: store.data.wallet,
-  transactionHistory: store.data.transactionHistory,
-  reviews: store.data.reviews
+  wallet: store.data.wallet
 })
 
 export default compose(

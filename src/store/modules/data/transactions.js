@@ -1,10 +1,11 @@
 import { createAction, handleActions } from 'redux-actions'
 // helpers
 import { get } from 'lodash'
-import { readReviewRecord } from './reviews'
+import { getChluAPIClient } from 'helpers/chlu'
 import FetchTransactionHistory from 'chlu-wallet-support-js/lib/fetch_transaction_history'
 import getOpReturn from 'chlu-wallet-support-js/lib/get_opreturn'
 import multihashes from 'multihashes'
+import { updateReviewRecord } from 'helpers/transactions'
 const blockCypherKey = process.env.REACT_APP_BLOCKCYPHER_TOKEN
 
 function isStringMultihash(str) {
@@ -22,19 +23,43 @@ function isStringMultihash(str) {
 const GET_TRANSACTIONS_LOADING = 'bitcoin/GET_TRANSACTIONS_LOADING'
 const GET_TRANSACTIONS_SUCCESS = 'bitcoin/GET_TRANSACTIONS_SUCCESS'
 const GET_TRANSACTIONS_ERROR = 'bitcoin/GET_TRANSACTIONS_ERROR'
-// update
+const READ_REVIEWRECORD_LOADING = 'bitcoin/READ_REVIEWRECORD_LOADING'
+const READ_REVIEWRECORD_SUCCESS = 'bitcoin/READ_REVIEWRECORD_SUCCESS'
+const READ_REVIEWRECORD_ERROR = 'bitcoin/READ_REVIEWRECORD_ERROR'
 const UPDATE_TRANSACTIONS = 'bitcoin/UPDATE_TRANSACTIONS'
 
 const initialState = {
   loading: false,
   error: null,
-  data: {}
+  data: {},
+  reviews: {}
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 export const updateTransactions = createAction(UPDATE_TRANSACTIONS)
+const readReviewRecordLoading = createAction(READ_REVIEWRECORD_LOADING)
+const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
+const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
+
+function readReviewRecord (txHash, multihash) {
+  return async (dispatch, getState) => {
+    dispatch(readReviewRecordLoading({ txHash, multihash }))
+    try {
+      const didId = get(getState(), 'data.wallet.did.publicDidDocument.id', null)
+      const chluIpfs = await getChluAPIClient()
+      const reviewRecord = await chluIpfs.readReviewRecord(multihash)
+      const customerDidId = get(reviewRecord, 'customer_signature.creator', null)
+      reviewRecord.txHash = txHash
+      // Disable editing on reviews by transaction
+      reviewRecord.editable = false // didId && customerDidId && didId === customerDidId
+      dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
+    } catch (error) {
+      dispatch(readReviewRecordError({ error, multihash, txHash }))
+    }
+  }
+}
 
 export function getTransactions(address) {
   return async dispatch => {
@@ -94,5 +119,27 @@ export default handleActions({
       ...state.data,
       txs: updateTransactions(get(state.data, 'txs', []), transaction)
     }
-  })
+  }),
+  [READ_REVIEWRECORD_LOADING]: (state, { payload: { multihash, txHash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, { loading: true, multihash })
+    }
+  }),
+  [READ_REVIEWRECORD_SUCCESS]: (state, { payload: { reviewRecord, multihash, txHash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(get(state, 'reviews', {}), txHash, Object.assign({}, reviewRecord, { loading: false }))
+    }
+  }),
+  [READ_REVIEWRECORD_ERROR]: (state, { payload: { error, txHash, multihash } }) => ({
+    ...state,
+    reviews: {
+      ...updateReviewRecord(
+        get(state, 'reviews', {}),
+        txHash,
+        { error: error.message || error, loading: false, multihash }
+      )
+    }
+  }),
 }, initialState)

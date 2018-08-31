@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
+import { get, isEmpty } from 'lodash'
+
 // components
 import { Card, CardContent, Divider, Grid, withStyles } from '@material-ui/core'
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+import SearchResults from './SearchResults';
+
+// icons
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BusinessIcon from '@material-ui/icons/Business';
+import SearchIcon from '@material-ui/icons/Search';
 import Star from '@material-ui/icons/Star';
 import Add from '@material-ui/icons/Add';
 
-import BusinessSearchResults from './BusinessSearchResults';
-import IndividualSearchResults from './IndividualSearchResults';
-
-// icons
-import SearchIcon from '@material-ui/icons/Search';
-
+// redux
+import { search, setQuery, setPage } from 'store/modules/data/search'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 const styles = theme => ({
   searchGrid: {
@@ -61,7 +66,7 @@ const categories = [
   { label: 'Accountant' },
   { label: 'Advertising' },
   { label: 'Restaurant' },
-  { label: 'Etc' },
+  { label: 'Other' },
 ].map(option => ({
   value: option.label,
   label: option.label,
@@ -71,7 +76,7 @@ const locations = [
   { label: 'Europe' },
   { label: 'US' },
   { label: 'Asia' },
-  { label: 'Etc' },
+  { label: 'Earth' },
 ].map(option => ({
   value: option.label,
   label: option.label,
@@ -85,30 +90,60 @@ function TabContainer(props) {
   );
 }
 
+function selectFieldValue(val) {
+  return val ? { label: val, value: val } : null
+}
+
 class Search extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: 0,
-      searchName: '',
-      actType: 'individual'
+    const { type } = props
+    this.setName = this.setQueryField('name')
+    this.setBusinessType = this.setQueryField('businesstype')
+    this.setLocation = this.setQueryField('location')
+    this.setType = this.setQueryField('type')
+    this.props.setQuery({ type: type === 'businesses' ? 'business' : 'individual' })
+  }
+
+  componentDidMount() {
+    this.props.search()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { type, setQuery, search } = this.props
+    if (prevProps.type !== type) {
+      setQuery({ type: type === 'businesses' ? 'business' : 'individual' })
+      search()
     }
   }
 
   handleTabChange = (event, value) => {
-    this.setState({ value });
+    const type = value ? 'individuals' : 'businesses'
+    this.props.push(`/search/${type}`)
   };
+
+  setQueryField = field => event => {
+    const value = get(event, 'target.value', event)
+    const query = this.props.query || {}
+    const preparedValue = get(value, 'value', value)
+    query[field] = isEmpty(preparedValue) ? undefined : preparedValue
+    console.log(field, query[field])
+    this.props.setQuery(query)
+  }
+
+  setPage = page => {
+    this.props.setPage(page)
+    this.props.search()
+  }
 
   render () {
 
-    const { value } = this.state;
-    const { classes } = this.props;
+    const { classes, type, search, name, location, businesstype, page, results, error, loading } = this.props
 
     return <Card className={classes.card}>
-        <Divider/>
         <CardContent>
 
-        {value === 0 && <TabContainer>
+        {type === 'businesses' && <TabContainer>
             <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant='headline' align='center'>
@@ -121,6 +156,8 @@ class Search extends Component {
                   label='Name'
                   type='search'
                   fullWidth
+                  value={name}
+                  onChange={this.setName}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
@@ -128,6 +165,8 @@ class Search extends Component {
                   classes={classes}
                   options={categories}
                   placeholder='Business Type'
+                  value={selectFieldValue(businesstype)}
+                  onChange={this.setBusinessType}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
@@ -135,6 +174,8 @@ class Search extends Component {
                   classes={classes}
                   options={locations}
                   placeholder='Location'
+                  value={selectFieldValue(location)}
+                  onChange={this.setLocation}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
@@ -145,13 +186,13 @@ class Search extends Component {
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                <Button variant='contained' color='secondary' className={classes.button}>
+                <Button variant='contained' color='secondary' className={classes.button} onClick={search}>
                   Search <SearchIcon className={classes.rightIcon} />
                 </Button>
               </Grid>
             </Grid>
           </TabContainer>}
-        {value === 1 && <TabContainer>
+        {type === 'individuals' && <TabContainer>
             <Grid container justify='space-evenly' alignItems='flex-end' spacing={16} className={classes.searchGrid}>
               <Grid item xs={12} sm={12} md={12}>
                 <Typography variant='headline' align='center'>
@@ -163,8 +204,8 @@ class Search extends Component {
                   id='search'
                   label='Name'
                   type='search'
-                  value={this.state.searchName}
-                  onChange={(e) => this.setState({ searchName: e.target.value })}
+                  value={name}
+                  onChange={this.setName}
                   fullWidth
                 />
               </Grid>
@@ -172,11 +213,13 @@ class Search extends Component {
                 <Select
                   classes={classes}
                   options={locations}
+                  value={selectFieldValue(location)}
+                  onChange={this.setLocation}
                   placeholder='Location'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={2}>
-                <Button variant='contained' color='secondary' className={classes.button}>
+                <Button variant='contained' color='secondary' className={classes.button} onClick={search}>
                   Search <SearchIcon className={classes.rightIcon} />
                 </Button>
               </Grid>
@@ -185,7 +228,7 @@ class Search extends Component {
 
 
           <Tabs
-            value={this.state.value}
+            value={type === 'businesses' ? 0 : 1}
             onChange={this.handleTabChange}
             fullWidth
             indicatorColor='secondary'
@@ -195,11 +238,41 @@ class Search extends Component {
             <Tab icon={<BusinessIcon />} label='Businesses' />
             <Tab icon={<AccountCircleIcon />} label='People' />
           </Tabs>
-        <Divider/>
-          {this.state.value === 0 ? <BusinessSearchResults searchName={this.state.searchName} /> : <IndividualSearchResults searchName={this.state.searchName} />}
+          <Divider/>
+          <SearchResults
+            type={type}
+            page={page}
+            data={get(results, 'rows', [])}
+            count={get(results, 'count', 0)}
+            setPage={this.setPage}
+            loading={loading}
+            error={error}
+          /> 
         </CardContent>
       </Card>
   }
 }
 
-export default withStyles(styles)(Search);
+const mapStateToProps = state => ({
+  loading: state.data.search.loading,
+  error: state.data.search.error,
+  page: state.data.search.page,
+  pages: state.data.search.pages,
+  results: state.data.search.results,
+  query: state.data.search.query,
+  name: get(state, 'data.search.query.name', ''),
+  location: get(state, 'data.search.query.location', ''),
+  businesstype: get(state, 'data.search.query.businesstype', ''),
+})
+
+const mapDispatchToProps = {
+  search,
+  setQuery,
+  setPage,
+  push
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Search);

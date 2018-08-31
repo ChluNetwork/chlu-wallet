@@ -33,6 +33,9 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
 
+// data
+import { businessTypes } from 'store/modules/ui/profile';
+
 const style = {
   infoText: {
     fontWeight: '300',
@@ -66,7 +69,7 @@ class Step1 extends React.Component {
       emailState: "",
       simpleSelect: "",
       selectedValue: "user",
-      businesstype: "0",
+      businesstype: 0,
       businesslocation: ""
     };
     this.handleChange = this.handleChange.bind(this);
@@ -161,7 +164,7 @@ class Step1 extends React.Component {
           <CustomInput
             success={this.state.emailState === 'success'}
             error={this.state.emailState === 'error'}
-            labelText={<span>Email <small>(required)</small></span>}
+            labelText={<span>Email</span>}
             id='email'
             formControlProps={{ fullWidth: true }}
             inputProps={{
@@ -179,7 +182,7 @@ class Step1 extends React.Component {
           <CustomInput
             success={this.state.usernameState === 'success'}
             error={this.state.usernameState === 'error'}
-            labelText={<span>User Name <small>(required)</small></span>}
+            labelText={<span>User Name</span>}
             id='username'
             formControlProps={{ fullWidth: true }}
             inputProps={{
@@ -197,7 +200,7 @@ class Step1 extends React.Component {
           <CustomInput
             success={this.state.firstnameState === 'success'}
             error={this.state.firstnameState === 'error'}
-            labelText={<span>First Name <small>(optional)</small></span>}
+            labelText={<span>First Name</span>}
             id='firstname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
@@ -215,7 +218,7 @@ class Step1 extends React.Component {
           <CustomInput
             success={this.state.lastnameState === 'success'}
             error={this.state.lastnameState === 'error'}
-            labelText={<span>Last Name <small>(optional)</small></span>}
+            labelText={<span>Last Name</span>}
             id='lastname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
@@ -248,7 +251,7 @@ class Step1 extends React.Component {
           <CustomInput
             success={this.state.businessnameState === 'success'}
             error={this.state.businessnameState === 'error'}
-            labelText={<span>Business Name <small>(optional)</small></span>}
+            labelText={<span>Business Name</span>}
             id='businessname'
             formControlProps={{ fullWidth: true }}
             inputProps={{
@@ -279,21 +282,9 @@ class Step1 extends React.Component {
                 id: "simple-select"
               }}
             >
-              <MenuItem value='0' disabled classes={{ root: classes.selectMenuItem }}>
-                Select Industry
-              </MenuItem>
-
-              <MenuItem value='1' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Accountant
-              </MenuItem>
-
-              <MenuItem value='2' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Advertising
-              </MenuItem>
-
-              <MenuItem value='3' classes={{ root: classes.selectMenuItem, selected: classes.selectMenuItemSelected }}>
-                Restaurant
-              </MenuItem>
+              {businessTypes.map((v, i) => (
+                <MenuItem key={i} value={i} disabled={!i} classes={{ root: classes.selectMenuItem, selected: i ? classes.selectMenuItemSelected : undefined }}>{v}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -341,7 +332,7 @@ class Step1 extends React.Component {
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
                 classes={{ label: classes.label }}
-                label='Create A User Account. Used to Pay, Review & Earn Chlu'
+                label='Create A Consumer Account'
                 control={
                   <Radio
                     id='userAccount'
@@ -361,7 +352,7 @@ class Step1 extends React.Component {
             <Grid item xs={12} sm={12} md={5}>
               <FormControlLabel
                 classes={{ label: classes.label }}
-                label='Create A Professional Account. Control Your Online Reviews'
+                label='Create A Business Account'
                 control={
                   <Radio
                     checked={this.state.selectedValue === "business"}

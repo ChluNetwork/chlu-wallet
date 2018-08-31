@@ -63,7 +63,6 @@ function TabContainer(props) {
   );
 }
 
-
 class Settings extends Component {
   constructor(props) {
     super(props);
@@ -91,7 +90,6 @@ class Settings extends Component {
   }
 
   handleTabChange = (event, value) => {
-    // TODO: redirect here
     const urls = [
       '/settings/profile',
       '/settings/wallet'
@@ -101,12 +99,18 @@ class Settings extends Component {
     }
   };
 
-  handleDownload () { 
+  handleDownload () {
     downloadWallet(this.props.wallet)
   }
 
   saveProfile () {
     this.props.updateProfile(this.state.profile)
+  }
+
+  change(event, stateName) {
+    const value = get(event, 'target.value', event)
+    console.log(stateName, value)
+    this.setState({ dirty: true, profile: { ...this.state.profile, [stateName]: value } });
   }
 
   render () {
@@ -242,7 +246,7 @@ class Settings extends Component {
             error={this.state.emailState === 'error'}
             labelText={
               <span>
-                Email <small>(required)</small>
+                Email
               </span>
             }
             id='email'
@@ -266,7 +270,7 @@ class Settings extends Component {
             error={this.state.usernameState === 'error'}
             labelText={
               <span>
-                User Name <small>(required)</small>
+                User Name
               </span>
             }
             id='username'
@@ -290,7 +294,7 @@ class Settings extends Component {
             error={this.state.firstnameState === 'error'}
             labelText={
               <span>
-                First Name <small>(optional)</small>
+                First Name
               </span>
             }
             id='firstname'
@@ -314,7 +318,7 @@ class Settings extends Component {
             error={this.state.lastnameState === 'error'}
             labelText={
               <span>
-                Last Name <small>(optional)</small>
+                Last Name
               </span>
             }
             id='lastname'

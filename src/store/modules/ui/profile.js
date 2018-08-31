@@ -19,6 +19,22 @@ const initialState = {
   loginLoading: false
 }
 
+export const businessTypes = [
+  'Select Industry',
+  'Accountant',
+  'Advertising',
+  'Restaurant'
+]
+
+export function getFullName(profile) {
+  console.log('getting full name for profile', profile)
+  let name = profile.firstname || profile.businessname || ''
+  if (profile.lastname) name += ` ${profile.lastname}`
+  if (profile.username) name += ` (${profile.username})`
+  console.log(`Full name ${name} for profile`, profile)
+  return name
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -42,6 +58,7 @@ export function updateProfile(profile) {
   return async (dispatch, getState) => {
     const currentProfile = getState().ui.profile.profile
     const newProfile = { ...currentProfile, ...profile }
+    newProfile.name = getFullName(newProfile)
     const chluApiClient = await getChluAPIClient()
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
     dispatch(setProfile(newProfile))
@@ -67,7 +84,9 @@ export function signupToMarketplace(profile) {
           businesslocationgeo = {
             latitude: coords.latitude,
             longitude: coords.longitude,
-            bounds: coords.bounds
+            bounds: coords.bounds,
+            place_name: coords.place_name,
+            text: coords.text
           }
         }
       } catch (err) {
@@ -80,6 +99,7 @@ export function signupToMarketplace(profile) {
       vendorAddress: getAddress(walletCreated),
       'type': isBusiness ? 'business' : 'individual',
     }
+    preparedProfile.name = getFullName(preparedProfile)
     if (businesslocationgeo) {
       preparedProfile.businesslocationgeo = businesslocationgeo
     }
@@ -87,17 +107,17 @@ export function signupToMarketplace(profile) {
     await chluApiClient.importDID(walletCreated.did)
     await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
-    dispatch(setWalletToCreatedWallet())
+    await dispatch(setWalletToCreatedWallet())
     const dest = isBusiness ? '/reputation' : '/search'
     dispatch(push(dest))
     dispatch(setLoginLoading(false))
   }
 }
 
+
 export function signIn(exportedWallet) {
   return async dispatch => {
     dispatch(setLoginLoading(true))
-    dispatch(setWallet(exportedWallet))
     const chluApiClient = await getChluAPIClient()
     await importDID(exportedWallet.did)
     // register to marketplace does nothing if the registration was already completed
@@ -114,6 +134,7 @@ export function signIn(exportedWallet) {
       }
       await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
     }
+    await dispatch(setWallet(exportedWallet))
     const dest = profile.type === 'business' ? '/reputation' : '/search'
     dispatch(push(dest))
     dispatch(setLoginLoading(false))
