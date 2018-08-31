@@ -36,19 +36,18 @@ export function readReviewsIWrote () {
     if (didId) {
       dispatch(readReviewsIWroteLoading())
       try {
-        // TODO: improve this and use a loading system per-review
         const chluApiClient = await getChluAPIClient()
-        const list = await chluApiClient.getReviewsWrittenByDID(didId)
+        // TODO: pagination and refactor using changes made in reputation redux module
+        const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, 0, 20)
         const reviews = {}
-        for (const review of list) {
+        for (const review of rows) {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const resolved = get(content, 'resolved', false)
           const preparedContent = { ...content, editable: true }
-          // TODO: show them as loading and dispatch redux actions to resolve them
           reviews[multihash] = { multihash, loading: !resolved, error: null, ...preparedContent }
         }
-        dispatch(readReviewsIWroteSuccess(reviews))
+        dispatch(readReviewsIWroteSuccess({ reviews, count }))
       } catch (error) {
         console.log(error)
         dispatch(readReviewsIWroteError(error.message || error))
@@ -68,7 +67,7 @@ export default handleActions({
     ...state,
     loading: true
   }),
-  [READ_REVIEWS_I_WROTE_SUCCESS]: (state, { payload: reviews }) => ({
+  [READ_REVIEWS_I_WROTE_SUCCESS]: (state, { payload: { reviews } }) => ({
     ...state,
     loading: false,
     reviews
