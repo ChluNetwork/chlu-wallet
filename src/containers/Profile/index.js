@@ -77,7 +77,10 @@ class ProfileContainer extends Component {
       page = 'profile',
       reviews,
       reviewsLoading,
+      reviewsLoadingPage,
+      reviewsCount,
       reviewsDidId,
+      canLoadMoreReviews,
       wallet
     } = this.props
     const { profile, loading: loadingProfile } = this.state
@@ -90,7 +93,7 @@ class ProfileContainer extends Component {
     const myDid = get(wallet, 'did.publicDidDocument.id', null)
     const showProfile = !loadingProfile && profile
     const showPayment = !loadingProfile && myDid && didId !== myDid 
-    const showReviews = !reviewsLoading && reviewsDidId === didId
+    const showReviews = (!reviewsLoading || reviewsLoadingPage > 0) && reviewsDidId === didId 
     const loading = !(showProfile && showReviews && showPayment)
 
     return <Card className={classes.card}>
@@ -103,13 +106,17 @@ class ProfileContainer extends Component {
         centered
       >
         <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label='Profile' />
-        <Tab icon={<ReviewsIcon className={classes.rightIcon}/>} label='Reviews' />
+        <Tab icon={<ReviewsIcon className={classes.rightIcon}/>} label={reviewsLoading ? 'Reviews' : `Reviews (${reviewsCount})`} />
         <Tab icon={<PaymentIcon className={classes.rightIcon}/>} label='Payment' />
       </Tabs>
       <CardContent>
         { loading && <LinearProgress/>}
         { tabIndex === 0 && !loading && <Profile profile={profile} /> }
-        { tabIndex === 1 && !loading && <Reviews reviews={reviews} onLoadMoreReviews={this.loadMoreReviews}/> }
+        { tabIndex === 1 && !loading && <Reviews
+            reviews={reviews}
+            onLoadMoreReviews={this.loadMoreReviews}
+            canLoadMore={canLoadMoreReviews}
+        /> }
         { tabIndex === 2 && !loading && <Payment profile={profile} didId={didId} /> }
       </CardContent>
     </Card>
@@ -121,7 +128,10 @@ const mapStateToProps = store => {
     wallet: store.data.wallet,
     reviews: store.data.reputation.reviews,
     reviewsDidId: store.data.reputation.didId,
-    reviewsLoading: store.data.reputation.loading
+    reviewsLoading: store.data.reputation.loading,
+    reviewsLoadingPage: store.data.reputation.loadingPage,
+    reviewsCount: store.data.reputation.count,
+    canLoadMoreReviews: store.data.reputation.canLoadMore
   };
 };
 
