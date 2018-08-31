@@ -14,9 +14,12 @@ const itemsPerPage = 5
 function getInitialState() {
   return {
     loading: false,
+    loadingPage: null,
     error: null,
     reviews: null,
-    page: 0
+    page: 0,
+    count: 0,
+    canLoadMore: false
   }
 }
 
@@ -42,27 +45,26 @@ export function readMyReputation () {
 export function readReputation (didId, firstPage = true) {
   return async (dispatch, getState) => {
     if (didId) {
-      dispatch(readReputationLoading(didId))
       try {
         const state = getState()
+        const page = get(state, 'data.reputation.page', 0)
+        dispatch(readReputationLoading({ didId, loadingPage: page }))
         const prevDidid = get(state, 'data.reputation.didId')
         const didChanged = !prevDidid || didId !== prevDidid
-        const page = get(state, 'data.reputation.page', 0)
         const myDidId = get(state, 'data.wallet.did.publicDidDocument.id', null)
         const chluApiClient = await getChluAPIClient()
         const limit = itemsPerPage
         const offset = firstPage || didChanged ? 0 : page * itemsPerPage
-        let reviews = await chluApiClient.getReviewsAboutDID(didId, offset, limit)
-        const isEmpty = reviews.length === 0
-        reviews = reviews.map(review => {
+        const { count, rows } = await chluApiClient.getReviewsAboutDID(didId, offset, limit)
+        const canLoadMore = count > offset + rows.length
+        const reviews = rows.map(review => {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const customerDidId = get(review, 'reviewRecord.customer_signature.creator', null)
           const editable = customerDidId && myDidId && myDidId === customerDidId
           return { multihash, loading: false, error: null, ...content, editable }
         })
-        const newPage = firstPage ? 0 : (isEmpty ? page : page + 1)
-        dispatch(readReputationSuccess({ reviews, didId, page: newPage }))
+        dispatch(readReputationSuccess({ reviews, didId, count, canLoadMore }))
       } catch (error) {
         console.log(error)
         dispatch(readReputationError(error.message || error))
@@ -77,16 +79,23 @@ export function readReputation (didId, firstPage = true) {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [READ_REPUTATION_LOADING]: (state, { payload: didId }) => ({
+  [READ_REPUTATION_LOADING]: (state, { payload: { didId, loadingPage } }) => ({
     ...state,
     didId,
-    loading: true
+    loading: true,
+    loadingPage,
+    page: didId === state.didId ? state.page : 0,
+    count: didId === state.didId ? state.count : 0,
+    reviews: didId === state.didId ? state.reviews : null,
+    canLoadMore: didId === state.didId ? state.canLoadMore : false
   }),
-  [READ_REPUTATION_SUCCESS]: (state, { payload: { reviews, didId, page } }) => ({
+  [READ_REPUTATION_SUCCESS]: (state, { payload: { reviews, didId, count, canLoadMore } }) => ({
     ...state,
     loading: didId === state.didId ? false : state.loading,
-    reviews: didId === state.didId ? (page > 0 ? (state.reviews || []).concat(reviews) : reviews) : state.reviews,
-    page: didId === state.didId ? page : state.page
+    reviews: didId === state.didId && state.page > 0 ? (state.reviews || []).concat(reviews) : reviews,
+    page: didId === state.didId && canLoadMore ? state.page + 1 : state.page,
+    count: didId === state.didId ? count : state.count,
+    canLoadMore
   }),
   [READ_REPUTATION_ERROR]: (state, { payload: { error, didId } }) => ({
     ...state,
