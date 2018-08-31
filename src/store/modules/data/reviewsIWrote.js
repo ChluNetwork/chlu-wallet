@@ -9,7 +9,7 @@ import { DELETE_WALLET } from './wallet';
 const READ_REVIEWS_I_WROTE_LOADING = 'reviewsiwrote/READ_REVIEWS_I_WROTE_LOADING'
 const READ_REVIEWS_I_WROTE_SUCCESS= 'reviewsiwrote/READ_REVIEWS_I_WROTE_SUCCESS'
 const READ_REVIEWS_I_WROTE_ERROR = 'reviewsiwrote/READ_REVIEWS_I_WROTE__ERROR'
-const itemsPerPage = 5
+const ITEMS_PER_PAGE = 5
 
 function getInitialState() {
   return {
@@ -42,8 +42,8 @@ export function readReviewsIWrote (firstPage = true) {
         const page = get(state, 'data.reviewsIWrote.page', 0)
         dispatch(readReviewsIWroteLoading({ loadingPage: page }))
         const chluApiClient = await getChluAPIClient()
-        const limit = itemsPerPage
-        const offset = firstPage ? 0 : page * itemsPerPage
+        const limit = ITEMS_PER_PAGE
+        const offset = firstPage ? 0 : page * ITEMS_PER_PAGE
         const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, offset, limit)
         const canLoadMore = count > offset + rows.length
         const reviews = rows.map(review => {

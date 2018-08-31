@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
   loading: state.data.reputation.loading,
   loadingPage: state.data.reputation.loadingPage,
   canLoadMore: state.data.reputation.canLoadMore,
-  crawling: state.data.crawler.running,
+  crawling: state.data.crawler.running
 })
 
 const mapDispatchToProps = {

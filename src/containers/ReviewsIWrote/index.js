@@ -19,13 +19,15 @@ class ReviewsIWrote extends Component {
   render() {
     const { reviews, loading, loadingPage, canLoadMore, error } = this.props
 
-    return <Reviews
-      reviews={reviews}
-      loading={loading && loadingPage === 0}
-      error={error}
-      canLoadMore={canLoadMore}
-      onLoadMoreReviews={this.loadMore}
-    />
+    return (
+      <Reviews
+        reviews={reviews}
+        loading={loading && loadingPage === 0}
+        error={error}
+        canLoadMore={canLoadMore}
+        onLoadMoreReviews={this.loadMore}
+      />
+    )
   }
 
 }

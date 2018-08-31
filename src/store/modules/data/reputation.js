@@ -9,7 +9,7 @@ import { DELETE_WALLET } from './wallet';
 const READ_REPUTATION_LOADING = 'reviewsaboutvendor/READ_REPUTATION_LOADING'
 const READ_REPUTATION_SUCCESS = 'reviewsaboutvendor/READ_REPUTATION_SUCCESS'
 const READ_REPUTATION_ERROR = 'reviewsaboutvendor/READ_REPUTATION_ERROR'
-const itemsPerPage = 5
+const ITEMS_PER_PAGE = 5
 
 function getInitialState() {
   return {
@@ -53,8 +53,8 @@ export function readReputation (didId, firstPage = true) {
         const didChanged = !prevDidid || didId !== prevDidid
         const myDidId = get(state, 'data.wallet.did.publicDidDocument.id', null)
         const chluApiClient = await getChluAPIClient()
-        const limit = itemsPerPage
-        const offset = firstPage || didChanged ? 0 : page * itemsPerPage
+        const limit = ITEMS_PER_PAGE
+        const offset = firstPage || didChanged ? 0 : page * ITEMS_PER_PAGE
         const { count, rows } = await chluApiClient.getReviewsAboutDID(didId, offset, limit)
         const canLoadMore = count > offset + rows.length
         const reviews = rows.map(review => {

@@ -18,7 +18,7 @@ class Reviews extends Component {
 
   render() {
     const { classes, reviews = [], loading, crawling = false, onLoadMoreReviews, canLoadMore } = this.props
-    const empty = reviews ? !reviews.length : true
+    const empty = !reviews || !reviews.length
 
     return <Grid container spacing={16} className={classes.root}>
       {loading && <Grid item xs={12}>

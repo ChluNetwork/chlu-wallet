@@ -13,7 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import replace from 'helpers/replace'
 
-import { itemsPerPage } from 'store/modules/data/search'
+import { ITEMS_PER_PAGE } from 'store/modules/data/search'
 import { LinearProgress } from '@material-ui/core';
 
 const businessesColumnData = [
@@ -86,7 +86,7 @@ class SearchResults extends React.Component {
 
   render() {
     const { classes, type, data, count, page, loading, error } = this.props;
-    const emptyRows = itemsPerPage - data.length
+    const emptyRows = ITEMS_PER_PAGE - data.length
 
     return (
       <Paper className={classes.root}>
@@ -136,8 +136,8 @@ class SearchResults extends React.Component {
         {!error && !loading && <TablePagination
           component='div'
           count={count}
-          rowsPerPage={itemsPerPage}
-          rowsPerPageOptions={[itemsPerPage]}
+          rowsPerPage={ITEMS_PER_PAGE}
+          rowsPerPageOptions={[ITEMS_PER_PAGE]}
           page={page}
           onChangePage={this.handleChangePage}
           backIconButtonProps={{
