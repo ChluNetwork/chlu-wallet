@@ -34,11 +34,11 @@ const readReputationError = createAction(READ_REPUTATION_ERROR)
 // Thunks
 // ------------------------------------
 
-export function readMyReputation () {
+export function readMyReputation (firstPage = true) {
   return async (dispatch, getState) => {
     const state = getState()
     const didId = get(state, 'data.wallet.did.publicDidDocument.id', null)
-    if (didId) return dispatch(readReputation(didId))
+    if (didId) return dispatch(readReputation(didId, firstPage))
   }
 }
 

@@ -9,12 +9,16 @@ import { DELETE_WALLET } from './wallet';
 const READ_REVIEWS_I_WROTE_LOADING = 'reviewsiwrote/READ_REVIEWS_I_WROTE_LOADING'
 const READ_REVIEWS_I_WROTE_SUCCESS= 'reviewsiwrote/READ_REVIEWS_I_WROTE_SUCCESS'
 const READ_REVIEWS_I_WROTE_ERROR = 'reviewsiwrote/READ_REVIEWS_I_WROTE__ERROR'
+const itemsPerPage = 5
 
 function getInitialState() {
   return {
     loading: false,
     error: null,
-    reviews: []
+    reviews: null,
+    page: 0,
+    count: 0,
+    canLoadMore: false
   }
 }
 
@@ -29,25 +33,25 @@ const readReviewsIWroteError = createAction(READ_REVIEWS_I_WROTE_ERROR)
 // Thunks
 // ------------------------------------
 
-export function readReviewsIWrote () {
+export function readReviewsIWrote (firstPage = true) {
   return async (dispatch, getState) => {
     const state = getState()
     const didId = get(state, 'data.wallet.did.publicDidDocument.id', null)
     if (didId) {
-      dispatch(readReviewsIWroteLoading())
       try {
+        const page = get(state, 'data.reviewsIWrote.page', 0)
+        dispatch(readReviewsIWroteLoading({ loadingPage: page }))
         const chluApiClient = await getChluAPIClient()
-        // TODO: pagination and refactor using changes made in reputation redux module
-        const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, 0, 20)
-        const reviews = {}
-        for (const review of rows) {
+        const limit = itemsPerPage
+        const offset = firstPage ? 0 : page * itemsPerPage
+        const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, offset, limit)
+        const canLoadMore = count > offset + rows.length
+        const reviews = rows.map(review => {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
-          const resolved = get(content, 'resolved', false)
-          const preparedContent = { ...content, editable: true }
-          reviews[multihash] = { multihash, loading: !resolved, error: null, ...preparedContent }
-        }
-        dispatch(readReviewsIWroteSuccess({ reviews, count }))
+          return { ...content, multihash, editable: true }
+        })
+        dispatch(readReviewsIWroteSuccess({ reviews, count, canLoadMore }))
       } catch (error) {
         console.log(error)
         dispatch(readReviewsIWroteError(error.message || error))
@@ -63,14 +67,20 @@ export function readReviewsIWrote () {
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [READ_REVIEWS_I_WROTE_LOADING]: state => ({
+  [READ_REVIEWS_I_WROTE_LOADING]: (state, { payload: { loadingPage } }) => ({
     ...state,
-    loading: true
+    loading: true,
+    loadingPage,
+    count: loadingPage === 0 ? 0 : state.count,
+    canLoadMore: false
   }),
-  [READ_REVIEWS_I_WROTE_SUCCESS]: (state, { payload: { reviews } }) => ({
+  [READ_REVIEWS_I_WROTE_SUCCESS]: (state, { payload: { reviews, count, canLoadMore } }) => ({
     ...state,
     loading: false,
-    reviews
+    reviews: state.loadingPage === 0 ? reviews : state.reviews.concat(reviews),
+    count,
+    canLoadMore,
+    page: canLoadMore ? state.page + 1 : state.page
   }),
   [READ_REVIEWS_I_WROTE_ERROR]: (state, { payload: error }) => ({
     ...state,

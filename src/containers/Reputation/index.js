@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { isEmpty } from 'lodash'
 
 // components
 import Reviews from 'components/Reviews'
@@ -16,13 +15,21 @@ class Reputation extends Component {
     this.props.pollCrawlerProgress()
   }
 
-  render() {
-    const { reviews, loading, crawling } = this.props
-    const reviewList = isEmpty(reviews) ? [] : Object.values(reviews)
+  loadMore = () => {
+    if (!this.props.loading) this.props.readMyReputation(false)
+  }
 
+  render() {
+    const { reviews, loading, loadingPage, canLoadMore, crawling } = this.props
     return (
       <div>
-        <Reviews loading={loading} reviews={reviewList} crawling={crawling} />
+        <Reviews
+          loading={loading && loadingPage === 0}
+          reviews={reviews}
+          crawling={crawling}
+          canLoadMore={canLoadMore}
+          onLoadMoreReviews={this.loadMore}
+        />
       </div>
     )
   }
@@ -31,7 +38,9 @@ class Reputation extends Component {
 const mapStateToProps = state => ({
   reviews: state.data.reputation.reviews,
   loading: state.data.reputation.loading,
-  crawling: state.data.crawler.running
+  loadingPage: state.data.reputation.loadingPage,
+  canLoadMore: state.data.reputation.canLoadMore,
+  crawling: state.data.crawler.running,
 })
 
 const mapDispatchToProps = {
