@@ -34,8 +34,8 @@ export async function getChluIPFS() {
 export async function getChluAPIClient() {
   const options = {
     network: getChluNetwork(),
-    publishApiUrl: process.env.REACT_APP_CHLU_PUBLISH_API_URL || 'https://publish.chlu.io',
-    queryApiUrl: process.env.REACT_APP_CHLU_QUERY_API_URL || 'https://query.chlu.io'
+    publishApiUrl: process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io',
+    queryApiUrl: process.env.REACT_APP_CHLU_QUERY_URL || 'https://query.chlu.io'
   }
   if (!window.chluApiClient) {
     window.chluApiClient = new ChluAPIClient(options)
