@@ -43,7 +43,7 @@ class LinkedinForm extends React.Component {
       <Grid item xs={12} md={12} >
         <Grid container justify='center'>
           <Grid item xs={12} md={8} className={classes.gridRow}>
-            <h5>Import LinkedIn reviews <small>(coming soon)</small></h5>
+            <h5>Import LinkedIn reviews</h5>
 
             <Grid container justify='space-between' spacing='8' style={{ marginTop: -24 }}>
               <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
@@ -53,7 +53,6 @@ class LinkedinForm extends React.Component {
                   name='linkedin-email'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
-                    disabled: true,
                     value: this.state.user,
                     onChange: this.handleUserChange,
                     endAdornment: (
@@ -72,7 +71,6 @@ class LinkedinForm extends React.Component {
                   name='linkedin-password'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
-                    disabled: true,
                     value: this.state.password,
                     onChange: this.handlePasswordChange,
                     endAdornment: (
