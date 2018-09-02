@@ -60,7 +60,7 @@ export function readReviewsIWrote () {
         const chluApiClient = await getChluAPIClient()
         const list = await chluApiClient.getReviewsWrittenByDID(didId)
         const reviews = {}
-        for (const review of list) {
+        for (const review of list.rows) {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const resolved = get(content, 'resolved', false)
@@ -138,7 +138,7 @@ export default handleActions({
   [READ_REVIEWS_I_WROTE_ERROR]: (state, { payload: error }) => ({
     ...state,
     reviewsIWroteLoading: false,
-    reviewsIWroteError: error 
+    reviewsIWroteError: error
   }),
   [EDIT_REVIEW] : (state, { payload: multihash }) => ({
     ...state,

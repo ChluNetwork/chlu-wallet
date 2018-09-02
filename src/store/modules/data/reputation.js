@@ -65,7 +65,7 @@ export function readReputation (didId) {
         const chluApiClient = await getChluAPIClient()
         const list = await chluApiClient.getReviewsAboutDID(didId)
         const reviews = {}
-        for (const review of list) {
+        for (const review of list.rows) {
           const multihash = review.multihash
           const content = get(review, 'reviewRecord', {})
           const resolved = get(content, 'resolved', false)
