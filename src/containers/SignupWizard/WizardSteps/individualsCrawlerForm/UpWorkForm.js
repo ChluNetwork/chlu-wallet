@@ -74,9 +74,9 @@ class UpWorkForm extends React.Component {
           </Grid>
         </Grid>
 
-        {/* <Grid container justify='center'>
+        <Grid container justify='center'>
           {this.renderLogin()}
-        </Grid> */}
+        </Grid>
       </Grid>
     )
   }
@@ -90,7 +90,7 @@ class UpWorkForm extends React.Component {
           <Grid container justify='space-between' spacing='8' style={{ marginTop: -24 }}>
             <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
               <CustomInput
-                labelText="UpWork e-mail"
+                labelText={<span>UpWork e-mail <small>(optional)</small></span>}
                 id='upwork-email'
                 name='upwork-email'
                 formControlProps={{ fullWidth: true }}
@@ -108,7 +108,7 @@ class UpWorkForm extends React.Component {
 
             <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
               <CustomInput
-                labelText="UpWork password"
+                labelText={<span>UpWork password <small>(optional)</small></span>}
                 id='upwork-password'
                 name='upwork-password'
                 formControlProps={{ fullWidth: true }}
