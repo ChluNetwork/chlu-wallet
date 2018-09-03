@@ -71,6 +71,7 @@ class LinkedinForm extends React.Component {
                   name='linkedin-password'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
+                    type: 'password',
                     value: this.state.password,
                     onChange: this.handlePasswordChange,
                     endAdornment: (
