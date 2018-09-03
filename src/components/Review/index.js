@@ -28,7 +28,7 @@ import { isArray, isNil, get } from 'lodash'
 
 const starCount = 5
 class Review extends Component {
-  
+
   datePublished(datePublished) {
     if (datePublished) {
       return (
@@ -41,7 +41,7 @@ class Review extends Component {
       )
     }
   }
-  
+
   url(url) {
     if(url) {
       return (
@@ -59,7 +59,7 @@ class Review extends Component {
     if (isArray(detailed_review)) {
       return detailed_review
         .filter(dr => Boolean(dr && dr.rating))
-        .map(dr => (      
+        .map(dr => (
           <ListItem>
             <ListItemText
                 primary={
@@ -105,7 +105,7 @@ class Review extends Component {
     }
     return url;
   }
-  
+
   openReview = () => this.props.push(`/review/${this.props.review.multihash}`)
 
   render() {
@@ -118,7 +118,7 @@ class Review extends Component {
     const maxStars = get(review, 'rating_details.max', starCount)
     const max = maxStars > 0 ? maxStars : starCount
     const editingThisReview = editing && editingMultihash === review.multihash
-    const authorName = review.author.name || review.author.did || review.customer_signature.creator || 'Anonymous'
+    const authorName = review.author.name || review.author.did || (review.customer_signature && review.customer_signature.creator) || 'Anonymous'
     return (
       <Card>
         <CardHeader
@@ -186,7 +186,7 @@ class Review extends Component {
         </CardContent>}
       </Card>
     )
-  }  
+  }
 }
 
 const mapStateToProps = state => ({
