@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 
 // components
-import { CardHeader, Grid, InputAdornment } from '@material-ui/core'
+import { CardHeader, Grid } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
-import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
+
 // icons
-import Email from '@material-ui/icons/Email';
-import Face from '@material-ui/icons/Face';
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 import BusinessLocation from './BusinessLocation'
+import ReviewCount from './ReviewCount';
 
 const styles = theme => ({
   button: {
@@ -26,11 +25,34 @@ const styles = theme => ({
   },
   card: {
     margin: '30px'
+  },
+  profileRow: {
+    paddingTop: '5%',
+    paddingBottom: '5%'
+  },
+  fullname: {
+    color: 'rgba(0,0,0,0.8)',
+    fontSize: 36,
+    marginBottom: theme.spacing.unit
+  },
+  username: {
+    color: 'rgba(0,0,0,0.5)',
+    fontSize: 14
+  },
+  description: {
+    color: 'rgba(0,0,0,0.6)',
+    fontSize: 18,
+    fontStyle: 'italic',
+    paddingTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit
+  },
+  map: {
+    paddingTop: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   }
 });
 
 class Profile extends Component {
-
   render () {
     const { loading } = this.props
 
@@ -48,84 +70,25 @@ class Profile extends Component {
   }
 
   renderUser() {
-    const { classes, profile } = this.props;
+    const { classes, profile, reviews } = this.props;
 
     if (profile.businessname || profile.location) return undefined;
 
     return (
-      <div>
-        <Grid container justify='center' spacing={16}>
-          <Grid item xs={12} sm={12} md={12}>
+      <div className={classes.profileRow}>
+        <Grid container justify='center' alignItems='center' spacing={16}>
+          <Grid item xs={12} sm={12} md={2}>
             <PictureUpload />
-            <div className={classes.description}>Upload Photo</div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5}>
-            <CustomInput
-              labelText='Email'
-              id='email'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.email || "",
-                disabled: true,
-                endAdornment: (
-                  <InputAdornment position='end' className={classes.inputAdornment}>
-                    <Email className={classes.inputAdornmentIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <div className={classes.fullname}>
+              {profile.firstname} {profile.lastname}
+            </div>
 
-          <Grid item xs={12} sm={12} md={5}>
-            <CustomInput
-              labelText='User Name'
-              id='username'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.username || "",
-                disabled: true,
-                endAdornment: (
-                  <InputAdornment position='end' className={classes.inputAdornment}>
-                    <Face className={classes.inputAdornmentIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={5}>
-            <CustomInput
-              labelText='First Name'
-              id='firstname'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.firstname || "",
-                disabled: true,
-                endAdornment: (
-                  <InputAdornment position='end' className={classes.inputAdornment}>
-                    <Face className={classes.inputAdornmentIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={5}>
-            <CustomInput
-              labelText='Last Name'
-              id='lastname'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.lastname || "",
-                disabled: true,
-                endAdornment: (
-                  <InputAdornment position='end' className={classes.inputAdornment}>
-                    <Face className={classes.inputAdornmentIcon} />
-                  </InputAdornment>
-                )
-              }}
-            />
+            <div className={classes.username}>
+              @{profile.username} <ReviewCount profile={profile} reviews={reviews} />
+            </div>
           </Grid>
         </Grid>
       </div>
@@ -133,56 +96,32 @@ class Profile extends Component {
   }
 
   renderBusiness() {
-    const { profile } = this.props
+    const { profile, reviews, classes } = this.props
 
     if (!profile.businessname && !profile.location) return undefined;
 
     return (
-      <div>
-        <Grid container justify='center' spacing={16}>
+      <div className={classes.profileRow}>
+        <Grid container justify='center' alignItems='center' spacing={16}>
           <Grid item xs={12} sm={12} md={2}>
             <PictureUpload />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={10}>
-            <Grid item xs={12} sm={12} md={12}>
-              <CustomInput
-                labelText='Name'
-                id='businessname'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  multiline: true,
-                  value: profile.businessname || "",
-                  disabled: true
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <CustomInput
-                labelText='Business Type'
-                id='businesstype'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  value: profile.businesstype || "",
-                  disabled: true
-                }}
-              />
-            </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <div className={classes.fullname}>
+              {profile.businessname}
+            </div>
+
+            <div className={classes.username}>
+              {profile.businesstype} <ReviewCount profile={profile} reviews={reviews} />
+            </div>
+
+            <div className={classes.description}>
+              {profile.businessdescription}
+            </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12}>
-            <CustomInput
-              labelText='Description'
-              id='description'
-              formControlProps={{ fullWidth: true }}
-              inputProps={{
-                value: profile.businessdescription || "",
-                disabled: true
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={12} className={classes.map}>
             <BusinessLocation location={profile.businesslocationgeo} />
           </Grid>
         </Grid>

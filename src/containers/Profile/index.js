@@ -62,7 +62,6 @@ class ProfileContainer extends Component {
     const id = this.props.match.params.id
     const urls = [
       `/profile/${id}`,
-      `/profile/${id}/reputation`,
       `/profile/${id}/pay`,
     ]
     if (urls[value]) {
@@ -87,13 +86,12 @@ class ProfileContainer extends Component {
     const didId = match.params.id;
     const tabIndex = [
       'profile',
-      'reputation',
       'payment'
     ].indexOf(page)
     const myDid = get(wallet, 'did.publicDidDocument.id', null)
     const showProfile = !loadingProfile && profile
-    const showPayment = !loadingProfile && myDid && didId !== myDid 
-    const showReviews = (!reviewsLoading || reviewsLoadingPage > 0) && reviewsDidId === didId 
+    const showPayment = !loadingProfile && myDid && didId !== myDid
+    const showReviews = (!reviewsLoading || reviewsLoadingPage > 0) && reviewsDidId === didId
     const loading = !(showProfile && showReviews && showPayment)
 
     return <Card className={classes.card}>
@@ -106,20 +104,43 @@ class ProfileContainer extends Component {
         centered
       >
         <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label='Profile' />
-        <Tab icon={<ReviewsIcon className={classes.rightIcon}/>} label={reviewsLoading ? 'Reviews' : `Reviews (${reviewsCount})`} />
         <Tab icon={<PaymentIcon className={classes.rightIcon}/>} label='Payment' />
       </Tabs>
+
       <CardContent>
-        { loading && <LinearProgress/>}
-        { tabIndex === 0 && !loading && <Profile profile={profile} /> }
-        { tabIndex === 1 && !loading && <Reviews
+        {this.renderCardContent()}
+      </CardContent>
+    </Card>
+  }
+
+  renderCardContent() {
+    const { match, reviews, canLoadMoreReviews, reviewsLoading, reviewsLoadingPage, page = 'profile' } = this.props
+    const { profile, loading: loadingProfile } = this.state
+
+    const didId = match.params.id;
+    const tabIndex = ['profile', 'payment'].indexOf(page)
+
+    if (loadingProfile || reviewsLoading || reviewsLoadingPage) {
+      return (
+        <LinearProgress />
+      )
+    } else if (tabIndex === 1) {
+      return (
+        <Payment profile={profile} didId={didId} />
+      )
+    } else {
+      return (
+        <div>
+          <Profile profile={profile} reviews={reviews} />
+
+          <Reviews
             reviews={reviews}
             onLoadMoreReviews={this.loadMoreReviews}
             canLoadMore={canLoadMoreReviews}
-        /> }
-        { tabIndex === 2 && !loading && <Payment profile={profile} didId={didId} /> }
-      </CardContent>
-    </Card>
+          />
+        </div>
+      )
+    }
   }
 }
 
