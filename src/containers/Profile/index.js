@@ -131,7 +131,7 @@ class ProfileContainer extends Component {
     } else {
       return (
         <div>
-          <Profile profile={profile} reviews={reviews} />
+          <Profile profile={profile} reviews={reviews} hasMoreReviews={canLoadMoreReviews} />
 
           <Reviews
             reviews={reviews}

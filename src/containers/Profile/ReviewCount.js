@@ -33,28 +33,20 @@ const styles = theme => ({
 class ReviewCount extends Component {
   render() {
     const { classes, reviews } = this.props
-    const reviewsCount = reviews.length
-    const verifiedReviewsCount = reviews.filter(review => review.verifiable).length
+    const count = reviews.length
+    const verifiableCount = reviews.filter(review => review.verifiable).length
 
-    if (reviewsCount > 0) {
-      if (verifiedReviewsCount > 0) {
-        if (reviewsCount > verifiedReviewsCount) {
-          return (
-            <span className={classes.reviewCount} ref={span => this.verifiedReviewCounterElem = span}>
-              <CheckIcon className={classes.reviewCountVerifiedIcon} /> {verifiedReviewsCount} verifiable {this.reviewsText(verifiedReviewsCount)} <span className={classes.reviewCountTotal}>({reviewsCount} total)</span>
-            </span>
-          )
-        } else {
-          return (
-            <span className={classes.reviewCount} ref={span => this.verifiedReviewCounterElem = span}>
-              <CheckIcon className={classes.reviewCountVerifiedIcon} /> {verifiedReviewsCount} verifiable {this.reviewsText(verifiedReviewsCount)}
-            </span>
-          )
-        }
+    if (count > 0) {
+      if (verifiableCount > 0) {
+        return (
+          <span className={classes.reviewCount} ref={span => this.verifiedReviewCounterElem = span}>
+            <CheckIcon className={classes.reviewCountVerifiedIcon} /> {this.verifiableCountText(verifiableCount)} {this.totalCountText(count, verifiableCount)}
+          </span>
+        )
       } else {
         return (
           <span className={classes.reviewCountUnverified}>
-            {reviewsCount} {reviewsCount === 1 ? 'review' : 'reviews'}
+            {this.countText(count)}
           </span>
         )
       }
@@ -85,8 +77,60 @@ class ReviewCount extends Component {
     }
   }
 
-  reviewsText(count) {
-    return count === 1 ? 'review' : 'reviews'
+  verifiableCountText(verifiableCount) {
+    const { hasMoreReviews } = this.props
+
+    if (hasMoreReviews) {
+      if (verifiableCount === 1) {
+        return 'More than 1 verifiable review'
+      } else {
+        return `More than ${verifiableCount} verifiable reviews`
+      }
+    } else {
+      if (verifiableCount === 1) {
+        return '1 verifiable review'
+      } else {
+        return `${verifiableCount} verifiable reviews`
+      }
+    }
+  }
+
+  countText(count) {
+    const { hasMoreReviews } = this.props
+
+    if (hasMoreReviews) {
+      if (count === 1) {
+        return 'More than 1 review'
+      } else {
+        return `More than ${count} reviews`
+      }
+    } else {
+      if (count === 1) {
+        return '1 review'
+      } else {
+        return `${count} reviews`
+      }
+    }
+  }
+
+  totalCountText(count, verifiedCount) {
+    const { classes } = this.props
+
+    if (count > verifiedCount) {
+      if (this.props.hasMoreReviews) {
+        return (
+          <span className={classes.reviewCountTotal}>
+            (more than {count} total)
+          </span>
+        )
+      } else {
+        return (
+          <span className={classes.reviewCountTotal}>
+            ({count} total)
+          </span>
+        )
+      }
+    }
   }
 }
 

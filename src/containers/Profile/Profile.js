@@ -70,7 +70,7 @@ class Profile extends Component {
   }
 
   renderUser() {
-    const { classes, profile, reviews } = this.props;
+    const { classes, profile, reviews, hasMoreReviews } = this.props;
 
     if (profile.businessname || profile.location) return undefined;
 
@@ -87,7 +87,7 @@ class Profile extends Component {
             </div>
 
             <div className={classes.username}>
-              @{profile.username} <ReviewCount profile={profile} reviews={reviews} />
+              @{profile.username} <ReviewCount profile={profile} reviews={reviews} hasMoreReviews={hasMoreReviews} />
             </div>
           </Grid>
         </Grid>
@@ -96,7 +96,7 @@ class Profile extends Component {
   }
 
   renderBusiness() {
-    const { profile, reviews, classes } = this.props
+    const { profile, reviews, classes, hasMoreReviews } = this.props
 
     if (!profile.businessname && !profile.location) return undefined;
 
@@ -113,7 +113,7 @@ class Profile extends Component {
             </div>
 
             <div className={classes.username}>
-              {profile.businesstype} <ReviewCount profile={profile} reviews={reviews} />
+              {profile.businesstype} <ReviewCount profile={profile} reviews={reviews} hasMoreReviews={hasMoreReviews} />
             </div>
 
             <div className={classes.description}>
