@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 
 const STYLE = {
   height: 300,
-  marginBottom: 48,
   marginTop: 24
 };
 

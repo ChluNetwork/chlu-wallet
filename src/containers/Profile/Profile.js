@@ -27,8 +27,7 @@ const styles = theme => ({
     margin: '30px'
   },
   profileRow: {
-    paddingTop: '5%',
-    paddingBottom: '5%'
+    paddingTop: '7%'
   },
   fullname: {
     color: 'rgba(0,0,0,0.8)',
@@ -37,9 +36,11 @@ const styles = theme => ({
   },
   username: {
     color: 'rgba(0,0,0,0.5)',
-    fontSize: 14
+    fontSize: 14,
+    paddingTop: theme.spacing.unit
   },
   description: {
+    borderTop: `1px solid rgba(0,0,0,0.1)`,
     color: 'rgba(0,0,0,0.6)',
     fontSize: 18,
     fontStyle: 'italic',
@@ -47,8 +48,18 @@ const styles = theme => ({
     marginTop: theme.spacing.unit
   },
   map: {
-    paddingTop: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    position: 'relative',
+    marginTop: '5%'
+  },
+  mapShadowOverlay: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    zIndex: 999,
+    boxShadow: '0 1px 10px rgba(0,0,0,0.3) inset'
   }
 });
 
@@ -121,8 +132,11 @@ class Profile extends Component {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12} className={classes.map}>
-            <BusinessLocation location={profile.businesslocationgeo} />
+          <Grid item xs={12} sm={12} md={12}>
+            <div className={classes.map}>
+              <BusinessLocation location={profile.businesslocationgeo} />
+              <div className={classes.mapShadowOverlay} />
+            </div>
           </Grid>
         </Grid>
       </div>

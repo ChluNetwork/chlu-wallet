@@ -4,7 +4,6 @@ import { withStyles, Card, CardContent, Tabs, Tab, LinearProgress } from '@mater
 import Payment from 'containers/Payment'
 import Reviews from 'components/Reviews'
 // icons
-import ProfileIcon from '@material-ui/icons/AccountCircle'
 import ReviewsIcon from '@material-ui/icons/Star'
 import PaymentIcon from '@material-ui/icons/AccountBalanceWallet'
 import Profile from './Profile';
@@ -17,11 +16,15 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { readReputation } from 'store/modules/data/reputation'
 
-const styles = {
+const styles = theme => ({
   card: {
     margin: '30px'
+  },
+  tabsHeader: {
+    borderBottom: `1px solid rgba(0,0,0,0.1)`
   }
-}
+})
+
 class ProfileContainer extends Component {
 
   constructor(props) {
@@ -73,11 +76,10 @@ class ProfileContainer extends Component {
     const {
       match,
       classes,
-      page = 'profile',
+      page = 'reviews',
       reviews,
       reviewsLoading,
       reviewsLoadingPage,
-      reviewsCount,
       reviewsDidId,
       canLoadMoreReviews,
       wallet
@@ -85,7 +87,7 @@ class ProfileContainer extends Component {
     const { profile, loading: loadingProfile } = this.state
     const didId = match.params.id;
     const tabIndex = [
-      'profile',
+      'reviews',
       'payment'
     ].indexOf(page)
     const myDid = get(wallet, 'did.publicDidDocument.id', null)
@@ -94,23 +96,35 @@ class ProfileContainer extends Component {
     const showReviews = (!reviewsLoading || reviewsLoadingPage > 0) && reviewsDidId === didId
     const loading = !(showProfile && showReviews && showPayment)
 
-    return <Card className={classes.card}>
-      <Tabs
-        value={tabIndex}
-        onChange={this.handleTabChange}
-        fullWidth
-        indicatorColor='secondary'
-        textColor='secondary'
-        centered
-      >
-        <Tab icon={<ProfileIcon className={classes.rightIcon}/>} label='Profile' />
-        <Tab icon={<PaymentIcon className={classes.rightIcon}/>} label='Payment' />
-      </Tabs>
+    if (loading) {
+      return (
+        <LinearProgress />
+      )
+    }
 
-      <CardContent>
-        {this.renderCardContent()}
-      </CardContent>
-    </Card>
+    return (
+      <Card className={classes.card}>
+        <Profile profile={profile} reviews={reviews} hasMoreReviews={canLoadMoreReviews} />
+
+        <div className={classes.tabsHeader}>
+          <Tabs
+            value={tabIndex}
+            onChange={this.handleTabChange}
+            fullWidth
+            indicatorColor='secondary'
+            textColor='secondary'
+            centered
+          >
+            <Tab icon={<ReviewsIcon className={classes.rightIcon} />} label='Reviews' />
+            <Tab icon={<PaymentIcon className={classes.rightIcon} />} label='Send Payment' />
+          </Tabs>
+        </div>
+
+        <CardContent>
+          {this.renderCardContent()}
+        </CardContent>
+      </Card>
+    )
   }
 
   renderCardContent() {
@@ -118,7 +132,7 @@ class ProfileContainer extends Component {
     const { profile, loading: loadingProfile } = this.state
 
     const didId = match.params.id;
-    const tabIndex = ['profile', 'payment'].indexOf(page)
+    const tabIndex = ['reviews', 'payment'].indexOf(page)
 
     if (loadingProfile || reviewsLoading || reviewsLoadingPage) {
       return (
@@ -130,15 +144,11 @@ class ProfileContainer extends Component {
       )
     } else {
       return (
-        <div>
-          <Profile profile={profile} reviews={reviews} hasMoreReviews={canLoadMoreReviews} />
-
-          <Reviews
-            reviews={reviews}
-            onLoadMoreReviews={this.loadMoreReviews}
-            canLoadMore={canLoadMoreReviews}
-          />
-        </div>
+        <Reviews
+          reviews={reviews}
+          onLoadMoreReviews={this.loadMoreReviews}
+          canLoadMore={canLoadMoreReviews}
+        />
       )
     }
   }
