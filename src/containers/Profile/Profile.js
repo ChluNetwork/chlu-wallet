@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 
 // components
-import { CardHeader, Grid } from '@material-ui/core'
+import { CardHeader, Grid, List, ListItem, ListItemIcon, ListItemText, Paper } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 
 // icons
+import EmailIcon from '@material-ui/icons/Email'
+import PhoneIcon from '@material-ui/icons/Phone'
+import WebIcon from '@material-ui/icons/Web'
+import PlaceIcon from '@material-ui/icons/Place'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
 import BusinessLocation from './BusinessLocation'
 import ReviewCount from './ReviewCount';
@@ -60,6 +64,10 @@ const styles = theme => ({
     pointerEvents: 'none',
     zIndex: 999,
     boxShadow: '0 1px 10px rgba(0,0,0,0.3) inset'
+  },
+  contactCard: {
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 2
   }
 });
 
@@ -100,6 +108,8 @@ class Profile extends Component {
             <div className={classes.username}>
               @{profile.username} <ReviewCount profile={profile} reviews={reviews} hasMoreReviews={hasMoreReviews} />
             </div>
+
+            {this.renderContactOptions()}
           </Grid>
         </Grid>
       </div>
@@ -130,6 +140,8 @@ class Profile extends Component {
             <div className={classes.description}>
               {profile.businessdescription}
             </div>
+
+            {this.renderContactOptions()}
           </Grid>
 
           <Grid item xs={12} sm={12} md={12}>
@@ -141,6 +153,71 @@ class Profile extends Component {
         </Grid>
       </div>
     )
+  }
+
+  renderContactOptions() {
+    return (
+      <div className={this.props.classes.contactCard}>
+        <List>
+          {this.renderEmail()}
+          {this.renderPhone()}
+          {this.renderLocation()}
+          {this.renderUrl()}
+        </List>
+      </div>
+    )
+  }
+
+  renderEmail() {
+    const { profile } = this.props
+
+    if (profile.email) {
+      return (
+        <ListItem>
+          <ListItemIcon><EmailIcon /></ListItemIcon>
+          <ListItemText primary={profile.email} />
+        </ListItem>
+      )
+    }
+  }
+
+  renderPhone() {
+    const { profile } = this.props
+
+    if (profile.phone) {
+      return (
+        <ListItem>
+          <ListItemIcon><PhoneIcon /></ListItemIcon>
+          <ListItemText primary={profile.phone} />
+        </ListItem>
+      )
+    }
+  }
+
+  renderUrl() {
+    const { profile } = this.props
+
+    if (profile.website) {
+      return (
+        <ListItem>
+          <ListItemIcon><WebIcon /></ListItemIcon>
+          <ListItemText primary={profile.website} />
+        </ListItem>
+      )
+    }
+  }
+
+  renderLocation() {
+    const { profile } = this.props
+
+    if (profile.businesslocation) {
+      return (
+        <ListItem>
+          <ListItemIcon><PlaceIcon /></ListItemIcon>
+          <ListItemText primary={profile.businesslocation} />
+        </ListItem>
+      )
+    }
   }
 }
 
