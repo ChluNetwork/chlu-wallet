@@ -33,8 +33,8 @@ const styles = theme => ({
 class ReviewCount extends Component {
   render() {
     const { classes, reviews } = this.props
-    const count = reviews.length
-    const verifiableCount = reviews.filter(review => review.verifiable).length
+    const count = reviews ? reviews.length : 0
+    const verifiableCount = reviews ? reviews.filter(review => review.verifiable).length : 0
 
     if (count > 0) {
       if (verifiableCount > 0) {
