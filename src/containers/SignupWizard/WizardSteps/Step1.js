@@ -23,11 +23,13 @@ import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import BusinessLocationField from './BusinessLocationField';
 
 // icons
-import Face from '@material-ui/icons/Face';
-import Email from '@material-ui/icons/Email';
+import Face from '@material-ui/icons/Face'
+import Email from '@material-ui/icons/Email'
+import Phone from '@material-ui/icons/Phone'
+import Web from '@material-ui/icons/Web'
 import DoneIcon from '@material-ui/icons/Done'
-import Check from '@material-ui/icons/Check';
-import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
+import Check from '@material-ui/icons/Check'
+import FiberManualRecord from "@material-ui/icons/FiberManualRecord"
 
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
@@ -287,6 +289,54 @@ class Step1 extends React.Component {
               ))}
             </Select>
           </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={3}>
+          <CustomInput
+            labelText={<span>Email</span>}
+            id='email'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'email', 'length', 3),
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Email className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={4}>
+          <CustomInput
+            labelText={<span>Website</span>}
+            id='website'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'website', 'length', 3),
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Web className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={3}>
+          <CustomInput
+            labelText={<span>Phone</span>}
+            id='phone'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'phone', 'length', 3),
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Phone className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={10}>
