@@ -33,6 +33,9 @@ const styles = theme => ({
   profileRow: {
     paddingTop: '7%'
   },
+  profileContainer: {
+    alignItems: 'flex-start'
+  },
   fullname: {
     color: 'rgba(0,0,0,0.8)',
     fontSize: 36,
@@ -48,8 +51,11 @@ const styles = theme => ({
     color: 'rgba(0,0,0,0.6)',
     fontSize: 18,
     fontStyle: 'italic',
-    paddingTop: theme.spacing.unit,
+    paddingTop: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit
+  },
+  profilePic: {
+    pointerEvents: 'none'
   },
   map: {
     position: 'relative',
@@ -95,8 +101,8 @@ class Profile extends Component {
 
     return (
       <div className={classes.profileRow}>
-        <Grid container justify='center' alignItems='center' spacing={16}>
-          <Grid item xs={12} sm={12} md={2}>
+        <Grid container justify='center' alignItems='flex-start' spacing={16}>
+          <Grid item xs={12} sm={12} md={2} className={classes.profilePic}>
             <PictureUpload />
           </Grid>
 
@@ -123,8 +129,8 @@ class Profile extends Component {
 
     return (
       <div className={classes.profileRow}>
-        <Grid container justify='center' alignItems='center' spacing={16}>
-          <Grid item xs={12} sm={12} md={2}>
+        <Grid container justify='center' alignItems='flex-start' spacing={16}>
+          <Grid item xs={12} sm={12} md={2} className={classes.profilePic}>
             <PictureUpload />
           </Grid>
 
