@@ -15,21 +15,6 @@ import BusinessLocation from './BusinessLocation'
 import ReviewCount from './ReviewCount';
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
-  iconSmall: {
-    fontSize: 20,
-  },
-  card: {
-    margin: '30px'
-  },
   profileRow: {
     paddingTop: '7%'
   },
