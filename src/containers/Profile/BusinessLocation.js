@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 
 const STYLE = {
   height: 300,
-  marginBottom: 48,
   marginTop: 24
 };
 
@@ -60,20 +59,24 @@ export default class BusinessLocation extends React.PureComponent {
     let { latitude, longitude, bounds } = this.props.location;
 
     if (this.map) {
-      let markerElem = document.createElement("div");
+      try {
+        let markerElem = document.createElement("div");
 
-      markerElem.style.width = "24px";
-      markerElem.style.height = "24px";
-      markerElem.style.borderRadius = "24px";
-      markerElem.style.backgroundColor = "red";
-      markerElem.style.border = "2px solid white";
+        markerElem.style.width = "24px";
+        markerElem.style.height = "24px";
+        markerElem.style.borderRadius = "24px";
+        markerElem.style.backgroundColor = "red";
+        markerElem.style.border = "2px solid white";
 
-      if (this.locationMarker) {
-        this.locationMarker.remove();
+        if (this.locationMarker) {
+          this.locationMarker.remove();
+        }
+
+        this.locationMarker = new mapboxgl.Marker(markerElem).setLngLat([latitude, longitude]).addTo(this.map);
+        this.map.fitBounds(bounds);
+      } catch (err) {
+        console.error(err)
       }
-
-      this.locationMarker = new mapboxgl.Marker(markerElem).setLngLat([latitude, longitude]).addTo(this.map);
-      this.map.fitBounds(bounds);
     }
   }
 }
