@@ -156,6 +156,18 @@ class ChluLayoutHeader extends React.Component {
     const loggedOutList = (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
+          <NavLink to={"/search"} className={classes.navLink} activeClassName={classes.navLinkActive}>
+            <ListItemIcon className={classes.listItemIcon}>
+              <SearchIcon/>
+            </ListItemIcon>
+            <ListItemText
+              primary={"Search"}
+              disableTypography={true}
+              className={classes.listItemText}
+            />
+          </NavLink>
+        </ListItem>
+        <ListItem className={classes.listItem}>
           <NavLink to={"/login"} className={classes.navLink} activeClassName={classes.navLinkActive}>
             <ListItemIcon className={classes.listItemIcon}>
               <LoginIcon/>

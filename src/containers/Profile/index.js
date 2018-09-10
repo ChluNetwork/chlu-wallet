@@ -92,7 +92,7 @@ class ProfileContainer extends Component {
     ].indexOf(page)
     const myDid = get(wallet, 'did.publicDidDocument.id', null)
     const showProfile = !loadingProfile && profile
-    const showPayment = !loadingProfile && myDid && didId !== myDid
+    const showPayment = !loadingProfile && didId !== myDid
     const showReviews = (!reviewsLoading || reviewsLoadingPage > 0) && reviewsDidId === didId
     const loading = !(showProfile && showReviews && showPayment)
 
