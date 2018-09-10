@@ -32,9 +32,8 @@ const styles = theme => ({
 
 class ReviewCount extends Component {
   render() {
-    const { classes, reviews } = this.props
-    const count = reviews ? reviews.length : 0
-    const verifiableCount = reviews ? reviews.filter(review => review.verifiable).length : 0
+    const { classes, count } = this.props
+    const verifiableCount = count
 
     if (count > 0) {
       if (verifiableCount > 0) {
@@ -78,38 +77,18 @@ class ReviewCount extends Component {
   }
 
   verifiableCountText(verifiableCount) {
-    const { hasMoreReviews } = this.props
-
-    if (hasMoreReviews) {
-      if (verifiableCount === 1) {
-        return 'More than 1 verifiable review'
-      } else {
-        return `More than ${verifiableCount} verifiable reviews`
-      }
+    if (verifiableCount === 1) {
+      return '1 verifiable review'
     } else {
-      if (verifiableCount === 1) {
-        return '1 verifiable review'
-      } else {
-        return `${verifiableCount} verifiable reviews`
-      }
+      return `${verifiableCount} verifiable reviews`
     }
   }
 
   countText(count) {
-    const { hasMoreReviews } = this.props
-
-    if (hasMoreReviews) {
-      if (count === 1) {
-        return 'More than 1 review'
-      } else {
-        return `More than ${count} reviews`
-      }
+    if (count === 1) {
+      return '1 review'
     } else {
-      if (count === 1) {
-        return '1 review'
-      } else {
-        return `${count} reviews`
-      }
+      return `${count} reviews`
     }
   }
 
