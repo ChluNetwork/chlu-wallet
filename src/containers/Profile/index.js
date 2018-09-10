@@ -81,7 +81,7 @@ class ProfileContainer extends Component {
       reviewsLoading,
       reviewsLoadingPage,
       reviewsDidId,
-      canLoadMoreReviews,
+      reviewsCount,
       wallet
     } = this.props
     const { profile, loading: loadingProfile } = this.state
@@ -104,7 +104,7 @@ class ProfileContainer extends Component {
 
     return (
       <Card className={classes.card}>
-        <Profile profile={profile} reviews={reviews} hasMoreReviews={canLoadMoreReviews} />
+        <Profile profile={profile} reviews={reviews} reviewsCount={reviewsCount} />
 
         <div className={classes.tabsHeader}>
           <Tabs
@@ -134,7 +134,7 @@ class ProfileContainer extends Component {
     const didId = match.params.id;
     const tabIndex = ['reviews', 'payment'].indexOf(page)
 
-    if (loadingProfile || reviewsLoading || reviewsLoadingPage) {
+    if (loadingProfile || (reviewsLoading && reviewsLoadingPage === 0)) {
       return (
         <LinearProgress />
       )
@@ -146,6 +146,7 @@ class ProfileContainer extends Component {
       return (
         <Reviews
           reviews={reviews}
+          loading={reviewsLoading && reviewsLoadingPage === 0}
           onLoadMoreReviews={this.loadMoreReviews}
           canLoadMore={canLoadMoreReviews}
         />
