@@ -26,7 +26,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import ErrorIcon from '@material-ui/icons/ErrorOutline'
 // helpers
 import { getAddress } from 'helpers/wallet';
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 const starCount = 5
 
@@ -85,24 +85,10 @@ class Payment extends Component {
       loadingStep,
       loadingMessage,
       paymentError,
-      profile,
-      rating,
-      setRating,
-      convertSatoshiToBTC,
-      convertFromBtcToUsd
+      profile
     } = this.props
-    const { amount } = this.state
 
-    const submitDisabled = !popr || checkoutLoading || checkoutError
-    const amountSatoshi = popr ? popr.amount : (amount * 100000)
-    const amountMBtc = popr ? convertSatoshiToBTC(popr.amount)/1000 : amount
-    const amountBtc = convertSatoshiToBTC(amountSatoshi)
-    const amountUSD = convertFromBtcToUsd(amountBtc)
-    const amountText = `${amountBtc} tBTC | ${amountUSD} tUSD`
-    const address = getAddress(wallet)
-    const balanceSat = get(wallet, 'balance.final_balance', 0)
-    const balance = balanceSat / 100000 // mbtc
-    const balanceSufficient = balanceSat >= amountSatoshi
+    const signedOut = isEmpty(get(wallet, 'did.publicDidDocument.id'))
     const vendorAddress = get(profile, 'vendorAddress')
     const loadingSteps = paymentStepLoadingMessages.length - 1
     const error =
@@ -110,7 +96,13 @@ class Payment extends Component {
       || (get(checkoutError, 'message') ? checkoutError.message : checkoutError)
       || (vendorAddress ? 'Unknown Error' : 'Missing vendor payment address')
 
-    if (checkoutError || !vendorAddress) {
+    if (signedOut) {
+      return <CardHeader
+        avatar={<Avatar><ErrorIcon/></Avatar>}
+        title='Not Signed In'
+        subheader='You need to sign in to send payments'
+      />
+    } else if (checkoutError || !vendorAddress) {
       return <CardHeader
         avatar={<Avatar><ErrorIcon/></Avatar>}
         title='Something went wrong while fetching Payment Information'
@@ -128,100 +120,144 @@ class Payment extends Component {
         title={`Paying and Submitting Review (Step ${loadingStep}/${loadingSteps})`}
         subheader={loadingMessage || 'Please wait...'}
       />
-    } else if (!popr) {
-      return <div>
-        <CardHeader
-          avatar={<Avatar><WalletIcon/></Avatar>}
-          title='Send Payment'
-          subheader='Choose a payment method'
-        />
-        <Divider/>
-        <PaymentMethods />
-        <Divider/>
-        <CardContent>
-          <List dense disablePadding>
-            <ListItem>
-              <ListItemIcon><AmountIcon/></ListItemIcon>
-              <ListItemText
-                primary={<TextField
-                  type='number'
-                  value={amount}
-                  onChange={this.changeAmount}
-                  error={!balanceSufficient}
-                  helperText={balanceSufficient ? `You will pay ${amountMBtc} Testnet mBTC (${amountUSD} tUSD)` : `You do not have enough funds to cover this payment`}
-                />}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><WalletIcon/></ListItemIcon>
-              <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><BalanceIcon/></ListItemIcon>
-              <ListItemText primary='Your tBTC Balance (testnet)' secondary={`${balance} mBTC`}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-              <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><CommentIcon/></ListItemIcon>
-              <ListItemText
-                primary='Chlu Enabled'
-                secondary='You will be able to leave a Decentralised Review backed by this payment.'
-              />
-            </ListItem>
-          </List>
-        </CardContent>
-        <CardActions>
-          <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout}>Prepare Payment</Button>
-        </CardActions>
-      </div>
+    } else if (popr) {
+      return this.renderConfirmPaymentForm()
     } else {
-      return <div>
-        <CardHeader
-          avatar={<Avatar><WalletIcon/></Avatar>}
-          title='Send Prepared Payment'
-          subheader='If you want, you can leave a review. You can also add or edit your review later'
-        />
-        <Divider/>
-        <PaymentMethods />
-        <Divider/>
-        <CardContent>
-          <List dense disablePadding>
-            <ListItem>
-              <ListItemIcon><AmountIcon/></ListItemIcon>
-              <ListItemText primary='Amount Prepared' secondary={amountText}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><WalletIcon/></ListItemIcon>
-              <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
-              <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><VendorIcon/></ListItemIcon>
-              <ListItemText primary='Chlu Vendor' secondary={popr.marketplace_vendor_url}/>
-            </ListItem>
-            <ListItem>
-              <ListItemIcon><MarketplaceIcon/></ListItemIcon>
-              <ListItemText primary='Chlu Marketplace' secondary={popr.marketplace_url}/>
-            </ListItem>
-          </List>
-        </CardContent>
-        <Divider/>
-        <PaymentForm
-          starCount={starCount}
-          rating={rating}
-          setRating={setRating}
-          disabled={submitDisabled}
-          onSubmit={this.handleSubmit}
-          onCancel={this.cancel}
-        />
-      </div>
+      return this.renderPreparePaymentForm()
     }
+  }
+
+  renderPreparePaymentForm() {
+    const {
+      wallet,
+      profile,
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
+    } = this.props
+    const { amount } = this.state
+
+    const amountMBtc = amount
+    const amountSatoshi = amountMBtc * 100000
+    const amountBtc = convertSatoshiToBTC(amountSatoshi)
+    const amountUSD = convertFromBtcToUsd(amountBtc)
+    const address = getAddress(wallet)
+    const balanceSat = get(wallet, 'balance.final_balance', 0)
+    const balance = balanceSat / 100000 // mbtc
+    const balanceSufficient = balanceSat >= amountSatoshi
+    const vendorAddress = get(profile, 'vendorAddress')
+
+    return <div>
+      <CardHeader
+        avatar={<Avatar><WalletIcon/></Avatar>}
+        title='Send Payment'
+        subheader='Choose a payment method'
+      />
+      <Divider/>
+      <PaymentMethods />
+      <Divider/>
+      <CardContent>
+        <List dense disablePadding>
+          <ListItem>
+            <ListItemIcon><AmountIcon/></ListItemIcon>
+            <ListItemText
+              primary={<TextField
+                type='number'
+                value={amount}
+                onChange={this.changeAmount}
+                error={!balanceSufficient}
+                helperText={balanceSufficient ? `You will pay ${amountMBtc} Testnet mBTC (${amountUSD} tUSD)` : `You do not have enough funds to cover this payment`}
+              />}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><WalletIcon/></ListItemIcon>
+            <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><BalanceIcon/></ListItemIcon>
+            <ListItemText primary='Your tBTC Balance (testnet)' secondary={`${balance} mBTC`}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
+            <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><CommentIcon/></ListItemIcon>
+            <ListItemText
+              primary='Chlu Enabled'
+              secondary='You will be able to leave a Decentralised Review backed by this payment.'
+            />
+          </ListItem>
+        </List>
+      </CardContent>
+      <CardActions>
+        <Button disabled={!amount || !balanceSufficient} onClick={this.getCheckout}>Prepare Payment</Button>
+      </CardActions>
+    </div>
+  }
+
+  renderConfirmPaymentForm() {
+    const {
+      wallet,
+      checkout: {
+        data: popr
+      },
+      profile,
+      rating,
+      setRating,
+      convertSatoshiToBTC,
+      convertFromBtcToUsd
+    } = this.props
+
+    const amountSatoshi = popr.amount
+    const amountBtc = convertSatoshiToBTC(amountSatoshi)
+    const amountUSD = convertFromBtcToUsd(amountBtc)
+    const amountText = `${amountBtc} tBTC | ${amountUSD} tUSD`
+    const address = getAddress(wallet)
+    const vendorAddress = get(profile, 'vendorAddress')
+
+    return <div>
+      <CardHeader
+        avatar={<Avatar><WalletIcon/></Avatar>}
+        title='Send Prepared Payment'
+        subheader='If you want, you can leave a review. You can also add or edit your review later'
+      />
+      <Divider/>
+      <PaymentMethods />
+      <Divider/>
+      <CardContent>
+        <List dense disablePadding>
+          <ListItem>
+            <ListItemIcon><AmountIcon/></ListItemIcon>
+            <ListItemText primary='Amount Prepared' secondary={amountText}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><WalletIcon/></ListItemIcon>
+            <ListItemText primary='Your tBTC Wallet (testnet)' secondary={`You will pay with your funds in ${address}`}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><PaymentDestinationIcon/></ListItemIcon>
+            <ListItemText primary='Vendor Wallet' secondary={`Your payment will go to ${vendorAddress}`}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><VendorIcon/></ListItemIcon>
+            <ListItemText primary='Chlu Vendor' secondary={popr.marketplace_vendor_url}/>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><MarketplaceIcon/></ListItemIcon>
+            <ListItemText primary='Chlu Marketplace' secondary={popr.marketplace_url}/>
+          </ListItem>
+        </List>
+      </CardContent>
+      <Divider/>
+      <PaymentForm
+        starCount={starCount}
+        rating={rating}
+        setRating={setRating}
+        onSubmit={this.handleSubmit}
+        onCancel={this.cancel}
+      />
+    </div>
   }
 }
 
