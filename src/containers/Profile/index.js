@@ -81,8 +81,7 @@ class ProfileContainer extends Component {
       reviewsLoading,
       reviewsLoadingPage,
       reviewsDidId,
-      reviewsCount,
-      wallet
+      reviewsCount
     } = this.props
     const { profile, loading: loadingProfile } = this.state
     const didId = match.params.id;
