@@ -4,14 +4,16 @@ import { get } from 'lodash'
 
 // components
 import { Button, Card, CardContent, CardActions, CardHeader, Divider, Grid, InputAdornment } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
+import BusinessLocationField from 'containers/SignupWizard/WizardSteps/BusinessLocationField';
 
 // redux
 import { compose } from 'recompose';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchProfile, updateProfile } from 'store/modules/ui/profile';
+import { fetchProfile, updateProfile, businessTypes } from 'store/modules/ui/profile';
 import { fetchBalance } from 'store/modules/data/wallet';
 
 // helpers
@@ -35,6 +37,8 @@ import KeyIcon from '@material-ui/icons/Lock'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import SaveIcon from '@material-ui/icons/Save';
 import BalanceIcon from '@material-ui/icons/AttachMoney'
+import Phone from '@material-ui/icons/Phone'
+import Web from '@material-ui/icons/Web'
 
 
 const styles = theme => ({
@@ -148,7 +152,8 @@ class Settings extends Component {
 
   renderProfile() {
     const { classes } = this.props
-    const { dirty } = this.state
+    const { dirty, profile } = this.state
+    const isBusiness = get(profile, 'type') === 'business'
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -157,7 +162,7 @@ class Settings extends Component {
           subheader='Your Profile Page'
         />
         <CardContent>
-          {this.renderUser()}
+          {isBusiness ? this.renderBusiness() : this.renderUser()}
         </CardContent>
         <CardActions>
           <Button variant='raised' onClick={this.saveProfile.bind(this)} disabled={!dirty}>
@@ -334,6 +339,135 @@ class Settings extends Component {
                 </InputAdornment>
               )
             }}
+          />
+        </Grid>
+      </Grid>
+    )
+  }
+
+  renderBusiness() {
+    const { classes } = this.props;
+    const { profile } = this.state
+    console.log(profile)
+
+    return (
+      <Grid container justify='center' spacing={16}>
+        <Grid item xs={12} sm={12} md={12}>
+          <PictureUpload />
+          <div className={classes.description}>Upload Company Logo</div>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={5}>
+          <CustomInput
+            success={this.state.businessnameState === 'success'}
+            error={this.state.businessnameState === 'error'}
+            labelText={<span>Business Name</span>}
+            id='businessname'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'businessname', 'length', 3),
+              value: profile.businessname || '',
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Face className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={5}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
+              Business Type
+            </InputLabel>
+
+            <Select
+              MenuProps={{ className: classes.selectMenu }}
+              classes={{ select: classes.select }}
+              value={businessTypes.indexOf(profile.businesstype)}
+              onChange={this.handleSimple}
+              inputProps={{
+                onChange: event => this.change(businessTypes[event.target.value], 'businesstype'),
+                name: "simpleSelect",
+                id: "simple-select"
+              }}
+            >
+              {businessTypes.map((v, i) => (
+                <MenuItem key={i} value={i} disabled={!i} classes={{ root: classes.selectMenuItem, selected: i ? classes.selectMenuItemSelected : undefined }}>{v}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={3}>
+          <CustomInput
+            labelText={<span>Email</span>}
+            id='email'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              value: profile.email || '',
+              onChange: event => this.change(event.target.value, 'email', 'length', 3),
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Email className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={4}>
+          <CustomInput
+            labelText={<span>Website</span>}
+            id='website'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'website', 'length', 3),
+              value: profile.website || '',
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Web className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={3}>
+          <CustomInput
+            labelText={<span>Phone</span>}
+            id='phone'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'phone', 'length', 3),
+              value: profile.phone || '',
+              endAdornment: (
+                <InputAdornment position='end' className={classes.inputAdornment}>
+                  <Phone className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={10}>
+          <CustomInput
+            labelText='A brief description of your business.'
+            id='about-me'
+            formControlProps={{ fullWidth: true }}
+            inputProps={{
+              onChange: event => this.change(event.target.value, 'businessdescription'),
+              value: profile.businessdescription || '',
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={10}>
+          <BusinessLocationField
+            value={profile.businesslocation}
+            onChange={value => this.change(value, 'businesslocation')}
+            classes={classes}
           />
         </Grid>
       </Grid>
