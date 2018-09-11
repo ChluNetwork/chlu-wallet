@@ -90,6 +90,8 @@ class Payment extends Component {
 
     const signedOut = isEmpty(get(wallet, 'did.publicDidDocument.id'))
     const vendorAddress = get(profile, 'vendorAddress')
+    const address = getAddress(wallet)
+    const payingSelf = address === vendorAddress
     const loadingSteps = paymentStepLoadingMessages.length - 1
     const error =
       (get(paymentError, 'message') ? paymentError.message : paymentError)
@@ -102,7 +104,13 @@ class Payment extends Component {
         title='Not Signed In'
         subheader='You need to sign in to send payments'
       />
-    } else if (checkoutError || !vendorAddress) {
+    } else if (payingSelf) {
+      return <CardHeader
+        avatar={<Avatar><ErrorIcon/></Avatar>}
+        title='Sending payment to yourself'
+        subheader="You can't send a payment to yourself"
+      />
+    } if (checkoutError || !vendorAddress) {
       return <CardHeader
         avatar={<Avatar><ErrorIcon/></Avatar>}
         title='Something went wrong while fetching Payment Information'
