@@ -3,9 +3,10 @@ import { get } from 'lodash'
 import { connect } from 'react-redux'
 import EditReviewForm from 'containers/EditReviewForm'
 import Button from '@material-ui/core/Button'
+import EditIcon from '@material-ui/icons/Edit'
 // actions
 import { submitEditedReview, cancelEditReview, editReview } from 'store/modules/data/review'
-import { CardActions, CardContent } from '@material-ui/core';
+import { CardActions, CardContent, CardHeader } from '@material-ui/core';
 
 const EditReview = props => {
   const {
@@ -20,30 +21,31 @@ const EditReview = props => {
     cancel
   } = props
   const editingMultihash = editing ? reviewMultihash : null
-  if (review) {
-    return <div>
-      {editingMultihash === multihash && <CardContent>
-          <EditReviewForm
-            onSubmit={submit}
-            handleCancel={cancel}
-            initialValues={{
-              comment: get(review, 'review.text'),
-              rating: get(review, 'rating_details.value')
-            }}
-            isLoading={publishing}
-          />
-        </CardContent>}
-      {review.editable && editingMultihash !== multihash && <CardActions>
-          <Button
-            onClick={() => showEditForm(multihash)}
-            disabled={Boolean(editing)}
-          >Edit</Button>
-        </CardActions>
-      }
-    </div>
-  } else {
-    return <div/>
-  }
+  const editingThisReview = editingMultihash === multihash
+  return <div>
+    {editingThisReview && <CardHeader
+      avatar={<EditIcon/>}
+      title='Editing this review'
+    />}
+    {editingThisReview && <CardContent>
+        <EditReviewForm
+          onSubmit={submit}
+          handleCancel={cancel}
+          initialValues={{
+            comment: get(review, 'review.text'),
+            rating: get(review, 'rating_details.value')
+          }}
+          isLoading={publishing}
+        />
+      </CardContent>}
+    {review.editable && editingMultihash !== multihash && <CardActions>
+        <Button
+          onClick={() => showEditForm(multihash)}
+          disabled={Boolean(editing)}
+        >Edit</Button>
+      </CardActions>
+    }
+  </div>
 }
 
 function mapStateToProps (state) {

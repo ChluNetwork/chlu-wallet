@@ -137,14 +137,10 @@ class Review extends Component {
           <List disablePadding>
             <ListItem>
               <ListItemIcon><CommentIcon/></ListItemIcon>
-              {!editingThisReview && <ListItemText
+              <ListItemText
                 primary={review.review.title || 'No title provided'}
                 secondary={review.review.text || 'No review provided'}
-              />}
-              {detailed && review.editable && (!editing || editingThisReview)
-                ? <EditReview multihash={review.multihash} />
-                : null
-              }
+              />
             </ListItem>
             <ListItem>
               <ListItemIcon><PlatformIcon/></ListItemIcon>
@@ -184,6 +180,7 @@ class Review extends Component {
             </ListItem> }
           </List>
         </CardContent>}
+        {detailed && review.editable && <EditReview multihash={review.multihash}/>}
       </Card>
     )
   }
