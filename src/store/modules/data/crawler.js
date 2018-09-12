@@ -3,6 +3,9 @@ import { get } from 'lodash'
 
 import { readMyReputation } from './reputation'
 
+import { createDAGNode } from 'chlu-api-client/src/utils/ipfs'
+import { getChluAPIClient } from 'helpers/chlu'
+
 // Constants
 const CRAWLER_START = 'crawler/START'
 const CRAWLER_ERROR = 'crawler/ERROR'
@@ -30,11 +33,16 @@ export function startCrawler(type, url, username, password) {
       const signedInDid = get(state, 'data.wallet.did', null)
       const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
       const did = signedInDid || signedOutDid
-      const didId = did.publicDidDocument.id
+      const publicDidDocument = did.publicDidDocument
+      const didId = publicDidDocument.id
+      const body = { type, url, didId, username, password }
+      const chluApiClient = await getChluAPIClient()
+      const dagNode = await createDAGNode(Buffer.from(JSON.stringify(body)))
+      const signature = await chluApiClient.didIpfsHelper.signMultihash(dagNode.toJSON().multihash, did)
 
       const response = await fetch(`${API_URL}/api/v1/crawl`, {
         method: 'POST',
-        body: JSON.stringify({ type, url, didId, username, password }),
+        body: JSON.stringify({ ...body, publicDidDocument, signature }),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
