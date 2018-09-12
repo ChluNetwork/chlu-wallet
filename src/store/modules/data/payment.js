@@ -3,6 +3,7 @@ import { getChluIPFS } from 'helpers/chlu'
 import { toastr } from 'react-redux-toastr'
 import { getAddress } from 'helpers/wallet';
 import { createTransaction } from 'helpers/payment';
+import { getProfileUrl } from 'helpers/profileProvider'
 
 // ------------------------------------
 // Constants
@@ -44,6 +45,7 @@ export function submitPayment (data) {
       let step = 1
       const state = getState()
       const wallet = state.data.wallet
+      const myDid = wallet.did.publicDidDocument.id
       const popr = state.data.checkout.data;
       if (!wallet) {
         throw new Error('Need Wallet')
@@ -64,14 +66,20 @@ export function submitPayment (data) {
           text: review || ''
         },
         author: {
-          name: wallet.did.publicDidDocument.id
+          // TODO: use my profile name
+          name: myDid,
+          platform_url: getProfileUrl(myDid)
+          // TODO: should the protobuf include the profile fields here? They are there for the subject
         },
         subject: {
-          did: popr.vendor_did
+          did: popr.vendor_did,
+          // TODO: the marketplace should resolve the extra fields here
+          url: getProfileUrl(popr.vendor_did)
         },
         platform: {
           name: 'Chlu Wallet (testnet)',
-          url: 'https://wallet.chlu.io'
+          url: 'https://wallet.chlu.io',
+          subject_url: getProfileUrl(popr.vendor_did)
         },
         detailed_review: [],
         rating_details: {

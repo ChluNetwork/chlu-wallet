@@ -1,6 +1,7 @@
 import { get } from 'lodash'
 
 const marketplaceUrl = process.env.REACT_APP_MARKETPLACE_URL
+const applicationUrl = process.env.REACT_APP_WALLET_URL || 'https://wallet.chlu.io'
 
 export async function getProfile (didId) {
   console.log("getting profile for didID: " + didId)
@@ -40,6 +41,10 @@ export async function searchProfiles (query, limit, offset) {
   } else {
     return { count: 0, rows: [] }
   }
+}
+
+export function getProfileUrl(didId) {
+  return `${applicationUrl}#/profile/${didId}`
 }
 
 const profileProvider = {
