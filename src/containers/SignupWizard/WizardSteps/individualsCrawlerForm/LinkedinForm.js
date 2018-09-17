@@ -45,7 +45,7 @@ class LinkedinForm extends React.Component {
           <Grid item xs={12} md={8} className={classes.gridRow}>
             <h5>Import LinkedIn reviews</h5>
 
-            <Grid container justify='space-between' spacing='8' style={{ marginTop: -24 }}>
+            <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
               <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
                 <CustomInput
                   labelText='LinkedIn login'

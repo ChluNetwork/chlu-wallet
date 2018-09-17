@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import ProfileImageUpload from 'containers/ProfileImageUpload'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
-import BusinessLocationField from 'containers/SignupWizard/WizardSteps/BusinessLocationField';
+import BusinessLocationField from 'containers/Profile/BusinessLocationField';
 
 // redux
 import { compose } from 'recompose';

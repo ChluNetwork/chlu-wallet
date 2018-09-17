@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import ProfileImageUpload from 'components/ProfileImageUpload'
-import BusinessLocationField from './BusinessLocationField';
+import ProfileForm from 'containers/Profile/ProfileForm'
 
 // icons
 import Face from '@material-ui/icons/Face'
@@ -154,218 +154,7 @@ class Step1 extends React.Component {
     this.props.onProfileFieldChange(stateName, value);
   }
 
-  renderUser() {
-    if (this.state.selectedValue !== "user") return undefined;
-
-    const { classes } = this.props;
-
-    return (
-      <Grid container justify='center' spacing={16}>
-        <Grid item xs={12} sm={12} md={12}>
-          <ProfileImageUpload
-            imageDataUrl={this.state.avatarDataUrl}
-            onChoosePicture={pic => this.change(pic, 'avatarDataUrl')}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.emailState === 'success'}
-            error={this.state.emailState === 'error'}
-            labelText={<span>Email</span>}
-            id='email'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'email', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Email className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.usernameState === 'success'}
-            error={this.state.usernameState === 'error'}
-            labelText={<span>User Name</span>}
-            id='username'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'username', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.firstnameState === 'success'}
-            error={this.state.firstnameState === 'error'}
-            labelText={<span>First Name</span>}
-            id='firstname'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'firstname', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.lastnameState === 'success'}
-            error={this.state.lastnameState === 'error'}
-            labelText={<span>Last Name</span>}
-            id='lastname'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'lastname', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-      </Grid>
-    )
-  }
-
-  renderBusiness() {
-    if (this.state.selectedValue !== "business") return undefined;
-
-    const { classes } = this.props;
-
-    return (
-      <Grid container justify='center' spacing={16}>
-        <Grid item xs={12} sm={12} md={12}>
-          <ProfileImageUpload
-            imageDataUrl={this.state.avatarDataUrl}
-            onChoosePicture={pic => this.change(pic, 'avatarDataUrl')}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <CustomInput
-            success={this.state.businessnameState === 'success'}
-            error={this.state.businessnameState === 'error'}
-            labelText={<span>Business Name</span>}
-            id='businessname'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'businessname', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={5}>
-          <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
-              Business Type
-            </InputLabel>
-
-            <Select
-              MenuProps={{ className: classes.selectMenu }}
-              classes={{ select: classes.select }}
-              value={this.state.businesstype}
-              onChange={this.handleSimple}
-              inputProps={{
-                onChange: event => this.change(event.target.value, 'businesstype'),
-                name: "simpleSelect",
-                id: "simple-select"
-              }}
-            >
-              {businessTypes.map((v, i) => (
-                <MenuItem key={i} value={i} disabled={!i} classes={{ root: classes.selectMenuItem, selected: i ? classes.selectMenuItemSelected : undefined }}>{v}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={3}>
-          <CustomInput
-            labelText={<span>Email</span>}
-            id='email'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'email', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Email className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={4}>
-          <CustomInput
-            labelText={<span>Website</span>}
-            id='website'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'website', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Web className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={3}>
-          <CustomInput
-            labelText={<span>Phone</span>}
-            id='phone'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{
-              onChange: event => this.change(event.target.value, 'phone', 'length', 3),
-              endAdornment: (
-                <InputAdornment position='end' className={classes.inputAdornment}>
-                  <Phone className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={10}>
-          <CustomInput
-            labelText='A brief description of your business.'
-            id='about-me'
-            formControlProps={{ fullWidth: true }}
-            inputProps={{ onChange: event => this.change(event.target.value, 'businessdescription') }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={10}>
-          <BusinessLocationField
-            value={this.state.businesslocation}
-            onChange={value => this.change(value, 'businesslocation')}
-            classes={classes}
-          />
-        </Grid>
-      </Grid>
-    )
-  }
+  setProfileFormRef = profileForm => this.profileForm = profileForm
 
   render() {
     const { classes, wallet } = this.props;
@@ -426,8 +215,10 @@ class Step1 extends React.Component {
               />
             </Grid>
 
-            {this.renderUser()}
-            {this.renderBusiness()}
+            <ProfileForm
+              ref={this.setProfileFormRef}
+              userType={this.state.selectedValue === 'user' ? 'individual' : 'business'}
+            />
 
             <Grid item xs={12} sm={12} md={10}>
               <FormControlLabel
