@@ -10,13 +10,15 @@ import { get } from 'lodash'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const TOGGLE_SEARCH_SHOW = 'TOGGLE_SEARCH_SHOW'
-const SET_CURRENT_PROFILE = 'profile/SET';
-const SET_LOGIN_LOADING = 'profile/LOGIN_LOADING';
+const LOADING_PROFILE = 'profile/LOADING'
+const SET_PROFILE = 'profile/SET';
+const SET_LOGIN_LOADING = 'profile/LOGGING_IN';
 
 const initialState = {
-  isSearchFieldOpen: false,
-  loginLoading: false
+  loginLoading: false,
+  profile: {},
+  didId: null,
+  loading: false
 }
 
 export const businessTypes = [
@@ -38,18 +40,29 @@ export function getFullName(profile) {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const toggleSearchShow = createAction(TOGGLE_SEARCH_SHOW)
-export const setProfile = createAction(SET_CURRENT_PROFILE);
+export const setProfile = createAction(SET_PROFILE);
 export const setLoginLoading = createAction(SET_LOGIN_LOADING);
+const setLoading = createAction(LOADING_PROFILE)
 
 // ------------------------------------
 // Thunks
 // ------------------------------------
+
+export function fetchMyProfile() {
+  return async (dispatch, getState) => {
+    const did = get(getState(), 'data.wallet.did.publicDidDocument.id')
+    return dispatch(fetchProfile(did))
+  }
+}
+
 export function fetchProfile(did) {
   return async (dispatch) => {
-    // TODO: show loading
+    dispatch(setLoading(did))
     let profile = await profileProvider.getProfile(did);
-    dispatch(setProfile(profile || {}));
+    dispatch(setProfile({
+      profile: profile || {},
+      didId: did
+    }));
     return profile
   }
 }
@@ -114,7 +127,6 @@ export function signupToMarketplace(profile) {
   }
 }
 
-
 export function signIn(exportedWallet) {
   return async dispatch => {
     dispatch(setLoginLoading(true))
@@ -141,20 +153,25 @@ export function signIn(exportedWallet) {
   }
 }
 
+export function updateProfilePicture(dataUrl) {
+  return updateProfile({
+    avatarDataUrl: dataUrl
+  })
+}
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default handleActions({
-  [TOGGLE_SEARCH_SHOW]: (state) => ({
+  [SET_PROFILE]: (state, { payload: { profile, didId } }) => ({
     ...state,
-    isSearchFieldOpen: !state.isSearchFieldOpen
+    profile,
+    loading: false,
+    didId
   }),
-  [SET_CURRENT_PROFILE]: (state, action) => ({
-    ...state,
-    profile: {
-      ...state.profile,
-      ...action.payload
-    }
+  [LOADING_PROFILE]: (state, { payload: didId }) => ({
+    loading: true,
+    didId
   }),
   [SET_LOGIN_LOADING]: (state, { payload: loginLoading }) => ({ ...state, loginLoading })
 }, initialState)

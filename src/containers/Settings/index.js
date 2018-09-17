@@ -6,6 +6,13 @@ import { get } from 'lodash'
 import { Button, Card, CardContent, CardActions, CardHeader, Divider, Grid, InputAdornment } from '@material-ui/core'
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import { Avatar, withStyles, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+
+import CustomInput from 'components/MaterialDashboardPro/CustomInput';
+import ProfileImageUpload from 'containers/ProfileImageUpload'
 import ReactCopyToClipBoard from 'react-copy-to-clipboard'
 import BusinessLocationField from 'containers/SignupWizard/WizardSteps/BusinessLocationField';
 
@@ -18,13 +25,6 @@ import { fetchBalance } from 'store/modules/data/wallet';
 
 // helpers
 import { downloadWallet, getAddress } from 'helpers/wallet';
-
-import CustomInput from 'components/MaterialDashboardPro/CustomInput';
-import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
-
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 
 // icons
 import Email from '@material-ui/icons/Email';
@@ -242,8 +242,7 @@ class Settings extends Component {
     return (
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
-          <PictureUpload />
-          <div className={classes.description}>Upload Photo</div>
+          <ProfileImageUpload />
         </Grid>
         <Grid item xs={12} sm={12} md={5}>
           <CustomInput
@@ -353,8 +352,7 @@ class Settings extends Component {
     return (
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
-          <PictureUpload />
-          <div className={classes.description}>Upload Company Logo</div>
+          <ProfileImageUpload />
         </Grid>
 
         <Grid item xs={12} sm={12} md={5}>

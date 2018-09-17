@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 // components
 import { CardHeader, Grid, List, ListItem, ListItemIcon, ListItemText, Paper } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
-import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
+import ProfilePicture from 'components/ProfilePicture'
 
 // icons
 import EmailIcon from '@material-ui/icons/Email'
@@ -38,9 +38,6 @@ const styles = theme => ({
     fontStyle: 'italic',
     paddingTop: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit
-  },
-  profilePic: {
-    pointerEvents: 'none'
   },
   map: {
     position: 'relative',
@@ -87,8 +84,8 @@ class Profile extends Component {
     return (
       <div className={classes.profileRow}>
         <Grid container justify='center' alignItems='flex-start' spacing={16}>
-          <Grid item xs={12} sm={12} md={2} className={classes.profilePic}>
-            <PictureUpload />
+          <Grid item xs={12} sm={12} md={2}>
+            <ProfilePicture profile={profile} />
           </Grid>
 
           <Grid item xs={12} sm={12} md={8}>
@@ -115,8 +112,8 @@ class Profile extends Component {
     return (
       <div className={classes.profileRow}>
         <Grid container justify='center' alignItems='flex-start' spacing={16}>
-          <Grid item xs={12} sm={12} md={2} className={classes.profilePic}>
-            <PictureUpload />
+          <Grid item xs={12} sm={12} md={2}>
+            <ProfilePicture profile={profile} />
           </Grid>
 
           <Grid item xs={12} sm={12} md={8}>
