@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom'
 // custom components
 import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
-import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
+import ProfileImageUpload from 'components/ProfileImageUpload'
 import BusinessLocationField from './BusinessLocationField';
 
 // icons
@@ -77,9 +77,11 @@ class Step1 extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
   }
+
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
   handleChange(event) {
     this.setState({ selectedValue: event.target.value });
 
@@ -87,9 +89,11 @@ class Step1 extends React.Component {
       this.props.onSignupTypeChange(event.target.value);
     }
   }
+
   handleChangeEnabled(event) {
     this.setState({ selectedEnabled: event.target.value });
   }
+
   handleToggle(value) {
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
@@ -106,8 +110,6 @@ class Step1 extends React.Component {
     });
   }
 
-
-
   toggleAcceptTerms() {
     this.props.setAcceptTermsAndConditions(!this.props.acceptedTerms)
   }
@@ -120,6 +122,7 @@ class Step1 extends React.Component {
     }
     return false;
   }
+
   // function that verifies if a string has a given length or not
   verifyLength(value, length) {
     if (value.length >= length) {
@@ -127,6 +130,7 @@ class Step1 extends React.Component {
     }
     return false;
   }
+
   change(value, stateName, type, stateNameEqualTo) {
     switch (type) {
     case 'email':
@@ -158,8 +162,10 @@ class Step1 extends React.Component {
     return (
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
-          <PictureUpload />
-          <div className={classes.description}>Upload Photo</div>
+          <ProfileImageUpload
+            imageDataUrl={this.state.avatarDataUrl}
+            onChoosePicture={pic => this.change(pic, 'avatarDataUrl')}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={5}>
@@ -245,8 +251,10 @@ class Step1 extends React.Component {
     return (
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>
-          <PictureUpload />
-          <div className={classes.description}>Upload Company Logo</div>
+          <ProfileImageUpload
+            imageDataUrl={this.state.avatarDataUrl}
+            onChoosePicture={pic => this.change(pic, 'avatarDataUrl')}
+          />
         </Grid>
 
         <Grid item xs={12} sm={12} md={5}>

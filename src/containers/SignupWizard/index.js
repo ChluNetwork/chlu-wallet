@@ -90,6 +90,8 @@ class SignupWizard extends Component {
     this.setState(state => {
       state.profile[fieldName] = fieldValue
       return state
+    }, () => {
+      console.log(this.state.profile)
     })
   }
 

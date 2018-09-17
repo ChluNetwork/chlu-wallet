@@ -6,40 +6,39 @@ class PictureUpload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: null,
-      imagePreviewUrl: defaultImage
+      file: null
     };
     this.handleImageChange = this.handleImageChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleImageChange(e) {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
+      this.setState({ file }, () => {
+        console.log(this.state)
+        if (this.props.onChoosePicture) this.props.onChoosePicture(this.state.file, this.state.imagePreviewUrl)
       });
     };
     reader.readAsDataURL(file);
   }
-  handleSubmit(e) {
-    e.preventDefault();
-    // this.state.file is the file/image uploaded
-    // in this function you can save the image (this.state.file) on form submit
-    // you have to call it yourself
-  }
+
+  setInputRef = input => this.input = input
+
   render() {
+    const { imageDataUrl, onChoosePicture } = this.props
+    const editable = typeof onChoosePicture === 'function'
+    const containerStyle = editable ? null : { pointerEvents: 'none' }
     return (
-      <div className='picture-container'>
+      <div className='picture-container' style={containerStyle}>
         <div className='picture'>
           <img
-            src={this.state.imagePreviewUrl}
+            src={imageDataUrl || defaultImage}
             className='picture-src'
             alt='...'
           />
-          <input type='file' onChange={e => this.handleImageChange(e)} />
+          { editable && <input ref={this.setInputRef} type='file' onChange={e => this.handleImageChange(e)} /> }
         </div>
       </div>
     );
