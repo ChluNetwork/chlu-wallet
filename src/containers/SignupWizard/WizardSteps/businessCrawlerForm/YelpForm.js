@@ -90,7 +90,7 @@ class YelpForm extends React.Component {
     if (this.state.isProfileUrlValid) {
       return (
         <Grid item xs={12} md={8} className={classes.gridRow}>
-          <Grid container justify='space-between' spacing='8' style={{ marginTop: -24 }}>
+          <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
             <Grid item xs={12} md={6} className={classes.gridRow}>
               <CustomInput
                 success={this.state.emailState === 'success'}
