@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
 import { getAddress, importDID } from 'helpers/wallet'
 import { get } from 'lodash'
+import { SubmissionError } from 'redux-form'
 
 // ------------------------------------
 // Constants
@@ -73,7 +74,13 @@ export function updateProfile(profile) {
     const newProfile = { ...currentProfile, ...profile }
     newProfile.name = getFullName(newProfile)
     const chluApiClient = await getChluAPIClient()
-    await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
+    try {
+      await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
+    } catch (error) {
+      // Make sure profile validation errors from the backend get propagated back to our profile form
+      if (error.response) throw new SubmissionError(error.response.data)
+      else throw error
+    }
     dispatch(setProfile(newProfile))
     return newProfile
   }
@@ -118,8 +125,14 @@ export function signupToMarketplace(profile) {
     }
     const chluApiClient = await getChluAPIClient()
     await chluApiClient.importDID(walletCreated.did)
-    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
-    await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
+    await chluApiClient.registerToMarketplace(process.env.REACT_APP_MARKETPLACE_URL)
+    try {
+      await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, preparedProfile)
+    } catch (error) {
+      // Make sure profile validation errors from the backend get propagated back to our profile form
+      if (error.response) throw new SubmissionError(error.response.data)
+      else throw error
+    }
     await dispatch(setWalletToCreatedWallet())
     const dest = isBusiness ? '/reputation' : '/search'
     dispatch(push(dest))
@@ -153,8 +166,8 @@ export function signIn(exportedWallet) {
   }
 }
 
-export function updateProfilePicture(dataUrl) {
-  return updateProfile({
+export async function updateProfilePicture(dataUrl) {
+  return await updateProfile({
     avatarDataUrl: dataUrl
   })
 }

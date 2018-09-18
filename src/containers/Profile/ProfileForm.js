@@ -4,25 +4,18 @@ import {
   withStyles,
   InputAdornment,
   Grid,
-  Checkbox,
-  Radio,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   Select
 } from '@material-ui/core'
 import ProfileImageUpload from 'components/ProfileImageUpload'
 import CustomInput from 'components/Form/CustomInput';
-import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // icons
 import Face from '@material-ui/icons/Face'
 import Email from '@material-ui/icons/Email'
 import Phone from '@material-ui/icons/Phone'
 import Web from '@material-ui/icons/Web'
-import DoneIcon from '@material-ui/icons/Done'
-import Check from '@material-ui/icons/Check'
-import FiberManualRecord from "@material-ui/icons/FiberManualRecord"
 import BusinessLocationField from './BusinessLocationField';
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
@@ -33,13 +26,15 @@ import { businessTypes } from 'store/modules/ui/profile';
 import { compose } from 'recompose'
 import { reduxForm, Field } from 'redux-form'
 
-const ProfileImageUploadForm = ({ input: { value, onChange } }) => (<ProfileImageUpload
-  imageDataUrl={value}
-  onChoosePicture={onChange}
-/>)
+const ProfileImageUploadForm = props => {
+  const { input: { value, onChange } } = props
+  return <ProfileImageUpload
+    imageDataUrl={value}
+    onChoosePicture={onChange}
+  />
+}
 
-const SelectForm = (props) => {
-  console.log(props)
+const SelectForm = props => {
   const { input: { value, onChange }, helpText, options, classes } = props
   return <FormControl fullWidth className={classes.selectFormControl}>
       <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
@@ -61,7 +56,11 @@ const SelectForm = (props) => {
         ))}
       </Select>
     </FormControl>
+}
 
+const BusinessLocationFieldForm = props => {
+  const { input: { value, onChange }, ...others } = props
+  return <BusinessLocationField value={value} onChange={onChange} {...others} />
 }
 
 class ProfileForm extends Component {
@@ -195,32 +194,13 @@ class ProfileForm extends Component {
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={5}>
-          <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
-              Business Type
-            </InputLabel>
-
-            <Select
-              MenuProps={{ className: classes.selectMenu }}
-              classes={{ select: classes.select }}
-              value={this.state.businesstype}
-              onChange={this.handleSimple}
-            >
-              {businessTypes.map((v, i) => (
-                <MenuItem key={i} value={i} disabled={!i} classes={{ root: classes.selectMenuItem, selected: i ? classes.selectMenuItemSelected : undefined }}>{v}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
         <Grid item xs={12} sm={12} md={3}>
-          <CustomInput
+          <Field
+            name='email'
+            component={CustomInput}
             labelText={<span>Email</span>}
-            id='email'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event.target.value, 'email', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Email className={classes.inputAdornmentIcon} />
@@ -231,12 +211,12 @@ class ProfileForm extends Component {
         </Grid>
 
         <Grid item xs={12} sm={12} md={4}>
-          <CustomInput
+          <Field
+            name='website'
+            component={CustomInput}
             labelText={<span>Website</span>}
-            id='website'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event.target.value, 'website', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Web className={classes.inputAdornmentIcon} />
@@ -247,12 +227,12 @@ class ProfileForm extends Component {
         </Grid>
 
         <Grid item xs={12} sm={12} md={3}>
-          <CustomInput
+          <Field
+            name='phone'
+            component={CustomInput}
             labelText={<span>Phone</span>}
-            id='phone'
             formControlProps={{ fullWidth: true }}
             inputProps={{
-              onChange: event => this.change(event.target.value, 'phone', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Phone className={classes.inputAdornmentIcon} />
@@ -263,18 +243,18 @@ class ProfileForm extends Component {
         </Grid>
 
         <Grid item xs={12} sm={12} md={10}>
-          <CustomInput
+          <Field
+            name='description'
+            component={CustomInput}
             labelText='A brief description of your business.'
-            id='about-me'
             formControlProps={{ fullWidth: true }}
-            inputProps={{ onChange: event => this.change(event.target.value, 'businessdescription') }}
           />
         </Grid>
 
         <Grid item xs={12} sm={12} md={10}>
-          <BusinessLocationField
-            value={this.state.businesslocation}
-            onChange={value => this.change(value, 'businesslocation')}
+          <Field
+            name='businesslocation'
+            component={BusinessLocationFieldForm}
             classes={classes}
           />
         </Grid>
@@ -304,9 +284,17 @@ const style = {
   ...customCheckboxRadioSwitch
 };
 
+const validate = profile => {
+  const errors = {}
+  if (!profile.email) errors.email = 'This field is required'
+  console.log(errors)
+  return errors
+}
+
 export default compose(
   withStyles(style),
   reduxForm({
-    form: 'profile-form'
+    form: 'profile',
+    validate
   })
 )(ProfileForm)

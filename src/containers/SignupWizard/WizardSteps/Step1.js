@@ -3,30 +3,19 @@ import React from 'react';
 // components
 import {
   withStyles,
-  InputAdornment,
   Grid,
   Checkbox,
   Radio,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select
 } from '@material-ui/core'
 
 import { Link } from 'react-router-dom'
 
 // custom components
-import CustomInput from 'components/MaterialDashboardPro/CustomInput';
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
-import ProfileImageUpload from 'components/ProfileImageUpload'
 import ProfileForm from 'containers/Profile/ProfileForm'
 
 // icons
-import Face from '@material-ui/icons/Face'
-import Email from '@material-ui/icons/Email'
-import Phone from '@material-ui/icons/Phone'
-import Web from '@material-ui/icons/Web'
 import DoneIcon from '@material-ui/icons/Done'
 import Check from '@material-ui/icons/Check'
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord"
@@ -35,54 +24,20 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord"
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx';
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx';
 
-// data
-import { businessTypes } from 'store/modules/ui/profile';
-
 const style = {
-  infoText: {
-    fontWeight: '300',
-    margin: '10px 0 30px',
-    textAlign: 'center'
-  },
-  inputAdornmentIcon: {
-    color: '#555'
-  },
-  choice: {
-    textAlign: 'center',
-    cursor: 'pointer',
-    marginTop: '20px'
-  },
-  description: {
-    textAlign: 'center'
-  },
   ...customSelectStyle,
   ...customCheckboxRadioSwitch
 };
 
 class Step1 extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      firstname: "",
-      firstnameState: "",
-      lastname: "",
-      lastnameState: "",
-      email: "",
-      emailState: "",
-      simpleSelect: "",
-      selectedValue: "user",
-      businesstype: 0,
-      businesslocation: ""
+      selectedValue: 'individual'
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
   }
 
-  handleSimple = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleChange(event) {
+  handleChange = event => {
     this.setState({ selectedValue: event.target.value });
 
     if (this.props.onSignupTypeChange) {
@@ -90,11 +45,7 @@ class Step1 extends React.Component {
     }
   }
 
-  handleChangeEnabled(event) {
-    this.setState({ selectedEnabled: event.target.value });
-  }
-
-  handleToggle(value) {
+  handleToggle = value => {
     const { checked } = this.state;
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -110,51 +61,17 @@ class Step1 extends React.Component {
     });
   }
 
-  toggleAcceptTerms() {
+  toggleAcceptTerms = () => {
     this.props.setAcceptTermsAndConditions(!this.props.acceptedTerms)
   }
 
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
-
-  // function that verifies if a string has a given length or not
-  verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
-  }
-
-  change(value, stateName, type, stateNameEqualTo) {
-    switch (type) {
-    case 'email':
-      if (this.verifyEmail(value)) {
-        this.setState({ [stateName + 'State']: 'success' });
-      } else {
-        this.setState({ [stateName + 'State']: 'error' });
-      }
-      break;
-    case 'length':
-      if (this.verifyLength(value, stateNameEqualTo)) {
-        this.setState({ [stateName + 'State']: 'success' });
-      } else {
-        this.setState({ [stateName + 'State']: 'error' });
-      }
-      break;
-    default:
-      break;
-    }
-    this.setState({ [stateName]: value });
-    this.props.onProfileFieldChange(stateName, value);
-  }
-
   setProfileFormRef = profileForm => this.profileForm = profileForm
+
+  submit = values => {
+    console.log(values)
+    console.log(this.props)
+    return this.props.onProfileSubmitted(values)
+  }
 
   render() {
     const { classes, wallet } = this.props;
@@ -183,9 +100,9 @@ class Step1 extends React.Component {
                 control={
                   <Radio
                     id='userAccount'
-                    checked={this.state.selectedValue === "user"}
+                    checked={this.state.selectedValue === 'individual'}
                     onChange={this.handleChange}
-                    value='user'
+                    value='individual'
                     name='radio button demo'
                     aria-label='A'
                     icon={<FiberManualRecord className={classes.radioUnchecked} />}
@@ -202,7 +119,7 @@ class Step1 extends React.Component {
                 label='Create A Business Account'
                 control={
                   <Radio
-                    checked={this.state.selectedValue === "business"}
+                    checked={this.state.selectedValue === 'business'}
                     onChange={this.handleChange}
                     value='business'
                     name='radio button demo'
@@ -217,7 +134,8 @@ class Step1 extends React.Component {
 
             <ProfileForm
               ref={this.setProfileFormRef}
-              userType={this.state.selectedValue === 'user' ? 'individual' : 'business'}
+              userType={this.state.selectedValue}
+              onSubmit={this.submit}
             />
 
             <Grid item xs={12} sm={12} md={10}>
@@ -228,7 +146,7 @@ class Step1 extends React.Component {
                   <Checkbox
                     tabIndex={-1}
                     checked={this.props.acceptedTerms}
-                    onClick={this.toggleAcceptTerms.bind(this)}
+                    onClick={this.toggleAcceptTerms}
                     checkedIcon={<Check className={classes.checkedIcon} />}
                     icon={<Check className={classes.uncheckedIcon} />}
                     classes={{ checked: classes.checked }}
