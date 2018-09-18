@@ -65,8 +65,6 @@ class Step1 extends React.Component {
     this.props.setAcceptTermsAndConditions(!this.props.acceptedTerms)
   }
 
-  setProfileFormRef = profileForm => this.profileForm = profileForm
-
   submit = values => {
     console.log(values)
     console.log(this.props)
@@ -133,7 +131,6 @@ class Step1 extends React.Component {
             </Grid>
 
             <ProfileForm
-              ref={this.setProfileFormRef}
               userType={this.state.selectedValue}
               onSubmit={this.submit}
             />
