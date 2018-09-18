@@ -206,7 +206,7 @@ class SignupWizard extends Component {
           }
         ]}
         title="Let's Get Started"
-        subtitle='Follow The Three Easy Steps Below To Begin'
+        subtitle='Follow The Two Easy Steps Below To Begin'
       />
     )
   }
