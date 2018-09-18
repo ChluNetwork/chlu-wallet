@@ -293,7 +293,9 @@ const validate = (profile, props) => {
     ...profile
   }
   // Here we use backend code to perform frontend validation. How cool is that?
-  return validateProfile(preparedProfile) || {}
+  const errors = validateProfile(preparedProfile) || {}
+  delete errors.vendorAddress
+  return errors
 }
 
 export default compose(
