@@ -6,7 +6,7 @@ import { push } from 'react-router-redux'
 import { setWalletToCreatedWallet, setWallet } from 'store/modules/data/wallet'
 import { getAddress, importDID } from 'helpers/wallet'
 import { get } from 'lodash'
-import { SubmissionError } from 'redux-form'
+import { SubmissionError, initialize } from 'redux-form'
 
 // ------------------------------------
 // Constants
@@ -26,7 +26,8 @@ export const businessTypes = [
   'Select Industry',
   'Accountant',
   'Advertising',
-  'Restaurant'
+  'Restaurant',
+  'Other'
 ]
 
 export function getFullName(profile) {
@@ -70,19 +71,25 @@ export function fetchProfile(did) {
 
 export function updateProfile(profile) {
   return async (dispatch, getState) => {
-    const currentProfile = getState().ui.profile.profile
-    const newProfile = { ...currentProfile, ...profile }
-    newProfile.name = getFullName(newProfile)
-    const chluApiClient = await getChluAPIClient()
-    try {
-      await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
-    } catch (error) {
-      // Make sure profile validation errors from the backend get propagated back to our profile form
-      if (error.response) throw new SubmissionError(error.response.data)
-      else throw error
+    const state = getState()
+    const currentProfile = state.ui.profile.profile
+    const profileDidId = state.ui.profile.didId
+    const myDidId = get(state, 'data.wallet.did.publicDidDocument.id')
+    if (myDidId === profileDidId) {
+      const newProfile = { ...currentProfile, ...profile }
+      newProfile.name = getFullName(newProfile)
+      const chluApiClient = await getChluAPIClient()
+      try {
+        await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);
+      } catch (error) {
+        // Make sure profile validation errors from the backend get propagated back to our profile form
+        if (error.response) throw new SubmissionError(error.response.data)
+        else throw error
+      }
+      dispatch(setProfile({ profile: newProfile, didid: myDidId }))
+      dispatch(initialize('profile', newProfile))
+      return newProfile
     }
-    dispatch(setProfile(newProfile))
-    return newProfile
   }
 }
 
