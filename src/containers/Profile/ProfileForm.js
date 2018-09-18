@@ -25,6 +25,8 @@ import { businessTypes } from 'store/modules/ui/profile';
 // redux
 import { compose } from 'recompose'
 import { reduxForm, Field } from 'redux-form'
+// validation
+import { validateProfile } from 'chlu-marketplace-js/src/profile'
 
 const ProfileImageUploadForm = props => {
   const { input: { value, onChange } } = props
@@ -36,6 +38,7 @@ const ProfileImageUploadForm = props => {
 
 const SelectForm = props => {
   const { input: { value, onChange }, helpText, options, classes } = props
+  const valueIndex = options.indexOf(value)
   return <FormControl fullWidth className={classes.selectFormControl}>
       <InputLabel htmlFor='simple-select' className={classes.selectLabel}>
         {helpText}
@@ -43,8 +46,8 @@ const SelectForm = props => {
       <Select
         MenuProps={{ className: classes.selectMenu }}
         classes={{ select: classes.select }}
-        value={value}
-        onChange={onChange}
+        value={valueIndex >= 0 ? valueIndex : 0}
+        onChange={e => onChange(options[e.target.value])}
       >
         {options.map((v, i) => (
           <MenuItem
@@ -284,11 +287,13 @@ const style = {
   ...customCheckboxRadioSwitch
 };
 
-const validate = profile => {
-  const errors = {}
-  if (!profile.email) errors.email = 'This field is required'
-  console.log(errors)
-  return errors
+const validate = (profile, props) => {
+  const preparedProfile = {
+    type: props.userType,
+    ...profile
+  }
+  // Here we use backend code to perform frontend validation. How cool is that?
+  return validateProfile(preparedProfile) || {}
 }
 
 export default compose(
