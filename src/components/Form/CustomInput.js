@@ -3,7 +3,7 @@ import CustomInput from 'components/MaterialDashboardPro/CustomInput'
 
 function CustomFormInput(props) {
   const { input, meta: { touched, error }, helpText, inputProps, ...others } = props
-  const hasError = touched && error
+  const hasError = Boolean(touched && error)
 
   return <CustomInput
     error={hasError}
