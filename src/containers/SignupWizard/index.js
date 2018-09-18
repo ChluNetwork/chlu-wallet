@@ -16,7 +16,7 @@ import { submit } from 'redux-form'
 
 // helpers
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
-import { get, pick } from 'lodash'
+import { get, pick, isEmpty } from 'lodash'
 import { businessTypes } from 'store/modules/ui/profile';
 import { startCrawler } from 'store/modules/data/crawler';
 
@@ -31,7 +31,7 @@ class SignupWizard extends Component {
     }
   }
 
-  async downloadWallet() {
+  downloadWallet = async () => {
     const { wallet, walletCreated, setWalletSaved } = this.props
 
     if (wallet && wallet.did) {
@@ -45,22 +45,34 @@ class SignupWizard extends Component {
     setWalletSaved(true)
   }
 
-  areWalletKeysSaved() {
+  areWalletKeysSaved = () => {
     const { walletSaved } = this.props
     return walletSaved
   }
 
-  validate(step) {
-    const { wallet, acceptedTerms } = this.props
+  validate = (step) => {
+    const { wallet, acceptedTerms, profileErrors } = this.props
 
-    if (step === 0 && !acceptedTerms && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
-      toastr.warning(
-        'Terms and Conditions',
-        'Please read and accept the Terms and Conditions before continuing'
-      )
-      return false
+    // TODO: check that the redux profile form has no errors
+
+    if (step === 0 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
+      if (!acceptedTerms) {
+        toastr.warning(
+          'Terms and Conditions',
+          'Please read and accept the Terms and Conditions before continuing'
+        )
+        return false
+      }
+      if (!isEmpty(profileErrors)) {
+        toastr.warning(
+          'Incomplete Profile',
+          'Please finish compiling your profile to continue'
+        )
+        return false
+      }
     }
 
+    
     if (step === 1 && !(this.areWalletKeysSaved() || (wallet && wallet.did))) {
       toastr.warning(
         'Please save your Wallet Keys',
@@ -72,10 +84,11 @@ class SignupWizard extends Component {
     return true
   }
 
-  onChangeStep(from, to) {
-    const { walletCreated, createWallet } = this.props
-    if (to === 1 && !walletCreated) {
-      createWallet()
+  onChangeStep = (from, to) => {
+    const { walletCreated, createWallet, submit } = this.props
+    if (to === 1) {
+      if (!walletCreated) createWallet()
+      submit('profile')
     }
   }
 
@@ -85,14 +98,9 @@ class SignupWizard extends Component {
     })
   }
 
-  onProfileFieldChange = (fieldName, fieldValue) => {
-    console.log("onProfileFieldChange executing for fieldName: "+fieldName+" with fieldValue: "+fieldValue)
-    this.setState(state => {
-      state.profile[fieldName] = fieldValue
-      return state
-    }, () => {
-      console.log(this.state.profile)
-    })
+  onProfileSubmitted = profile => {
+    this.setState({ profile })
+    console.log(profile)
   }
 
   onCrawlerFieldChange = (type, url, user, pass) => {
@@ -109,7 +117,7 @@ class SignupWizard extends Component {
     })
   }
 
-  async finishClicked() {
+  finishClicked = async () => {
     const { walletCreated, wallet } = this.props
     const { profile, signupType } = this.state
 
@@ -170,10 +178,10 @@ class SignupWizard extends Component {
 
     return (
       <Wizard
-        validate={this.validate.bind(this)}
+        validate={this.validate}
         currentStep={initialStep}
-        onChangeStep={this.onChangeStep.bind(this)}
-        finishButtonClick={this.finishClicked.bind(this)}
+        onChangeStep={this.onChangeStep}
+        finishButtonClick={this.finishClicked}
         steps={[
           {
             stepName: 'Step 1: Create Your Account',
@@ -182,7 +190,7 @@ class SignupWizard extends Component {
             stepProps: {
               ...this.props,
               onSignupTypeChange: this.onSignupTypeChange,
-              onProfileFieldChange: this.onProfileFieldChange
+              onProfileSubmitted: this.onProfileSubmitted
             }
           },
           {
@@ -191,9 +199,9 @@ class SignupWizard extends Component {
             stepId: 'about',
             stepProps: {
               ...this.props,
-              onProfileFieldChange: this.onProfileFieldChange,
+              onProfileSubmitted: this.onProfileSubmitted,
               onCrawlerFieldChange: this.onCrawlerFieldChange,
-              downloadWallet: this.downloadWallet.bind(this)
+              downloadWallet: this.downloadWallet
             }
           }
         ]}
@@ -210,7 +218,8 @@ const mapStateToProps = store => ({
   walletSaved: store.components.createWallet.walletSaved,
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
-  acceptedTerms: store.components.signupWizard.acceptedTerms
+  acceptedTerms: store.components.signupWizard.acceptedTerms,
+  profileErrors: get(store, 'form.profile.syncErrors')
 })
 
 const mapDispatchToProps = {

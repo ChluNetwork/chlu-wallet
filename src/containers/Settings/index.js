@@ -107,8 +107,8 @@ class Settings extends Component {
     downloadWallet(this.props.wallet)
   }
 
-  saveProfile () {
-    this.props.updateProfile(this.state.profile)
+  async saveProfile () {
+    await this.props.updateProfile(this.state.profile)
   }
 
   change(event, stateName) {
