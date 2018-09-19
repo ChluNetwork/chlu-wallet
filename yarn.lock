@@ -2140,9 +2140,9 @@ cheerio@^0.22.0:
     sequelize "^4.38.0"
     sqlite3 "^4.0.2"
 
-chlu-marketplace-js@ChluNetwork/chlu-marketplace-js#next:
-  version "0.3.0"
-  resolved "https://codeload.github.com/ChluNetwork/chlu-marketplace-js/tar.gz/f3b49d36cd6b485da091bd8afdb440bc6aebfa7c"
+"chlu-marketplace-js@ChluNetwork/chlu-marketplace-js#semver:~0.4.0":
+  version "0.4.0"
+  resolved "https://codeload.github.com/ChluNetwork/chlu-marketplace-js/tar.gz/798e2c91b8722183f76e8998d4978cc52f7002b3"
   dependencies:
     axios "^0.18.0"
     chlu-ipfs-support "ChluNetwork/chlu-ipfs-support#semver:~0.2.0"
