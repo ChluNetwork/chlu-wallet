@@ -7,14 +7,12 @@ import Reviews from 'components/Reviews'
 import ReviewsIcon from '@material-ui/icons/Star'
 import PaymentIcon from '@material-ui/icons/AccountBalanceWallet'
 import Profile from './Profile';
-// helpers
-import { get } from 'lodash'
-import profileProvider from 'helpers/profileProvider';
 // redux
 import { compose } from 'recompose';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { readReputation } from 'store/modules/data/reputation'
+import { fetchProfile } from 'store/modules/ui/profile'
 
 const styles = theme => ({
   card: {
@@ -27,18 +25,10 @@ const styles = theme => ({
 
 class ProfileContainer extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      profile: {}
-    }
-  }
-
   updateProfileAndReviews() {
     const didId = this.props.match.params.id
     if (didId) {
-      profileProvider.getProfile(didId).then(profile => this.setState({ profile: profile || {}, loading: false }));
+      this.props.fetchProfile(didId)
       this.props.readReputation(didId)
     }
   }
@@ -57,7 +47,7 @@ class ProfileContainer extends Component {
   componentDidUpdate(prevProps) {
     const didId = this.props.match.params.id;
     if (didId !== prevProps.match.params.id) {
-      this.setState({ loading: true }, () => this.updateProfileAndReviews())
+      this.updateProfileAndReviews()
     }
   }
 
@@ -81,9 +71,10 @@ class ProfileContainer extends Component {
       reviewsLoading,
       reviewsLoadingPage,
       reviewsDidId,
-      reviewsCount
+      reviewsCount,
+      profile,
+      loadingProfile
     } = this.props
-    const { profile, loading: loadingProfile } = this.state
     const didId = match.params.id;
     const tabIndex = [
       'reviews',
@@ -126,8 +117,16 @@ class ProfileContainer extends Component {
   }
 
   renderCardContent() {
-    const { match, reviews, canLoadMoreReviews, reviewsLoading, reviewsLoadingPage, page = 'profile' } = this.props
-    const { profile, loading: loadingProfile } = this.state
+    const {
+      match,
+      reviews,
+      canLoadMoreReviews,
+      reviewsLoading,
+      reviewsLoadingPage,
+      page = 'profile',
+      profile,
+      loadingProfile
+    } = this.props
 
     const didId = match.params.id;
     const tabIndex = ['reviews', 'payment'].indexOf(page)
@@ -161,12 +160,15 @@ const mapStateToProps = store => {
     reviewsLoading: store.data.reputation.loading,
     reviewsLoadingPage: store.data.reputation.loadingPage,
     reviewsCount: store.data.reputation.count,
-    canLoadMoreReviews: store.data.reputation.canLoadMore
+    canLoadMoreReviews: store.data.reputation.canLoadMore,
+    profile: store.ui.profile.profile,
+    loadingProfile: store.ui.profile.loading
   };
 };
 
 const mapDispatchToProps = {
   readReputation,
+  fetchProfile,
   push
 }
 

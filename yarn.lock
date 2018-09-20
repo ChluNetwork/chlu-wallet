@@ -2077,9 +2077,9 @@ cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-"chlu-api-client@ChluNetwork/chlu-api-client-js#semver:~0.2.2":
-  version "0.2.2"
-  resolved "https://codeload.github.com/ChluNetwork/chlu-api-client-js/tar.gz/132658e7bcf3e686d9266fccc6e1a38cdfd9dc1c"
+"chlu-api-client@ChluNetwork/chlu-api-client-js#semver:~0.3.0":
+  version "0.3.0"
+  resolved "https://codeload.github.com/ChluNetwork/chlu-api-client-js/tar.gz/a8bc74090bf3d90128890e8a661a74bd2588f56f"
   dependencies:
     axios "^0.18.0"
     chlu-ipfs-support "ChluNetwork/chlu-ipfs-support#semver:~0.2.0"

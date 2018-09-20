@@ -44,7 +44,9 @@ export function readReviewsIWrote (firstPage = true) {
         const chluApiClient = await getChluAPIClient()
         const limit = ITEMS_PER_PAGE
         const offset = firstPage ? 0 : page * ITEMS_PER_PAGE
-        const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, offset, limit)
+        const { count, rows } = await chluApiClient.getReviewsWrittenByDID(didId, offset, limit, {
+          resolveProfiles: true
+        })
         const canLoadMore = count > offset + rows.length
         const reviews = rows.map(review => {
           const multihash = review.multihash

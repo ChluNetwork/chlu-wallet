@@ -3,7 +3,7 @@ import { getChluIPFS } from 'helpers/chlu'
 import { toastr } from 'react-redux-toastr'
 import { getAddress } from 'helpers/wallet';
 import { createTransaction } from 'helpers/payment';
-import { getProfileUrl } from 'helpers/profileProvider'
+import { getWalletProfileUrl, getMarketplaceProfileUrl } from 'helpers/profileProvider'
 
 // ------------------------------------
 // Constants
@@ -68,18 +68,21 @@ export function submitPayment (data) {
         author: {
           // TODO: use my profile name
           name: myDid,
-          platform_url: getProfileUrl(myDid)
+          platform_url: getMarketplaceProfileUrl(myDid)
           // TODO: should the protobuf include the profile fields here? They are there for the subject
+          // TODO: there is only one URL field so we have to use it for the API URL to get the profile and
+          // we can't use it for the URL to view the profile in a browser
         },
         subject: {
           did: popr.vendor_did,
-          // TODO: the marketplace should resolve the extra fields here
-          url: getProfileUrl(popr.vendor_did)
+          // TODO: the marketplace (or wallet) should resolve the extra fields here
+          // name, address, telephone, categories, location
+          url: getMarketplaceProfileUrl(popr.vendor_did)
         },
         platform: {
           name: 'Chlu Wallet (testnet)',
           url: 'https://wallet.chlu.io',
-          subject_url: getProfileUrl(popr.vendor_did)
+          subject_url: getWalletProfileUrl(popr.vendor_did)
         },
         detailed_review: [],
         rating_details: {

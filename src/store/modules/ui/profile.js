@@ -78,6 +78,7 @@ export function updateProfile(profile) {
     if (myDidId === profileDidId) {
       const newProfile = { ...currentProfile, ...profile }
       newProfile.name = getFullName(newProfile)
+      if (!newProfile.type) newProfile.type = 'individual'
       const chluApiClient = await getChluAPIClient()
       try {
         await chluApiClient.updateVendorProfile(process.env.REACT_APP_MARKETPLACE_URL, newProfile);

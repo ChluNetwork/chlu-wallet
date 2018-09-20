@@ -43,8 +43,12 @@ export async function searchProfiles (query, limit, offset) {
   }
 }
 
-export function getProfileUrl(didId) {
+export function getWalletProfileUrl(didId) {
   return `${applicationUrl}#/profile/${didId}`
+}
+
+export function getMarketplaceProfileUrl(didId) {
+  return `${marketplaceUrl}/vendors/${didId}`
 }
 
 const profileProvider = {

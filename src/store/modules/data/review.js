@@ -45,8 +45,10 @@ export function readReviewRecord (multihash) {
     dispatch(readReviewRecordLoading(multihash))
     try {
       const didId = get(getState(), 'data.wallet.did.publicDidDocument.id', null)
-      const chluIpfs = await getChluAPIClient()
-      const review = await chluIpfs.readReviewRecord(multihash)
+      const chluApiClient = await getChluAPIClient()
+      const review = await chluApiClient.readReviewRecord(multihash, {
+        resolveProfiles: true
+      })
       const customerDidId = get(review, 'customer_signature.creator', null)
       review.editable = didId && customerDidId && didId === customerDidId
       dispatch(readReviewRecordSuccess({ review, multihash }))

@@ -27,6 +27,8 @@ import { compose } from 'recompose'
 import { reduxForm, Field } from 'redux-form'
 // validation
 import { validateProfile } from 'chlu-marketplace-js/src/profile'
+// helpers
+import { isEmpty } from 'lodash'
 
 const ProfileImageUploadForm = props => {
   const { input: { value, onChange } } = props
@@ -80,7 +82,7 @@ class ProfileForm extends Component {
 
   renderUser() {
     const { classes, userType } = this.props
-    if (userType !== 'individual') return undefined
+    if (userType !== 'individual' && !isEmpty(userType)) return undefined
     return (
       <Grid container justify='center' spacing={16}>
         <Grid item xs={12} sm={12} md={12}>

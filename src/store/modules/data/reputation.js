@@ -55,7 +55,9 @@ export function readReputation (didId, firstPage = true) {
         const chluApiClient = await getChluAPIClient()
         const limit = ITEMS_PER_PAGE
         const offset = firstPage || didChanged ? 0 : page * ITEMS_PER_PAGE
-        const { count, rows } = await chluApiClient.getReviewsAboutDID(didId, offset, limit)
+        const { count, rows } = await chluApiClient.getReviewsAboutDID(didId, offset, limit, {
+          resolveProfiles: true
+        })
         const canLoadMore = count > offset + rows.length
         const reviews = rows.map(review => {
           const multihash = review.multihash
@@ -67,10 +69,10 @@ export function readReputation (didId, firstPage = true) {
         dispatch(readReputationSuccess({ reviews, didId, count, canLoadMore }))
       } catch (error) {
         console.log(error)
-        dispatch(readReputationError(error.message || error))
+        dispatch(readReputationError({ didId, error: error.message || error }))
       }
     } else {
-      dispatch(readReputationError('Not logged in'))
+      dispatch(readReputationError({ didId, error: 'Not logged in' }))
     }
   }
 }
