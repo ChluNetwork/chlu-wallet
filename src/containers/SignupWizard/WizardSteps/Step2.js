@@ -9,7 +9,7 @@ import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // icon
 import Face from '@material-ui/icons/Face'
 import DoneIcon from '@material-ui/icons/Done'
-import DownloadIcon from '@material-ui/icons/FileDownload'
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx'
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx'

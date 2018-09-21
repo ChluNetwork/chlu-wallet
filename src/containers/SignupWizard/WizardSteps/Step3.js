@@ -12,7 +12,7 @@ import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
 import DoneIcon from '@material-ui/icons/Done'
 import ReputationIcon from '@material-ui/icons/Star'
-import DownloadIcon from '@material-ui/icons/FileDownload'
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 
 // custom components
 import Button from 'components/MaterialDashboardPro/Button'
