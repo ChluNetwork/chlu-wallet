@@ -1,15 +1,19 @@
 import React from 'react'
-import { get } from 'lodash'
-import { connect } from 'react-redux'
-import EditReviewForm from 'containers/EditReviewForm'
+// components
+import { CardActions, CardContent, CardHeader, withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
+// icons
+import EditReviewForm from 'containers/EditReviewForm'
 import EditIcon from '@material-ui/icons/Edit'
-// actions
+// redux
+import { connect } from 'react-redux'
 import { submitEditedReview, cancelEditReview, editReview } from 'store/modules/data/review'
-import { CardActions, CardContent, CardHeader } from '@material-ui/core';
+// helpers
+import { get } from 'lodash'
 
 const EditReview = props => {
   const {
+    classes,
     multihash,
     reviewMultihash,
     review,
@@ -42,7 +46,7 @@ const EditReview = props => {
         <Button
           onClick={() => showEditForm(multihash)}
           disabled={Boolean(editing)}
-        >Edit</Button>
+        >Edit Review</Button>
       </CardActions>
     }
   </div>
@@ -67,7 +71,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EditReview)
+export default connect(mapStateToProps, mapDispatchToProps)(EditReview)
