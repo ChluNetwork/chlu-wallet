@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // Material Components
-import { Card, CardContent, CardHeader, CardActionArea } from '@material-ui/core'
+import { withStyles, Card, CardContent, CardHeader, CardActionArea } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -10,15 +10,14 @@ import ListItemText from '@material-ui/core/ListItemText'
 import StarRatingComponent from 'react-star-rating-component'
 import EditReview from 'components/EditReview'
 // Icons
-import DateRangeIcon from '@material-ui/icons/DateRange'
 import LinkIcon from '@material-ui/icons/Link'
 import CommentIcon from '@material-ui/icons/Comment'
-import RatingIcon from '@material-ui/icons/Star'
 import PlatformIcon from '@material-ui/icons/Store'
 import VerifiableIcon from '@material-ui/icons/VerifiedUser'
 import TokenIcon from '@material-ui/icons/PlusOne'
 import ViewMoreIcon from '@material-ui/icons/OpenInNew'
 // Redux
+import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 // Assets
@@ -29,19 +28,6 @@ import { Divider } from '@material-ui/core';
 
 const starCount = 5
 class Review extends Component {
-
-  datePublished(datePublished) {
-    if (datePublished) {
-      return (
-        <ListItem>
-            <ListItemIcon><DateRangeIcon /></ListItemIcon>
-            <ListItemText
-                primary={datePublished}
-            />
-        </ListItem>
-      )
-    }
-  }
 
   url(url) {
     if(url) {
@@ -90,16 +76,6 @@ class Review extends Component {
     }
   }
 
-  reviewUrl(review) {
-    if (review.url) {
-      return <span>
-        <a href={this.addHttp(review.review.url)} target='_blank'>{this.addHttp(review.review.url)} </a>
-      </span>
-    } else {
-      return 'Unknown'
-    }
-  }
-
   addHttp(url) {
     if (!/^(?:f|ht)tps?:\/\//.test(url)) {
       url = "http://" + url;
@@ -123,6 +99,7 @@ class Review extends Component {
 
   render() {
     const {
+      classes,
       review,
       detailed = false,
       showSubjectInfo = false,
@@ -156,7 +133,7 @@ class Review extends Component {
     const rating = get(review, 'rating_details.value', 0)
     return (
       <Card>
-        { isSubjectKnown && showSubjectInfo && <CardActionArea onClick={this.openSubjectProfile}>
+        { isSubjectKnown && showSubjectInfo && <CardActionArea className={classes.fullWidth} onClick={this.openSubjectProfile}>
           <CardHeader
             avatar={<Avatar alt='subject' src={subjectAvatarDataUrl}>V</Avatar>}
             title={subjectName}
@@ -164,7 +141,7 @@ class Review extends Component {
           />
         </CardActionArea> }
         { isSubjectKnown && showSubjectInfo && isAuthorKnown && showAuthorInfo && <Divider/> }
-        <CardActionArea onClick={this.openAuthorProfile}>
+        <CardActionArea className={classes.fullWidth} onClick={this.openAuthorProfile}>
           <CardHeader
             avatar={<Avatar alt='author' src={avatarDataUrl}>A</Avatar>}
             title={
@@ -178,7 +155,6 @@ class Review extends Component {
               </div>
             }
             subheader={`By ${authorName}`}
-            onClick={this.openAuthorProfile}
           />
         </CardActionArea>
         {review.review && <CardContent>
@@ -189,27 +165,7 @@ class Review extends Component {
                 primary={contentSecondary}
               />
             </ListItem> }
-            { detailed && <ListItem>
-              <ListItemIcon><PlatformIcon/></ListItemIcon>
-              <ListItemText
-                primary='Platform'
-                secondary={this.platform(review)}
-              />
-            </ListItem> }
-            { detailed && <ListItem>
-              <ListItemIcon><VerifiableIcon/></ListItemIcon>
-              <ListItemText
-                primary='Verifiable'
-                secondary={isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes'}
-              />
-            </ListItem> }
-            { detailed && <ListItem>
-              <ListItemIcon><LinkIcon/></ListItemIcon>
-              <ListItemText
-                primary='Review Origin'
-                secondary={this.reviewUrl(review)}
-              />
-            </ListItem> }
+            { this.detailedReview(review.detailed_review) }
             { review.editable && <ListItem>
               <ListItemIcon><TokenIcon/></ListItemIcon>
               <ListItemText
@@ -217,7 +173,6 @@ class Review extends Component {
                 secondary='This Review you will award you Chlu Tokens'
               />
             </ListItem> }
-            { detailed && this.detailedReview(review.detailed_review)}
             { !detailed && <ListItem button onClick={this.openReview}>
               <ListItemIcon><ViewMoreIcon/></ListItemIcon>
               <ListItemText
@@ -225,11 +180,32 @@ class Review extends Component {
                 secondary='Click here to view detailed information or edit this review'
               />
             </ListItem> }
+            { detailed && this.renderDetails() }
           </List>
         </CardContent>}
         {detailed && review.editable && <EditReview multihash={review.multihash}/>}
       </Card>
     )
+  }
+
+  renderDetails() {
+    const { review } = this.props
+    return (<div>
+      <ListItem>
+        <ListItemIcon><PlatformIcon/></ListItemIcon>
+        <ListItemText
+          primary='Platform'
+          secondary={this.platform(review)}
+        />
+      </ListItem>
+      <ListItem>
+        <ListItemIcon><VerifiableIcon/></ListItemIcon>
+        <ListItemText
+          primary='Verified'
+          secondary={isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes, this review is payment backed'}
+        />
+      </ListItem>
+    </div>)
   }
 }
 
@@ -237,4 +213,13 @@ const mapDispatchToProps = {
   push
 }
 
-export default connect(null, mapDispatchToProps)(Review)
+const styles = {
+  fullWidth: {
+    width: '100%'
+  }
+}
+
+export default compose(
+  withStyles(styles),
+  connect(null, mapDispatchToProps)
+)(Review)
