@@ -25,7 +25,7 @@ import { submit, isDirty, isSubmitting } from 'redux-form'
 import { downloadWallet, getAddress } from 'helpers/wallet';
 
 // icons
-import DownloadIcon from '@material-ui/icons/FileDownload'
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 import UserIcon from '@material-ui/icons/Person'
 import WalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import ProfileIcon from '@material-ui/icons/AccountCircle'
