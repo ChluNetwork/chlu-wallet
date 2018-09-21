@@ -17,7 +17,7 @@ const styles = {
 class Reviews extends Component {
 
   render() {
-    const { classes, reviews = [], loading, crawling = false, onLoadMoreReviews, canLoadMore } = this.props
+    const { classes, reviews = [], loading, crawling = false, onLoadMoreReviews, canLoadMore, ...otherProps } = this.props
     const empty = !reviews || !reviews.length
 
     return <Grid container spacing={16} className={classes.root}>
@@ -55,7 +55,7 @@ class Reviews extends Component {
               subheader={review.error}
             />
           </Card>}
-          {!review.loading && !review.error && <Review review={review} key={reviews.length + index} />}
+          {!review.loading && !review.error && <Review review={review} key={reviews.length + index} {...otherProps} />}
         </Grid>
       })}
       { onLoadMoreReviews && !empty && <Button

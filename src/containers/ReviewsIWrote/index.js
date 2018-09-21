@@ -26,6 +26,7 @@ class ReviewsIWrote extends Component {
         error={error}
         canLoadMore={canLoadMore}
         onLoadMoreReviews={this.loadMore}
+        showSubjectInfo={true}
       />
     )
   }
