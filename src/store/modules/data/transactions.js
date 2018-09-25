@@ -44,16 +44,12 @@ const readReviewRecordSuccess = createAction(READ_REVIEWRECORD_SUCCESS)
 const readReviewRecordError = createAction(READ_REVIEWRECORD_ERROR)
 
 function readReviewRecord (txHash, multihash) {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch(readReviewRecordLoading({ txHash, multihash }))
     try {
-      const didId = get(getState(), 'data.wallet.did.publicDidDocument.id', null)
       const chluIpfs = await getChluAPIClient()
       const reviewRecord = await chluIpfs.readReviewRecord(multihash)
-      const customerDidId = get(reviewRecord, 'customer_signature.creator', null)
       reviewRecord.txHash = txHash
-      // Disable editing on reviews by transaction
-      reviewRecord.editable = false // didId && customerDidId && didId === customerDidId
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
       dispatch(readReviewRecordError({ error, multihash, txHash }))

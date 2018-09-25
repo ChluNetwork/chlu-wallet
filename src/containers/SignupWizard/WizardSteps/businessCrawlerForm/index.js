@@ -12,7 +12,6 @@ import { connect } from 'react-redux'
 // redux form
 import { reduxForm } from 'redux-form'
 
-import RenderEmailPasswordCombo from '../renderEmailPasswordCombo'
 import YelpForm from './YelpForm';
 import TripadvisorForm from './TripadvisorForm';
 

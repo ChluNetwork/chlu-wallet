@@ -4,7 +4,6 @@ import React from 'react';
 import { Grid, CircularProgress } from '@material-ui/core'
 
 // icons
-import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import Person from '@material-ui/icons/Person';
 import AccountBox from '@material-ui/icons/AccountBox';
 import Web from '@material-ui/icons/Web';
@@ -29,7 +28,6 @@ import { isEmpty } from 'lodash'
 
 import IndividualsCrawlerForm from './individualsCrawlerForm'
 import BusinessCrawlerForm from './businessCrawlerForm'
-import ProductOwnersCrawlerForm from './productOwnersCrawlerForm'
 
 const style = {
   profileText: {
