@@ -51,7 +51,7 @@ export function submitPayment (data) {
         throw new Error('Need Wallet')
       }
       const address = getAddress(wallet)
-      const { review, rating } = data
+      const { review, rating, title } = data
       console.log('RATING', rating)
       if (popr === null) {
         throw new Error('Need PoPR')
@@ -63,6 +63,7 @@ export function submitPayment (data) {
         customer_address: address,
         vendor_address: popr.vendor_address,
         review: {
+          title: title || '',
           text: review || ''
         },
         author: {
