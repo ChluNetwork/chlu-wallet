@@ -55,7 +55,6 @@ class Review extends Component {
                     <div>{dr.category}</div>
                     <div>
                       <StarRatingComponent
-                        name='rating'
                         editing={false}
                         starCount={dr.rating.max}
                         value={dr.rating.value}
@@ -150,7 +149,6 @@ class Review extends Component {
             title={
               <div>
                 <StarRatingComponent
-                  name='rating'
                   starCount={max}
                   value={rating}
                   editing={false}
@@ -186,7 +184,7 @@ class Review extends Component {
             { detailed && this.renderDetails() }
           </List>
         </CardContent>}
-        {detailed && review.editable && <EditReview multihash={review.multihash}/>}
+        {detailed && review.editable && <EditReview multihash={review.originalMultihash || review.multihash}/>}
       </Card>
     )
   }

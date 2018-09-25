@@ -1,8 +1,7 @@
 import React from 'react'
 import { get } from 'lodash'
 // components
-import { CardContent, CardHeader, Avatar, CardActions, Button } from '@material-ui/core';
-import EditReview from 'components/EditReview'
+import { CardHeader, Avatar, CardActions, Button } from '@material-ui/core';
 import StarRatingComponent from 'react-star-rating-component'
 // icons
 import ReviewIcon from '@material-ui/icons/Check'
@@ -16,7 +15,6 @@ const starCount = 5
 const Review = props => {
   const {
     review,
-    editing,
     push
   } = props
 
@@ -35,22 +33,13 @@ const Review = props => {
       <CardHeader
         avatar={<Avatar><ReviewIcon/></Avatar>}
         title='Chlu Review'
-        subheader={editing === review.multihash
-          ? 'Editing in progress...'
-          : <StarRatingComponent
+        subheader={<StarRatingComponent
             name='rating'
             value={get(review, 'rating_details.value', 0)}
             starCount={max}
             editing={false}
           />}
       />
-      {editing !== review.multihash && <CardContent>
-        {get(review, 'review.text', '(No comment left)')}
-      </CardContent> }
-      {review && review.editable && (!editing || editing === review.multihash)
-        ? <EditReview multihash={review.multihash} />
-        : null
-      }
       <CardActions>
         <Button onClick={() => push(`/review/${review.multihash}`)}>View More</Button>
       </CardActions>

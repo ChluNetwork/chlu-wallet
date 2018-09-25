@@ -24,6 +24,7 @@ const getInitialState = () => ({
   editing: false,
   publishing: false,
   publishError: null,
+  publishingStep: 0,
   multihash: null,
   data: null
 })
@@ -58,10 +59,18 @@ export function readReviewRecord (multihash) {
   }
 }
 
+export const publishStepLoadingMessages = [
+  null,
+  'Preparing Review data',
+  'Syncing with Chlu IPFS Distributed System',
+  'Publishing your Chlu Review update. Please wait until the review is replicated by a Chlu Collector',
+]
+
 export function submitEditedReview(fields) {
   return async (dispatch, getState) => {
     try {
-      dispatch(editReviewLoading())
+      let step = 0
+      dispatch(editReviewLoading(++step))
       const { editing, multihash, data: review } = getState().data.review
       if (!editing) throw new Error('User is not editing a review')
       let bitcoinTransactionHash = get(review, 'metadata.metadata.bitcoinTransactionHash')
@@ -74,7 +83,10 @@ export function submitEditedReview(fields) {
       set(updatedReview, 'previous_version_multihash', multihash)
       set(updatedReview, 'rating_details.value', fields.rating)
       set(updatedReview, 'review.text', fields.comment)
+      set(updatedReview, 'review.title', fields.title)
+      dispatch(editReviewLoading(++step))
       const chluIpfs = await getChluIPFS()
+      dispatch(editReviewLoading(++step))
       const updatedMultihash = await chluIpfs.storeReviewRecord(updatedReview, {
         // TX hash is needed for the validator, since in the browser it can't resolve
         // the tx hash from orbitdb on its own.
@@ -109,35 +121,38 @@ export default handleActions({
     multihash,
     error
   }),
-  [EDIT_REVIEW]: (state, { payload: multihash }) => ({
+  [EDIT_REVIEW]: state => ({
     ...state,
     editing: true,
     publishing: false,
     error: null
   }),
-  [EDIT_REVIEW_LOADING]: state => ({
+  [EDIT_REVIEW_LOADING]: (state, { payload: step }) => ({
     ...state,
+    publishingStep: step,
+    publishError: null,
     publishing: true
   }),
   [EDIT_REVIEW_ERROR]: (state, { payload: error }) => ({
     ...state,
     publishing: false,
-    data: null,
-    error
+    publishingStep: 0,
+    publishError: error
   }),
-  [EDIT_REVIEW_SUCCESS]: (state, { payload: { updatedReview } }) => {
-    return {
-      ...state,
-      publishing: false,
-      editing: false,
-      data: updatedReview,
-      error: null // TODO: update the edited review
-    }
-  },
+  [EDIT_REVIEW_SUCCESS]: (state, { payload: { updatedReview } }) => ({
+    ...state,
+    publishing: false,
+    publishingStep: 0,
+    editing: false,
+    data: updatedReview,
+    error: null // TODO: update the edited review
+  }),
   [EDIT_REVIEW_CANCEL]: state => ({
     ...state,
     editing: false,
-    loading: false
+    publishing: false,
+    publishingStep: 0,
+    publishError: null,
   }),
   [DELETE_WALLET]: state => getInitialState()
 }, getInitialState())
