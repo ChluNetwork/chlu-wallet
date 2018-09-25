@@ -89,70 +89,68 @@ class Step1 extends React.Component {
       )
     } else {
       return (
-        <form action='/myreputation' className={classes.form} onSubmit={this.testSubmit}>
-          <Grid container justify='center' spacing={16}>
-            <Grid item xs={12} sm={12} md={5}>
-              <FormControlLabel
-                classes={{ label: classes.label }}
-                label='Create A Consumer Account'
-                control={
-                  <Radio
-                    id='userAccount'
-                    checked={this.state.selectedValue === 'individual'}
-                    onChange={this.handleChange}
-                    value='individual'
-                    name='radio button demo'
-                    aria-label='A'
-                    icon={<FiberManualRecord className={classes.radioUnchecked} />}
-                    checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
-                    classes={{ checked: classes.radio }}
-                  />
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={5}>
-              <FormControlLabel
-                classes={{ label: classes.label }}
-                label='Create A Business Account'
-                control={
-                  <Radio
-                    checked={this.state.selectedValue === 'business'}
-                    onChange={this.handleChange}
-                    value='business'
-                    name='radio button demo'
-                    aria-label='B'
-                    icon={<FiberManualRecord className={classes.radioUnchecked} />}
-                    checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
-                    classes={{ checked: classes.radio }}
-                  />
-                }
-              />
-            </Grid>
-
-            <ProfileForm
-              userType={this.state.selectedValue}
-              onSubmit={this.submit}
+        <Grid container justify='center' spacing={16}>
+          <Grid item xs={12} sm={12} md={5}>
+            <FormControlLabel
+              classes={{ label: classes.label }}
+              label='Create A Consumer Account'
+              control={
+                <Radio
+                  id='userAccount'
+                  checked={this.state.selectedValue === 'individual'}
+                  onChange={this.handleChange}
+                  value='individual'
+                  name='radio button demo'
+                  aria-label='A'
+                  icon={<FiberManualRecord className={classes.radioUnchecked} />}
+                  checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
+                  classes={{ checked: classes.radio }}
+                />
+              }
             />
-
-            <Grid item xs={12} sm={12} md={10}>
-              <FormControlLabel
-                classes={{ root: classes.checkboxLabelControl, label: classes.checkboxLabel }}
-                label={<span>I agree to the <Link to='/terms'>terms and conditions</Link>.</span>}
-                control={
-                  <Checkbox
-                    tabIndex={-1}
-                    checked={this.props.acceptedTerms}
-                    onClick={this.toggleAcceptTerms}
-                    checkedIcon={<Check className={classes.checkedIcon} />}
-                    icon={<Check className={classes.uncheckedIcon} />}
-                    classes={{ checked: classes.checked }}
-                  />
-                }
-              />
-            </Grid>
           </Grid>
-        </form>
+
+          <Grid item xs={12} sm={12} md={5}>
+            <FormControlLabel
+              classes={{ label: classes.label }}
+              label='Create A Business Account'
+              control={
+                <Radio
+                  checked={this.state.selectedValue === 'business'}
+                  onChange={this.handleChange}
+                  value='business'
+                  name='radio button demo'
+                  aria-label='B'
+                  icon={<FiberManualRecord className={classes.radioUnchecked} />}
+                  checkedIcon={<FiberManualRecord className={classes.radioChecked} />}
+                  classes={{ checked: classes.radio }}
+                />
+              }
+            />
+          </Grid>
+
+          <ProfileForm
+            userType={this.state.selectedValue}
+            onSubmit={this.submit}
+          />
+
+          <Grid item xs={12} sm={12} md={10}>
+            <FormControlLabel
+              classes={{ root: classes.checkboxLabelControl, label: classes.checkboxLabel }}
+              label={<span>I agree to the <Link to='/terms'>terms and conditions</Link>.</span>}
+              control={
+                <Checkbox
+                  tabIndex={-1}
+                  checked={this.props.acceptedTerms}
+                  onClick={this.toggleAcceptTerms}
+                  checkedIcon={<Check className={classes.checkedIcon} />}
+                  icon={<Check className={classes.uncheckedIcon} />}
+                  classes={{ checked: classes.checked }}
+                />
+              }
+            />
+          </Grid>
+        </Grid>
       )
     }
   }
