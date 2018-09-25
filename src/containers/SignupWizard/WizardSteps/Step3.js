@@ -9,8 +9,6 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import Web from '@material-ui/icons/Web';
 import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
-import DoneIcon from '@material-ui/icons/Done'
-import ReputationIcon from '@material-ui/icons/Star'
 
 // custom components
 import Button from 'components/MaterialDashboardPro/Button'
@@ -22,11 +20,8 @@ import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
 import { withStyles } from '@material-ui/core'
 
-// helpers
-import { isEmpty } from 'lodash'
-
-import IndividualsCrawlerForm from './individualsCrawlerForm'
-import BusinessCrawlerForm from './businessCrawlerForm'
+import IndividualsCrawlerForm from 'containers/ImportReviews/individualsCrawlerForm'
+import BusinessCrawlerForm from 'containers/ImportReviews/businessCrawlerForm'
 
 const style = {
   profileText: {
@@ -53,7 +48,7 @@ const style = {
 class Step3 extends React.Component {
 
   render() {
-    const { classes, reviews, downloadWallet, reputationLoading, loginLoading, push } = this.props;
+    const { classes, walletSaved, downloadWallet, loginLoading } = this.props;
 
     if (loginLoading) {
       return (
@@ -68,40 +63,10 @@ class Step3 extends React.Component {
           </Grid>
         </Grid>
       )
-    } else if (reputationLoading) {
-      return (
-        <Grid container justify='center'>
-          <Grid item xs={4}>
-            <InfoArea
-              icon={CircularProgress}
-              iconColor='warning'
-              title='Checking your Reputation'
-              description='Please wait while we check your Decentralised Reputation'
-            />
-          </Grid>
-        </Grid>
-      )
-    } else if (!isEmpty(reviews)) {
-      return (
-        <Grid container justify='center'>
-          <Grid item xs={4}>
-            <InfoArea
-              icon={DoneIcon}
-              iconColor='success'
-              title='All done'
-              description='You have imported your reputation'
-            >
-              <Button color='success' onClick={() => push('/reputation')}>
-                <ReputationIcon/> View My Reputation
-              </Button>
-            </InfoArea>
-          </Grid>
-        </Grid>
-      )
     } else {
       return (
         <div>
-          <Grid container justify='center'>
+          { !walletSaved && <Grid container justify='center'>
             <Grid item xs={12} sm={12} md={9}>
               <h5>Your Chlu Wallet is now created. You must download and save your public and private keys to continue.</h5>
             </Grid>
@@ -110,15 +75,12 @@ class Step3 extends React.Component {
                 Save My Keys
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <hr></hr>
-            </Grid>
-            <Grid item xs={12} sm={12} md={9} className={classes.itemGrid}>
-              <br></br>
+          </Grid> }
+          { !walletSaved && <hr></hr> }
+          <Grid container justify='center'>
+            <Grid item xs={12} sm={12} md={12} className={classes.itemGrid}>
               <h4 className={classes.infoText}>Do You Manage An Online Profile That Receives Ratings & Reviews?</h4>
             </Grid>
-          </Grid>
-          <Grid container justify='center'>
             <Grid item xs={12} sm={12} md={3} className={classes.itemGrid}>
               <InfoArea
                 title='Select Profile Type'
