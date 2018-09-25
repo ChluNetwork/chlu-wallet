@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
-import { InputAdornment, Paper, withStyles } from '@material-ui/core'
+import { InputAdornment, withStyles } from '@material-ui/core'
 
 import FaceIcon from '@material-ui/icons/Face';
 import HttpsIcon from '@material-ui/icons/Https';

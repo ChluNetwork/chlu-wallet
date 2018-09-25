@@ -9,11 +9,7 @@ import {
 import {
     MonetizationOn,
     ThumbsUpDown,
-    Lock,
-    CallMerge,
-    Web,
     Payment,
-    CreditCard,
     Launch,
     Stars
 } from '@material-ui/icons'

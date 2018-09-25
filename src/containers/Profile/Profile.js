@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 // components
-import { CardHeader, Grid, List, ListItem, ListItemIcon, ListItemText, Paper } from '@material-ui/core'
+import { CardHeader, Grid, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import { Avatar, withStyles } from '@material-ui/core'
 import ProfilePicture from 'components/ProfilePicture'
 

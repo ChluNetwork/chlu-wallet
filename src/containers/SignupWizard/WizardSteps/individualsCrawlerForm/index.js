@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import { LinearProgress, Grid, List, ListItem, ListItemText, Checkbox } from '@material-ui/core'
+import { LinearProgress, Grid } from '@material-ui/core'
 
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
