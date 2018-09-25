@@ -56,8 +56,8 @@ class UpWorkForm extends React.Component {
 
             <CustomInput
               success={this.state.isProfileUrlValid}
-              error={this.state.profileUrl && !this.state.isProfileUrlValid}
-              labelText="UpWork profile URL"
+              error={Boolean(this.state.profileUrl && !this.state.isProfileUrlValid)}
+              labelText='UpWork profile URL'
               id='upwork-url'
               name='upwork-url'
               formControlProps={{ fullWidth: true }}
