@@ -16,6 +16,7 @@ import PlatformIcon from '@material-ui/icons/Store'
 import VerifiableIcon from '@material-ui/icons/VerifiedUser'
 import TokenIcon from '@material-ui/icons/PlusOne'
 import ViewMoreIcon from '@material-ui/icons/OpenInNew'
+import EditIcon from '@material-ui/icons/Edit'
 // Redux
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
@@ -131,6 +132,8 @@ class Review extends Component {
     let max = parseInt(get(review, 'rating_details.max', starCount), 10)
     if (isNaN(max) || max < 1) max = starCount
     const rating = get(review, 'rating_details.value', 0)
+    // Other info
+    const chluTokenEligible = review.editable
     return (
       <Card>
         { isSubjectKnown && showSubjectInfo && <CardActionArea className={classes.fullWidth} onClick={this.openSubjectProfile}>
@@ -166,7 +169,7 @@ class Review extends Component {
               />
             </ListItem> }
             { this.detailedReview(review.detailed_review) }
-            { review.editable && <ListItem>
+            { chluTokenEligible && <ListItem>
               <ListItemIcon><TokenIcon/></ListItemIcon>
               <ListItemText
                 primary='Chlu Token Eligible'
@@ -190,6 +193,9 @@ class Review extends Component {
 
   renderDetails() {
     const { review } = this.props
+    const editCount = get(review, 'history', []).length
+    const edited = editCount > 0
+    const editedText = editCount > 1 ? `${editCount} times` : `${editCount} time`
     return (<div>
       <ListItem>
         <ListItemIcon><PlatformIcon/></ListItemIcon>
@@ -205,6 +211,13 @@ class Review extends Component {
           secondary={isNil(review.verifiable) || !review.verifiable ? 'No' : 'Yes, this review is payment backed'}
         />
       </ListItem>
+      { edited && <ListItem>
+        <ListItemIcon><EditIcon/></ListItemIcon>
+        <ListItemText
+          primary='Edited'
+          secondary={`The review has been edited by the author ${editedText}`}
+        />
+      </ListItem> }
     </div>)
   }
 }
