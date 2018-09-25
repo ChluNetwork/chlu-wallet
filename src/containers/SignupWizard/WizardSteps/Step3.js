@@ -11,7 +11,6 @@ import StarHalf from '@material-ui/icons/StarHalf';
 import Business from '@material-ui/icons/Business';
 import DoneIcon from '@material-ui/icons/Done'
 import ReputationIcon from '@material-ui/icons/Star'
-import DownloadIcon from '@material-ui/icons/CloudDownload'
 
 // custom components
 import Button from 'components/MaterialDashboardPro/Button'
@@ -108,7 +107,7 @@ class Step3 extends React.Component {
             </Grid>
             <Grid item xs={12} sm={12} md={3}>
               <Button color='success' onClick={downloadWallet}>
-                <DownloadIcon/> Save My Keys
+                Save My Keys
               </Button>
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
@@ -146,7 +145,6 @@ class Step3 extends React.Component {
             </Grid>
           </Grid>
           <Grid container>
-            <br></br>
             <NavPills
               color='info'
               alignCenter

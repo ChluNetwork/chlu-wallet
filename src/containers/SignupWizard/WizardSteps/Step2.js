@@ -9,7 +9,6 @@ import InfoArea from 'components/MaterialDashboardPro/InfoArea'
 // icon
 import Face from '@material-ui/icons/Face'
 import DoneIcon from '@material-ui/icons/Done'
-import DownloadIcon from '@material-ui/icons/CloudDownload'
 // style
 import customSelectStyle from 'styles/material-dashboard-pro-react/customSelectStyle.jsx'
 import customCheckboxRadioSwitch from 'styles/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx'
@@ -113,7 +112,7 @@ class Step2 extends React.Component {
               description='You have saved your Keys'
             >
               <Button color='success' onClick={() => downloadWallet(true)}>
-                <DownloadIcon/> Download again
+                Download again
               </Button>
             </InfoArea>
           </Grid>
@@ -140,7 +139,7 @@ class Step2 extends React.Component {
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
             <Button color='success' onClick={downloadWallet}>
-              <DownloadIcon/> Save My Keys
+              Save My Keys
             </Button>
           </Grid>
           <Grid item xs={12} sm={12}>
