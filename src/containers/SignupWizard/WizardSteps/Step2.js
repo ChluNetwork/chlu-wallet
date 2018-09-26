@@ -128,6 +128,7 @@ class Step3 extends React.Component {
 
   renderIndividual() {
     const { classes, downloadWallet } = this.props;
+    // TODO: move the form into its own component with redux-form
     return (
       <Grid container justify='center'>
         <Grid item xs={12} sm={12} md={9}>
@@ -162,8 +163,6 @@ class Step3 extends React.Component {
         </Grid>
         <Grid item xs={12} sm={8}>
           <CustomInput
-            success={this.state.firstnameState === 'success'}
-            error={this.state.firstnameState === 'error'}
             labelText={
               <span>
                 First Name <small>(optional)</small>
@@ -174,7 +173,6 @@ class Step3 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'firstname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
@@ -183,8 +181,6 @@ class Step3 extends React.Component {
             }}
           />
           <CustomInput
-            success={this.state.lastnameState === 'success'}
-            error={this.state.lastnameState === 'error'}
             labelText={
               <span>
                 Last Name <small>(optional)</small>
@@ -195,7 +191,6 @@ class Step3 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'lastname', 'length', 3),
               endAdornment: (
                 <InputAdornment position='end' className={classes.inputAdornment}>
                   <Face className={classes.inputAdornmentIcon} />
