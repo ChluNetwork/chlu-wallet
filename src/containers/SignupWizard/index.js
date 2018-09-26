@@ -176,7 +176,7 @@ class SignupWizard extends Component {
   }
 
   render() {
-    const { wallet, profileLoading } = this.props
+    const { wallet } = this.props
     const { signupType } = this.state
     const initialStep = wallet.did ? 1 : 0
     const profile = this.props.profile || this.state.profile
