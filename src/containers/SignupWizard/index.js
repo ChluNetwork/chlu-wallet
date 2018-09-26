@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import Wizard from 'components/MaterialDashboardPro/Wizard'
 import Step1 from './WizardSteps/Step1'
 import Step2 from './WizardSteps/Step2'
-import Step3 from './WizardSteps/Step3'
 
 // redux
 import { connect } from 'react-redux'
 import { createWallet, setWalletSaved } from 'store/modules/components/CreateWallet'
 import { setAcceptTermsAndConditions } from 'store/modules/components/SignupWizard'
 import { readMyReputation } from 'store/modules/data/reputation'
-import { signupToMarketplace } from 'store/modules/ui/profile'
+import { signupToMarketplace, fetchMyProfile } from 'store/modules/ui/profile'
 import { toastr } from 'react-redux-toastr'
 import { push } from 'react-router-redux'
 import { submit } from 'redux-form'
@@ -29,6 +28,10 @@ class SignupWizard extends Component {
       profile: {},
       crawlerData: {}
     }
+  }
+
+  componentDidMount() {
+    this.props.fetchMyProfile()
   }
 
   downloadWallet = async () => {
@@ -173,8 +176,11 @@ class SignupWizard extends Component {
   }
 
   render() {
-    const { wallet } = this.props
+    const { wallet, profileLoading } = this.props
+    const { signupType } = this.state
     const initialStep = wallet.did ? 1 : 0
+    const profile = this.props.profile || this.state.profile
+    const isBusiness = get(profile, 'type', signupType) === 'business'
 
     return (
       <Wizard
@@ -194,11 +200,12 @@ class SignupWizard extends Component {
             }
           },
           {
-            stepName: this.state.signupType === "business" ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
-            stepComponent: this.state.signupType === "business" ? Step3 : Step2,
+            stepName: isBusiness ? 'Step 2: Import Existing Reviews' : 'Step 2: Become A Trusted Reviewer',
+            stepComponent: Step2,
             stepId: 'about',
             stepProps: {
               ...this.props,
+              isBusiness,
               onProfileSubmitted: this.onProfileSubmitted,
               onCrawlerFieldChange: this.onCrawlerFieldChange,
               downloadWallet: this.downloadWallet
@@ -219,7 +226,9 @@ const mapStateToProps = store => ({
   walletCreated: store.components.createWallet.walletCreated,
   wallet: store.data.wallet,
   acceptedTerms: store.components.signupWizard.acceptedTerms,
-  profileErrors: get(store, 'form.profile.syncErrors')
+  profileErrors: get(store, 'form.profile.syncErrors'),
+  profile: store.ui.profile.profile,
+  profileLoading: store.ui.profile.loading
 })
 
 const mapDispatchToProps = {
@@ -230,6 +239,7 @@ const mapDispatchToProps = {
   startCrawler,
   signupToMarketplace,
   push,
+  fetchMyProfile,
   submit
 }
 

@@ -53,7 +53,7 @@ const setLoading = createAction(LOADING_PROFILE)
 export function fetchMyProfile() {
   return async (dispatch, getState) => {
     const did = get(getState(), 'data.wallet.did.publicDidDocument.id')
-    return dispatch(fetchProfile(did))
+    if (did) return dispatch(fetchProfile(did))
   }
 }
 
