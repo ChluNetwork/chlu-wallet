@@ -17,16 +17,14 @@ import { submit } from 'redux-form'
 import { downloadWallet as downloadWalletFile } from 'helpers/wallet'
 import { get, pick, isEmpty } from 'lodash'
 import { businessTypes } from 'store/modules/ui/profile';
-import { startCrawler } from 'store/modules/data/crawler';
+import { importReviews } from 'store/modules/data/crawler';
 
 class SignupWizard extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      signupType: undefined, // "user" or "business"
+      signupType: undefined,
       profile: {},
-      crawlerData: {}
     }
   }
 
@@ -106,20 +104,6 @@ class SignupWizard extends Component {
     console.log(profile)
   }
 
-  onCrawlerFieldChange = (type, url, user, pass) => {
-    this.setState(state => {
-      if (!state.crawlerData[type]) {
-        state.crawlerData[type] = {}
-      }
-
-      state.crawlerData[type].url = url
-      state.crawlerData[type].user = user
-      state.crawlerData[type].pass = pass
-
-      return state
-    })
-  }
-
   finishClicked = async () => {
     const { walletCreated, wallet } = this.props
     const { profile, signupType } = this.state
@@ -134,24 +118,6 @@ class SignupWizard extends Component {
         businesstype: (profile.businesstype > 0 && businessTypes[profile.businesstype]) || 'Other'
       }
 
-      console.log('crawlerData:')
-      console.log(this.state.crawlerData)
-
-      // We'll request crawler runs in parallel
-      // TODO: the server should accept multiple crawlers in one request
-      const crawlerPromises = []
-
-      for (const crawlerType of Object.keys(this.state.crawlerData)) {
-        const crawlerFields = this.state.crawlerData[crawlerType]
-        const crawlerPromise = this.props.startCrawler(crawlerType, crawlerFields.url, crawlerFields.user, crawlerFields.pass)
-
-        crawlerPromises.push(crawlerPromise)
-      }
-
-      if (crawlerPromises.length > 0) {
-        await Promise.all(crawlerPromises)
-      }
-
       await this.props.signupToMarketplace(preparedProfile)
 
       toastr.success(
@@ -159,18 +125,18 @@ class SignupWizard extends Component {
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
         You will be awarded the Chlu token post our public sale`
       )
-
-      if (crawlerPromises.length > 0) {
-        toastr.success(
-          'Your Reviews',
-          'Your reviews from your chosen platforms will be imported shortly, and will be available on the Reputation page once done.'
-        )
-      }
     } else {
       toastr.success(
         'Already logged in',
         `You have completed the first airdrop task and earned 1 Chlu bonus token.
         You will be awarded the Chlu token post our public sale`
+      )
+    }
+    const importCount = await this.props.importReviews() // run in background
+    if (importCount > 0) {
+      toastr.success(
+        'Your Reviews',
+        'Your reviews from your chosen platforms will be imported shortly, and will be available on the Reputation page once done.'
       )
     }
   }
@@ -207,7 +173,6 @@ class SignupWizard extends Component {
               ...this.props,
               isBusiness,
               onProfileSubmitted: this.onProfileSubmitted,
-              onCrawlerFieldChange: this.onCrawlerFieldChange,
               downloadWallet: this.downloadWallet
             }
           }
@@ -236,7 +201,7 @@ const mapDispatchToProps = {
   setWalletSaved,
   readMyReputation,
   setAcceptTermsAndConditions,
-  startCrawler,
+  importReviews,
   signupToMarketplace,
   push,
   fetchMyProfile,

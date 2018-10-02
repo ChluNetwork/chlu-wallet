@@ -10,6 +10,7 @@ import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
 import Button from 'components/MaterialDashboardPro/Button'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
+import ImportReviews from 'containers/ImportReviews'
 
 // icons
 import Person from '@material-ui/icons/Person';
@@ -23,9 +24,6 @@ import DoneIcon from '@material-ui/icons/Done'
 // styles
 import { withStyles } from '@material-ui/core'
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
-
-import IndividualsCrawlerForm from 'containers/ImportReviews/individualsCrawlerForm'
-import BusinessCrawlerForm from 'containers/ImportReviews/businessCrawlerForm'
 
 const style = {
   profileText: {
@@ -261,7 +259,7 @@ class Step3 extends React.Component {
                       <p key={0} style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
                       <p key={1} style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
                     ]}
-                    content={<IndividualsCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
+                    content={<ImportReviews userType='individual' />}
                   />
                 )
               },
@@ -274,20 +272,10 @@ class Step3 extends React.Component {
                       <p key={0} style={{ textAlign: 'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
                       <p key={1} style={{ textAlign: 'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
                     ]}
-                    content={<BusinessCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
+                    content={<ImportReviews userType='business' />}
                   />
                 )
-              },
-              // {
-              //   tabButton: 'Product Owners',
-              //   tabIcon: ShoppingCart,
-              //   tabContent: (
-              //     <RegularCard
-              //       cardTitle={CRAWLER_CARD_TITLE}
-              //       content={<ProductOwnersCrawlerForm onChange={this.props.onCrawlerFieldChange} />}
-              //     />
-              //   )
-              // }
+              }
             ]}
           />
         </Grid>

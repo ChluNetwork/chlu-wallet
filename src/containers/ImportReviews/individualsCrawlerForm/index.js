@@ -1,21 +1,14 @@
 import React from 'react';
 // components
-import { LinearProgress, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 
 // styles
-import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
+import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle'
 import { withStyles } from '@material-ui/core'
 
-// redux
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-
-// redux form
-import { reduxForm } from 'redux-form'
-
 import UpWorkForm from './UpWorkForm'
-import FiverrForm from './FiverrForm';
-import LinkedinForm from './LinkedinForm';
+import FiverrForm from './FiverrForm'
+import LinkedinForm from './LinkedinForm'
 
 const style = {
   profileText: {
@@ -40,51 +33,17 @@ const style = {
 };
 
 class IndividualsCrawlerForm extends React.Component {
-
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-
-    }
-  }
-
   render () {
-    const { handleSubmit, crawlerRunning } = this.props
-
-    if (crawlerRunning) {
-      return <Grid container justify='center'>
-        <Grid item xs={12} md={12} >
-          <LinearProgress size={100} />
+    return (
+      <Grid container justify='center'>
+        <Grid item xs={12} md={12}>
+          <UpWorkForm />
+          <LinkedinForm />
+          <FiverrForm />
         </Grid>
       </Grid>
-    } else {
-      return (
-        <span>
-          <form onSubmit={handleSubmit}>
-            <Grid container justify='center'>
-              <Grid item xs={12} md={12}>
-                <UpWorkForm onChange={(url, user, pass) => this.props.onChange("upwork", url, user, pass)} />
-                <LinkedinForm onChange={(user, pass) => this.props.onChange("linkedin", undefined, user, pass)} />
-                <FiverrForm onChange={(url, user, pass) => this.props.onChange("fiverr", url, user, pass)} />
-              </Grid>
-            </Grid>
-          </form>
-        </span>
-      )
-    }
+    )
   }
 }
 
-const mapStateToProps = store => ({
-  crawlerRunning: store.data.crawler.running,
-  wallet: store.data.wallet
-})
-
-const IndividualsCrawlerReduxForm = reduxForm({
-  form: 'individualsCrawlerForm'
-})(IndividualsCrawlerForm)
-
-export default compose(
-  withStyles(style),
-  connect(mapStateToProps)
-)(IndividualsCrawlerReduxForm)
+export default withStyles(style)(IndividualsCrawlerForm)

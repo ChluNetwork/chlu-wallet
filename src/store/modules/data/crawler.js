@@ -1,10 +1,10 @@
 import { createAction, handleActions } from 'redux-actions'
-import { get } from 'lodash'
-
 import { readMyReputation } from './reputation'
-
-import { createDAGNode } from 'chlu-api-client/src/utils/ipfs'
+// Helpers
+import { get } from 'lodash'
 import { getChluAPIClient } from 'helpers/chlu'
+import { createDAGNode } from 'chlu-api-client/src/utils/ipfs'
+import { getFormValues } from 'redux-form'
 
 // Constants
 const CRAWLER_START = 'crawler/START'
@@ -56,6 +56,27 @@ export function startCrawler(type, url, username, password) {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export function importReviews() {
+  return async (dispatch, getState) => {
+    //TODO: check logged in, and that crawler is not already running
+    const values = getFormValues('import-reviews')(getState())
+    const servicesList = ['yelp', 'tripadvisor', 'fiverr', 'linkedin', 'upwork']
+    let count = 0
+    for (const service of servicesList) {
+      if (get(values, `${service}-user`) || get(values, `${service}-url`)) {
+        count = count + 1
+        await dispatch(startCrawler(service,
+          get(values, `${service}-url`),
+          get(values, `${service}-user`),
+          get(values, `${service}-password`)
+        ))
+      }
+    }
+    // TODO: The form fields should be cleared here
+    return count
   }
 }
 

@@ -1,17 +1,10 @@
 import React from 'react';
 // components
-import { LinearProgress, Grid } from '@material-ui/core'
-
+import { Grid } from '@material-ui/core'
 // styles
 import regularFormsStyle from 'styles/material-dashboard-pro-react/views/regularFormsStyle';
 import { withStyles } from '@material-ui/core'
-
-// redux
-import { connect } from 'react-redux'
-
-// redux form
-import { reduxForm } from 'redux-form'
-
+// Forms
 import YelpForm from './YelpForm';
 import TripadvisorForm from './TripadvisorForm';
 
@@ -40,39 +33,13 @@ const style = {
 class BusinessCrawlerForm extends React.Component {
 
   render () {
-    const { handleSubmit, crawlerRunning } = this.props
-
-    if (crawlerRunning) {
-      return (
-        <Grid container justify='center'>
-          <Grid item xs={12} md={12} >
-            <LinearProgress size={100} />
-          </Grid>
-        </Grid>
-      )
-    } else {
-      return (
-        <span>
-          <form onSubmit={handleSubmit}>
-            <Grid container justify='center'>
-              <YelpForm onChange={(url, user, pass) => this.props.onChange("yelp", url, user, pass)} />
-              <TripadvisorForm onChange={(url, user, pass) => this.props.onChange("tripadvisor", url, user, pass)} />
-            </Grid>
-          </form>
-        </span>
-      )
-    }
+    return (
+      <Grid container justify='center'>
+        <YelpForm />
+        <TripadvisorForm />
+      </Grid>
+    )
   }
 }
 
-const mapStateToProps = store => ({
-})
-
-const mapDispatchToProps = {
-}
-
-const BusinessCrawlerReduxForm = reduxForm({
-  form: 'businessCrawlerForm'
-})(BusinessCrawlerForm)
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(BusinessCrawlerReduxForm))
+export default withStyles(style)(BusinessCrawlerForm)
