@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import CustomInput from 'components/MaterialDashboardPro/CustomInput'
+import { Field } from 'redux-form'
+import CustomInput from 'components/Form/CustomInput'
 import { InputAdornment, withStyles } from '@material-ui/core'
 
 import FaceIcon from '@material-ui/icons/Face';
@@ -14,36 +15,6 @@ const style = {
 }
 
 class UpWorkForm extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      isProfileUrlValid: false,
-      profileUrl: ""
-    }
-  }
-
-  handleProfileUrlChange = (e) => {
-    this.setState({
-      isProfileUrlValid: (e.target.value.length > 0 && this.isUpWorkProfileUrlValid(e.target.value)),
-      profileUrl: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  handleUserChange = (e) => {
-    this.setState({
-      user: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  handlePasswordChange = (e) => {
-    this.setState({
-      password: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  callChangeHandler = () => {
-    this.props.onChange(this.state.profileUrl, this.state.user, this.state.password)
-  }
 
   render() {
     const { classes } = this.props
@@ -54,16 +25,12 @@ class UpWorkForm extends React.Component {
           <Grid item xs={12} md={8} className={classes.gridRow}>
             <h5>Import UpWork reviews</h5>
 
-            <CustomInput
-              success={this.state.isProfileUrlValid}
-              error={Boolean(this.state.profileUrl && !this.state.isProfileUrlValid)}
-              labelText='UpWork profile URL'
-              id='upwork-url'
+            <Field
+              component={CustomInput}
+              labelText={<span>UpWork profile URL</span>}
               name='upwork-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
-                value: this.state.profileUrl,
-                onChange: this.handleProfileUrlChange,
                 endAdornment: (
                   <InputAdornment position='end' className={classes.inputAdornment}>
                     <FaceIcon className={classes.inputAdornmentIcon} />
@@ -84,50 +51,45 @@ class UpWorkForm extends React.Component {
   renderLogin() {
     const { classes } = this.props
 
-    if (this.state.isProfileUrlValid) {
-      return (
-        <Grid item xs={12} md={8} className={classes.gridRow}>
-          <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
-            <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                labelText={<span>UpWork e-mail <small>(optional)</small></span>}
-                id='upwork-email'
-                name='upwork-email'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  value: this.state.user,
-                  onChange: this.handleUserChange,
-                  endAdornment: (
-                    <InputAdornment position='end' className={classes.inputAdornment}>
-                      <EmailIcon className={classes.inputAdornmentIcon} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
+    return (
+      <Grid item xs={12} md={8} className={classes.gridRow}>
+        <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
+          <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
+            <Field
+              component={CustomInput}
+              labelText={<span>UpWork e-mail <small>(optional)</small></span>}
+              name='upwork-user'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <EmailIcon className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
 
-            <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                labelText={<span>UpWork password <small>(optional)</small></span>}
-                id='upwork-password'
-                name='upwork-password'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  type: 'password',
-                  value: this.state.password,
-                  onChange: this.handlePasswordChange,
-                  endAdornment: (
-                    <InputAdornment position='end' className={classes.inputAdornment}>
-                      <HttpsIcon className={classes.inputAdornmentIcon} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
+          <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
+            <Field
+              component={CustomInput}
+              labelText={<span>UpWork password <small>(optional)</small></span>}
+              id='upwork-password'
+              name='upwork-password'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                type: 'password',
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <HttpsIcon className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>
         </Grid>
-      )
-    }
+      </Grid>
+    )
   }
 
   /**

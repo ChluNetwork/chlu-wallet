@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import CustomInput from 'components/MaterialDashboardPro/CustomInput'
+import CustomInput from 'components/Form/CustomInput'
+import { Field } from 'redux-form'
 import { InputAdornment, withStyles } from '@material-ui/core'
 
 import FaceIcon from '@material-ui/icons/Face';
@@ -14,38 +15,6 @@ const style = {
 }
 
 class YelpForm extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      isProfileUrlValid: false,
-      profileUrl: '',
-      user: '',
-      pass: ''
-    }
-  }
-
-  handleProfileUrlChange = (e) => {
-    this.setState({
-      isProfileUrlValid: (e.target.value.length > 0 && this.isYelpProfileUrlValid(e.target.value)),
-      profileUrl: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  handleUserChange = (e) => {
-    this.setState({
-      user: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  handlePasswordChange = (e) => {
-    this.setState({
-      pass: e.target.value
-    }, this.callChangeHandler)
-  }
-
-  callChangeHandler = () => {
-    this.props.onChange(this.state.profileUrl, this.state.user, this.state.pass)
-  }
 
   render() {
     const { classes } = this.props
@@ -56,17 +25,13 @@ class YelpForm extends React.Component {
           <Grid item xs={12} md={8} className={classes.gridRow}>
             <h5>Import Yelp reviews <small>(coming soon)</small></h5>
 
-            <CustomInput
-              success={this.state.isProfileUrlValid}
-              error={this.state.profileUrl && !this.state.isProfileUrlValid}
+            <Field
+              component={CustomInput}
               labelText='Yelp profile URL'
-              id='yelp-url'
               name='yelp-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
                 disabled: true,
-                value: this.state.profileUrl,
-                onChange: this.handleProfileUrlChange,
                 endAdornment: (
                   <InputAdornment position='end' className={classes.inputAdornment}>
                     <FaceIcon className={classes.inputAdornmentIcon} />
@@ -87,56 +52,46 @@ class YelpForm extends React.Component {
   renderLogin() {
     const { classes } = this.props
 
-    if (this.state.isProfileUrlValid) {
-      return (
-        <Grid item xs={12} md={8} className={classes.gridRow}>
-          <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
-            <Grid item xs={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                success={this.state.emailState === 'success'}
-                error={this.state.emailState === 'error'}
-                labelText='Yelp e-mail'
-                id='yelp-email'
-                name='yelp-email'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  disabled: true,
-                  value: this.state.user,
-                  onChange: this.handleUserChange,
-                  endAdornment: (
-                    <InputAdornment position='end' className={classes.inputAdornment}>
-                      <EmailIcon className={classes.inputAdornmentIcon} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
+    return (
+      <Grid item xs={12} md={8} className={classes.gridRow}>
+        <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
+          <Grid item xs={12} md={6} className={classes.gridRow}>
+            <Field
+              component={CustomInput}
+              labelText='Yelp e-mail'
+              name='yelp-email'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                disabled: true,
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <EmailIcon className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
 
-            <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                success={this.state.emailState === 'success'}
-                error={this.state.emailState === 'error'}
-                labelText='Yelp password'
-                id='yelp-password'
-                name='yelp-password'
-                formControlProps={{ fullWidth: true }}
-                inputProps={{
-                  disabled: true,
-                  type: 'password',
-                  value: this.state.pass,
-                  onChange: this.handlePasswordChange,
-                  endAdornment: (
-                    <InputAdornment position='end' className={classes.inputAdornment}>
-                      <HttpsIcon className={classes.inputAdornmentIcon} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
+          <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
+            <Field
+              component={CustomInput}
+              labelText='Yelp password'
+              name='yelp-password'
+              formControlProps={{ fullWidth: true }}
+              inputProps={{
+                disabled: true,
+                type: 'password',
+                endAdornment: (
+                  <InputAdornment position='end' className={classes.inputAdornment}>
+                    <HttpsIcon className={classes.inputAdornmentIcon} />
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>
         </Grid>
-      )
-    }
+      </Grid>
+    )
   }
 
   /**

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import CustomInput from 'components/MaterialDashboardPro/CustomInput'
+import { Field } from 'redux-form'
+import CustomInput from 'components/Form/CustomInput'
 import { InputAdornment, withStyles } from '@material-ui/core'
 
 import FaceIcon from '@material-ui/icons/Face';
@@ -56,17 +57,13 @@ class FiverrForm extends React.Component {
           <Grid item xs={12} md={8} className={classes.gridRow}>
             <h5>Import Fiverr reviews <small>(coming soon)</small></h5>
 
-            <CustomInput
-              success={this.state.isProfileUrlValid}
-              error={this.state.profileUrl && !this.state.isProfileUrlValid}
+            <Field
+              component={CustomInput}
               labelText='Fiverr profile URL'
-              id='fiverr-url'
               name='fiverr-url'
               formControlProps={{ fullWidth: true }}
               inputProps={{
                 disabled: true,
-                value: this.state.profileUrl,
-                onChange: this.handleProfileUrlChange,
                 endAdornment: (
                   <InputAdornment position='end' className={classes.inputAdornment}>
                     <FaceIcon className={classes.inputAdornmentIcon} />
@@ -92,17 +89,13 @@ class FiverrForm extends React.Component {
         <Grid item xs={12} md={8} className={classes.gridRow}>
           <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
             <Grid item xs={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                success={this.state.emailState === 'success'}
-                error={this.state.emailState === 'error'}
+              <Field
+                component={CustomInput}
                 labelText='Fiverr e-mail'
-                id='fiverr-email'
-                name='fiverr-email'
+                name='fiverr-user'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
                   disabled: true,
-                  value: this.state.user,
-                  onChange: this.handleUserChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <EmailIcon className={classes.inputAdornmentIcon} />
@@ -113,17 +106,13 @@ class FiverrForm extends React.Component {
             </Grid>
 
             <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-              <CustomInput
-                success={this.state.emailState === 'success'}
-                error={this.state.emailState === 'error'}
+              <Field
+                component={CustomInput}
                 labelText='Fiverr password'
-                id='fiverr-password'
                 name='fiverr-password'
                 formControlProps={{ fullWidth: true }}
                 inputProps={{
                   disabled: true,
-                  value: this.state.pass,
-                  onChange: this.handlePasswordChange,
                   endAdornment: (
                     <InputAdornment position='end' className={classes.inputAdornment}>
                       <HttpsIcon className={classes.inputAdornmentIcon} />

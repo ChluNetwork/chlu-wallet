@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import CustomInput from 'components/MaterialDashboardPro/CustomInput'
+import { Field } from 'redux-form'
+import CustomInput from 'components/Form/CustomInput'
 import { InputAdornment, withStyles } from '@material-ui/core'
 
 import FaceIcon from '@material-ui/icons/Face';
@@ -47,14 +48,12 @@ class LinkedinForm extends React.Component {
 
             <Grid container justify='space-between' spacing={8} style={{ marginTop: -24 }}>
               <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-                <CustomInput
+                <Field
+                  component={CustomInput}
                   labelText='LinkedIn login'
-                  id='linkedin-email'
                   name='linkedin-email'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
-                    value: this.state.user,
-                    onChange: this.handleUserChange,
                     endAdornment: (
                       <InputAdornment position='end' className={classes.inputAdornment}>
                         <FaceIcon className={classes.inputAdornmentIcon} />
@@ -65,15 +64,14 @@ class LinkedinForm extends React.Component {
               </Grid>
 
               <Grid item xs={12} sm={12} md={6} className={classes.gridRow}>
-                <CustomInput
+                <Field
+                  component={CustomInput}
                   labelText='LinkedIn password'
                   id='linkedin-password'
                   name='linkedin-password'
                   formControlProps={{ fullWidth: true }}
                   inputProps={{
                     type: 'password',
-                    value: this.state.password,
-                    onChange: this.handlePasswordChange,
                     endAdornment: (
                       <InputAdornment position='end' className={classes.inputAdornment}>
                         <HttpsIcon className={classes.inputAdornmentIcon} />
