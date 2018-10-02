@@ -207,7 +207,7 @@ class Step3 extends React.Component {
     const { classes, walletSaved, downloadWallet } = this.props;
     return (
       <div>
-        { !walletSaved && <Grid container justify='center'>
+        { <Grid container justify='center'>
           <Grid item xs={12} sm={12} md={9}>
             <h5>Your Chlu Wallet is now created. You must download and save your public and private keys to continue.</h5>
           </Grid>
