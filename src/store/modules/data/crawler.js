@@ -98,7 +98,7 @@ export function pollCrawlerProgress() {
 
 async function readCrawlerProgress(didId) {
   try {
-    const response = await fetch(`${API_URL}/api/v1/crawl?didid=${didId}`, {
+    const response = await fetch(`${API_URL}/api/v1/crawl/${didId}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -106,8 +106,8 @@ async function readCrawlerProgress(didId) {
     })
 
     const responseJson = await response.json()
-
-    return responseJson.running
+    console.log(responseJson)
+    return responseJson.status === 'RUNNING'
   } catch (err) {
     console.error(err)
     return false
