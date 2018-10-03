@@ -17,7 +17,6 @@ const CRAWLER_PROGRESS_POLL_INTERVAL = 5000 // ms
 function getInitialState() {
   return {
     running: false,
-    savingToIPFS: false,
     error: null
   }
 }
@@ -94,7 +93,7 @@ export function pollCrawlerProgress() {
     let wasBackendCrawlingInProgress = false
 
     do {
-      isBackendCrawlingInProgress = await readCrawlerProgress(didId)
+      isBackendCrawlingInProgress = hasInProgressJobs(await getCrawlerStatus(didId))
 
       console.log('crawler running state: ' + isBackendCrawlingInProgress)
 
@@ -117,7 +116,14 @@ export function pollCrawlerProgress() {
   }
 }
 
-async function readCrawlerProgress(didId) {
+function hasInProgressJobs(crawlerStatus) {
+  for (const status of crawlerStatus.rows) {
+    if (status.status === 'CREATED' || status.status === 'RUNNING') return true
+  }
+  return false
+}
+
+async function getCrawlerStatus(didId) {
   try {
     const response = await fetch(`${API_URL}/api/v1/crawl/${didId}`, {
       headers: {
@@ -128,10 +134,10 @@ async function readCrawlerProgress(didId) {
 
     const responseJson = await response.json()
     console.log(responseJson)
-    return responseJson.status === 'RUNNING'
+    return responseJson
   } catch (err) {
     console.error(err)
-    return false
+    return []
   }
 }
 
