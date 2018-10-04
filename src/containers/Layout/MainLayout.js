@@ -23,6 +23,7 @@ import Settings from '../Settings'
 import Profile from '../Profile'
 import Terms from '../Terms'
 import Search from '../Search'
+import ImportReviews from '../ImportReviews'
 import ReviewContainer from '../Review'
 
 class MainLayout extends Component {
@@ -62,6 +63,7 @@ class MainLayout extends Component {
             <Route path='/search/individuals' render={() => <Search type='individuals'/>} />
             <Redirect from='/search' to='/search/businesses' />
             {emptyWallet && <Redirect to='/'/>}
+            <Route path='/import' component={ImportReviews} />
             <Route path='/reputation' component={Reputation} />
             <Route path='/wrote' component={ReviewsIWrote} />
             <Route path='/transactions' component={Transactions} />

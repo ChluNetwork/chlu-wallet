@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions'
-import { readMyReputation } from './reputation'
 // Helpers
 import { get } from 'lodash'
 import { getChluAPIClient } from 'helpers/chlu'
@@ -7,28 +6,36 @@ import { createDAGNode } from 'chlu-api-client/src/utils/ipfs'
 import { getFormValues } from 'redux-form'
 
 // Constants
-const CRAWLER_START = 'crawler/START'
-const CRAWLER_ERROR = 'crawler/ERROR'
-const CRAWLER_FINISH = 'crawler/FINISH'
+const SET_CRAWLER_STATUS = 'crawler/STATUS'
+const SET_POLLING = 'crawler/POLLING'
+const SET_LOADING = 'crawler/LOADING'
+const SET_STARTING = 'crawler/STARTING'
 
 const API_URL = process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io'
-const CRAWLER_PROGRESS_POLL_INTERVAL = 5000 // ms
+const POLL_INTERVAL = 5000 // ms
 
 function getInitialState() {
   return {
+    starting: false,
+    loading: false,
     running: false,
+    jobs: [],
+    shouldPoll: true,
+    polling: false,
     error: null
   }
 }
 
-export const crawlerError = createAction(CRAWLER_ERROR)
-const startCrawlerAction = createAction(CRAWLER_START)
-export const finishCrawler = createAction(CRAWLER_FINISH)
+const setCrawlerStatus = createAction(SET_CRAWLER_STATUS)
+const setPolling = createAction(SET_POLLING)
+const setLoading = createAction(SET_LOADING)
+const setStarting = createAction(SET_STARTING)
 
 export function startCrawler(type, url, username, password) {
   return async (dispatch, getState) => {
     const state = getState()
     try {
+      dispatch(setStarting(true))
       const signedInDid = get(state, 'data.wallet.did', null)
       const signedOutDid = get(state, 'components.createWallet.walletCreated.did', null)
       const did = signedInDid || signedOutDid
@@ -47,14 +54,15 @@ export function startCrawler(type, url, username, password) {
           'Content-Type': 'application/json'
         },
       })
-
       const responseJson = await response.json()
 
       console.log('Crawlers running:')
       console.log(responseJson)
     } catch (error) {
       console.log(error)
+      // TODO: error handling
     }
+    dispatch(setStarting(false))
   }
 }
 
@@ -79,82 +87,72 @@ export function importReviews() {
   }
 }
 
-export function pollCrawlerProgress() {
+export function pollCrawlerStatus() {
   return async (dispatch, getState) => {
     const state = getState()
     const didId = get(state, 'data.wallet.did.publicDidDocument.id', null)
-
-    if (!didId) {
-      console.error("Cannot read crawler progress without DID ID.")
-      return
+    const shouldPoll = get(state, 'data.crawler.shouldPoll', false)
+    const polling = get(state, 'data.crawler.polling', false)
+    if (shouldPoll && didId && !polling) {
+      dispatch(setPolling(true))
+      let first = true
+      do {
+        if (first) dispatch(setLoading(true))
+        await dispatch(getCrawlerStatus(didId))
+        await sleep(POLL_INTERVAL)
+        if (first) dispatch(setLoading(false))
+        first = false
+      } while (shouldPoll)
+      dispatch(setPolling(false))
     }
 
-    let isBackendCrawlingInProgress = false
-    let wasBackendCrawlingInProgress = false
-
-    do {
-      isBackendCrawlingInProgress = hasInProgressJobs(await getCrawlerStatus(didId))
-
-      console.log('crawler running state: ' + isBackendCrawlingInProgress)
-
-      if (isBackendCrawlingInProgress) {
-        dispatch(startCrawlerAction())
-
-        // Wait a bit before polling again.
-        await new Promise(resolve => window.setTimeout(resolve, CRAWLER_PROGRESS_POLL_INTERVAL))
-      } else {
-        if (wasBackendCrawlingInProgress) {
-          // If the crawler was running on the backend before, we should assume new reviews are available now.
-          readMyReputation()(dispatch, getState)
-        }
-
-        dispatch(finishCrawler())
-      }
-
-      wasBackendCrawlingInProgress = isBackendCrawlingInProgress
-    } while (isBackendCrawlingInProgress)
   }
 }
 
-function hasInProgressJobs(crawlerStatus) {
-  for (const status of crawlerStatus.rows) {
-    if (status.status === 'CREATED' || status.status === 'RUNNING') return true
+function getCrawlerStatus(didId) {
+  return async dispatch => {
+    try {
+      const response = await fetch(`${API_URL}/api/v1/crawl/${didId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      const responseJson = await response.json()
+      if (responseJson.rows) dispatch(setCrawlerStatus(responseJson.rows))
+    } catch (err) {
+      // TODO: error handling
+      console.error(err)
+    }
+  } 
+}
+
+function hasRunningJobs(jobs) {
+  for (const job of jobs) {
+    if (job.status === 'RUNNING' || job.status === 'CREATED') return true
   }
   return false
 }
 
-async function getCrawlerStatus(didId) {
-  try {
-    const response = await fetch(`${API_URL}/api/v1/crawl/${didId}`, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-
-    const responseJson = await response.json()
-    console.log(responseJson)
-    return responseJson
-  } catch (err) {
-    console.error(err)
-    return []
-  }
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export default handleActions({
-  [CRAWLER_START]: state => ({
+  [SET_POLLING]: (state, { payload: polling }) => ({
     ...state,
-    running: true,
-    error: null
+    polling
   }),
-  [CRAWLER_ERROR]: (state, { payload: error }) => ({
+  [SET_CRAWLER_STATUS]: (state, { payload: jobs }) => {
+    const running = hasRunningJobs(jobs)
+    return { ...state, jobs, running }
+  },
+  [SET_STARTING]: (state, { payload: starting }) => ({
     ...state,
-    running: false,
-    error
+    starting
   }),
-  [CRAWLER_FINISH]: state => ({
+  [SET_LOADING]: (state, { payload: loading }) => ({
     ...state,
-    running: false,
-    error: null
-  })
+    loading
+  }),
 }, getInitialState())

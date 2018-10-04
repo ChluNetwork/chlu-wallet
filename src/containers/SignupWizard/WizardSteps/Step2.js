@@ -4,20 +4,16 @@ import React from 'react';
 import { Grid, InputAdornment, CircularProgress } from '@material-ui/core'
 
 // custom components
-import RegularCard from 'components/MaterialDashboardPro/RegularCard'
-import NavPills from 'components/MaterialDashboardPro/NavPills'
 import PictureUpload from 'components/MaterialDashboardPro/PictureUpload'
 import CustomInput from 'components/MaterialDashboardPro/CustomInput'
 import Button from 'components/MaterialDashboardPro/Button'
 import InfoArea from 'components/MaterialDashboardPro/InfoArea'
-import ImportReviews from 'containers/ImportReviews'
+import ImportReviews from 'containers/ImportReviews/ImportReviews'
 
 // icons
-import Person from '@material-ui/icons/Person';
 import AccountBox from '@material-ui/icons/AccountBox';
 import Web from '@material-ui/icons/Web';
 import StarHalf from '@material-ui/icons/StarHalf';
-import Business from '@material-ui/icons/Business';
 import Face from '@material-ui/icons/Face'
 import DoneIcon from '@material-ui/icons/Done'
 
@@ -245,48 +241,7 @@ class Step3 extends React.Component {
             />
           </Grid>
         </Grid>
-        <Grid container>
-          <NavPills
-            color='info'
-            alignCenter
-            tabs={[
-              {
-                tabButton: 'Individuals',
-                tabIcon: Person,
-                tabContent: (
-                  <RegularCard
-                    cardTitle={[
-                      <p key={0} style={{ textAlign:'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
-                      <p key={1} style={{ textAlign:'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
-                    ]}
-                    content={<ImportReviews userType='individual' />}
-                  />
-                )
-              },
-              {
-                tabButton: 'Businesses',
-                tabIcon: Business,
-                tabContent: (
-                  <RegularCard
-                    cardTitle={[
-                      <p key={0} style={{ textAlign: 'center' }}>To begin, simply enter your email & password for any of the sites below on which you have an active profile.</p>,
-                      <p key={1} style={{ textAlign: 'center' }}>We extract, merge and decentrally store your reputation in a portable format so you own and control it.</p>
-                    ]}
-                    content={<ImportReviews userType='business' />}
-                  />
-                )
-              }
-            ]}
-          />
-        </Grid>
-        <Grid container justify='flex-end'>
-          <Grid item xs={12} sm={12} md={12} className={classes.infoText}>
-            <p>Chlu guarantees that no information submitted from this form is ever stored on our system</p>
-            <p>By submitting this form you acknowledge you are entitled to invoke your <a href='https://gdpr-info.eu/recitals/no-63/'>data access rights</a> and
-            <a href='https://www.i-scoop.eu/gdprarticle/gdpr-article-20-right-data-portability/'> data portability rights</a> under European <a href='https://www.eugdpr.org/'>GDPR</a> legislation.
-            </p>
-          </Grid>
-        </Grid>
+        <ImportReviews /> 
       </div>
     )
   }
