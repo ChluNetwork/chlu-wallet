@@ -17,7 +17,7 @@ const styles = {
 class Reviews extends Component {
 
   render() {
-    const { classes, reviews = [], loading, crawling = false, onLoadMoreReviews, canLoadMore, ...otherProps } = this.props
+    const { classes, reviews = [], loading, onLoadMoreReviews, canLoadMore, ...otherProps } = this.props
     const empty = !reviews || !reviews.length
 
     return <Grid container spacing={16} className={classes.root}>
@@ -30,17 +30,17 @@ class Reviews extends Component {
         </Card>
       </Grid>}
 
-      {!loading && (empty || crawling) && <Grid item xs={12}>
+      {!loading && empty && <Grid item xs={12}>
         <Card>
           <CardHeader
             avatar={<ErrorIcon/>}
             title='There is nothing here yet'
-            subheader={crawling ? 'Your reviews from other platforms are still being imported. Once done, they will be available to you on this page shortly after.' : 'No reviews to display yet'}
+            subheader='No reviews to display yet'
           />
         </Card>
       </Grid>}
 
-      {!loading && !crawling && Array.isArray(reviews) && reviews.map((review, index) => {
+      {!loading && Array.isArray(reviews) && reviews.map((review, index) => {
         return <Grid key={index} item xs={12} >
           {review.loading && <Card>
             <CardHeader

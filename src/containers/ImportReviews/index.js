@@ -1,34 +1,58 @@
 import React, { Component } from 'react'
-// Components
-import { LinearProgress, Grid } from '@material-ui/core'
-// Forms
-import BusinessCrawlerForm from './businessCrawlerForm';
-import IndividualsCrawlerForm from './individualsCrawlerForm';
-// redux
-import { reduxForm } from 'redux-form'
+import { Button, Grid, Card, CardContent, withStyles, CardActions } from '@material-ui/core'
+import ImportReviews from './ImportReviews'
+// Redux
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import { importReviews } from 'store/modules/data/crawler'
 
-class ImportReviews extends Component {
-  render () {
-    const { handleSubmit, crawlerRunning, userType, ...otherProps } = this.props
-    const isBusiness = userType === 'business'
-    const Form = isBusiness ? BusinessCrawlerForm : IndividualsCrawlerForm
-
-    if (crawlerRunning) {
-      return (
-        <Grid container justify='center'>
-          <Grid item xs={12} md={12} >
-              <LinearProgress size={100} />
-          </Grid>
-        </Grid>
-      )
-    } else {
-      return <form onSubmit={handleSubmit}>
-        <Form {...otherProps} />
-      </form>
-    }
+const styles = {
+  root: {
+    padding: '20px'
+  },
+  button: {
+    marginLeft: 'auto'
   }
 }
 
-export default reduxForm({
-  form: 'import-reviews'
-})(ImportReviews)
+class ImportReviewsPage extends Component {
+  render() {
+    const { classes, importReviews, running, starting, loading } = this.props
+    return (<Grid container spacing={16} justify='center' className={classes.root}>
+      <Grid item xs={12}>
+        <Card>
+          <CardContent>
+            <ImportReviews showSubmitButton={true} />
+          </CardContent>
+          <CardActions>
+            { !loading && !running && <Button
+                onClick={importReviews}
+                disabled={running || starting || loading}
+                variant='contained'
+                color='primary'
+                type='submit'
+                className={classes.button}
+              >
+              Start
+            </Button> }
+          </CardActions>
+        </Card>
+      </Grid>
+    </Grid>)
+  }
+}
+
+const mapStateToProps = state => ({
+  running: state.data.crawler.running,
+  starting: state.data.crawler.starting,
+  loading: state.data.crawler.loading
+})
+
+const mapDispatchToProps = {
+  importReviews
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ImportReviewsPage)

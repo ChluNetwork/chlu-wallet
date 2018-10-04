@@ -19,7 +19,7 @@ class ReviewsIWrote extends Component {
   render() {
     const { reviews, loading, loadingPage, canLoadMore, error } = this.props
 
-    return (
+    return (<div>
       <Reviews
         reviews={reviews}
         loading={loading && loadingPage === 0}
@@ -28,7 +28,7 @@ class ReviewsIWrote extends Component {
         onLoadMoreReviews={this.loadMore}
         showSubjectInfo={true}
       />
-    )
+    </div>)
   }
 
 }
