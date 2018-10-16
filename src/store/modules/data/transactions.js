@@ -52,7 +52,7 @@ function readReviewRecord (txHash, multihash) {
       reviewRecord.txHash = txHash
       dispatch(readReviewRecordSuccess({ reviewRecord, multihash, txHash }))
     } catch (error) {
-      dispatch(readReviewRecordError({ error, multihash, txHash }))
+      dispatch(readReviewRecordError({ error: error.message || error, multihash, txHash }))
     }
   }
 }

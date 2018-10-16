@@ -54,7 +54,7 @@ export function readReviewRecord (multihash) {
       review.editable = didId && customerDidId && didId === customerDidId
       dispatch(readReviewRecordSuccess({ review, multihash }))
     } catch (error) {
-      dispatch(readReviewRecordError({ error, multihash }))
+      dispatch(readReviewRecordError({ error: error.message || error, multihash }))
     }
   }
 }
