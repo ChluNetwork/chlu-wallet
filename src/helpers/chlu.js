@@ -15,7 +15,7 @@ export async function getChluIPFS() {
     OrbitDBIndexName: 'NOOP'
   }
   if (!window.chluIpfs) {
-    const ChluIPFS = await import('chlu-ipfs-support')
+    const ChluIPFS = (await import('chlu-ipfs-support')).default
     window.chluIpfs = new ChluIPFS(options)
     // Resolve DIDs through the API Client. Needed for review publishing
     window.chluIpfs.didIpfsHelper.getDID = (...args) => chluApiClient.didIpfsHelper.getDID(...args)
@@ -31,7 +31,7 @@ export async function getChluIPFS() {
 
 export async function getChluAPIClient() {
   if (!window.chluApiClient) {
-    const ChluAPIClient = await import('chlu-api-client')
+    const ChluAPIClient = (await import('chlu-api-client')).default
     const options = {
       network: getChluNetwork(),
       publishApiUrl: process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io',
