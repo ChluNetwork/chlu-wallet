@@ -1,9 +1,6 @@
-import ChluIPFS from 'chlu-ipfs-support'
-import ChluAPIClient from 'chlu-api-client'
-
 function getChluNetwork() {
   const isProduction = process.env.NODE_ENV === 'production'
-  const defaultNetwork = isProduction ? ChluIPFS.networks.staging : ChluIPFS.networks.experimental
+  const defaultNetwork = isProduction ? 'staging' : 'experimental'
   return process.env.REACT_APP_CHLU_NETWORK || defaultNetwork
 }
 
@@ -18,6 +15,7 @@ export async function getChluIPFS() {
     OrbitDBIndexName: 'NOOP'
   }
   if (!window.chluIpfs) {
+    const ChluIPFS = (await import('chlu-ipfs-support')).default
     window.chluIpfs = new ChluIPFS(options)
     // Resolve DIDs through the API Client. Needed for review publishing
     window.chluIpfs.didIpfsHelper.getDID = (...args) => chluApiClient.didIpfsHelper.getDID(...args)
@@ -32,12 +30,13 @@ export async function getChluIPFS() {
 }
 
 export async function getChluAPIClient() {
-  const options = {
-    network: getChluNetwork(),
-    publishApiUrl: process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io',
-    queryApiUrl: process.env.REACT_APP_CHLU_QUERY_URL || 'https://query.chlu.io'
-  }
   if (!window.chluApiClient) {
+    const ChluAPIClient = (await import('chlu-api-client')).default
+    const options = {
+      network: getChluNetwork(),
+      publishApiUrl: process.env.REACT_APP_CHLU_PUBLISH_URL || 'https://publish.chlu.io',
+      queryApiUrl: process.env.REACT_APP_CHLU_QUERY_URL || 'https://query.chlu.io'
+    }
     window.chluApiClient = new ChluAPIClient(options)
     await window.chluApiClient.start()
   }
